@@ -27,6 +27,10 @@ What now: let look at what others have done to tune our understanding of the pro
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Intelligent systems around}
 
+At home, workplaces or schools, an increasing amount of intelligent robotic systems are starting to be able to help us in our daily life (windows or vacuum cleaners, self-driving cars) \cite{gates2007robot} and in flexible manufacturing systems \cite{baxter}. A key feature in these new domains is the close interaction between people and robots, very different from the usual protective fences in industrial robots. This creates several challenges related to safety, unpredictable environments, acceptability and usability \textit{by} and adaptation \textit{to} non-technically trained people. 
+%
+In particular, such robotic systems need to be teachable by non-technical users, i.e. \textbf{programmable for new tasks in novel environments} through \textbf{intuitive, flexible and personalized interactions}. Specifically, the challenge we address in this work is how a robot learning a new task can be instructed by a human using its own preferred teaching signals, where the mapping between these signals and their meaning may be initially partially or even totally unknown to the robot (e.g. a user may use a different language, words, interjections or gestures to mean ``good'' or ``bad'' or ``turn left''). 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -67,6 +71,8 @@ Autonomy, long term and open-ended
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Robot Learning from Humans}
 
+Research in robotics has long been inspired by human social learning. Among other aspects, learning by demonstration/imitation has attracted the most attention. It has provided several examples of efficient learning in robotic systems \cite{argall09survey,lopes10imitationchapter}. Data from a human teacher has been used as: initial condition for further self-exploration in robotics \cite{nicolescu2003natural}, bootstrapping further intrinsically motivated learning \cite{nguyen2011bootstrapping}, information about the task solution \cite{calinon07}, information about the task representation \cite{macl07affimit}, among others. Several representations have been used to generalize the demonstration data using reinforcement learning \cite{thomaz2008teachable}, inverse reinforcement learning \cite{macl07affimit,Abbeel04icml} or regression methods \cite{calinon07,chernova09jair}. The different formalisms make use of different information and extract different knowledge, either direct policy information or a reward function that explains the behavior.
+
 \subsection{Learning from demonstrations}
 
 \subsection{Learning from advises}
@@ -75,12 +81,18 @@ Autonomy, long term and open-ended
 
 \subsection{How people teach robots}
 
+People will not always respect predefined conventions. Several studies discuss the different behaviors naive teachers use when instructing robots \cite{thomaz2008teachable,Cakmak2010optimality}. An important aspect is that the feedback is frequently ambiguous and deviates from the mathematical interpretation of a reward or a sample from a policy. For instance, in the work of \cite{thomaz2008teachable} the teachers frequently gave a positive reward for exploratory actions even if the signal was used by the learner as a standard reward. Also, even if we can define an optimal teaching sequence, humans do not necessarily behave according to those strategies \cite{Cakmak2010optimality}. For more studies on how humans teach robots see \cite{thomaz2009learning,kaochar2011towards,knox2012humans}. These studies show that even when using well defined protocols, it is important to consider how different instructions can be used for learning. 
+
+Nevertheless the real problem is somewhat even more complicated. Figure shows this complexity. When observing the robot behavior the user will provide some instructions, using vocal commands for instance. If their meanings are known and the speech recognition system works then they can be directly translated into learning data for the task learning algorithms. But in general, it is important to consider that there can be errors in the recognition system, even systematic when taking into account accents, and that people might be more comfortable to use different, not predefined, words. The problem now becomes that the meaning of these new instructions can not be easily recovered if the task that is being learned is not known.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Interactive Learning}
+
+However most of those systems have not considered in depth the properties of teaching interactions with a human in the loop. The demonstrations are provided in a batch perspective where data acquisition is done before the learning phase. Those issues have began to be addressed in works studying \textit{interactive learning} \cite{kaplan2002robotic,nicolescu2003natural,Breazeal2004,thomaz2008teachable}, which combines the ideas of learning from demonstration, learning by exploration and tutor feedback. Under this approach, the teacher interacts with the robot and provides extra feedback or guidance. In addition, the robot can act to improve its learning efficiency. Recent developments have considered: extra reinforcement signals \cite{thomaz2008teachable}, action requests \cite{macl09airl}, disambiguation among actions \cite{chernova09jair}, preferences among states \cite{Mason2011}, iterations between practice and user feedback sessions \cite{judah2010reinforcement} and choosing actions that maximize the user feedback \cite{knox2009interactively}.
 
 \subsection{Ambiguous protocols}
 
@@ -91,4 +103,18 @@ Autonomy, long term and open-ended
 \subsection{Active teacher}
 
 \subsection{Unknown signals, unknown tasks}
+
+While research on robot learning from human interaction has flourished in the last ten years, most work has focused on how to extract statistical \textit{task models} from human teachers following a fixed pre-defined teaching protocol (e.g. using a pre-defined button for ``good'' or ``bad'' feedback or using ad-hoc words for guidance with a trained speech recognition and dialog system). Thus, a usual assumption is that the learner and the teacher share a mutual understanding of the meaning of each others' instructions, and in particular the robot is usually assumed to know how to interpret instructions from the user. In practice, the range of accepted signals is limited to the one predefined by the system developer. Also, it is often assumed that instructions are noiseless and can be directly used as a feedback signal for a learning algorithm. The question of how a robot can learn to interpret personalized and potentially noisy teaching signals, i.e. learn \textit{instruction models}, has been much less explored.
+
+We can now define a general scientific challenge: \textit{Can a robot learn a new task if the task is unknown and the user is providing unknown instructions? Which are the constraints and mechanisms that could provide this flexibility in interactive task learning?} There are two important dimensions in such questions: 1) which are the computational machine learning algorithms and formalisms that are needed for this goal? 2) how to integrate them within real-world meaningful human-robot interaction such that usability and acceptability can be evaluated in user studies. Given the complexity and novelty of these issues, this article focuses on the first dimension, elaborating a formalism as well as algorithms that have good properties to address the broader challenge. While we present an exepriment with a real robot and discuss the second dimension in the discussion section, more thorough real-world user studies will be achieved in future work. Yet, we believe the theoretical work presented in this article can constitute an important first step towards flexible personalized teaching interfaces, and thus towards what we may call \textbf{fluid interaction learning}, a key for the future of personal robotics.
+
+In the following, we present a system able to learn the meaning of instruction signals provided by a user using unlabeled speech while learning a task using inverse reinforcement learning. Our contributions are:
+\begin{itemize}
+    \item a learning algorithm that learns how unknown sub-symbolic instructions signals can be translated in a meaningful teaching signal (among a repertoire of possible ones) that can be used for learning a task (within a space of possible tasks);
+    \item a learning algorithm that simultaneously learns the meaning of the instructions and a new task;
+    \item an extension of uncertainty based planning in the context of IRL;
+    \item tests with robotic systems using voice commands provided by a user using different representations: a finite MDP and an MDP with continuous state representation.
+\end{itemize}
+
+After detailing the related work in Section, we provide in Sectiondetails on the algorithm for learning tasks from unknown instructions. Section describes a set of experiments, where we will evaluate the algorithm in different settings. Section introduces an uncertainty based planning algorithm for efficient learning and we show the corresponding results in Section. Finally, we will discuss the main limitations of this work and suggest some future lines of research in Section. 
 
