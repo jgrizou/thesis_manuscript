@@ -3,10 +3,6 @@
 *.gz
 *.out
 *.nlo
-template/Thesis_Template/Thesis.blg
-template/Thesis_Template/Thesis.brf
-template/Thesis_Template/Thesis.fdb_latexmk
-template/Thesis_Template/Thesis.log
 template/Thesis_Template/Thesis.maf
 template/Thesis_Template/Thesis.mtc
 template/Thesis_Template/Thesis.mtc0
@@ -14,7 +10,6 @@ template/Thesis_Template/Thesis.mtc1
 template/Thesis_Template/Thesis.mtc2
 template/Thesis_Template/Thesis.mtc3
 Thesis.pdf
-template/Thesis_Template/Thesis.bbl
 template/Thesis_Template/Thesis.bib
 *.lot
 *.log
