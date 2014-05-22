@@ -20,6 +20,8 @@ So what: we need to study this corner into more details
 
 What now: let look at what others have done to tune our understanding of the problem and broaden our view
 
+This paper aims at solving the general problem of developing machines that can execute a task from human instructions and simultaneously learn the communicative signals.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -58,11 +60,21 @@ Autonomy, long term and open-ended
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Approaches}
 
+Perceptual learning and task learning can both benefit from user interaction in many different ways. On the one hand, if the interaction protocol and context, is well defined it is possible to acquired grounded perceptual data. On the other hand, if the human and the machine understand each others, the human can explain or guide the machine, which may reduce learning time or even enable the machine to learn task difficult to write down as an objective or reward function.
+
+
+Machine-learning and artificial intelligence research aims at giving computers the ability to learn without being explicitly told. Two widely explored subfields are perceptual learning, in which the system learns to discriminate between perceptual events, and task learning, in which the system learn to increase its performance wrt. an objective or a reward function. 
+Well known results include hand writing recognition, scene analysis on the perceptual learning side and on the task learning side.
+
+For long most of the task learning research focused on abstract, well structure, problems. More recently, machine and in particular machines, are . Such machine will need the ability to learn new task in open-ended environment were an objective or reward function is not easy to define. Current approaches consist of inferring the reward function by interacting with others (e.g. humans) who already acquired the skill.
+
 \subsection{Learning from human defined objective function: extrinsic motivation}
 
 \subsection{Self-directed learning: intrinsic motivation}
 
 \subsection{Learning from other: social interaction}
+
+However most of those systems have not considered in depth the properties of teaching interactions with a human in the loop. This issues have began to be addressed in works studying interactive learning, which combines the ideas of learning from demonstration, learning by exploration and tutor feedback.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -94,6 +106,12 @@ Nevertheless the real problem is somewhat even more complicated. Figure shows th
 
 However most of those systems have not considered in depth the properties of teaching interactions with a human in the loop. The demonstrations are provided in a batch perspective where data acquisition is done before the learning phase. Those issues have began to be addressed in works studying \textit{interactive learning} \cite{kaplan2002robotic,nicolescu2003natural,Breazeal2004,thomaz2008teachable}, which combines the ideas of learning from demonstration, learning by exploration and tutor feedback. Under this approach, the teacher interacts with the robot and provides extra feedback or guidance. In addition, the robot can act to improve its learning efficiency. Recent developments have considered: extra reinforcement signals \cite{thomaz2008teachable}, action requests \cite{macl09airl}, disambiguation among actions \cite{chernova09jair}, preferences among states \cite{Mason2011}, iterations between practice and user feedback sessions \cite{judah2010reinforcement} and choosing actions that maximize the user feedback \cite{knox2009interactively}.
 
+Interactive learning \cite{nicolescu2003natural,breazeal2004tutelage} aims at developing systems that can learn by practical interaction with the user and finds applications in a wide range of fields such as human-robot interaction, tutoring systems or human-machine interfaces.
+This type of learning combines ideas of learning from demonstration \cite{argall09survey}, learning by exploration \cite{thrun1992efficient} and tutor feedback \cite{kaplan2002robotic}. Under this approach the human teacher interacts with the machine and provides extra feedback or guidance. 
+
+% In addition, the device can act to improve its learning efficiency.
+Approaches have considered: extra reinforcement signals \cite{thomaz2008teachable}, action requests \cite{lopes2009active}, disambiguation among actions \cite{chernova09jair}, preferences among states \cite{Mason2011}, iterations between practice and user feedback sessions \cite{judah2010reinforcement}, and choosing actions that maximize the user feedback \cite{knox2009interactively}. 
+
 \subsection{Ambiguous protocols}
 
 \subsection{Ambiguous signals}
@@ -102,7 +120,26 @@ However most of those systems have not considered in depth the properties of tea
 
 \subsection{Active teacher}
 
-\subsection{Unknown signals, unknown tasks}
+\section{Fluid interactive learning}
+
+Interactive learning combines the ideas of learning from demonstration, learning by exploration and tutor feedback. Two widely explored subfields are:
+\begin{itemize}
+\item \textbf{Interactive perceptual learning} in which the system learns to discriminate between perceptual events via the help of a human partner. If the interaction protocol and context is well defined it is possible to acquired grounded perceptual data. It implies \textbf{the machine is aware of the communicative goal of the human}.
+\item \textbf{Interactive task learning} in which the system learn to increase its performance with respect to an objective or a reward function via the help of a human partner. If the human and the machine understand each others, the human can explain or guide the system, which may reduce learning time or even enable the machine to learn task difficult to write down as an objective or reward function. Therefore a usual assumption is that \textbf{the machine understands the meanings of human' s  communicative signals}.
+\end{itemize}
+
+Their respective assumptions makes those two lines of research incompatible. On the one hand, working on perceptual learning, i.e. learning the signal-to-meaning mapping, requires the machine to know the task. On the other hand, teaching a new task to a machine requires to already know the signal-to-meaning mapping. Consequently it is impossible for a user to instruct --- from scratch --- a machine using his own preferred teaching signals, the user must comply to the use of predefined ones or go through a calibration procedure.
+
+Unknown signals, unknown tasks
+
+A usual assumption in such systems is that the learner and the teacher share a mutual understanding of the meaning of each others' signals, and in particular the learning agent is usually assumed to know how to interpret teaching instructions from the human. In practice, this problem can be solved due to two simplifications. On one hand, the range of accepted instructions is limited to those predefined by the system developer. This approach, commonly used in human-robot interaction, lacks flexibility and adaptation to user specificities and, consequently, may not be well accepted by non-experts users with different preferences. 
+%
+On the other hand, sometimes it is not enough to predefine the instruction sets and it is necessary to perform a calibration phase to map raw signals such as speech or brain activity to the meaning. This is usually done using an ad-hoc protocol to collect labeled samples of the user communicative signals. This process must be well controlled to ensure signals are associated to the true intended meaning of the user.
+
+The previous engineering solution is needed due to the chicken egg nature of the problem. In order to teach a system a new skill, it needs to understand the human instructions. And, in order to understand this feedback, the system must have some interaction with the human (e.g. through a controlled task as done in the calibration process) to learn what the instructions mean. 
+
+Few works have studied and developed interactive learning systems that can learn both the meaning of symbols and the task simultaneously. In human-robot interaction Griffiths et al. \cite{griffiths2012bottom} conducted an experiment with humans learning the meaning of unknown symbolic teaching signals. Lopes et al. \cite{macl11simul} presented sequential task experiments considering symbolic teaching signals and requiring a bootstrap with known signals. Grizou et al. \cite{grizou2013robot} extended their system for non-symbolic teaching signals while removing the need for bootstrapping with known signals. Non-invasive brain-computer interfaces (BCIs) have also looked at this problem, since they usually require user-dependent calibration and have to deal with the EEG brain signals non-stationarities. These facts, together with the poor signal-to-noise ratio of the EEG, make the EEG self-calibration one of the most challenging ones. Specifically, for P300 spellers, Kindermans et al. have shown that it is possible to exploit the repetition of signals together with prior information  \cite{Kindermans2012a,Kindermans2012b} to calibrate the system while using the speller.
+
 
 While research on robot learning from human interaction has flourished in the last ten years, most work has focused on how to extract statistical \textit{task models} from human teachers following a fixed pre-defined teaching protocol (e.g. using a pre-defined button for ``good'' or ``bad'' feedback or using ad-hoc words for guidance with a trained speech recognition and dialog system). Thus, a usual assumption is that the learner and the teacher share a mutual understanding of the meaning of each others' instructions, and in particular the robot is usually assumed to know how to interpret instructions from the user. In practice, the range of accepted signals is limited to the one predefined by the system developer. Also, it is often assumed that instructions are noiseless and can be directly used as a feedback signal for a learning algorithm. The question of how a robot can learn to interpret personalized and potentially noisy teaching signals, i.e. learn \textit{instruction models}, has been much less explored.
 
@@ -118,3 +155,14 @@ In the following, we present a system able to learn the meaning of instruction s
 
 After detailing the related work in Section, we provide in Sectiondetails on the algorithm for learning tasks from unknown instructions. Section describes a set of experiments, where we will evaluate the algorithm in different settings. Section introduces an uncertainty based planning algorithm for efficient learning and we show the corresponding results in Section. Finally, we will discuss the main limitations of this work and suggest some future lines of research in Section. 
 
+
+Our approach is based on a discretization of the possible tasks into a finite number. Each task assigns different expected meanings to the instruction provided by the user. The machine solves the most likely task according to a pseudo-likelihood function computed using the corresponding task labels. The experimental results, both synthetic and based on real EEG data, show that in order to simultaneously recover the meanings and solve the task it is of paramount importance to take into account the uncertainty on both task and signal space.
+
+In the following section, we present the set of assumptions and algorithmic details of our system. Then we introduce the specificity of the uncertainty inherent to our problem using an intuitive example and present the details of our action selection method. Finally we present a set of simulated experiment showing that 
+\begin{inparaenum}[a)]
+\item our action selection method is reliable and improved over other methods
+\item our algorithm scale to the use of high dimensional signals coming from previously recorded brain signals
+\item by being operational from the first step, as opposed to calibration procedure, we can estimate the correct task as soon as sufficient evidence has been collected.
+\end{inparaenum}
+
+This work is particularly relevant for system requiring an individual adaptation to the user. For instance brain-computer interfaces (BCIs) are systems capable of decoding neural activity in real time, thereby allowing a machine to be directly controlled by thought. Such interfaces must be highly customized to adapt to each user brain signals. It often requires a fastidious calibration procedure, where the user is asked to repeat hundreds of time the same thought process in order to collect labeled data used to train a decoder, also called classifier.

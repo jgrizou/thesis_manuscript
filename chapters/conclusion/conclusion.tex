@@ -25,8 +25,19 @@ The transition from raw input to higher level meaning is however not much invest
 
 The only example known today is the Siri interface from apple that learn to adapt to each particular user voice specificities.
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+In this paper we have shown that, given a limited number of possible tasks, it is possible to solve sequential tasks using human feedback without defining a map between feedback signals and their meaning beforehand. The proposed algorithm optimizes a pseudo-likelihood function and performs active planing according to the the uncertainty in the task and meaning spaces. Indeed, taking into account this uncertainty is crucial to solve the task efficiently and to recover the actual meanings. This combination allows: 
+\begin{inparaenum}[a)]
+\item a human to start interacting with a system without calibration;
+\item to automatically adapt calibration time to the user needs which can even outperform fixed calibration procedures; 
+\item to adapt to the uncertainty of the information source from scratch.
+\end{inparaenum}
+We showed the applicability of the approach to brain-machine interfaces based on error potentials which could work out of the box without calibration, a long-desired property of this type of systems.  
