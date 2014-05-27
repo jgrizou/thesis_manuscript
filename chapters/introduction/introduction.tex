@@ -53,7 +53,7 @@ As robots enter more and more into our daily life they will have to deal with ou
 
 Sensing start by developing advance sensors allowing the robot to collect information about the relevant features of its environment. Most of the work on sensor applied to robotic lies in vision and localization systems which are primordial for the robot to known where object are in the environment and where the robot it-self is in that environment. But having access to a raw image do not give the robot the ability to locate in a room. Some analysis of the raw sensors information is required to recognize objects in a scene \cite{filliat2007visual}, people in a room, or the robot location \cite{durrant2006simultaneous, bailey2006simultaneous} and also to understand facial expression \cite{valstar2006fully}, gesture \cite{nickel2007visual} or gaze direction \cite{matsumoto2000algorithm}.
 
-This problem is inherent to most of the modalities used in robotics nowadays. From sounds waves, robots may need to infer the location of speaker \cite{nakadai2002real,valin2003robust}, the recognition of a pronounced word \cite{rabiner1989tutorial}, and the emotional state of the speaker \cite{oudeyer2003production}. From touch, they should the texture \cite{howe1989sensing}, hardness \cite{shikida2003active} or shape \cite{schneider2009object} of an object, avoid too strong impacts \cite{alami2006safe} , and even dose their physical contact with human \cite{nakagawa2011effect,miyashita2007haptic}. And from raw millimeter precision Lidar sensors, they should identify pedestrian, bicycle, car, truck position and their intention \cite{himmelsbach2008lidar}. In addition information from different sensors can be merge together to gain access to new kinds of information or gain precision in one specific estimate \cite{xiong2002multi}. 
+This problem is inherent to most of the modalities used in robotics nowadays. From sounds waves, robots may need to infer the location of speaker \cite{nakadai2002real,valin2003robust}, the recognition of a pronounced word \cite{rabiner1989tutorial}, and the emotional state of the speaker \cite{oudeyer2003production}. From touch, they should the texture \cite{howe1989sensing,nguyen2011texture}, hardness \cite{shikida2003active} or shape \cite{schneider2009object} of an object, avoid too strong impacts \cite{alami2006safe} , and even dose their physical contact with human \cite{nakagawa2011effect,miyashita2007haptic}. And from raw millimeter precision Lidar sensors, they should identify pedestrian, bicycle, car, truck position and their intention \cite{himmelsbach2008lidar}. In addition information from different sensors can be merge together to gain access to new kinds of information or gain precision in one specific estimate \cite{xiong2002multi}. 
 
 However having access to high level and precise information from the environment is useless for a robot if it can not be used to act appropriately in the environment.
 
@@ -65,9 +65,13 @@ However having access to high level and precise information from the environment
     \rule[2pt]{2cm}{0.5pt}
 \end{center}
 
-Most of our actuators today are motor that produce rotary movement. A promising avenue lies int he development of muscle like actuators
+Acting starts by developing advance actuators allowing the robot to alter the current state of its environment. Most of our robot actuators today are motor based and produce many forms of motion from rotary movements. However being able to produce movements does not mean the robot will produce useful movements. As sensing requires analyzing, acting requires planning.
 
-\subsection{Social interaction}
+A robot that should evolve in our daily life should be able to move around our houses where many objects are constantly changing positions, with stairs, different floor's types and even human and animals moving around. Assuming the robot can sense and analyze every information needed to navigate, it still need to coordinate all its actuators in order to reach a goal. This coordination problem is especially difficult for problem like walking \cite{kajita20013d,lapeyre2011maturational} or grasping \cite{bicchi2000robotic} where many degrees of freedom are involved and should be synchronized in a proper way.
+
+Acting is often an integral part of the sensing process, where sensors like cameras are mounted on articulated pan-tilt actuators to mimic human eyes. In this case the act of sensing is tightly coupled with the act of moving \cite{lonini2013robust}.
+
+\subsection{Interacting with social peers}
 
 \begin{center}
     \rule[2pt]{2cm}{0.5pt}\\
@@ -75,7 +79,11 @@ Most of our actuators today are motor that produce rotary movement. A promising 
     \rule[2pt]{2cm}{0.5pt}
 \end{center}
 
+As robots are meant to help us in their daily life, they need to be able to interact with us, to understand us and be understood by us. To be understood a robot should act in a socially acceptable manner, adapt its behavior to the current context of interaction, express its current state by displaying familiar signs of emotion using on the appropriate modality.
 
+Being social is also reacting correctly to the social signals sent by the other social beings. It requires the robot to sense and analyze touch, speech, gestures, gaze, or other kind of interfaces but also normative social rules such as appropriate distance of interaction \cite{strait2014let}, eye contact \cite{andrist2014conversational}, hand over \cite{moon2014meet} or trajectory \cite{kruse2014evaluating} dynamics.
+
+This multi-disciplinary study of social interaction between human and robot is the field of human-robot interaction (HRI) \cite{fong2003survey,dautenhahn2007socially,goodrich2007human}.
 
 \subsection{Design, morphology and appearance}
 
@@ -84,8 +92,6 @@ Most of our actuators today are motor that produce rotary movement. A promising 
     \emph{What color, size or shape should take a robot to be socially accepted among humans and efficient in its everyday activities?}\\
     \rule[2pt]{2cm}{0.5pt}
 \end{center}
-
-
 
 \textbf{Better acting:} 
 
