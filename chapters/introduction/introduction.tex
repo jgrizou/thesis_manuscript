@@ -6,33 +6,33 @@
 \label{chapter:introduction}
 \minitoc
 
-Why now: More and more intelligent system are coming into our daily life, making decision that can affect our everyday life. 
+From robotic vacuum cleaners to self-driving car, smart home thermostat to autonomous trading, more and more autonomous intelligent systems are coming into our daily life, taking on their own decisions that can affect our everyday life. As such system becomes more and more advance and intricate, they also become more and more difficult to predict. As a direct consequence, it will be more and more difficult to explicitly get them to do what we want them to do. Their internal mechanisms can no longer be understood by a single person which makes the need to integrate simple, intuitive, and high-level interacting capabilities to those systems primordial.
 
-Why the readers: Interacting with such system is therefore more and more difficult and often requires the user to adapt to the machine.
+We start by providing a small vision of what autonomous intelligent systems are nowadays and then present a brief overview of the main challenges involved when designing autonomous systems. We further explicit the need for such system to learn from their environment and present the major learning paradigms used nowadays. After focusing our analysis on learning paradigms based on interaction with human, we introduce the recent advances in interactive learning where the human and the learning system are in close interaction. Finally we identify and introduce the problem of interacting with a system without pre-coordination of communicative means. We call this challenge the problem of \textbf{fluid interactive learning} which is the main topic investigated in this thesis.
 
-Why me: We need to develop system where interaction is made easy and adaptive wrt. each particular users. 
-
-Why this chapter: present the further logical content of the document. Present the general problem of learning from unlabeled instruction in general terms, just the challenges that is interesting 
-
-What: We first give the general scientific and societal context of our work from which arises some question, and follow the general ideas that has evolved in our respective. We are going down from the big picture to the tiny corner of interest for us. we then provide the logical content of the document t answer the so what and what now question.
-
-So what: we need to study this corner into more details
-
-What now: let look at what others have done to tune our understanding of the problem and broaden our view
-
-This paper aims at solving the general problem of developing machines that can execute a task from human instructions and simultaneously learn the communicative signals.
+Most of our discussions will be articulated around the current trend of autonomous robots that are predicted to play an important role into our daily life in the coming century. However we would like the reader to keep in mind that an autonomous intelligent interactive system, such as a robot, can take many other form such as a virtual agent, a smartphone, or an intelligent prosthesis.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Intelligent systems around}
+\section{Autonomous intelligent systems around}
 
-At home, workplaces or schools, an increasing amount of intelligent robotic systems are starting to be able to help us in our daily life (windows or vacuum cleaners, self-driving cars) \cite{gates2007robot} and in flexible manufacturing systems \cite{baxter}. A key feature in these new domains is the close interaction between people and robots, very different from the usual protective fences in industrial robots. This creates several challenges related to safety, unpredictable environments, acceptability and usability \textit{by} and adaptation \textit{to} non-technically trained people. 
-%
-In particular, such robotic systems need to be teachable by non-technical users, i.e. \textbf{programmable for new tasks in novel environments} through \textbf{intuitive, flexible and personalized interactions}. Specifically, the challenge we address in this work is how a robot learning a new task can be instructed by a human using its own preferred teaching signals, where the mapping between these signals and their meaning may be initially partially or even totally unknown to the robot (e.g. a user may use a different language, words, interjections or gestures to mean ``good'' or ``bad'' or ``turn left''). 
+At home, workplaces or schools, an increasing amount of intelligent robotic systems are starting to be able to help us in our daily life (windows or vacuum cleaners, self-driving cars) \cite{gates2007robot} and in flexible manufacturing systems \cite{baxter} (Figure~\ref{fig:introduction:robots}). They are characterized by their ability to take important decisions autonomously, such as whether or not to engage at crowded road crossing. It is very different from the usual protective fences in industrial robots which creates several challenges related to safety, unpredictable environments, acceptability and usability by and adaptation to non-technically trained people. 
 
+Most of the autonomous intelligent systems are developed with the aim to improve users quality of life and should therefore comply to the preferences of each users. My autonomous car should come take me at work at 6 p.m. and bring me back home. My vacuum cleaner should vacuum only the rooms I want at the time of the day I decided. My smart watch or smart glass should display the information that matters to me. My surveillance robot should patrol around my house following the specific pattern I envision.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[height=0.2\columnwidth]{\imgpath/roomba.jpg}
+    \includegraphics[height=0.2\columnwidth]{\imgpath/google_self_driving_car.jpg}
+    \includegraphics[height=0.2\columnwidth]{\imgpath/baxter_coworking.jpg}
+    \caption{Three examples of nowadays autonomous intelligent robots. From left to right: a Roomba vacuum cleaner, an autonomous car from Google, and a collaborative robotic worker called Baxter.}
+    \label{fig:introduction:robots}
+\end{figure}
+
+How can we balance autonomy and commitment in autonomous intelligent systems? In order to have machine performs complex task for us, that require complex sensing, acting and planning skills we need to endow them with the ability to make plans and learn from their day to day experience. Once such system as the ability to perform many different tasks in many different ways, the question of how to explicitly get these robots to do what we want becomes of crucial importance. The following section briefly introduce the many challenges associated to the design of autonomous intelligent machines.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -41,17 +41,83 @@ In particular, such robotic systems need to be teachable by non-technical users,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Challenges}
 
-Autonomy, long term and open-ended
+As robots enter more and more into our daily life they will have to deal with our daily environment that is often unstructured and open-ended. In this section we identify and briefly present six main challenges of nowadays robotics: sensing, acting and planning, social interaction, morphology, adaptation and life long learning.
 
-\subsection{Sensing}
+\subsection{Sensing and analyzing}
+
+\begin{center}
+    \rule[2pt]{2cm}{0.5pt}\\
+    \emph{How can a robot sense and make sense of its environment?}\\
+    \rule[2pt]{2cm}{0.5pt}
+\end{center}
+
+Sensing start by developing advance sensors allowing the robot to collect information about the relevant features of its environment. Most of the work on sensor applied to robotic lies in vision and localization systems which are primordial for the robot to known where object are in the environment and where the robot it-self is in that environment. But having access to a raw image do not give the robot the ability to locate in a room. Some analysis of the raw sensors information is required to recognize objects in a scene \cite{filliat2007visual}, people in a room, or the robot location \cite{durrant2006simultaneous, bailey2006simultaneous} and also to understand facial expression \cite{valstar2006fully}, gesture \cite{nickel2007visual} or gaze direction \cite{matsumoto2000algorithm}.
+
+This problem is inherent to most of the modalities used in robotics nowadays. From sounds waves, robots may need to infer the location of speaker \cite{nakadai2002real,valin2003robust}, the recognition of a pronounced word \cite{rabiner1989tutorial}, and the emotional state of the speaker \cite{oudeyer2003production}. From touch, they should the texture \cite{howe1989sensing}, hardness \cite{shikida2003active} or shape \cite{schneider2009object} of an object, avoid too strong impacts \cite{alami2006safe} , and even dose their physical contact with human \cite{nakagawa2011effect,miyashita2007haptic}. And from raw millimeter precision Lidar sensors, they should identify pedestrian, bicycle, car, truck position and their intention \cite{himmelsbach2008lidar}. In addition information from different sensors can be merge together to gain access to new kinds of information or gain precision in one specific estimate \cite{xiong2002multi}. 
+
+However having access to high level and precise information from the environment is useless for a robot if it can not be used to act appropriately in the environment.
 
 \subsection{Acting and planning}
 
+\begin{center}
+    \rule[2pt]{2cm}{0.5pt}\\
+    \emph{How can a robot affect its environment and plan its actions in our cluttered and dynamics environment?}\\
+    \rule[2pt]{2cm}{0.5pt}
+\end{center}
+
+Most of our actuators today are motor that produce rotary movement. A promising avenue lies int he development of muscle like actuators
+
 \subsection{Social interaction}
+
+\begin{center}
+    \rule[2pt]{2cm}{0.5pt}\\
+    \emph{How can a robot interact and communicate with humans?}\\
+    \rule[2pt]{2cm}{0.5pt}
+\end{center}
+
+
 
 \subsection{Design, morphology and appearance}
 
+\begin{center}
+    \rule[2pt]{2cm}{0.5pt}\\
+    \emph{What color, size or shape should take a robot to be socially accepted among humans and efficient in its everyday activities?}\\
+    \rule[2pt]{2cm}{0.5pt}
+\end{center}
+
+
+
+\textbf{Better acting:} 
+
+Poppy
+
+\textbf{Better sensing:} The design component of the body is also important for the sensing capabilities of the robot. As an example, the role of the fingerprint while moving our finger on a textured surface enhance our ability to differentiate textures \cite{hollins2010somesthetic}. By taking inspiration from it, researcher have created an artificial finger that is more sensitive to textured surface \cite{candelier2011role}.
+
+\textbf{Better acceptability:} 
+
+
+
 \subsection{Adapt, adapt, adapt}
+
+\begin{center}
+    \rule[2pt]{2cm}{0.5pt}\\
+    \emph{How can a robot adapt to our open ended and dynamics environment?}\\
+    \rule[2pt]{2cm}{0.5pt}
+\end{center}
+
+
+
+\subsection{Life long learning}
+
+\begin{center}
+    \rule[2pt]{2cm}{0.5pt}\\
+    \emph{How can a robot continues learning throughout its life time?}\\
+    \rule[2pt]{2cm}{0.5pt}
+\end{center}
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -68,13 +134,18 @@ Well known results include hand writing recognition, scene analysis on the perce
 
 For long most of the task learning research focused on abstract, well structure, problems. More recently, machine and in particular machines, are . Such machine will need the ability to learn new task in open-ended environment were an objective or reward function is not easy to define. Current approaches consist of inferring the reward function by interacting with others (e.g. humans) who already acquired the skill.
 
+\subsection{Hard coding}
+
 \subsection{Learning from human defined objective function: extrinsic motivation}
 
 \subsection{Self-directed learning: intrinsic motivation}
 
-\subsection{Learning from other: social interaction}
+\subsection{Learning from others: social interaction}
 
 However most of those systems have not considered in depth the properties of teaching interactions with a human in the loop. This issues have began to be addressed in works studying interactive learning, which combines the ideas of learning from demonstration, learning by exploration and tutor feedback.
+
+%
+In particular, such robotic systems need to be teachable by non-technical users, i.e. \textbf{programmable for new tasks in novel environments} through \textbf{intuitive, flexible and personalized interactions}. Specifically, the challenge we address in this work is how a robot learning a new task can be instructed by a human using its own preferred teaching signals, where the mapping between these signals and their meaning may be initially partially or even totally unknown to the robot (e.g. a user may use a different language, words, interjections or gestures to mean ``good'' or ``bad'' or ``turn left'').
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -120,7 +191,9 @@ Approaches have considered: extra reinforcement signals \cite{thomaz2008teachabl
 
 \subsection{Active teacher}
 
-\section{Fluid interactive learning}
+\section{The challenge of fluid interactive learning}
+
+How can a robot learn to interpret our different modes of communication? 
 
 Interactive learning combines the ideas of learning from demonstration, learning by exploration and tutor feedback. Two widely explored subfields are:
 \begin{itemize}
@@ -166,3 +239,28 @@ In the following section, we present the set of assumptions and algorithmic deta
 \end{inparaenum}
 
 This work is particularly relevant for system requiring an individual adaptation to the user. For instance brain-computer interfaces (BCIs) are systems capable of decoding neural activity in real time, thereby allowing a machine to be directly controlled by thought. Such interfaces must be highly customized to adapt to each user brain signals. It often requires a fastidious calibration procedure, where the user is asked to repeat hundreds of time the same thought process in order to collect labeled data used to train a decoder, also called classifier.
+
+\section{Thesis Statement}
+
+In this dissertation, I will advance the following thesis:
+
+\begin{quote}
+Under specific conditions, it is possible to start interacting with a device without pre-coordinating on the signals used for communicating meanings neither on what the device should aim for.
+\end{quote}
+
+\section{Thesis Outline}
+
+The purpose of this manuscript is to explain the problem of learning from unlabeled instruction and to provide an intuition on how to solve this problem. I will introduced the most important aspects of the work by simple, hopefully intuitive, visualization of the problem and of the specific properties we exploit. My aim is therefore to endow the interested readers to implement their own version of the algorithm with the tools they are more familiar with.
+
+In chapter 2, I will present an overview of the related work which span from language acquisition to brain computer interfaces. 
+
+In chapter 3, I will introduce a new experimental setup to study the co-construction of interaction protocols in asymmetric collaborative tasks with humans. By presenting preliminary results based on this setup, I will derive interesting lessons for our problem. This work on human experiment is a joint collaboration with Anna-Lisa Vollmer and Katharina J. Rohlfing. 
+
+In chapter 4, I will introduce in more specific terms the problem and provide a visual intuition on what properties we will exploit. I will continue by formalizing the problem in a probabilistic framework, describe how particular brick of the problem are implemented and present results from a robotic pick and place scenario.
+
+In chapter 5, I will introduce the problem of planning related to the problem and provide a visual intuition on what properties we should track. I will continue by defining the uncertainty measure used in the planning process and demonstrate on a 2D grid world problem the efficiency of the method with respect to other planning strategies.
+
+In chapter 6, I will present an application of the algorithm to a BCI scenario where a subject control an agent on a grid. We will describe online experiment showing that our algorithm allow our subjects to start controlling the device without any calibration procedure and by mentally assessing the device's actions. This work on BCI is a joint collaboration with I{\~n}aki Iturrate and Luis Montesano.
+
+In chapter 7, I will discuss the limitation of the work and exemplify, using simulated experiments, direction which could be pursue to overcome them.
+

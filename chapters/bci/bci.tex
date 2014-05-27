@@ -47,6 +47,18 @@ As in most BCI applications, ErrP-based BCIs require a calibration phase to lear
 
 Despite the importance of calibration-free BCIs, there are few BCI applications that are able to calibrate themselves during operation. For long term operation using motor rhythms, it is possible to adapt the decoder online \cite{vidaurre2010towards}. In invasive BCIs, Orsborn et al. proposed a method to learn from scratch in closed loop a decoder for known targets using pre-defined policies to each target \cite{Orsborn2012}. However, the approach needed for a warm-up period of around 15 minutes. For P300 spellers, Kindermans et al. proposed a method to auto-calibrate the P300 detector by exploiting multiple stimulations and prior information \cite{Kindermans2012a,Kindermans2012b,tangermann2013zero}. They particularly exploit the fact that the speller paradigm guarantees that only one event out of fixed number (e.g. one out of six) encodes a P300 potential. In our setup it is however impossible to define a sequence of actions that guarantee a specific ratio of label in the received signals.
 
+
+\cite{kindermans2014integrating}, they merge most of the method they have been developing.
+\begin{itemize}
+    \item Dynamic stopping, where the system stop when it reaches a confidence threshold.
+    \item Language model as a prior probability on next letter
+    \item Transfer learning where a model of previous subjects is used to ``regularizes the subject-specific solution towards the general model.''
+    \item Unsupervised learning (that is the EM approach we refer to when citing their work)
+\end{itemize}
+
+\cite{schettini2014self} continuous adaptation of the classifier model, a first session using a calibration procedure, and on latter run, the system re-calibrate itself continuously.
+
+
 Our main contribution is a BCI method without any explicit calibration phase that simultaneously and seamlessly infers a decoder of EEG error-related potentials while controlling a device to achieve a sequential task.
 
 The core idea of the method is to assume a distribution of possible tasks, and infer the interpretation of EEG signals and the task by selecting the hypothesis which best explains the history of interaction. In what follows, we will use the term ``virtual label'' or ``label'' to denote the interpretation of a given EEG signal as a feedback signal (e.g. ``correct'' or ``wrong''). Considering that, for a particular task hypothesis provides, we can infer the labels that should be provided by the user in each state of the task, thus, given a particular interaction history, it is possible to compute a different EEG decoder for each task hypothesis. As the correct task assigns the correct labels to the EEG signals, the hypothesis which provides the decoder with best classification accuracy and compactness can then be selected as the most probable. Since the process is iterative, this inference can be continuously run and updated as new data comes in, which removes the need for an explicit calibration.
