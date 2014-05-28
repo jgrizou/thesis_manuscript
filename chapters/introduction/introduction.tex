@@ -45,13 +45,9 @@ As robots enter more and more into our daily life they will have to deal with ou
 
 \subsection{Sensing and analyzing}
 
-\begin{center}
-    \rule[2pt]{2cm}{0.5pt}\\
-    \emph{How can a robot sense and make sense of its environment?}\\
-    \rule[2pt]{2cm}{0.5pt}
-\end{center}
+\question{How can a robot sense and make sense of its environment?}
 
-Sensing start by developing advance sensors allowing the robot to collect information about the relevant features of its environment. Most of the work on sensor applied to robotic lies in vision and localization systems which are primordial for the robot to known where object are in the environment and where the robot it-self is in that environment. But having access to a raw image do not give the robot the ability to locate in a room. Some analysis of the raw sensors information is required to recognize objects in a scene \cite{filliat2007visual}, people in a room, or the robot location \cite{durrant2006simultaneous, bailey2006simultaneous} and also to understand facial expression \cite{valstar2006fully}, gesture \cite{nickel2007visual} or gaze direction \cite{matsumoto2000algorithm}.
+Sensing start by developing advance sensors allowing the robot to collect information about the relevant features of its environment. Most of the work on sensor applied to robotic lies in vision and localization systems which are primordial for the robot to known where object are in the environment and where the robot it-self is in that environment. But having access to a raw image do not give the robot the ability to locate in a room. Some analysis of the raw sensors information is required to recognize objects in a scene \cite{filliat2007visual}, people in a room \cite{nakauchi2002social}, or the robot location \cite{durrant2006simultaneous, bailey2006simultaneous} and also to understand facial expression \cite{valstar2006fully}, gesture \cite{nickel2007visual} or gaze direction \cite{matsumoto2000algorithm}.
 
 This problem is inherent to most of the modalities used in robotics nowadays. From sounds waves, robots may need to infer the location of speaker \cite{nakadai2002real,valin2003robust}, the recognition of a pronounced word \cite{rabiner1989tutorial}, and the emotional state of the speaker \cite{oudeyer2003production}. From touch, they should the texture \cite{howe1989sensing,nguyen2011texture}, hardness \cite{shikida2003active} or shape \cite{schneider2009object} of an object, avoid too strong impacts \cite{alami2006safe} , and even dose their physical contact with human \cite{nakagawa2011effect,miyashita2007haptic}. And from raw millimeter precision Lidar sensors, they should identify pedestrian, bicycle, car, truck position and their intention \cite{himmelsbach2008lidar}. In addition information from different sensors can be merge together to gain access to new kinds of information or gain precision in one specific estimate \cite{xiong2002multi}. 
 
@@ -59,70 +55,53 @@ However having access to high level and precise information from the environment
 
 \subsection{Acting and planning}
 
-\begin{center}
-    \rule[2pt]{2cm}{0.5pt}\\
-    \emph{How can a robot affect its environment and plan its actions in our cluttered and dynamics environment?}\\
-    \rule[2pt]{2cm}{0.5pt}
-\end{center}
+\question{How can a robot affect its environment and plan its actions in our cluttered and dynamics environment?}
 
 Acting starts by developing advance actuators allowing the robot to alter the current state of its environment. Most of our robot actuators today are motor based and produce many forms of motion from rotary movements. However being able to produce movements does not mean the robot will produce useful movements. As sensing requires analyzing, acting requires planning.
 
 A robot that should evolve in our daily life should be able to move around our houses where many objects are constantly changing positions, with stairs, different floor's types and even human and animals moving around. Assuming the robot can sense and analyze every information needed to navigate, it still need to coordinate all its actuators in order to reach a goal. This coordination problem is especially difficult for problem like walking \cite{kajita20013d,lapeyre2011maturational} or grasping \cite{bicchi2000robotic} where many degrees of freedom are involved and should be synchronized in a proper way.
 
-Acting is often an integral part of the sensing process, where sensors like cameras are mounted on articulated pan-tilt actuators to mimic human eyes. In this case the act of sensing is tightly coupled with the act of moving \cite{lonini2013robust}.
+Acting is often an integral part of the sensing process, where sensors like cameras are mounted on articulated pan-tilt actuators to mimic human eyes. In this case the act of sensing is tightly coupled with the act of moving \cite{bajcsy1988active,lonini2013robust}.
 
 \subsection{Interacting with social peers}
 
-\begin{center}
-    \rule[2pt]{2cm}{0.5pt}\\
-    \emph{How can a robot interact and communicate with humans?}\\
-    \rule[2pt]{2cm}{0.5pt}
-\end{center}
+\question{How can a robot interact and communicate with humans?}
 
-As robots are meant to help us in their daily life, they need to be able to interact with us, to understand us and be understood by us. To be understood a robot should act in a socially acceptable manner, adapt its behavior to the current context of interaction, express its current state by displaying familiar signs of emotion using on the appropriate modality.
+As robots are meant to help us in our daily life, they need to be able to interact with us, to understand us and be understood by us. To be understood a robot should act in a socially acceptable manner, adapt its behavior to the current context of interaction, express its current state by displaying familiar signs of emotion using on the appropriate modality.
 
-Being social is also reacting correctly to the social signals sent by the other social beings. It requires the robot to sense and analyze touch, speech, gestures, gaze, or other kind of interfaces but also normative social rules such as appropriate distance of interaction \cite{strait2014let}, eye contact \cite{andrist2014conversational}, hand over \cite{moon2014meet} or trajectory \cite{kruse2014evaluating} dynamics.
+Being social is also reacting correctly to the social signals sent by the other social beings. It requires the robot to sense and analyze touch, speech, gestures, gaze, facial expression, or other kinds of interfaces but also normative social rules such as appropriate distance of interaction \cite{strait2014let}, eye contact \cite{andrist2014conversational}, hand over \cite{moon2014meet}, or trajectory \cite{kruse2014evaluating} dynamics.
 
-This multi-disciplinary study of social interaction between human and robot is the field of human-robot interaction (HRI) \cite{fong2003survey,dautenhahn2007socially,goodrich2007human}.
+This multi-disciplinary study of social interaction between human and robot is the field of human-robot interaction (HRI) \cite{fong2003survey,dautenhahn2007socially,goodrich2007human}. An important challenge is to design and conduct human-robot interaction studies which allow to evaluate the objective and subjective usability and acceptability of the human-robot interaction \cite{scholtz2003theory,walters2005practical,young2011evaluating}.
 
 \subsection{Design, morphology and appearance}
 
-\begin{center}
-    \rule[2pt]{2cm}{0.5pt}\\
-    \emph{What color, size or shape should take a robot to be socially accepted among humans and efficient in its everyday activities?}\\
-    \rule[2pt]{2cm}{0.5pt}
-\end{center}
+\question{What geometry, color, size, or shape should take a robot to be socially accepted among humans as well as efficient in its everyday activities?}
 
-\textbf{Better acting:} 
+The morphology and appearance of a robot are properties that impacts all the previously defined challenges. The way the different parts of the body are design will affect the ease of the robot to perform a daily task. The way a sensor is located on its body will affect the sensing performance and its analysis. And the way a robot looks will affect its ability to tight up link with surrounding human could make the more technology advance robot worthless. We will highlight the influence of morphology and appearance for acting, sensing, and socially interacting using three using concrete example from the literature.
 
-Poppy
+\paragraph{Better acting} The geometry and distribution of mass in the body has complex influences on biped locomotion. Several studies have for example explored the role of the foot and ankle morphology for biped walking on both human and robot, but the impact of various thigh shapes a robot dynamics \cite{lapeyre2013poppy}. This later work study the impact of a bio-inspired thigh, bended of 6 degree and with a geometry inspired by humans, on the balance and biped locomotion compared to a more traditional straight thigh. They have shown that the bio-inspired thigh allows the reduction of falling speed by almost 60\% and the decrease of the lateral motion needed for the mass transfer from one foot to the other by 30\%.
 
-\textbf{Better sensing:} The design component of the body is also important for the sensing capabilities of the robot. As an example, the role of the fingerprint while moving our finger on a textured surface enhance our ability to differentiate textures \cite{hollins2010somesthetic}. By taking inspiration from it, researcher have created an artificial finger that is more sensitive to textured surface \cite{candelier2011role}.
+\paragraph{Better sensing} The design component of the body is also important for the sensing capabilities of the robot. As an example, the fingerprint while moving our finger on a textured surface enhance our ability to differentiate textures \cite{hollins2010somesthetic} compared to a smooth finger surface. By taking inspiration from the fingerprint properties, researcher have created an artificial finger that is more sensitive to textured surface \cite{candelier2011role}.
 
-\textbf{Better acceptability:} 
+\paragraph{Better acceptability}
 
-
+Effect of robot appearance on human-robot interaction is a widely investigated topic \cite{li2010cross, heerink2006studying}. One of its prominent characteristic is called the uncanny valley \cite{mori1970uncanny}, which state that the relation between human likeness of a robot and its perceived familiarity by human does not hold a linear relation. It states that familiarity increases with human likeness until a point is reached where a subtle deviations from human appearance and behavior create a unnerving effect, which is called the uncanny valley. More recent developments speculate that maybe even the most human-like androids, and even real human faces, are not liked as much as toy robots or humanoids. This effect has been called the uncanny cliff \cite{bartneck2007uncanny}.
 
 \subsection{Adapt, adapt, adapt}
 
-\begin{center}
-    \rule[2pt]{2cm}{0.5pt}\\
-    \emph{How can a robot adapt to our open ended and dynamics environment?}\\
-    \rule[2pt]{2cm}{0.5pt}
-\end{center}
+\question{How can a robot adapt to our open ended and dynamics environment \\ throughout its lifetime?}
 
+Things change and a robot that is designed, built and programmed to live in todays words will have to learn new skills during his life time. It may even have to learn them right from the beginning, such as learning the language and habits of the community it leaves in. It may break some of its parts, and will have to learn to deal with it or to adapt to the properties of the new replacement parts.
 
+Therefore rather than trying to represent all human knowledge in our robots it seems more natural to endow them with the ability to learn. This idea has been formulated more than sixty years ago by Alan Turing \cite{turing1950computing} advocating that ``instead of trying to produce a programme to simulate the adult mind, why not rather try to produce one which simulates the child's?''. But this line of research really began to be explored in the beginning of the century with the emerging field of developmental robotics \cite{weng2001autonomous,lungarella2003developmental} which ``aims at studying the developmental mechanisms, architectures and constraints that allow life long and open-ended learning of new skills and new knowledge in embodied machines'' \cite{oudeyer2012developmental}.
 
-\subsection{Life long learning}
+\paragraph{Life long learning}
 
-\begin{center}
-    \rule[2pt]{2cm}{0.5pt}\\
-    \emph{How can a robot continues learning throughout its life time?}\\
-    \rule[2pt]{2cm}{0.5pt}
-\end{center}
+Lifelong learning is the ongoing, voluntary, and self-motivated pursuit of knowledge 
 
+\paragraph{Development}
 
-
+maturational constraints
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -189,7 +168,13 @@ This type of learning combines ideas of learning from demonstration \cite{argall
 % In addition, the device can act to improve its learning efficiency.
 Approaches have considered: extra reinforcement signals \cite{thomaz2008teachable}, action requests \cite{lopes2009active}, disambiguation among actions \cite{chernova09jair}, preferences among states \cite{Mason2011}, iterations between practice and user feedback sessions \cite{judah2010reinforcement}, and choosing actions that maximize the user feedback \cite{knox2009interactively}. 
 
+\subsection{Online learning}
+
+\subsection{User modeling}
+
 \subsection{Ambiguous protocols}
+
+\cite{macl11simul}
 
 \subsection{Ambiguous signals}
 
@@ -198,6 +183,8 @@ Approaches have considered: extra reinforcement signals \cite{thomaz2008teachabl
 \subsection{Active teacher}
 
 \section{The challenge of fluid interactive learning}
+
+find some framework and cite thomas \cite{cederborg2013language}
 
 How can a robot learn to interpret our different modes of communication? 
 
@@ -256,7 +243,7 @@ Under specific conditions, it is possible to start interacting with a device wit
 
 \section{Thesis Outline}
 
-The purpose of this manuscript is to explain the problem of learning from unlabeled instruction and to provide an intuition on how to solve this problem. I will introduced the most important aspects of the work by simple, hopefully intuitive, visualization of the problem and of the specific properties we exploit. My aim is therefore to endow the interested readers to implement their own version of the algorithm with the tools they are more familiar with.
+The purpose of this manuscript is to explain the problem of learning from unlabeled instruction and to provide an intuition on how to solve this problem. I will introduce the most important aspects of the work by simple, hopefully intuitive, visualization of the problem and of the specific properties we exploit. My aim is therefore to endow the interested readers to implement their own version of the algorithm with the tools they are more familiar with.
 
 In chapter 2, I will present an overview of the related work which span from language acquisition to brain computer interfaces. 
 
