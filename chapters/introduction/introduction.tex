@@ -91,46 +91,60 @@ Effect of robot appearance on human-robot interaction is a widely investigated t
 
 \question{How can a robot adapt to our open ended and dynamics environment \\ throughout its lifetime?}
 
-Things change and a robot that is designed, built and programmed to live in todays words will have to learn new skills during his life time. It may even have to learn them right from the beginning, such as learning the language and habits of the community it leaves in. It may break some of its parts, and will have to learn to deal with it or to adapt to the properties of the new replacement parts.
+Things change and a robot that is designed, built and programmed to live in todays words will have to learn new skills during his life time. It may even have to learn them right from the beginning, such as learning the language and habits of the community it leaves in. It may also break some of its parts, and will have to learn to deal with it or to adapt to the properties of the new replacement parts.
 
-Therefore rather than trying to represent all human knowledge in our robots it seems more natural to endow them with the ability to learn. This idea has been formulated more than sixty years ago by Alan Turing \cite{turing1950computing} advocating that ``instead of trying to produce a programme to simulate the adult mind, why not rather try to produce one which simulates the child's?''. But this line of research really began to be explored in the beginning of the century with the emerging field of developmental robotics \cite{weng2001autonomous,lungarella2003developmental} which ``aims at studying the developmental mechanisms, architectures and constraints that allow life long and open-ended learning of new skills and new knowledge in embodied machines'' \cite{oudeyer2012developmental}.
+Therefore rather than trying to represent all human knowledge in our robots it seems more natural to endow them with the ability to learn. This idea has been formulated more than sixty years ago by Alan Turing \cite{turing1950computing} advocating that ``instead of trying to produce a programme to simulate the adult mind, why not rather try to produce one which simulates the child's?''. 
+This precise line of research really began to be explored in the beginning of the century with the emerging field of developmental robotics \cite{weng2001autonomous,lungarella2003developmental} which ``aims at studying the developmental mechanisms, architectures and constraints that allow life long and open-ended learning of new skills and new knowledge in embodied machines'' \cite{oudeyer2012developmental}. 
 
-\paragraph{Life long learning}
+While the idea of learning for machine is commonly accepted, developmental robotics is yet an emerging field inside the robotic and machine learning community. Most of the learning algorithm today do not take into account many aspects of the real life challenges robot should be able to face in our open-ended and dynamic environment. 
 
-Lifelong learning is the ongoing, voluntary, and self-motivated pursuit of knowledge 
+\paragraph{Open-ended environment} Most of the learning literature focus on abstract and well structure problems, where the researcher define in advance a representation well suited to the problem. But not every problem can be define in advance, as we learn to use smartphone which did not exist few years back, a robot should be able to learn how to use new systems without the need for an engineer to reprogram it, and this throughout their life time.
 
-\paragraph{Development}
+\paragraph{Lifelong learning} Lifelong learning can be define as the ongoing and self-motivated pursuit of knowledge and the ability needed to adapt to our everyday problems. Most of the learning literature do not consider learning as an ongoing activity. As an example, classification algorithms often need to have access to a batch of labeled examples which must therefore be collected by an engineer beforehand. But in order to adapt to our everyday problems embodied autonomous robots should be able to actively seek and select useful information in their environment. 
 
-maturational constraints
+% maturational constraints biasing and constraining learning process
 
+In the next section we describe the three main learning paradigms considered nowadays: learning from extrinsic motivation, intrinsic motivation, and social interaction.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Approaches}
+\section{Learning paradigms}
 
-Perceptual learning and task learning can both benefit from user interaction in many different ways. On the one hand, if the interaction protocol and context, is well defined it is possible to acquired grounded perceptual data. On the other hand, if the human and the machine understand each others, the human can explain or guide the machine, which may reduce learning time or even enable the machine to learn task difficult to write down as an objective or reward function.
-
-
-Machine-learning and artificial intelligence research aims at giving computers the ability to learn without being explicitly told. Two widely explored subfields are perceptual learning, in which the system learns to discriminate between perceptual events, and task learning, in which the system learn to increase its performance wrt. an objective or a reward function. 
-Well known results include hand writing recognition, scene analysis on the perceptual learning side and on the task learning side.
-
-For long most of the task learning research focused on abstract, well structure, problems. More recently, machine and in particular machines, are . Such machine will need the ability to learn new task in open-ended environment were an objective or reward function is not easy to define. Current approaches consist of inferring the reward function by interacting with others (e.g. humans) who already acquired the skill.
-
-\subsection{Hard coding}
+Hard coding control or planning solutions into robots is not a viable solution for robots that aims at entering into our daily life. Learning seems to be a more promising approach and many work have tackled this problem. Among them we can draw three main paradigms: \begin{inparaenum}[(a)] \item learning from extrinsic motivation, where an objective is given to the robot that should be either maximize or minimize \item learning from intrinsic motivation, where the robot define its own objectives, and \item social learning, where a social agent which as already acquired some skills helps an other agent to acquired the same skills, it is characterized by a tight interaction loop between the two partners. \end{inparaenum}. The following subsections provide a small introduction to the three paradigms.
 
 \subsection{Learning from human defined objective function: extrinsic motivation}
 
+Extrinsic motivations are driven by external rewards or punishments which arise from outside of the robot own control. It is a measure of fitness with respect to a given objective. For robots, these functions are usually defined by the engineer and the role of the learning system is learn to optimize them using its acting possibilities. It can be a hard-coded pain like punishment useful for the robot to learn to avoid braking itself, or a reward proportional to the position shift of the robot with respect to a predefined path to follow, or a boolean stating if a task is correctly executed or not.
+
+the robot does the job and explore
+Well known results include hand writing recognition, scene analysis on the perceptual learning side and on the task learning side. some robot example.
+reinforcement learning
+
+
 \subsection{Self-directed learning: intrinsic motivation}
+
+Intrinsic motivations are driven by an interest in the activities for their own sake which arises from within the robot and depends on its own internal operations rather than on external pressures or rewards. Intrinsic motivations allow the robot to gain autonomy with respect to the open-ended challenges it may face into the real words. 
+
+As for extrinsic motivation the robot does the job and explore
 
 \subsection{Learning from others: social interaction}
 
-However most of those systems have not considered in depth the properties of teaching interactions with a human in the loop. This issues have began to be addressed in works studying interactive learning, which combines the ideas of learning from demonstration, learning by exploration and tutor feedback.
+
+
+the robotis guided
+
 
 %
 In particular, such robotic systems need to be teachable by non-technical users, i.e. \textbf{programmable for new tasks in novel environments} through \textbf{intuitive, flexible and personalized interactions}. Specifically, the challenge we address in this work is how a robot learning a new task can be instructed by a human using its own preferred teaching signals, where the mapping between these signals and their meaning may be initially partially or even totally unknown to the robot (e.g. a user may use a different language, words, interjections or gestures to mean ``good'' or ``bad'' or ``turn left'').
+
+
+
+The categorization of learning paradigms above in three categories does not reflect the many subfamilies that exist between these categories, including those that are shared among categories. It is meant to situate the learning problem into a more global picture, providing some interesting pointers for the interested readers. 
+
+This thesis focus on the social learning aspects, where robots should learn by observing or being instructed by a human. Next section provide more details of the social learning literature, which we organized in three main groups: learning from human demonstrations, learning from human reinforcement, and learning from human instructions. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -139,19 +153,26 @@ In particular, such robotic systems need to be teachable by non-technical users,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Robot Learning from Humans}
 
+
+Next section provide more details of the social learning literature, which we organized in three main groups: learning from human demonstrations, learning from human reinforcement, and learning from human instructions. 
+
+When who what when to imitate?
+
 Research in robotics has long been inspired by human social learning. Among other aspects, learning by demonstration/imitation has attracted the most attention. It has provided several examples of efficient learning in robotic systems \cite{argall09survey,lopes10imitationchapter}. Data from a human teacher has been used as: initial condition for further self-exploration in robotics \cite{nicolescu2003natural}, bootstrapping further intrinsically motivated learning \cite{nguyen2011bootstrapping}, information about the task solution \cite{calinon07}, information about the task representation \cite{macl07affimit}, among others. Several representations have been used to generalize the demonstration data using reinforcement learning \cite{thomaz2008teachable}, inverse reinforcement learning \cite{macl07affimit,Abbeel04icml} or regression methods \cite{calinon07,chernova09jair}. The different formalisms make use of different information and extract different knowledge, either direct policy information or a reward function that explains the behavior.
 
-\subsection{Learning from demonstrations}
+\subsection{Learning from human demonstrations}
 
-\subsection{Learning from advises}
+correspondence problem 
 
-\subsection{Learning from reinforcement signals}
+\subsection{Learning from human reinforcement}
 
-\subsection{How people teach robots}
+\subsection{Learning from human instructions}
 
-People will not always respect predefined conventions. Several studies discuss the different behaviors naive teachers use when instructing robots \cite{thomaz2008teachable,Cakmak2010optimality}. An important aspect is that the feedback is frequently ambiguous and deviates from the mathematical interpretation of a reward or a sample from a policy. For instance, in the work of \cite{thomaz2008teachable} the teachers frequently gave a positive reward for exploratory actions even if the signal was used by the learner as a standard reward. Also, even if we can define an optimal teaching sequence, humans do not necessarily behave according to those strategies \cite{Cakmak2010optimality}. For more studies on how humans teach robots see \cite{thomaz2009learning,kaochar2011towards,knox2012humans}. These studies show that even when using well defined protocols, it is important to consider how different instructions can be used for learning. 
+lies at the interaction of those domains
 
-Nevertheless the real problem is somewhat even more complicated. Figure shows this complexity. When observing the robot behavior the user will provide some instructions, using vocal commands for instance. If their meanings are known and the speech recognition system works then they can be directly translated into learning data for the task learning algorithms. But in general, it is important to consider that there can be errors in the recognition system, even systematic when taking into account accents, and that people might be more comfortable to use different, not predefined, words. The problem now becomes that the meaning of these new instructions can not be easily recovered if the task that is being learned is not known.
+The categorization of learning paradigms above in three categories does not reflect the many subfamilies that exist between these categories, including those that are shared among categories. It is meant to situate the social learning problem in a more global picture, providing some interesting pointers for the interested readers. 
+
+As we noticed, in most of the above presented work, the human and the robot had no or few well controlled interaction with the robot. The properties of teaching interactions with a human in the loop was not considered in depth. This issues have began to be addressed in a subfield called \emph{interactive learning}  which combine ideas of social learning its different forms with extrinsic and intrinsic motivated learning. Where the robot acquire a form of autonomy with respect to how to deal with the human in the loop. This leaded to interesting results concerning the behavior of human in such situation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -160,19 +181,28 @@ Nevertheless the real problem is somewhat even more complicated. Figure shows th
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Interactive Learning}
 
+demonstration, human generated reward
+
+Perceptual learning and task learning can both benefit from user interaction in many different ways. On the one hand, if the interaction protocol and context, is well defined it is possible to acquired grounded perceptual data. On the other hand, if the human and the machine understand each others, the human can explain or guide the machine, which may reduce learning time or even enable the machine to learn task difficult to write down as an objective or reward function.
+
+
+People will not always respect predefined conventions. Several studies discuss the different behaviors naive teachers use when instructing robots \cite{thomaz2008teachable,Cakmak2010optimality}. An important aspect is that the feedback is frequently ambiguous and deviates from the mathematical interpretation of a reward or a sample from a policy. For instance, in the work of \cite{thomaz2008teachable} the teachers frequently gave a positive reward for exploratory actions even if the signal was used by the learner as a standard reward. Also, even if we can define an optimal teaching sequence, humans do not necessarily behave according to those strategies \cite{Cakmak2010optimality}. For more studies on how humans teach robots see \cite{thomaz2009learning,kaochar2011towards,knox2012humans}. These studies show that even when using well defined protocols, it is important to consider how different instructions can be used for learning. 
+
+Nevertheless the real problem is somewhat even more complicated. Figure shows this complexity. When observing the robot behavior the user will provide some instructions, using vocal commands for instance. If their meanings are known and the speech recognition system works then they can be directly translated into learning data for the task learning algorithms. But in general, it is important to consider that there can be errors in the recognition system, even systematic when taking into account accents, and that people might be more comfortable to use different, not predefined, words. The problem now becomes that the meaning of these new instructions can not be easily recovered if the task that is being learned is not known.
+
 However most of those systems have not considered in depth the properties of teaching interactions with a human in the loop. The demonstrations are provided in a batch perspective where data acquisition is done before the learning phase. Those issues have began to be addressed in works studying \textit{interactive learning} \cite{kaplan2002robotic,nicolescu2003natural,Breazeal2004,thomaz2008teachable}, which combines the ideas of learning from demonstration, learning by exploration and tutor feedback. Under this approach, the teacher interacts with the robot and provides extra feedback or guidance. In addition, the robot can act to improve its learning efficiency. Recent developments have considered: extra reinforcement signals \cite{thomaz2008teachable}, action requests \cite{macl09airl}, disambiguation among actions \cite{chernova09jair}, preferences among states \cite{Mason2011}, iterations between practice and user feedback sessions \cite{judah2010reinforcement} and choosing actions that maximize the user feedback \cite{knox2009interactively}.
 
 Interactive learning \cite{nicolescu2003natural,breazeal2004tutelage} aims at developing systems that can learn by practical interaction with the user and finds applications in a wide range of fields such as human-robot interaction, tutoring systems or human-machine interfaces.
 This type of learning combines ideas of learning from demonstration \cite{argall09survey}, learning by exploration \cite{thrun1992efficient} and tutor feedback \cite{kaplan2002robotic}. Under this approach the human teacher interacts with the machine and provides extra feedback or guidance. 
 
-% In addition, the device can act to improve its learning efficiency.
+In addition, the device can act to improve its learning efficiency.
 Approaches have considered: extra reinforcement signals \cite{thomaz2008teachable}, action requests \cite{lopes2009active}, disambiguation among actions \cite{chernova09jair}, preferences among states \cite{Mason2011}, iterations between practice and user feedback sessions \cite{judah2010reinforcement}, and choosing actions that maximize the user feedback \cite{knox2009interactively}. 
 
-\subsection{Online learning}
+\subsection{Online interactive learning}
 
-\subsection{User modeling}
+\subsection{How people teach robots}
 
-\subsection{Ambiguous protocols}
+\subsection{User modeling and ambiguous protocols}
 
 \cite{macl11simul}
 
@@ -182,9 +212,20 @@ Approaches have considered: extra reinforcement signals \cite{thomaz2008teachabl
 
 \subsection{Active teacher}
 
-\section{The challenge of fluid interactive learning}
+
 
 find some framework and cite thomas \cite{cederborg2013language}
+
+Perceptual learning and task learning can both benefit from user interaction in many different ways. On the one hand, if the interaction protocol and context, is well defined it is possible to acquired grounded perceptual data. On the other hand, if the human and the machine understand each others, the human can explain or guide the machine, which may reduce learning time or even enable the machine to learn task difficult to write down as an objective or reward function.
+
+
+
+
+This thesis lies around those challenges. We identified one important assumtion made in all those experiments. The facts that the human and the robot are assuemd to be able to undertasn each others on one level or an other before the interaction can begin. Whether the meaning of the social signals are known and the robot should infer the task, or the task is known and the robot should infer some characteristic of its human partners, wheter the mapping between some communicative signals and their meaning, or the frequeccy to which it tends to use some words.
+
+\section{The challenge of fluid interactive learning}
+
+
 
 How can a robot learn to interpret our different modes of communication? 
 
