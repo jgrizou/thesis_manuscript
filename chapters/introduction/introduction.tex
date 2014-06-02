@@ -161,17 +161,36 @@ The three main paradigms define above can be applied in many different kinds of 
 
 \subsection{Supervised learning}
 
+Supervised learning is the problem of inferring a model from labeled training data. The inferred model can later be used for mapping new examples. It requires the learning algorithm to generalize from the training data to unseen situations.
+
 \paragraph{Classification}
 
-particle swarm optimization
+Classification is the problem of identifying to which of a set of categories, called class, a new observation belongs. The training data are composed of a pair of input object, usually a a feature vector, and its associated class. As a example, the well known MNIST database of handwritten digits \cite{lecun1998mnist} is composed of raw images of handwritten digits (between 0 and 9) paired with their associated symbolic digit. From a database composed of many such examples, the supervised learning algorithm should return a function able to predict the class, e.g. the digit, corresponding to a new raw digit image.
+
+SVM
+
+
+
 
 \paragraph{Regression}
 
+Regression is the problem
+
 gaussian process
+
+
+
+
+Over-fitting
+Under-fitting, too much generalization
+
+
+
+To evaluate the quality of a supervised learning algorithm, e.g. how accurately a classifier will perform in practice, it should be tested on previously unseen data that were not part of the training examples. A well known method is called cross-validation \cite{kohavi1995study}. It involves partitioning an initial dataset into several different subsets and using some of the subset(s) to train the classifier (called the training set) and testing the classifier on the remaining subset(s) (called the test set). To reduce variability, the process can be repeated with other subsets or combination of subsets. A classic approach is called ten-fold cross-validation and consist of splitting the original dataset in ten subsets, use nine in the training set, and the remaining one into the test set. As there is ten subsets, the process is repeated ten times and results averaged across over the rounds.
 
 \subsection{Unsupervised learning}
 
-Unsupervised learning is the problem of finding hidden structure in unlabeled data. Even if there is no explicit error or reward to evaluate a potential solution, there is still predefine metrics which define what the terms \emph{structure} means. Indeed finding an hidden structure is more looking from known patterns in unlabeled data.
+Unsupervised learning is the problem of finding hidden structure in unlabeled data. Even if there is no explicit error or reward to evaluate a potential solution, there is still predefined metrics which define what the terms \emph{structure} means. Finding an hidden structure is more looking from known patterns in unlabeled data.
 
 It mostly apply in clustering task where a dataset is divided into subgroups of data which share common characteristic, such as a close proximity in the feature space. It include
 
@@ -188,7 +207,7 @@ But if the transition probabilities and the transition gains are unknown, like i
 \paragraph{Exploration vs. Exploitation} 
 The goal of the agent is to maximize a cumulative reward and it might believe that a particular action in a particular state has a fairly high payoff probability. Should it choose that action all the time, or should it choose try to explore other states that may reward more? And the more time spent in exploring, the less time spent in collecting rewards, this is called the exploration vs. exploitation trade-off. 
 
-Solutions to this problem depend on how long the robot is expected to play the game; the longer the game lasts, the worse the consequences of prematurely converging to a sub-optimal solution, and the more the robot should explore. It has been thoroughly studied through the multi-armed bandit problem \cite{berry1985bandit,audibert2009exploration}. Simple but successful methods for tackling the exploration vs. exploitation trade-off in reinforcement learning include the epsilon-greedy, softmax \cite{sutton1998reinforcement}, and R-max \cite{brafman2003r} methods. Curiosity based exploration \cite{schmidhuber1991curious,storck1995reinforcement,barto2004intrinsically,singh2005intrinsically} was also considered as well as method to learn or adapt the exploration strategies online \cite{mahmood2012tuning,Hester13aamas}.
+Solutions to this problem depend on how long the agent is expected to play the game; the longer the game lasts, the worse the consequences of prematurely converging to a sub-optimal solution, and the more the robot should explore. It is call the exploration vs. exploitation trade-off and has been thoroughly studied through the multi-armed bandit problem \cite{berry1985bandit,audibert2009exploration}. Simple but successful methods for tackling the exploration vs. exploitation trade-off in reinforcement learning include the epsilon-greedy, softmax \cite{sutton1998reinforcement}, and R-max \cite{brafman2003r} methods. Curiosity based exploration \cite{schmidhuber1991curious,storck1995reinforcement,barto2004intrinsically,singh2005intrinsically} was also considered as well as method to learn or adapt the exploration strategies online \cite{mahmood2012tuning,Hester13aamas}.
 
 \transition
 
