@@ -51,7 +51,9 @@ Sensing start by developing advance sensors allowing the robot to collect inform
 
 This problem is inherent to most of the modalities used in robotics nowadays. From sounds waves, robots may need to infer the location of speaker \cite{nakadai2002real,valin2003robust}, the recognition of a pronounced word \cite{rabiner1989tutorial}, and the emotional state of the speaker \cite{oudeyer2003production}. From touch, they should the texture \cite{howe1989sensing,nguyen2011texture}, hardness \cite{shikida2003active} or shape \cite{schneider2009object} of an object, avoid too strong impacts \cite{alami2006safe} , and even dose their physical contact with human \cite{nakagawa2011effect,miyashita2007haptic}. And from raw millimeter precision Lidar sensors, they should identify pedestrian, bicycle, car, truck position and their intention \cite{himmelsbach2008lidar}. In addition information from different sensors can be merge together to gain access to new kinds of information or gain precision in one specific estimate \cite{xiong2002multi}. 
 
-However having access to high level and precise information from the environment is useless for a robot if it can not be used to act appropriately in the environment.
+\transition
+
+However having access to high level and precise information from the environment is useless for a robot if it can not be used to act appropriately in the environment. In next section we present the challenge of acting and planning.
 
 \subsection{Acting and planning}
 
@@ -104,6 +106,8 @@ While the idea of learning for machine is commonly accepted, developmental robot
 
 % maturational constraints biasing and constraining learning process
 
+\transition
+
 In the next section we describe the three main learning paradigms considered nowadays: learning from extrinsic motivation, intrinsic motivation, and social interaction.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -113,16 +117,18 @@ In the next section we describe the three main learning paradigms considered now
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Learning paradigms}
 
-Hard coding control or planning solutions into robots is not a viable solution for robots that aims at entering into our daily life. Learning seems to be a more promising approach and many work have tackled this problem. Among them we can draw three main paradigms: \begin{inparaenum}[(a)] \item learning from extrinsic motivation, where an objective is given to the robot that should be either maximize or minimize \item learning from intrinsic motivation, where the robot define its own objectives, and \item social learning, where a social agent which as already acquired some skills helps an other agent to acquired the same skills, it is characterized by a tight interaction loop between the two partners. \end{inparaenum}. The following subsections provide a small introduction to the three paradigms.
+Hard coding control or planning solutions into robots is not a viable solution for robots that aims at entering into our daily life. Learning seems to be a more promising approach and many work have tackled this problem. Among them we can draw three main paradigms: \begin{inparaenum}[(a)] \item learning from extrinsic motivation, where an objective is given to the robot that should be either maximize or minimize, \item learning from intrinsic motivation, where the robot define its own objectives, and \item social learning, where a social agent which as already acquired some skills helps an other agent to acquired the same skills, it is characterized by a tight interaction loop between the two partners. \end{inparaenum} The following subsections provide a small introduction to the three paradigms.
 
 \subsection{Learning from human defined objective function: extrinsic motivation}
 
-Extrinsic motivations are driven by external rewards or punishments which arise from outside of the robot own control. It is a measure of fitness with respect to a given objective. For robots, these functions are usually defined by the engineer and the role of the learning system is learn to optimize them using its acting possibilities. It can be a hard-coded pain like punishment useful for the robot to learn to avoid braking itself, or a reward proportional to the position shift of the robot with respect to a predefined path to follow, or a boolean stating if a task is correctly executed or not.
+Extrinsic motivations are driven by external rewards or punishments which arise from outside of the robot own control. It is a measure of fitness with respect to a given objective. For robots, these functions are usually defined by the engineer and the role of the learning system is to learn to minimize or maximize them. It can be a hard-coded pain like punishment useful for the robot to learn to avoid braking itself, or a reward proportional to the position shift of the robot with respect to a predefined path to follow, or a boolean stating if a task is correctly executed or not.
 
-the robot does the job and explore
-Well known results include hand writing recognition, scene analysis on the perceptual learning side and on the task learning side. some robot example.
-reinforcement learning
+Famous example included autonomous chess players, 
 
+
+Most of the nowadays algorithm use gradient based algorithm which allow to follow the slope of the fitness function until a local extrema is found. Some method ensure a convex fitness function which ensure the extrema is global, other methods must start from different ``location'' on the fitness function to maximize their chances of finding the global extrema. 
+
+cite swarm optimization, gradient descent, newton descent ...
 
 \subsection{Self-directed learning: intrinsic motivation}
 
@@ -131,20 +137,62 @@ Intrinsic motivations are driven by an interest in the activities for their own 
 As for extrinsic motivation the robot does the job and explore
 
 \subsection{Learning from others: social interaction}
+\label{sec:intro:paradigms:social}
 
-
-
-the robotis guided
-
+guided
 
 %
 In particular, such robotic systems need to be teachable by non-technical users, i.e. \textbf{programmable for new tasks in novel environments} through \textbf{intuitive, flexible and personalized interactions}. Specifically, the challenge we address in this work is how a robot learning a new task can be instructed by a human using its own preferred teaching signals, where the mapping between these signals and their meaning may be initially partially or even totally unknown to the robot (e.g. a user may use a different language, words, interjections or gestures to mean ``good'' or ``bad'' or ``turn left'').
 
-
-
 The categorization of learning paradigms above in three categories does not reflect the many subfamilies that exist between these categories, including those that are shared among categories. It is meant to situate the learning problem into a more global picture, providing some interesting pointers for the interested readers. 
 
-This thesis focus on the social learning aspects, where robots should learn by observing or being instructed by a human. Next section provide more details of the social learning literature, which we organized in three main groups: learning from human demonstrations, learning from human reinforcement, and learning from human instructions. 
+\transition
+
+This thesis focus on the social learning aspects, where robots should learn by observing or being instructed by a human. Before entering into more details about the social learning paradigms in section~\ref{sec:intro:social}, we present the three main  problems that as been identified in the machine learning literature.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Problem categories}
+
+The three main paradigms define above can be applied in many different kinds of problem. In machine learning, we can define three main categories of problem: \begin{inparaenum}[(a)] \item supervised learning, where the true nature of some data is known and is used to infer the nature of new ones, \item unsupervised learning, where some properties about raw data should be found, and \item reinforcement learning, where the system should maximize its cumulative reward \end{inparaenum}.
+
+\subsection{Supervised learning}
+
+\paragraph{Classification}
+
+particle swarm optimization
+
+\paragraph{Regression}
+
+gaussian process
+
+\subsection{Unsupervised learning}
+
+Unsupervised learning is the problem of finding hidden structure in unlabeled data. Even if there is no explicit error or reward to evaluate a potential solution, there is still predefine metrics which define what the terms \emph{structure} means. Indeed finding an hidden structure is more looking from known patterns in unlabeled data.
+
+It mostly apply in clustering task where a dataset is divided into subgroups of data which share common characteristic, such as a close proximity in the feature space. It include
+
+It also apply in feature extraction and dimensionality reduction problems where the goal is to find a better, usually more compact, representation of the data without losing some of their properties.
+
+\subsection{Reinforcement learning}
+
+Reinforcement learning is the process of learning from rewards. The goal of the robot is to take action in its environment in order to maximize the cumulative reward received during its lifetime. The environment is usually modeled as a Markov decision process (MDP) \cite{sutton1998reinforcement}. When the MDP dynamics (also called transition probabilities) and the reward function (also called transition costs or gains) is known, dynamic programming proposes a solution to the problem of finding the optimal sequence of action to maximize cumulative rewards, this sequence of action is called the optimal policy. Dynamic programming equations are Bellman equations \cite{bellman1956dynamic} and Value Iteration (VI) algorithm \cite{sutton1998reinforcement} is a dynamic programming solution to a fully define, known in advance, RL problem.
+
+But if the transition probabilities and the transition gains are unknown, like it is often in practical applications, the robot as to learn them by interacting with the environment, while trying to maximize cumulative rewards. Note that although the reward and transition probabilities are unknown they do exist and have to be learn by trying out. In that sense reinforcement learning differs from dynamic programming, as the solution will be found online, without planning before. But reinforcement learning uses learning concepts that are built on the dynamic programming, such as the SARSA (State-Action-Reward-State-Action) or the Q-learning algorithm \cite{rummery1994line,sutton1998reinforcement} that uses an update rule taking into account the observed reward instead of the true hidden one.
+
+\paragraph{On-policy vs. Off-policy} In the world of reinforcement learning there are two categories of learning, the on-policy and off-policy learning. On-policy methods, such as SARSA \cite{rummery1994line}, estimate the value function of the policy generating the data. For example, the value function of acting randomly in the environment, or of performing always the same action. Off-policy methods, such as Q-learning, estimate the value function with respect to a policy different than the one the agent is using. As an example, Q-learning \cite{sutton1998reinforcement} estimates the value function relative the greedy policy.
+
+\paragraph{Exploration vs. Exploitation} 
+The goal of the agent is to maximize a cumulative reward and it might believe that a particular action in a particular state has a fairly high payoff probability. Should it choose that action all the time, or should it choose try to explore other states that may reward more? And the more time spent in exploring, the less time spent in collecting rewards, this is called the exploration vs. exploitation trade-off. 
+
+Solutions to this problem depend on how long the robot is expected to play the game; the longer the game lasts, the worse the consequences of prematurely converging to a sub-optimal solution, and the more the robot should explore. It has been thoroughly studied through the multi-armed bandit problem \cite{berry1985bandit,audibert2009exploration}. Simple but successful methods for tackling the exploration vs. exploitation trade-off in reinforcement learning include the epsilon-greedy, softmax \cite{sutton1998reinforcement}, and R-max \cite{brafman2003r} methods. Curiosity based exploration \cite{schmidhuber1991curious,storck1995reinforcement,barto2004intrinsically,singh2005intrinsically} was also considered as well as method to learn or adapt the exploration strategies online \cite{mahmood2012tuning,Hester13aamas}.
+
+\transition
+
+In next section we provide more details of the social learning literature paradigms presented in section~\ref{sec:intro:paradigms:social}, which we organized in three main groups: learning from human demonstrations, learning from human reinforcement, and learning from human instructions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -152,7 +200,7 @@ This thesis focus on the social learning aspects, where robots should learn by o
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Robot Learning from Humans}
-
+\label{sec:intro:social}
 
 Next section provide more details of the social learning literature, which we organized in three main groups: learning from human demonstrations, learning from human reinforcement, and learning from human instructions. 
 
