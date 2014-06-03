@@ -121,7 +121,7 @@ Hard coding control or planning solutions into robots is not a viable solution f
 
 \subsection{Learning from human defined objective function: extrinsic motivation}
 
-Extrinsic motivations are driven by external rewards or punishments which arise from outside of the robot own control. It is a measure of fitness with respect to a given objective. For robots, these functions are usually defined by the engineer and the role of the learning system is to explore the environment and learn to minimize or maximize them. It can be a hard-coded pain like punishment useful for the robot to learn to avoid braking itself, a reward proportional to the position shift of the robot with respect to a predefined path to follow, or a boolean stating if a task is correctly executed or not. Famous example included autonomous chess players \cite{newborn1997kasparov} and self-driving cars \cite{montemerlo2008junior}.
+Extrinsic motivations are driven by external rewards or punishments which arise from outside of the robot own control. It is a measure of fitness with respect to a given objective. For robots, these functions are usually defined by the engineer and the role of the learning system is to explore the environment and learn to minimize or maximize them. It can be a hard-coded pain like punishment useful for the robot to learn to avoid braking itself, a reward proportional to the position shift of the robot with respect to a predefined path to follow, or a boolean stating if a task is correctly executed or not. Famous examples include autonomous chess players \cite{newborn1997kasparov} and self-driving cars \cite{montemerlo2008junior}.
 
 To maximize of minimize a fitness function, most of the algorithm rely on gradient based methods which allow to follow the slope of the fitness function until a local extrema is found. Some method ensure a convex fitness function which guarantee the extrema is global, other methods use a more global search, starting from different ``location'' on the fitness function to maximize their chances of finding the global extrema. Among others, we can refer to gradient descent (first order), newton's method (second order) \cite{battiti1992first}, but also to more global search algorithm such as particle swarm optimization \cite{kennedy1995particle,poli2007particle} or genetic programming \cite{goldberg1989genetic,nolfi1994evolve}.
 
@@ -138,13 +138,13 @@ For a robots to be able to help in our daily activities, it should learn to perf
 
 A good opportunity is to rely on the knowledge human already have on most situation of our daily life. On this basis, researcher investigate how a skill can be transfered from a human to a robot, this field of research is called social learning \cite{nehaniv2007imitation}. This field aims to create robotic systems teachable by non-technical users, i.e. \textbf{programmable for new tasks in novel environments} through \textbf{intuitive, flexible and personalized interactions}. Social learning allow to guide the robot towards correct learning situation, by, for example, providing good demonstrations of the task or assessing the robot actions.
 
-This thesis focus more on the social learning paradigm, where two partners should interact together in order to fulfill a common goal. We will enter into more detail about social learning in robots in section~\ref{sec:intro:social}, where we will identify three main social learning paradigms: \begin{inparaenum}[(a)] \item learning from human demonstration, where the robot learns by imitating the human actions, \item learning from human reinforcement, where the robot learn from assessments on its own actions provided by the user, and \item learning from instructions, where the robot learn from concrete instruction about what do to next provided by the user. \end{inparaenum}
+This thesis focus more on the social learning paradigm, where two partners should interact together in order to fulfill a common goal. We will enter into more detail about social learning in section~\ref{sec:intro:social}, where we will identify three main social learning paradigms: \begin{inparaenum}[(a)] \item learning from human demonstration, where the robot learns by imitating the human actions, \item learning from human reinforcement, where the robot learn from assessments on its own actions provided by the user, and \item learning from instructions, where the robot learn from concrete instruction about what do to next provided by the user. \end{inparaenum}
 
 \transition
 
 The categorization of learning paradigms above in three categories does not reflect the many subfamilies that exist between these categories, including those that are shared among categories. It is meant to situate the learning paradigms into a more global picture, providing some interesting pointers for the interested readers. 
 
-This thesis focus on the social learning aspects, where robots should learn by observing or being instructed by a human. Before entering into more details about the social learning paradigms in section~\ref{sec:intro:social}, we present the three main  problems that as been identified in the machine learning literature.
+This thesis focus on the social learning aspects, where robots should learn by observing or being instructed by a human. Before entering into more details about the social learning paradigms in section~\ref{sec:intro:social}, we present three main problems identified in the machine learning literature.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -153,44 +153,31 @@ This thesis focus on the social learning aspects, where robots should learn by o
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Problem categories}
 
-The three main paradigms define above can be applied in many different kinds of problem. In machine learning, we can define three main categories of problem: \begin{inparaenum}[(a)] \item supervised learning, where the true nature of some data is known and is used to infer the nature of new ones, \item unsupervised learning, where some properties about raw data should be found, and \item reinforcement learning, where the system should maximize its cumulative reward \end{inparaenum}.
+The three main paradigms define in previous section can be applied in many different kinds of problem. In machine learning, we can define three main categories of problem: \begin{inparaenum}[(a)] \item supervised learning, where the true nature of some data is known and is used to infer the nature of new ones, \item unsupervised learning, where some properties about raw data should be found, and \item reinforcement learning, where the system should maximize its cumulative reward. \end{inparaenum}
 
 \subsection{Supervised learning}
 
-Supervised learning is the problem of inferring a model from labeled training data. The inferred model can later be used for mapping new examples. It requires the learning algorithm to generalize from the training data to unseen situations.
+Supervised learning is the problem of inferring a model from labeled training data. The inferred model can later be used for mapping new examples. It requires the learning algorithm to generalize from the training data to unseen situations. Most of the supervised learning problem are of two type: \begin{inparaenum}[(a)] \item classification problem, where the algorithm should differentiate example in categories, and \item regression problems, where the algorithm should estimate the relationship among variables.\end{inparaenum}
 
 \paragraph{Classification}
 
-Classification is the problem of identifying to which of a set of categories, called class, a new observation belongs. The training data are composed of a pair of input object, usually a a feature vector, and its associated class. As a example, the well known MNIST database of handwritten digits \cite{lecun1998mnist} is composed of raw images of handwritten digits (between 0 and 9) paired with their associated symbolic digit. From a database composed of many such examples, the supervised learning algorithm should return a function able to predict the class, e.g. the digit, corresponding to a new raw digit image.
+Classification is the problem of identifying to which of a set of categories, called class, a new observation belongs. The training data are composed of a pair of input object, usually a a feature vector, and its associated class. As a example, the well known MNIST database of handwritten digits \cite{lecun1998mnist} is composed of raw images of handwritten digits paired with their associated symbolic digit. From a database composed of many such examples, the supervised learning algorithm should return a function able to predict the class, e.g. the digit, corresponding to a new raw digit image. Among others, classification algorithms include logistic regression, support vectors machines, or neural networks \cite{bishop2006pattern}. Some application domains are handwritten recognition for automatic mail direction \cite{plamondon2000online}, detecting cars and bicycle from Lidar sensors \cite{himmelsbach2008lidar}, or classifying aggregate of cells as cancerous or not \cite{furey2000support}.
 
-SVM
+\paragraph{Regression} 
 
+Regression is the problem of estimating relationships among variables. Regression analysis is used to predict the value of some variables conditionally to the values of other variables, and to explore the forms of these relationships. Most of the regression algorithms, such as linear regression \cite{bishop2006pattern}, are parametric. It means that the fitted model is defined in terms of a finite, pre-defined number of parameters whose value should be estimated from the observation. Fitting a fixed function from a dataset is not always convenient as one would like to known the uncertainty of the predicted value. Therefore a common practice is to describe the regression function as a probability distribution, such as when using Gaussian process for regression \cite{rasmussen2006gaussian}. An application domain is inverse kinematics learning \cite{d2001learning}, where a robot should for example learn the mapping between its motor configuration and the spacial position of the tip of its arm.
 
+\paragraph{} The purpose of fitting a model on data is to be able to prediction. The fitted model should therefore generalize to previously unseen situation. An algorithm that match too closely with the observed data is likely to describe random measurement error and may not generalize well. This problem is called over-fitting and usually appears when the model to fit is too complex or when the number of observation is small with respect to the number of parameters in the model. The opposite of over-fitting is called under-fitting and correspond to a model that generalize too much, usually using a simplistic model with too few parameters, such as using a linear function to model a quadratic function.
 
-
-\paragraph{Regression}
-
-Regression is the problem
-
-gaussian process
-
-
-
-
-Over-fitting
-Under-fitting, too much generalization
-
-
-
-To evaluate the quality of a supervised learning algorithm, e.g. how accurately a classifier will perform in practice, it should be tested on previously unseen data that were not part of the training examples. A well known method is called cross-validation \cite{kohavi1995study}. It involves partitioning an initial dataset into several different subsets and using some of the subset(s) to train the classifier (called the training set) and testing the classifier on the remaining subset(s) (called the test set). To reduce variability, the process can be repeated with other subsets or combination of subsets. A classic approach is called ten-fold cross-validation and consist of splitting the original dataset in ten subsets, use nine in the training set, and the remaining one into the test set. As there is ten subsets, the process is repeated ten times and results averaged across over the rounds.
+To evaluate the quality of a supervised learning algorithm with respect to over- and under-fitting, e.g. how accurately a classifier will perform in practice, it should be tested on previously unseen data that were not part of the training examples. A well known method is called cross-validation \cite{kohavi1995study}. It involves partitioning an initial dataset into several different subsets and using some of the subset(s) to train the classifier (called the training set) and testing the classifier on the remaining subset(s) (called the test set). To reduce variability, the process can be repeated with other subsets or combination of subsets. A classic approach is called ten-fold cross-validation and consist of splitting the original dataset in ten subsets, use nine in the training set, and the remaining one into the test set. As there is ten subsets, the process is repeated ten times and results averaged over the rounds.
 
 \subsection{Unsupervised learning}
 
 Unsupervised learning is the problem of finding hidden structure in unlabeled data. Even if there is no explicit error or reward to evaluate a potential solution, there is still predefined metrics which define what the terms \emph{structure} means. Finding an hidden structure is more looking from known patterns in unlabeled data.
 
-It mostly apply in clustering task where a dataset is divided into subgroups of data which share common characteristic, such as a close proximity in the feature space. It include
+It mostly applies in clustering task where a dataset is divided into subgroups of data which share common characteristic, such as a close proximity in the feature space. Among others, clustering algorithm include k-means and its generalized form the expectation maximization for Gaussian mixture \cite{dempster1977maximum}. Clustering method are widely used in recommender systems, especially in nowadays social networking service to identify group of users from a huge pool of user profile \cite{sarwar2002recommender}.
 
-It also apply in feature extraction and dimensionality reduction problems where the goal is to find a better, usually more compact, representation of the data without losing some of their properties.
+It also applies in feature extraction and dimensionality reduction problems where the algorithm should find a better, usually more compact, representation of the data without losing some of their properties. Among others algorithm, we can refer to principal component analysis (PCA) which linearly project a dataset into a subspace where dimension are minimally correlated \cite{jolliffe2005principal}. The new dimensions are called principal components. Linear projections are not always well suited for reducing dimensionality of some datasets which may lie on a non-linear manifold. Among others, non-linear dimensionality reduction algorithms include self-organizing map (SOM) \cite{kohonen2001self} which can be considered as the non-linear generalization of PCA.
 
 \subsection{Reinforcement learning}
 
