@@ -231,61 +231,48 @@ Other sources of information have been used to infer which parts of a demonstrat
 
 This latter issue is referred as the correspondence problem \cite{nehaniv2002correspondence}, which the problem of mapping between the demonstrator and the imitator. This problem is obvious between a human and a robot which do not share the same body characteristic, but it also apply between two human being that do not share the exact same morphology (size, strength) but also the same sensing abilities as our individual sensory experience are certainly not experienced the same way.
 
-At the motor level, we experience this problem often in our daily life. For example we need to inform someone else that some eyelid fall on his/her cheek, we often mimic the action of removing the eyelid. But, due to the mirror effect, if I mimic removing the eyelid on my left cheek, does it means the person has one on its left or right cheek. Not surprisingly this problem applies to human-robot interaction too. Some work have addressed this question by for example having a robot imitating body posture of a human demonstrator. To do so the robot can not reproduce the angle between each articulation as the resulting posture is likely to be different but more importantly the robot is likely to lose its balance and fall. The problem is therefore for the robot to copy the human posture as closely as possible while maintaining its balance \cite{hyon2007full,yamane2009simultaneous}. 
+% we experience this problem often in our daily life. For example when we need to inform someone else that some eyelid fall on his/her cheek, we often mimic the action of removing the eyelid. But, due to the mirror effect, if I mimic removing the eyelid on my left cheek, does it means the person has one on its left or right cheek. Not surprisingly this problem applies to human-robot interaction too. S
 
-At the sensory level, a typical example is for two agent to agree on the name of specific colors. Considering two robots with different cameras, how can they communicate, and agree on, they respective perception. Several theoretical work have addressed this issue \cite{cangelosi2001adaptive,steels2005coordinating} that are closely related to language acquisition problems which we will discuss in next chapter \ref{sec:related:language}.
+At the motor level, some work have addressed this question by for example having a robot imitating the body posture of a human demonstrator. To do so the robot can not reproduce the angle between each articulation as the resulting posture is likely to be different but more importantly the robot is likely to lose its balance and fall. The problem is therefore for the robot to copy the human posture as closely as possible while maintaining its balance \cite{hyon2007full,yamane2009simultaneous}. 
+
+At the sensory level, a typical example is for two agent to agree on the name of specific colors. Considering two robots with different cameras, how can they communicate and agree on they respective perception. Several theoretical work have addressed this issue \cite{cangelosi2001adaptive,steels2005coordinating} that are closely related to language acquisition problems which we will discuss in chapter \ref{sec:related:language}.
 
 \end{itemize}
 
-solve in practice by telling the robot which part of the demonstration matters. and which user should be look at
+Those four questions remains widely open challenges and are solved in practice by constraining the interaction between the human and the robot and by defining in advance what is relevant in the demonstration. In many cases the demonstration are even collected beforehand and sent to the learning algorithm in a batch way.
 
-mixture model \cite{calinon07} 
-or regression methods \cite{calinon07,chernova09jair}.
+Algorithms for learning by demonstration include regression methods based on mixture models that allow to generalize trajectories from examples \cite{calinon07}. Inverse reinforcement learning \cite{Abbeel04icml} is an other popular method that is looking for the hidden reward function the demonstrator is trying to optimize based on the provided demonstration.
 
-IRL \cite{Abbeel04icml} 
-
-IRL is solving jointly the What to imitate and How to imitate problems
-
-One of the most impressive achievement of the past decade is the learning of aerobatic helicopter flight. Demonstration were provided by an expert pilot teleoperating, i.e. flying, the helicopter to help finding the helicopter dynamics and the fitness function corresponding to different maneuver such as flip, roll, tail-in and nose-in funnel \cite{abbeel2007application}.
-
-information about the task representation \cite{macl07affimit},
-demonstration data using reinforcement learning \cite{thomaz2008teachable}, inverse reinforcement learning \cite{macl07affimit,Abbeel04icml} or regression methods \cite{calinon07,chernova09jair}.
+One of the most impressive achievement of the past decade used inverse reinforcement learning methods for the learning of aerobatic helicopter flight. Demonstration were provided by an expert pilot teleoperating, i.e. flying, the helicopter to help finding its dynamics and the fitness function corresponding to different maneuvers such as flip, roll, tail-in and nose-in funnel \cite{abbeel2007application}.
 
 \subsection{Learning from human reinforcement}
 
-An other way to help a robot improve its performance on a specific skill is to provide him with some feedback on its performance. This social learning paradigm has share many aspects with the reinforcement learning problem, however the human component create more ambiguous situation. As an example, the feedback signal is frequently ambiguous and deviates from the strict mathematical interpretation of a reward used in reinforcement learning \cite{thomaz2008teachable,Cakmak2010optimality}.
+An other way to help a robot improves its performance on a specific skill is to provide some feedback on its actions. This social learning paradigm has share many aspects with reinforcement learning problems, however the interactive component create more ambiguous situation. 
 
+As for learning from demonstration, the robot should be able to infer to which part of its past actions the human feedback relates to, but may also need to differentiate between different levels of feedback as some actions may be mandatory to complete the task while others may just be preferences from the users. In addition the user could make mistakes in its assessment or may not perceive the problem as it is modeled by the robot, therefore making inconsistent feedback. As an example, it has been shown that feedback signals from human is frequently ambiguous and deviates from the strict mathematical interpretation of a reward used in reinforcement learning \cite{thomaz2008teachable,Cakmak2010optimality}.
 
-reinforcement learning \cite{thomaz2008teachable}
+Therefore, while reinforcement learning algorithm as been initial used for robot learning from human generated rewards \cite{thomaz2008teachable}, more recent works started to investigate how to learn the way the human are providing feedback \cite{knox2009interactively}. I would actually argue that learning from human reinforcement is more related to inverse reinforcement learning than to reinforcement learning. Indeed, the goal of the robot should better be to find the hidden reward function that explains the assessment of the human teacher than to maximize the rewards, or positive assessments, given by the user. We will enters those issues into more details in the next chapter.
 
-cite knox
-
-We could actually consider that learning from human reinforcement is more related to inverse reinforcement learning that reinforcement learning. By considering actions, or sequences of actions, that are positively assessed as being correct demonstration. The robot goal is to find the hidden reward function that explains the assessment of the human teacher.
-
-
-correct of incorrect demonstration
-and negative assessements of an action or sequence of actions as
-
-
-In fact, and this my own interpretationIRL
-is the reinforcement learning rewarding for trying,
+As for learning from demonstration, most of the current works consider predefined and restricted interaction so as to be able to map easily the human reinforcement with the robot's actions.
 
 \subsection{Learning from human instructions}
 
-IRL
+Providing feedback to the robot becomes restrictive as the space of possibles grow. If the robot has to try out all the possible actions before finding the ones that elicit a positive feedback, the interaction is doomed to fail; especially for sequential problems such as chess or video games. For such cases it would be better if the human teacher could provide instruction directly to the robot.
+
+
+learning by reading instruction books
 is the instruction for what I should do next, what I should have done before, in which referential this applies for directional
 usually solves by defining that and asking the user to conform to the convention
 
-It often apply to robot that are already equipped with planning skills but were a fitness function is hard to define, or when the search space is too big to be explored efficiently.
+Due to the high-level nature of concrete instruction, learning from instruction is often applied with robots that are already equipped with planning skills. But were a fitness function is hard to define, or when the search space is too big to be explored efficiently.
 
-As for learning from demonstration or learning from human reinforcement, learning from instructions could also be considered as an inverse reinforcement learning problem. By considering instruction as possible demonstrations, the robot goal is to find the hidden reward function that explains the instruction of the human teacher.
+As for learning from demonstration or learning from human reinforcement, learning from instructions could also be considered as an inverse reinforcement learning problem. One way is to consider instruction as demonstration, another way is to formulate the problem such that the robot's goal is to find the hidden reward function that explains the instruction of the human teacher.
 
-
-
+As for other methods, most of the current works consider predefined and restricted interaction so as to be able to map easily the human instruction with the current important aspect of the environment and of the interaction.
 
 \transition
 
-shared attention
+shared attention far from reach but people in interactive learning are trying to integrate the human component in the loop
 
 this separation between the section and interactive learning is a bit arbitrary, we jsut want to highlight the fundamental difference between system that from prerecordeed, artificial interaction with human and those in close interaction.
 
@@ -301,7 +288,7 @@ In line with Tomasello's views (Tomasello, 1995, Tomasello et al., 2004), we arg
 
 skills to understand, manipulate and coordinate attentional behavior 
 
-
+\transition
 
 The categorization of learning paradigms above in three categories does not reflect the many subfamilies that exist between these categories, including those that are shared among categories. It is meant to situate the social learning problem in a more global picture, providing some interesting pointers for the interested readers. 
 
@@ -317,6 +304,10 @@ before the learning phase. The properties of teaching interactions with a human 
 
 bootstrapping further intrinsically motivated learning \cite{nguyen2011bootstrapping}
 not a passive absorber of knowledge
+
+
+A typical example, that I heard from Thomas Cederborg, is the case of a cleaning robot that could
+
 
 demonstration, human generated reward
 
