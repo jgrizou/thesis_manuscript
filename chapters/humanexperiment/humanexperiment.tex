@@ -6,21 +6,12 @@
 \label{chapter:humanexperiment}
 \minitoc
 
-ICDL paper with Anna-Lisa Vollmer and K.J. Rohlfing.
 
-Context - Why now: We define a new challenge of interaction without pre-coordination for robot but does human can do this? A lot of work has been done in teaching devices from human instruction. However very few experiments considered the option to put a human in place of the robot with the quite restricted perception and/or capabilities, as robot have currently.
+In previous chapters, we defined a new challenge of interaction without pre-coordination for human-robot interaction scenario. But can human solve this problem in a human-human interaction scenario?
 
-Need - Why the reader: We study the effect of how the H-H partners manage to work together.
+We start by describing the challenges related to this question that arise mainly from the language acquisition community, and present some related work. Then, we present our experimental setup to investigate the processes used by humans to negotiate a protocol of interaction, when they do not already share one. We took inspiration from the constraints inherent to human-robot interaction, such as restricted perception and communication abilities. The task is a joint construction task in which participants assume asymmetric roles. Our experiments show that participants manage to successfully interact and understand each other. They usually rely on stereotyped situations to synchronize their communication and intended meanings. We identified that some situations types are more recurrent and more easily understood than others. We further introduce the terms of interaction frame, which represent a schema of interpretation given a particular situation or event. Then, based our observations, we take some lessons which could be applied to human-robot interaction scenario. Among them, we observed participants generated interpretation hypothesis of the communicative signals and tested their hypothesis on further interaction. This process, linked with the interaction frame concept, will be the basis for the development of following chapters. 
 
-Task - Why us: We performed an experiment where two user have asymmetric role and restricted communication
-
-Object- Why this chapter: The following chapters presents in more detailed the related work concerning human experiments, the settings and interaction protocol.
-
-Findings - What: We show that people manage to successfully interact and find out that they usually try to frame the interaction into universally known interaction patterns. We introduce the terms of interaction frame here. And find out that some frame are more recurrent and easily understood than the others. They solve the problem by hypothesizing on what the user would want to say in a given situation and match with the history of event for each button. Hypothesis generation and testing.
-
-Conclusions - So what: Based on such observations, we could imagine a robot that is equipped with one or several interaction frame and try to find out what signal means what based on the history of interaction.
-
-Perspectives - What now: We should now study if this approach could work in practice.
+This work is a collaboration with Anna-Lisa Vollmer and Katharina J. Rohlfing.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -29,19 +20,17 @@ Perspectives - What now: We should now study if this approach could work in prac
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-\textbf{Studying the Co-Construction of Interaction Protocols in Collaborative Tasks with Humans}
+\question{Studying the Co-Construction of Interaction Protocols \\ in Collaborative Tasks with Humans}
 
 Recent research on robot learning in the field of developmental robotics has begun to take into account the feedback of a human tutor in social interaction \cite{breazeal2004tutelage}. Let's consider the overall goal of developing a robot system which should learn from and interact with non-expert users. Without assuming that the robot understands human feedback (i.e., without programming the information on how and when feedback is given into the robot system beforehand) how should the system understand what the signals it perceives mean and what they are referring to (cf. Gavagai problem \cite{quine1964word})?
 
-In interaction, humans align and effortlessly, maybe even automatically, create common ground in communication \cite{clark1991grounding,pickering2004toward}. For this, they dispose of an immense amount of shared information. They make use of frames and interaction protocols established in the history of interaction. Frames create a common ground about the purpose of the interaction \cite{tomasello2009cultural,rohlfing2013learning} and include ``predictable, recurrent interactive structures'' (\cite{ninio1996pragmatic}, p. 171). Frames thus provide interactants with guidelines about how to behave (a protocol for interaction) and also help interactants to understand the communicative intentions of their interaction partner. Interaction protocols comprise basic behavioral patterns like roles, turns, timing, and exchange mechanisms.
-We aim at investigating how these interaction protocols emerge, because it would shed light on the basic mechanisms underlying interaction and inform us about what are the main issues in building robots capable of a similar interactional flexibility as the one humans possess. We are for instance interested in what kind of strategies humans use to align and what kind of meanings of social signals they converge to. Whereas, in the long run, the obtained findings could be used as priors for a robotic system interacting with humans, in an initial step, we first need to conduct research into how interaction protocols are negotiated in human-human interaction.
+In interaction, humans align and effortlessly, maybe even automatically, create common ground in communication \cite{clark1991grounding,pickering2004toward}. For this, they dispose of an immense amount of shared information. They make use of frames and interaction protocols established in the history of interaction. Frames create a common ground about the purpose of the interaction \cite{tomasello2009cultural,rohlfing2013learning} and include ``predictable, recurrent interactive structures'' (\cite{ninio1996pragmatic}, p. 171). Frames thus provide interactants with guidelines about how to behave (a protocol for interaction) and also help interactants to understand the communicative intentions of their interaction partner. Interaction protocols comprise basic behavioral patterns like roles, turns, timing, and exchange mechanisms. We aim at investigating how these interaction protocols emerge, because it would shed light on the basic mechanisms underlying interaction and inform us about what are the main issues in building robots capable of a similar interactional flexibility as the one humans possess. We are for instance interested in what kind of strategies humans use to align and what kind of meanings of social signals they converge to. Whereas, in the long run, the obtained findings could be used as priors for a robotic system interacting with humans, in an initial step, we first need to conduct research into how interaction protocols are negotiated in human-human interaction.
 
 
 However, unlike humans who assume an immense amount of shared information, a robot system cannot rely on already established protocols for interacting. This is because, on the one hand, little is known about the universal interaction protocols humans rely on in communication and on the other hand, human-robot interaction (HRI) is still very different from human-human interaction, as it is clearly characterized by asymmetry and restrictedness in the sense that the human and the robot in general do not have the same abilities, modalities, mechanisms, and body for communication, perception and action \cite{lohse2010investigating}. For example, a robot that does not have arms cannot gesture, a robot without the respective algorithms or sensors does not perceive gaze direction or understand speech commands, and without any knowledge of internal computational mechanisms it is difficult to assess how a robot perceives its interaction partner and his/her actions. It is thus important that robots are able to negotiate meaning online with their interaction partners.
 
 
-We designed an experimental setup with which we aim at investigating the processes used by humans to negotiate a protocol of interaction, when they do not already share one. 
-In the current paper, we present and justify the method used and mention the very first preliminary results obtained from a pilot study employing the setup.
+We designed an experimental setup with which we aim at investigating the processes used by humans to negotiate a protocol of interaction, when they do not already share one. In the current paper, we present and justify the method used and mention the very first preliminary results obtained from a pilot study employing the setup.
 
 Humans and robots view the world differently, so if we want to transfer our results to human-robot interaction (HRI), we should not assume that in the interactions we want to investigate, the partners see the world/interaction in the same way. To investigate the process of negotiating an interaction protocol, we thus consider a setup of a joint construction task in which participants assume asymmetric roles: the role of a builder and the role of an architect. With building blocks, the builder should assemble a target structure which is unknown to him/her but which the architect knows. This collaborative construction task with a joint goal renders the communication between participants indispensable and thus the game is not solvable by either one of the participants alone, e.g. with mere exploration. Thus, failing to complete the game successfully is equivalent to failing to communicate successfully.
 Communication is not face-to-face but channels are restricted, so that it is not possible for participants to communicate via familiar verbal or non-verbal communication channels, as for example speech or gestures. At the same time, the setup does not constrain all aspects of communication and thereby gives participants much freedom with respect to some features, including timing and rhythm or possible meanings (e.g. of button presses). The setup does not impose a predefined sequence of interaction upon participants, as it is often done in HRI scenarios \cite{akgun12hri}, but still benefits from a laboratory setting in which we do not need to take the full complexity of natural social interaction into account. With the aim to simulate the sending of signals to an interaction partner who does not have the same perceptual capabilities -- similar as in an interaction with a robot -- in our study the architect does not know how exactly his/her signals are perceived by the builder. For the successful completion of the thus highly challenging joint task of the game, both participants have to learn how to interact with each other. 
@@ -75,7 +64,8 @@ De Ruiter et al. found that participants succeeded $83\%$ of the time and that t
 
 The setup of the study conducted by Griffiths et al. \cite{griffiths2012bottom} is more directly related to our setup. 
 It is based on the alien world game setup by Morlino et al., in which in a square world shown on a computer screen, positions (left or right) and movements (shake horizontally or shake vertically) of 16 objects have to be explored via a mouse to maximize a score \cite{morlino2010developing}. It investigates the learning of categories, so the objects belonged to four categories which were defined by certain properties of the objects. Each category was associated with a target manipulation, i.e. shape and weight determined where an object should be positioned and how it should be moved. In the work by Griffiths et al. the learner could realize this task with the help of information given by a tutor who had prior knowledge about the categories the learner should explore. For this alteration, two players played the originally single player game simultaneously in separate rooms over a network connection. The computer screens in this setup additionally showed six buttons underneath the grid world. The tutor's communication to the learner consisted of the pressing and releasing of these six buttons using a keyboard. This was the only action the tutor could perform on the world.
-The authors found that tutors most commonly used yes, no and concrete instructions, such as place and shake, as signals to the learners. Negative feedback was given least often and its amount correlated with task failure. Learners who ignored less signals performed the task better.\par
+The authors found that tutors most commonly used yes, no and concrete instructions, such as place and shake, as signals to the learners. Negative feedback was given least often and its amount correlated with task failure. Learners who ignored less signals performed the task better.
+
 The main, very important difference between the two asymmetric setups described above and our setup concerns the very nature of the task. Whereas in Griffiths et al.'s study the task is solvable with mere exploration, in our setup the input of the architect is essential. The latter is also the case in the study by de Ruiter et al., but in our setup no score is displayed to either of the players who in our case are not separate learner and tutor, or receiver and sender, but they solve the task together assuming the roles of a builder and an architect. Correspondingly, in our setup, the game does not include multiple episodes or rounds but it is continuous with the builder deciding when the task is completed and the game ends. The game of the study by de Ruiter et al. is based on fixed turns which is not the case with our game, where participants can act simultaneously and react directly upon each others conduct.
 
 By designing a continuous game without displaying a score, interaction remains natural (i.e., free) to a high degree. 
@@ -90,8 +80,6 @@ This difference should also minimize the use of simple iconic feedback (as for e
 % - no rounds, continuous
 % - restricted communication
 % - awareness about presentation of actions
-
-\subsection{Experimental semiotic}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -109,7 +97,7 @@ This section describes the details of the experimental setup, the participants w
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.7\columnwidth]{\imgpath/setup_normal_video_one_column.png}
+\includegraphics[width=0.68\columnwidth]{\imgpath/setup_normal_video_one_column.png}
 \caption{Schematic view of our experimental setup. An architect (bottom) and a builder (top) should collaborate in order to build the construction target while located in different rooms. The architect has a picture of the targeted construction, while the builder has access to the construction blocks. The communication between them is restricted. The architect only sees a top view of the builder's workspace and can communicate with the builder only though the use of 10 buttons which, when pressed, display symbols on a screen on the builder side.}
 \label{fig:overviewsetup}
 \end{figure}
@@ -123,38 +111,42 @@ The goal of the game is to assemble a specific construction yet unknown to the b
 \centering
 \begin{subfigure}[b]{0.49\columnwidth}
           \centering
-          \includegraphics[width=\columnwidth]{\imgpath/box.jpg}
+          \includegraphics[height=3cm]{\imgpath/box.jpg}
           \caption{The box and the buttons used as an interface for the architect to communicate with the builder.}
           \label{fig:box}
 \end{subfigure}
 \begin{subfigure}[b]{0.49\columnwidth}
           \centering
-          \includegraphics[width=\columnwidth]{\imgpath/bricks.png}
+          \includegraphics[height=3cm]{\imgpath/bricks.png}
           \caption{All toy blocks used in the collaborative construction task.}
           \label{fig:bricks}
 \end{subfigure}
-\caption{stuff}
+\caption{Elements of the setup.}
 \label{fig:stuff}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
-    \begin{subfigure}[b]{0.49\columnwidth}
-          \centering
-          \includegraphics[width=\columnwidth]{\imgpath/struct1.png}
+    \begin{subfigure}[b]{0.24\columnwidth}
+        \centering
+        \includegraphics[height=3cm]{\imgpath/struct1.png}
+        \caption{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.74\columnwidth}
+        \centering
+        \includegraphics[height=3cm]{\imgpath/struct2.png}
+        \caption{}
     \end{subfigure}
     \begin{subfigure}[b]{0.49\columnwidth}
-          \centering
-          \includegraphics[width=\columnwidth]{\imgpath/struct2.png}
+        \centering
+        \includegraphics[height=3cm]{\imgpath/struct3.png}
+        \caption{}
+        \label{fig:sc}
     \end{subfigure}
     \begin{subfigure}[b]{0.49\columnwidth}
-          \centering
-          \includegraphics[width=\columnwidth]{\imgpath/struct3.png}
-          \label{fig:sc}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.49\columnwidth}
-          \centering
-          \includegraphics[width=\columnwidth]{\imgpath/struct4.png}
+        \centering
+        \includegraphics[height=3cm]{\imgpath/struct4.png}
+        \caption{}
     \end{subfigure}
     \caption{Four examples of target structures presented to the architect.} 
     \label{fig:structures}
@@ -202,26 +194,27 @@ In what follows, we showcase very first results supporting our claim that our se
 \label{sec:case}
 Figure~\ref{fig:timeline} brings together information about button presses (logs), their intended and interpreted meanings (found by the experimenters from their notes and observations of logs), and the builder's actions (builder video of the construction workspace) and makes clear the bidirectionality of the interaction. On the bottom of the figure, we see that the builder proposes blocks to the architect (blocks not belonging to the target structure in black, blocks belonging to it in gray) (cf. Subsection~\ref{sec:builder}) and on the top we see how the architect responds to the builder's actions in terms of button presses and meanings. Additionally, we see how the builder interprets these signals of button presses which he/she perceives as symbols on a screen (middle timeline of button presses and meanings) and how these interpretations and believes in turn again influence what the builder does next.
 
-With respect to the meanings of the button presses, we observe the change of button meanings over the course of the interaction. The exact points in time when meaning changes occur have been matched to the button presses by hand and is therefore approximated. While this may be a problem for detailed analyses on a micro level, it is of little importance for the macro analysis presented here. During the first 4 minutes, the architect changes the intended meanings of signals many times and these meanings were not aligned with the builder's interpretation of signals. At 4 minutes, the architect presses all buttons at once, seemingly attempting to ask the builder to clear his/her mind and start over again. Right after this \emph{Reset} signal, the architect changes to one simple \emph{yes/no} strategy using button 1 and 6. On the builder's end, this Reset signal is followed by a pause of actions which hints at a direct confusion. It is only at 12 minutes into the game that the builder fully understands the intended meaning of the architect's button presses and can start joining two blocks correctly (green graph on the bottom). The experiment continues with the builder suggesting new blocks (bottom - black and gray events) and positions for new blocks (bottom - red and green events) one at a time which are validated or invalidated by the architect. After 19 minutes, the architect presses again all the buttons but this time with the aim of informing the builder that the construction is complete. The builder ended the experiment at that time. The \emph{End} signal was well interpreted by the builder as the interaction was going smoothly until that time and the few remaining blocks were rejected (bottom - black event at 19 min). The final construction was indeed the target one intended by the architect, hence resulting in a successful experiment.
-
-%concluding sentence
-Our setup allows to study the evolution of meanings associated to each button and put it in relation with the current context in the interaction.
-We find that the constraints inherent to our setup allow to analyze communication, especially the interplay of individual actions and their interactional history, as well as their concrete timing, while lowering interactional complexity and thereby reducing communicative noise.
-
-\begin{figure*}[!tb]
+\begin{figure}[!ht]
+\begin{widepage}
 \centering
-\includegraphics[width=\textwidth]{\imgpath/timeline_with_visu.png}
+\includegraphics[width=1\textwidth]{\imgpath/timeline_with_visu.png}
+\end{widepage}
 \caption{Timeline for one experiment of an architect and a builder collaborating towards building the construction target (right hand side). 
 The top and middle part show the timeline of button presses associated with the intended meaning from the architect (top) and the understood meaning from the builder (middle). There were 10 buttons, for which we logged all button presses for each experiment and here display all occurrences as colored dashes. Using the signal meanings participants reported during the game, the events are annotated with the meaning the architect intended or the builder understood. Events that are not annotated were not mentioned by the participants.
 At the bottom, the figure additionally visualizes the progress made by the builder in assembling the target structure and also shows incorrect block propositions, joining of incorrect blocks and mistakes. These events were annotated by hand using the video annotation tool ELAN developed by the Max Planck Institute for Psycholinguistics, The Language Archive, Nijmegen, The Netherlands \cite{wittenburg2006elan}. A block proposition here started, when the transportation of the block towards the workspace ended and the block lay still on the table. It ended when the block was again picked up and subsequently removed from the workspace. These presentation events were classified into correct and incorrect propositions by determining whether the proposed block was part of the target structure. Equivalently, a joining event started, when two blocks were successfully joined at either a correct or incorrect position (again depending on whether the resulting configuration was part of the target structure). It ended before the first frame in which the two previously joined blocks were again pulled apart.}
 \label{fig:timeline}
-\end{figure*}
+\end{figure}
+
+With respect to the meanings of the button presses, we observe the change of button meanings over the course of the interaction. The exact points in time when meaning changes occur have been matched to the button presses by hand and is therefore approximated. While this may be a problem for detailed analyses on a micro level, it is of little importance for the macro analysis presented here. During the first 4 minutes, the architect changes the intended meanings of signals many times and these meanings were not aligned with the builder's interpretation of signals. At 4 minutes, the architect presses all buttons at once, seemingly attempting to ask the builder to clear his/her mind and start over again. Right after this \emph{Reset} signal, the architect changes to one simple \emph{yes/no} strategy using button 1 and 6. On the builder's end, this Reset signal is followed by a pause of actions which hints at a direct confusion. It is only at 12 minutes into the game that the builder fully understands the intended meaning of the architect's button presses and can start joining two blocks correctly (green graph on the bottom). The experiment continues with the builder suggesting new blocks (bottom - black and gray events) and positions for new blocks (bottom - red and green events) one at a time which are validated or invalidated by the architect. After 19 minutes, the architect presses again all the buttons but this time with the aim of informing the builder that the construction is complete. The builder ended the experiment at that time. The \emph{End} signal was well interpreted by the builder as the interaction was going smoothly until that time and the few remaining blocks were rejected (bottom - black event at 19 min). The final construction was indeed the target one intended by the architect, hence resulting in a successful experiment.
+
+Our setup allows to study the evolution of meanings associated to each button and put it in relation with the current context in the interaction.
+We find that the constraints inherent to our setup allow to analyze communication, especially the interplay of individual actions and their interactional history, as well as their concrete timing, while lowering interactional complexity and thereby reducing communicative noise.
 
 \subsection{Meanings} 
 
 Architects and builders start the game without having agreed on specific meanings the buttons should convey. We start by studying the associated meanings obtained from our notes on signal meanings reported by builder and architect. They seemed to initially consider a large set of possible meanings, but, in the end, were able to agree primarily on only a limited number.
 
-\textbf{Types of Meanings} 
+\paragraph{Types of Meanings} 
 When analyzing the notes on the participants' explanation of signal meanings (see Subsection \ref{sec:procedure}), we identified nine different categories of meanings:
 \begin{enumerate}
     \item \textbf{Positive Feedback}
@@ -248,7 +241,7 @@ For each experiment, we determined if the architect or the builder considered ea
 
 This is in line with the findings in \cite{griffiths2012bottom}, where \emph{``yes''} and \emph{``no''} were also identified to be among the most common types of signal meanings.
 
-\textbf{Matching of meanings between architect and builder} Knowing which meaning categories were considered by each of the participants does not tell us if a particular pair of players understood each other. We therefore compared the associated meanings reported by architect and builder for all signals. Similarly to \cite{griffiths2012bottom}, we then determined the number of signals that were understood, misinterpreted, or ignored. We define signals which were understood as signals where both architect and builder agree on a common meaning. For signals which were misinterpreted, the builder reported a different associated meaning than the one the architect intended. The signals which were mentioned by the architect, but not by the builder, we counted as ignored signals. We then averaged the results for successful and failed experiments, see figure~\ref{fig:types_of_understanding}. For successful experiments, the average number of signals understood is $M = 3.6, SD = 0.7$ which mostly corresponds to \emph{Positive feedback, Negative feedback, End}, and occasionally \emph{Reset} when needed (see Figure~\ref{fig:understanding_per_feedback}). Interestingly for failed experiments, this number drops to $M = 1.3, SD = 1.1$, with a larger amount of signals misinterpreted and ignored.
+\paragraph{Matching of meanings between architect and builder} Knowing which meaning categories were considered by each of the participants does not tell us if a particular pair of players understood each other. We therefore compared the associated meanings reported by architect and builder for all signals. Similarly to \cite{griffiths2012bottom}, we then determined the number of signals that were understood, misinterpreted, or ignored. We define signals which were understood as signals where both architect and builder agree on a common meaning. For signals which were misinterpreted, the builder reported a different associated meaning than the one the architect intended. The signals which were mentioned by the architect, but not by the builder, we counted as ignored signals. We then averaged the results for successful and failed experiments, see figure~\ref{fig:types_of_understanding}. For successful experiments, the average number of signals understood is $M = 3.6, SD = 0.7$ which mostly corresponds to \emph{Positive feedback, Negative feedback, End}, and occasionally \emph{Reset} when needed (see Figure~\ref{fig:understanding_per_feedback}). Interestingly for failed experiments, this number drops to $M = 1.3, SD = 1.1$, with a larger amount of signals misinterpreted and ignored.
 
 \begin{figure}[!ht]
     \begin{center}
@@ -306,18 +299,20 @@ With respect to the other failed experiments, the structure at the time the game
 Whereas, with the current data and analysis, we cannot yet draw any conclusions, still this observation suggests that the way the builders propose next steps and ask for information from the architect is important for the success of the game. Builders seem to build frames and create slots for the architect's input. These frames form the context which shapes the interpretation of the signals. This is similar to how in other cases of asymmetric or restricted communication, as for example in interactions with preverbal infants or in interactions with impaired persons, people provide frames to understand what their interaction partners with their different or limited conversational abilities want to communicate \cite{ochs1979propositions, goodwin1995co}.
 
 \subsection{Additional Observations}
+
 This subsection briefly indicates interesting, additional observations we made with our pilot study, as well as interesting considerations for future work.
 
 First of all, we would like to state that the history of the interaction is crucial for understanding meanings. A person who has not witnessed the course of the interaction, is not able to fill in and complete the task without special instructions. We observe a phase of confusion and negotiation at the beginning of the interactions and after that a completion phase in which signal meanings have been constituted. The latter seems to be characterized by smooth, consistent patterns. In the initial phase of negotiation, we observed instances where the players adapted to their partners by changing the meaning of a button when they noticed the other player understands it differently (cf. Figure~\ref{fig:timeline} in Subsection~\ref{sec:case}). There were for example cases in which the meaning of signals meaning yes and no were reversed.
+
 In contrast, we also observed that some players, both architects and builders, insisted on their strategies, even though the interaction with their respective partner did not work, i.e. they did not agree on any meaning and the task did not progress. Thus, there seem to be leaders and followers in terms of strategies, which could be personality-dependent, but could also manifest their ability to employ a theory of mind.
 
 We also note that when builder and architect switched roles after a first round, their behaviors and performances were influenced (e.g., builder strategies were adopted across rounds). If a second round was systematically part of the experimental procedure, it would be interesting to see whether participants succeed faster in the second game they play with reversed roles and if they adopt similar strategies.
 
 Another interesting aspect concerns timing, not only at which points in time the architect gives feedback and instructions, but also the interplay between the builder's and the architect's actions. The rhythm of the interaction partners' actions might be an important low-level feature in determining whether a certain signal means positive or negative feedback.
 
-While the above points are highly relevant and worth investigating, their examination is beyond the scope of this paper and will be subject of future work.
+While the above points are highly relevant and worth investigating, their detailed examination is beyond the scope of this work.
 
-\textbf{Meaning switches and reset} During the experiment, we noticed some participants were misinterpreting a \emph{Positive feedback} as a \emph{Negative feedback} (and reversely), but most of the time they were able to detect and correct this misunderstanding. In few cases, it was the architect that inverted the meaning of the signals but in most cases it was the builder that had to reinterpret the signals, often after a \emph{Reset} instruction from the architect. The data we collected are not detailed enough for a fine-grained temporal analysis but we are able to count the number of feedback interpretation switches per run. In 5 out of 14 successful games (see Figure~\ref{fig:feedback_switch_enhanced}) the architect or the builder changed his use or interpretation of signals between positive and negative feedback.
+\paragraph{Meaning switches and reset} During the experiment, we noticed some participants were misinterpreting a \emph{Positive feedback} as a \emph{Negative feedback} (and reversely), but most of the time they were able to detect and correct this misunderstanding. In few cases, it was the architect that inverted the meaning of the signals but in most cases it was the builder that had to reinterpret the signals, often after a \emph{Reset} instruction from the architect. The data we collected are not detailed enough for a fine-grained temporal analysis but we are able to count the number of feedback interpretation switches per run. In 5 out of 14 successful games (see Figure~\ref{fig:feedback_switch_enhanced}) the architect or the builder changed his use or interpretation of signals between positive and negative feedback.
 
 \begin{figure}[!ht]
   \begin{center}
@@ -327,23 +322,21 @@ While the above points are highly relevant and worth investigating, their examin
     \end{center}
 \end{figure}
 
-\textbf{Context dependent meaning} In several cases the architect pressed all buttons to signify a salient event. This event was either perceived as a \emph{Reset} instruction if the builder felt lost or an \emph{End} instruction if the builder felt confident about his/her understanding of the previous interaction sequences. This is illustrated in figure~\ref{fig:timeline}, where at $t=200 s$, as players already tried for several iteration with no success, the architect presses all buttons to signify a \emph{Reset}. After this \emph{Reset}, a new set of symbols is used by the architect which is well understood. Finally, to signify that the construction is finished, the architect presses again all buttons simultaneously now with the intended meaning that the task is completed. As the interaction was going well, this signal was understood as a \emph{End} signal by the builder and the experiment goes to a successful end.
+\paragraph{Context dependent meaning} In several cases the architect pressed all buttons to signify a salient event. This event was either perceived as a \emph{Reset} instruction if the builder felt lost or an \emph{End} instruction if the builder felt confident about his/her understanding of the previous interaction sequences. This is illustrated in figure~\ref{fig:timeline}, where at $t=200 s$, as players already tried for several iteration with no success, the architect presses all buttons to signify a \emph{Reset}. After this \emph{Reset}, a new set of symbols is used by the architect which is well understood. Finally, to signify that the construction is finished, the architect presses again all buttons simultaneously now with the intended meaning that the task is completed. As the interaction was going well, this signal was understood as a \emph{End} signal by the builder and the experiment goes to a successful end.
 
 Taking a closer look at the failed experiments, we find that in one of them, where the builder presented one block at a time, in the end the target construction was almost finished. Architect and builder understood each other, but what happened is that an early mistake in the position of one block was not signalled and thus corrected by the architect right away. He waited until the rest of the structure was completed and then tried to address the mistake by means of the introduction of a new signal. This new signal was interpreted by the builder as an \emph{End} feedback, leading to the end of the game with one block in a position next to the target one. With respect to the other failed experiments, the structure at the time the game ended was far from the target construction and there was no noticeable progress in all three cases.
 
-\textbf{Timing} Figure~\ref{fig:timeline} can be analyse at the global scale but also at a very local one, it contains information on which feedback the architect gives to the builder at which points in time aligned with the construction progress. 
+\paragraph{Timing} Figure~\ref{fig:timeline} can be analyse at the global scale but also at a very local one, it contains information on which feedback the architect gives to the builder at which points in time aligned with the construction progress. 
 
-\textbf{Confirmation bias} Some builders were affected by the so called confirmation bias. While mistaking negative feedback for positive they were going quite far in a wrong direction, even if the signal would seem contradictory for an outside observer. It was very difficult for them to re-assess their belief, they better thought the architect was mistaking or were pursuing in a very improbable direction. I think no students were able to overcome the confirmation bias problem by themselves, leading either to a failed experiment or needed the architect to produce a salient event to reset the experiment. With the recorded data, it is unfortunately not possible to quantify this phenomenon even if the figure~\ref{fig:feedback_switch_enhanced} gives a good first intuition.
+\paragraph{Confirmation bias} Some builders were affected by the confirmation bias which is defined as ``the seeking or interpreting of evidence in ways that are partial to existing beliefs, expectations, or a hypothesis in hand'' \cite{nickerson1998confirmation}. While mistaking negative feedback for positive they were going quite far in a wrong direction, even if the signal would seem contradictory for an outside observer. It was very difficult for them to re-assess their belief, they better thought the architect was mistaking or were pursuing in a very improbable direction. I think no students were able to overcome the confirmation bias problem by themselves, leading either to a failed experiment or needed the architect to produce a salient event to reset the experiment. With the recorded data, it is unfortunately not possible to quantify this phenomenon even if the figure~\ref{fig:feedback_switch_enhanced} gives a good first intuition.
 
-\subsection{Builder Strategies}
-
-\textbf{Workspace} From the videos, we observed that many participants in the role of the builder (7 out of 17) cleaned their workspace in the beginning of the experiment, so no block is present anymore, and tried to maintain a clean workspace during the game. A clean workspace gave them a presentation space, where they could propose blocks in an unambiguous way. Two builders additionally started out with a clean workspace, but one did not remove incorrect blocks he proposed and thus did not maintain the clean workspace and the other moved all blocks in the workspace at one point in the game. Another strategy was pursued by eight builders who from the beginning kept all blocks on the workspace and therewith enabled the architect to witness the process of choice of block. Of these eight builders, three neatly ordered and aligned their blocks on the workspace and proposed one block at a time by pointing to it. The remaining five builders did not order or align the blocks in any way. These participants opened up a workspace inside the overall workspace (i.e., proposing blocks in-between or next to the rest).
+\paragraph{Workspace} From the videos, we observed that many participants in the role of the builder (7 out of 17) cleaned their workspace in the beginning of the experiment, so no block is present anymore, and tried to maintain a clean workspace during the game. A clean workspace gave them a presentation space, where they could propose blocks in an unambiguous way. Two builders additionally started out with a clean workspace, but one did not remove incorrect blocks he proposed and thus did not maintain the clean workspace and the other moved all blocks in the workspace at one point in the game. Another strategy was pursued by eight builders who from the beginning kept all blocks on the workspace and therewith enabled the architect to witness the process of choice of block. Of these eight builders, three neatly ordered and aligned their blocks on the workspace and proposed one block at a time by pointing to it. The remaining five builders did not order or align the blocks in any way. These participants opened up a workspace inside the overall workspace (i.e., proposing blocks in-between or next to the rest).
 \begin{itemize}
 \item clean workspace used as presentation space (9)
 \item all blocks in view (8) (nicely aligned (3), or not aligned (5))
 \end{itemize}
 
-\textbf{Propositions} Essentially the task consisted in two subtasks, finding correct blocks and joining them. For this, participants proposed blocks and positions of blocks in different ways. For proposing blocks in search for a correct one, builders ``present'' blocks by placing them alone on the workspace or in a separate sub-workspace, they point to the block they wish to receive feedback about, or they lift the respective block to highlight it.
+\paragraph{Propositions} Essentially the task consisted in two subtasks, finding correct blocks and joining them. For this, participants proposed blocks and positions of blocks in different ways. For proposing blocks in search for a correct one, builders ``present'' blocks by placing them alone on the workspace or in a separate sub-workspace, they point to the block they wish to receive feedback about, or they lift the respective block to highlight it.
 \begin{itemize}
 \item present
 \item point
@@ -366,8 +359,14 @@ To find at which position a specific block is correctly joined with others, the 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Lessons Learned}
 
-\subsection{Introduce interaction frame here}
-We call this problem learning from unlabelled interaction frame or joint perceptual and task learning.
+
+We presented a new experimental method which allows to study important aspects of human communication with high relevance to human-robot interaction. We show that two players that never had a chance to interact by the means of a restricted interface before were able to communicate and act upon communicative acts whose meanings were never explicitly negotiated between interaction partners. What can we learn from the experiments? How can it be used for human-robot interaction?
+
+We first introduce the concept of interaction frame, which represent a schema of interpretation given a particular situation or event, and will be an important aspect of the following discussions. We then describe the main strategy used by our participants. We highlight the active role of the builder in creating slots for the architect to provide information. And further identify the main strategy used to learn the meanings of button presses, which consist of generating interpretation hypothesis and validated them through further interactions. Finally, and based on those observations, we start defining the problem of learning from unlabeled interaction frame in more concrete terms.
+
+\subsection{Interaction frames}
+
+The first interesting fact is that, while all of participants thought the problem impossible to solve, most of them were able to successfully interact in such restricted interaction.
 
 Frames are a concept that emerges simultaneously in social theory \cite{goffman1974frame} and artificial intelligence \cite{minsky1974framework}. They represents a stereotyped situations, a schema of interpretation given a particular situation or event. It is answering the question: \emph{what is going on here ?},  in order to reduce ambiguity of intangible topics by contextualizing the information.
 
@@ -375,28 +374,29 @@ Interaction frames are the subclass of frames that account for interaction scena
 
 A simple interaction frame would be a human presenting an object to a machine at the same time as saying the name of the object. Being aware of this frame, the machine knows the utterance correspond to the name of the object (and not its shape or color). In others words the label of the speech signal is given.
 
-An unlabelled interaction frames correspond to a loosely defined interaction frame in which the interactive partners knows what kind of signal to expect but not the particular details of it. Following our example, a loosely defined frame would be cases where the signal-to-meaning classifier is unknown to the machine. What remains is the fact the interaction is constrained, and the user is known to deliver signal that correspond to desired action from the machine in order to achieve a task. In other word the label of the unknown speech signal is not explicitly given but is known to belong to one of a finite set of possible meanings.
-the human saying either the name, the color or the shape of the object.
 
-Such unlabelled interaction frame is at the core of our approach, it is assumed to be known by both the human and the machine in order for our algorithm to work. It includes both the context in which the interaction in taking place, e.g. teaching a machine which state to reach in the world, and the protocol used by the teacher to communicate to the machine, e.g. the teacher assessing machine's action.
+\subsection{Slots of interaction}
 
-The problem we want to solve resumes in trying to learn what to do without knowing what we are told to do. 
+(b) The builder's actions play an important role in the understanding of signals. Meaning is co-constructed by the interaction partners. With his/her propositions of blocks and positions, the builder provides frames in which he/she creates slots for the architect to provide information. And thus the builder's frames constitute the meaning of the architect's input to a large extent. This has also been found in asymmetric and restricted interactions with interaction partners with limited communicational abilities, as for example preverbal infants or impaired persons \cite{ochs1979propositions, goodwin1995co}. A similar mechanism of proposition in a learning robot could be a means to elicit appropriate signals from a human tutor in HRI \cite{cakmak2012designing,vollmer2014robots,cangelosi2010integration}.
 
-\subsection{So what}
+\subsection{Interpretation hypothesis}
 
-What do we learn from this? 
-How can it be used to build an algorithm?
-
-We presented a new experimental method which allows to study important aspects of human communication with high relevance to HRI.
-In a first pilot study, we show that two players that never had a chance to interact by the means of a restricted interface before were able to communicate and act upon communicative acts whose meanings were never explicitly negotiated between interaction partners. From our preliminary results, we can already suggest first implications for HRI. These implications are twofold.
-
-(a) Both builder and architect have preconceptions of what interaction frames the other player is likely to understand, trying to use or interpret signals with respect to those frames. The ``feedback frame'' seems the most commonly thought about and the easiest to understand in the context of our experiment.
+Both builder and architect have preconceptions of what interaction frames the other player is likely to understand, trying to use or interpret signals with respect to those frames. The ``feedback frame'' seems the most commonly thought about and the easiest to understand in the context of our experiment.
 
 Humans are capable of solving the kind of communication problem robots can have with humans. We have learned an interesting lesson: humans can solve such restricted asymmetric interaction problems by projecting the interaction into different common frames of interaction and selecting the one that is more coherent with the history of interaction. In this setup such an interaction frame provides information about many properties of the interaction including for example (1) a context (e.g. building something with a limited number of blocks and specific constraints (on a table, flat, \ldots)) and (2) a set of possible meanings (e.g. evaluations, guidance signals, references to colors or shapes), which we acquired from our experience interacting with others. 
 
-Based on such observations, by replacing the builder by an artificial agent (e.g. a robot), we can aim at constructing robots capable of learning a task from human instructions without programming it in advance to understand the human communicative acts and without preprogramming a specific rigid interaction protocol. To do so, we should equip our robot with a set of common interaction frames on which it can rely to find one that is coherent with the interaction history. We have begun to explore this direction using a pick and place experiment where a robot is instructed to reach a specific configuration of objects using raw vocal utterances whose mapping to their associated meaning is unknown at the beginning \cite{grizou2013robot}. We further extended this work to brain-computer interaction (BCI) scenarios enabling calibration-free BCI control of an artificial agent in a reaching task \cite{grizou2014calibration}.
-
-(b) The builder's actions play an important role in the understanding of signals. Meaning is co-constructed by the interaction partners. With his/her propositions of blocks and positions, the builder provides frames in which he/she creates slots for the architect to provide information. And thus the builder's frames constitute the meaning of the architect's input to a large extent. This has also been found in asymmetric and restricted interactions with interaction partners with limited communicational abilities, as for example preverbal infants or impaired persons \cite{ochs1979propositions, goodwin1995co}. A similar mechanism of proposition in a learning robot could be a means to elicit appropriate signals from a human tutor in HRI \cite{cakmak2012designing,vollmer2014robots,cangelosi2010integration}. 
+Based on such observations, by replacing the builder by an artificial agent (e.g. a robot), we can aim at constructing robots capable of learning a task from human instructions without programming it in advance to understand the human communicative acts and without pre-programming a specific rigid interaction protocol. To do so, we should equip our robot with a set of common interaction frames on which it can rely to find one that is coherent with the interaction history. We have begun to explore this direction using a pick and place experiment where a robot is instructed to reach a specific configuration of objects using raw vocal utterances whose mapping to their associated meaning is unknown at the beginning \cite{grizou2013robot}. We further extended this work to brain-computer interaction (BCI) scenarios enabling calibration-free BCI control of an artificial agent in a reaching task \cite{grizou2014calibration}.
 
 
-interpretation hypothesis
+\subsection{Learning from unlabeled interaction frames}
+
+
+An unlabeled interaction frames correspond to a loosely defined interaction frame in which the interactive partners knows what kind of signal to expect but not the particular details of it. Following our example, a loosely defined frame would be cases where the signal-to-meaning classifier is unknown to the machine. What remains is the fact the interaction is constrained, and the user is known to deliver signal that correspond to desired action from the machine in order to achieve a task. In other word the label of the unknown speech signal is not explicitly given but is known to belong to one of a finite set of possible meanings.
+the human saying either the name, the color or the shape of the object.
+
+Such unlabeled interaction frame is at the core of our approach, it is assumed to be known by both the human and the machine in order for our algorithm to work. It includes both the context in which the interaction in taking place, e.g. teaching a machine which state to reach in the world, and the protocol used by the teacher to communicate to the machine, e.g. the teacher assessing machine's action.
+
+The problem we want to solve resumes in trying to learn what to do without knowing what we are told to do. 
+
+We call this problem learning from unlabeled interaction frame or joint perceptual and task learning.
+

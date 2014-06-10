@@ -4,6 +4,16 @@
 \usepackage{subcaption}
 \usepackage{paralist}
 
+
+% wide page for side by side figures, tables, etc
+\usepackage{changepage}  
+\newlength{\offsetpage}
+\setlength{\offsetpage}{1.2cm}
+\newenvironment{widepage}{\begin{adjustwidth}{-\offsetpage}{-\offsetpage}%
+    \addtolength{\textwidth}{2\offsetpage}}%
+{\end{adjustwidth}}
+
+
 \usepackage{amsmath,amssymb}             % AMS Math
 % \usepackage[french]{babel}
 \usepackage[latin1]{inputenc}
