@@ -2,7 +2,7 @@
 \renewcommand{\chapterpath}{\allchapterspath/humanexperiment}
 \renewcommand{\imgpath}{\chapterpath/img}
 
-\chapter{Experiment with humans}
+\chapter{Can humans learn from unlabeled interactions}
 \label{chapter:humanexperiment}
 \minitoc
 
@@ -365,38 +365,23 @@ We presented a new experimental method which allows to study important aspects o
 We first introduce the concept of interaction frame, which represent a schema of interpretation given a particular situation or event, and will be an important aspect of the following discussions. We then describe the main strategy used by our participants. We highlight the active role of the builder in creating slots for the architect to provide information. And further identify the main strategy used to learn the meanings of button presses, which consist of generating interpretation hypothesis and validated them through further interactions. Finally, and based on those observations, we start defining the problem of learning from unlabeled interaction frame in more concrete terms.
 
 \subsection{Interaction frames}
+\label{chapter:humanexperiment:frames}
 
 The first interesting fact is that, while all of participants thought the problem impossible to solve, most of them were able to successfully interact in such restricted interaction.
 
-Frames are a concept that emerges simultaneously in social theory \cite{goffman1974frame} and artificial intelligence \cite{minsky1974framework}. They represents a stereotyped situations, a schema of interpretation given a particular situation or event. It is answering the question: \emph{what is going on here ?},  in order to reduce ambiguity of intangible topics by contextualizing the information.
+Frames are a concept that emerges simultaneously in social theory \cite{goffman1974frame} and artificial intelligence \cite{minsky1974framework}. They represents a stereotyped situations, a schema of interpretation given a particular situation or event. It is answering the question: \emph{what is going on here ?},  in order to reduce ambiguity of intangible topics by contextualizing the information. It creates a common ground about the purpose of the interaction \cite{tomasello2009cultural,rohlfing2013learning} and include ``predictable, recurrent interactive structures'' (\cite{ninio1996pragmatic}, p. 171). Frames thus provide interactants with guidelines about how to behave (a protocol for interaction) and also help interactants to understand the communicative intentions of their interaction partner.
 
-Interaction frames are the subclass of frames that account for interaction scenario. A simple interaction frame would be a human providing discrete action advice to a machine in the context of a reaching task. Being aware of this frame, the machine knows the utterances of the user correspond to action it should perform to achieve user intended goal. In task learning, such frame is often assumed to be known by both the human and the machine in addition to the signal-to-meaning classifier that translate the actual user signal into meaningful symbols.
-
-A simple interaction frame would be a human presenting an object to a machine at the same time as saying the name of the object. Being aware of this frame, the machine knows the utterance correspond to the name of the object (and not its shape or color). In others words the label of the speech signal is given.
-
+Interaction frames are the subclass of frames that account for interaction scenario. In human-robot interaction, a simple interaction frame would be a human providing discrete action advice to a robot in the context of a reaching task. Being aware of this frame, the robot knows the utterances of the user correspond to action it should perform to achieve the user intended goal. A simple interaction frame would be a human presenting an object to a robot at the same time as saying the name of the object. Being aware of this frame, the robot knows the utterance corresponds to the name of the object (and not its shape or its color). In this case, the label corresponding to the speech signal is given.
 
 \subsection{Slots of interaction}
 
-(b) The builder's actions play an important role in the understanding of signals. Meaning is co-constructed by the interaction partners. With his/her propositions of blocks and positions, the builder provides frames in which he/she creates slots for the architect to provide information. And thus the builder's frames constitute the meaning of the architect's input to a large extent. This has also been found in asymmetric and restricted interactions with interaction partners with limited communicational abilities, as for example preverbal infants or impaired persons \cite{ochs1979propositions, goodwin1995co}. A similar mechanism of proposition in a learning robot could be a means to elicit appropriate signals from a human tutor in HRI \cite{cakmak2012designing,vollmer2014robots,cangelosi2010integration}.
+The builder's actions play an important role in the understanding of signals. Meaning is co-constructed by the interaction partners. With his/her propositions of blocks and positions, the builder provides frames in which he/she creates slots for the architect to provide information. And thus the builder's frames constitute the meaning of the architect's input to a large extent. This has also been found in asymmetric and restricted interactions with interaction partners with limited communicational abilities, as for example preverbal infants or impaired persons \cite{ochs1979propositions, goodwin1995co}. A similar mechanism of proposition in a learning robot could be a means to elicit appropriate signals from a human tutor in HRI \cite{cakmak2012designing,vollmer2014robots,cangelosi2010integration}.
 
 \subsection{Interpretation hypothesis}
 
 Both builder and architect have preconceptions of what interaction frames the other player is likely to understand, trying to use or interpret signals with respect to those frames. The ``feedback frame'' seems the most commonly thought about and the easiest to understand in the context of our experiment.
 
-Humans are capable of solving the kind of communication problem robots can have with humans. We have learned an interesting lesson: humans can solve such restricted asymmetric interaction problems by projecting the interaction into different common frames of interaction and selecting the one that is more coherent with the history of interaction. In this setup such an interaction frame provides information about many properties of the interaction including for example (1) a context (e.g. building something with a limited number of blocks and specific constraints (on a table, flat, \ldots)) and (2) a set of possible meanings (e.g. evaluations, guidance signals, references to colors or shapes), which we acquired from our experience interacting with others. 
+Humans are capable of solving the kind of communication problem robots can have with humans. We have observed that humans can solve such restricted asymmetric interaction problems by projecting the interaction into different common interaction frames and selecting the one that is more coherent with the history of interaction. In this setup such an interaction frame provides information about many properties of the interaction including for example \begin{inparaenum}[(a)]  \item a context (e.g. building something with a limited number of blocks and specific constraints (on a table, flat, \ldots)) which represents task constraints that are specified in advance, and \item a set of possible frames (e.g. feedback, guidance, references to colors or shapes), which we acquired from our experience interacting with others. \end{inparaenum}
 
-Based on such observations, by replacing the builder by an artificial agent (e.g. a robot), we can aim at constructing robots capable of learning a task from human instructions without programming it in advance to understand the human communicative acts and without pre-programming a specific rigid interaction protocol. To do so, we should equip our robot with a set of common interaction frames on which it can rely to find one that is coherent with the interaction history. We have begun to explore this direction using a pick and place experiment where a robot is instructed to reach a specific configuration of objects using raw vocal utterances whose mapping to their associated meaning is unknown at the beginning \cite{grizou2013robot}. We further extended this work to brain-computer interaction (BCI) scenarios enabling calibration-free BCI control of an artificial agent in a reaching task \cite{grizou2014calibration}.
-
-
-\subsection{Learning from unlabeled interaction frames}
-
-
-An unlabeled interaction frames correspond to a loosely defined interaction frame in which the interactive partners knows what kind of signal to expect but not the particular details of it. Following our example, a loosely defined frame would be cases where the signal-to-meaning classifier is unknown to the machine. What remains is the fact the interaction is constrained, and the user is known to deliver signal that correspond to desired action from the machine in order to achieve a task. In other word the label of the unknown speech signal is not explicitly given but is known to belong to one of a finite set of possible meanings.
-the human saying either the name, the color or the shape of the object.
-
-Such unlabeled interaction frame is at the core of our approach, it is assumed to be known by both the human and the machine in order for our algorithm to work. It includes both the context in which the interaction in taking place, e.g. teaching a machine which state to reach in the world, and the protocol used by the teacher to communicate to the machine, e.g. the teacher assessing machine's action.
-
-The problem we want to solve resumes in trying to learn what to do without knowing what we are told to do. 
-
-We call this problem learning from unlabeled interaction frame or joint perceptual and task learning.
+Based on such observations, by replacing the builder by an artificial agent (e.g. a robot), we can aim at constructing robots capable of learning a task from human instructions without programming them in advance to understand the human communicative acts and without pre-programming a specific rigid interaction protocol. To do so, we should inform the robot about the context of the interaction, i.e. some task contraints, and equip the robot with one or several interaction frames on which it can rely on to find a coherence between the interaction history with the human, a particlar frame, and a particlar task. We formalize this idea in next section.
 
