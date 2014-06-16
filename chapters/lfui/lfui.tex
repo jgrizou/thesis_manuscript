@@ -6,39 +6,66 @@
 \label{chapter:lfui}
 \minitoc
 
-Context - Why now: we identified a potential mechanism.
+We identified a potential mechanism for a robots to learn a task from human instructions without programming them in advance to understand the human communicative signals. This mechanism makes use of interpretation hypothesis of the teaching signals with respect to specific constraints from the task and the interaction frame. 
 
-Need - Why the reader: we must now investigate if it can work.
-
-Task - Why me: we developed a new algorithm that formalize the observed constraints depicted before
-
-Object- Why this chapter:  we will start by presenting symbolic experiment where we can observe and maybe prove that the algorithm make sense. We then exemplify on non symbolic data. We then define the terms of the algorithm and the idea of the metric we measure, and the many assumption we do. We then test the algorithm on a pick and place scenario using a 6 dof robot and speech utterances as the modality of interaction.
-
-Findings - What: it works well for feedback and guidance case in 100 or 200 iterations with different classifiers and it is robust to some mistake from the teacher.
-
-Conclusions - So what: So we can envision interacting with system without pre coordination. 
-
-Perspectives - What now: However the question of how the robot should act as been left assigned with random movement or greedy strategies. it has been shown on similar setup but when the signal to meaning is known that learning time can be improve by having an agent seek for more informative signals. Next section present how our robot can plan its action to do better.
+In this section we formalize the problem, explicit the underlying assumption, and define notations. We further explain what properties our algorithm will exploit, start by presenting a symbolic experiment, and then exemplify on non symbolic data. Based on those observation we define the metric our algorithm will rely on, and present results from a pick and place scenario using a 6 degree of freedom robot and speech utterances as the modality of interaction. We show that the system is able to identify a task in less than 100 iterations when the teacher is providing feedback signals whose mapping to their meaning in a priori unknown. We further show that the system is robust to some teaching mistakes and that the knowledge used in a first experiment can be reuse for learning a second task faster. Finally, we will see that two different simple action selection methods for our robot lead to difference in performances. This fact will be the basis of our discussion in the following  chapter which studies how our robot can plan its action to improve the learning performances.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Problem formulation and assumptions}
+\section{Problem formulation}
 
-interpretation hypothesis
+We define a problem of interaction between a human and a robot. The goal of the human is to have the robot fulfill a task for him. To do so the human can deliver some instructions to the robot, such as the name of the action the robot should perform next or whether the robot last action was optimal or not. The robot is not teleoperated by the human bu rather decide by itself which action to perform and observe the instructions of the human. The task is sequential which means the robot should perform a sequence of multiple actions to fulfill the task.
 
-\subsection{Interaction frame}
+The problem the robot is facing is that it does not know how to interpret the instruction signals coming from the human. The robot knowns, for example, that the human is assessing its action as ``correct'' or ``incorrect''. But the robot receives a raw signal, such as a speech utterances, that it does not known how to interpret. In other word, the robot does not know how the mapping between raw teaching signals and their respective meanings.
 
-\subsection{Learning Algorithm}
+We start by exemplifying this problem in a simple 7 states and 4 actions discrete world.
+
+\subsection{Example of the problem}
+
+Example using G1, and G2 only in the T world
+
+
+\transition
+
+This problem is impossible to solve without further information. In practice it would be easier if the robot had access to the mapping between teaching signals and their meanings. A usual solution is therefore to rely on a phase of calibration, where the system is given signal-meaning pairs and learn the mapping using supervised learning algorithm. Given this information, in our example of \todo{Figure~\ref{}}, it becomes trivial to identify the task. Starting in state 3, if the robot do action ``right'', it ends up in state 4, and if it receives a signal of meaning ``incorrect'', then the correct task is to reach the left edge of the T marked by G1.
+
+As mentioned before, in this work the robot does not have access to this information, neither it can rely on the phase of calibration. However the robot has access to theoretical information about the human teaching behavior. The robot knows that in a given situation, and for a particular task, the human should send a signal of a specific meaning. For example, the robot knows that if it moves from state 3 to state 4, and that the human wants it to go in G1, then the signals received from the human means ``incorrect''. Respectively, if the robot moves from state 3 to state 4, and that the human wants it to go in G2, then the signals received from the human means ``correct''.
+
+The problem we want to solve resumes in trying to learn what to do without knowing the details of what we are told to do. We call this kind of problem learning from unlabeled interaction frame. 
+
+\subsection{Learning from unlabeled interaction frame}
+
+In previous chapter~\ref{chapter:humanexperiment:frames}, we defined the terms of interaction frames which represents a stereotyped situations, a schema of interpretation given a particular situation or event. Such frame is often assumed to be known by both the human and the robot in addition to the signal-to-meaning classifier that translate the actual human signals into meaningful symbols. By comparing what the frame predicts and what the human actually said the robot can change our understanding of the situation.
+
+Learning from unlabeled interaction frames correspond to the problem where the signal-to-meaning classifier is not given, and therefore the robot can not rely on a direct comparison between the prediction from the interaction frame and the observation from the human teacher. 
+
+What remains is the frame. It is at the core of our approach, it is assumed to be known by both the human and the robot in order for our algorithm to work. It includes both the task constraints related to the task, e.g. teaching a robot which state to reach in the world, and the protocol used by the teacher to communicate to the robot, e.g. the teacher is assessing robot's action. The meanings of the unlabeled signals is not explicitly given but is known to belong to one of a finite set of possible meanings.
+
+We define a generic frame function that, given a context of interaction and a task, returns the meaning intended by the teacher:
+%
+\begin{eqnarray}
+Meaning = Frame(Context, Task)
+\end{eqnarray}
+%
+Following our previous example, stating that if the robot moves from state 3 to state 4 (context), and that the human wants it to go in G1 (task), then the signals received from the human means ``incorrect'' (meaning), we can exemplify the use of the frame:
+%
+\begin{eqnarray}
+``incorrect" = Frame((s3 \rightarrow s4), G1)
+\end{eqnarray}
+
+\transition
+
+The idea of unlabeled interaction frame idea summarize the problem of interaction we will tackle in this work. However it is a quite general concept, and in order to understand the underlying principles of our algorithm, in the following sections we will restrict our analysis to simple frames and simple worlds. We will also explicit a number of assumptions related to this work.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{What we exploit}
+\section{What do we exploit}
 
 We assume the system has access to the context in which the task should be executed (e.g. reaching one state among all) and knowns the interaction protocol used by the teacher (e.g. feedback on the agent actions). However the system do not know how to translate signals from the user into their symbolic meaning (e.g. correct/incorrect), neither which particular state it should reach.
 
@@ -102,7 +129,23 @@ Beginning phase two, all the classifiers are the same, the difference between hy
 
 So the same process are active in both pahse: non-expected prediction, and decrease of the classifier trust.
 In phase one, all hypothesis model there own stuff, there is less non-expected prediction, but the more we interact the less we trust some classifier which mixes labels.
-In phase two, all hypothesis start wth the same classifier, there is more non-expected prediciton, and the more we interact the less we trust some classifier which mixes the labels (but here the time to radically change the trust we put in one classifier is long as thay all start with the same data, the more we have similar data the less this plays a role.)
+In phase two, all hypothesis start wth the same classifier, there is more non-expected prediction, and the more we interact the less we trust some classifier which mixes the labels (but here the time to radically change the trust we put in one classifier is long as they all start with the same data, the more we have similar data the less this plays a role.)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Assumptions}
+
+\subsection{Frames}
+
+\subsection{Signals properties}
+
+\subsection{Symmetries}
+
+The idea of unlabeleld frame idea summarize the problem of interaction face by our robot. When it can be defined, and those assumption are correct, then the following developement should work
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
