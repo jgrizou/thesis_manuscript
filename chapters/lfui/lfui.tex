@@ -24,8 +24,11 @@ The problem the robot is facing is that it does not know how to interpret the in
 We start by exemplifying this problem in a simple 7 states and 4 actions discrete world.
 
 \subsection{Example of the problem}
+\label{chapter:lfui:example}
 
-Example using G1, and G2 only in the T world
+\todo{introduce the world, the signal, the protocol}
+
+\todo{Example using G1, and G2 only in the T world}
 
 
 \transition
@@ -42,7 +45,7 @@ In previous chapter~\ref{chapter:humanexperiment:frames}, we defined the terms o
 
 Learning from unlabeled interaction frames correspond to the problem where the signal-to-meaning classifier is not given, and therefore the robot can not rely on a direct comparison between the prediction from the interaction frame and the observation from the human teacher. 
 
-What remains is the frame. It is at the core of our approach, it is assumed to be known by both the human and the robot in order for our algorithm to work. It includes both the task constraints related to the task, e.g. teaching a robot which state to reach in the world, and the protocol used by the teacher to communicate to the robot, e.g. the teacher is assessing robot's action. The meanings of the unlabeled signals is not explicitly given but is known to belong to one of a finite set of possible meanings.
+What remains is the frame. It is at the core of our approach, it is assumed to be known by both the human and the robot. It includes both the constraints related to the task, e.g. teaching a robot which state to reach among a finite set of states, and the protocol used by the teacher to communicate to the robot, e.g. the teacher is assessing the robot's actions. Therefore, the meanings of the unlabeled signals is not explicitly given but is known to belong to a finite set of possible meanings.
 
 We define a generic frame function that, given a context of interaction and a task, returns the meaning intended by the teacher:
 %
@@ -58,7 +61,7 @@ Following our previous example, stating that if the robot moves from state 3 to 
 
 \transition
 
-The idea of unlabeled interaction frame idea summarize the problem of interaction we will tackle in this work. However it is a quite general concept, and in order to understand the underlying principles of our algorithm, in the following sections we will restrict our analysis to simple frames and simple worlds. We will also explicit a number of assumptions related to this work.
+The idea of unlabeled interaction frame summarizes the problem of interaction we tackle in this work. However it is a quite general concept, and in order to understand the underlying principles of our algorithm, in the following sections we will restrict our analysis to simple frames and simple worlds. We will also explicit a number of assumptions related to this work.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -67,47 +70,183 @@ The idea of unlabeled interaction frame idea summarize the problem of interactio
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{What do we exploit}
 
-We assume the system has access to the context in which the task should be executed (e.g. reaching one state among all) and knowns the interaction protocol used by the teacher (e.g. feedback on the agent actions). However the system do not know how to translate signals from the user into their symbolic meaning (e.g. correct/incorrect), neither which particular state it should reach.
+In this section, we present small visual representations of the problem showing what properties can be exploited. As detailed before, we assume the robot knows about the frame of interaction. 
 
-Central to our method is a system of hypothesis. By assuming our system has access to the context and the interaction protocol, it can generate hypothesis about the task the human wants it to perform, e.g. reach this or that state. For a particular hypothesis, we can assign hypothetic labels (or meanings) to the human signals knowing their are limited to a fixed set and according to the current state of the world. The machine is ``reasoning'' as follow: \emph{"If the human wants me to solve task $\xi$, then when he said $e$, he meant $l$"}. By creating a set of hypothesis, the system end-up with a set of possible interpretation of the human teaching signals. But as the user have only one objective in mind $\hat{\xi}$, only the correct interpretation will correctly label the signals. 
+Following our example in section~\ref{chapter:lfui:example}, the robot knowns the world, the effect of it actions. The robot also knows the human wants it to reach one of the two edges of the T world marked with G1 and G2. The robot is also aware of the interaction frame, in our case that the teacher will provide, for each action performed by the robot, a feedback signal meaning either ``correct'' or ``incorrect''. The robot further knows how the teacher should behave with respect to one particular goal.
+
+Central to our method is a system of hypothesis. From the observation made in chapter~\ref{chapter:humanexperiment:interpretationhypothesis}, with the available information, the robot will generate interpretation hypothesis with respect to all possible tasks. For a particular hypothesis, the robot will assign hypothetic meanings to the human signals knowing their are limited to a fixed set and according to the current state of the world. The machine is ``reasoning'' as follow: \emph{"If the human wants me to solve task G1 then when I performed action ``right'' in state $3$, its feedback signal means ``incorrect''"}. 
+
+We exemplify the idea of interpretation hypothesis following our T world example in section~\ref{chapter:lfui:example} with a teacher using symbolic teaching signals. For the sake of our example, we only consider two hypothesis, G1 and G2.
+
+
+\subsection{Interpretation hypothesis: a symbolic signal example}
+
+We further assume that the user is coherent and uses one signal for one meaning. The assumption is that the mapping between symbolic signals and their meaning can only be of two forms.
+
+It could be exemplified by an interface with two buttons, one for ``correct'' and one for ``incorrect'', but the mapping between the button and the meaning would not be defined in advance.
+
+
+
+\todo{figure with possible mapping}
+
+For a particular hypothesis, the robot can assign hypothetic meanings)to the human signals knowing their are limited to a fixed set and according to the current state of the world. The machine is ``reasoning'' as follow: \emph{"If the human wants me to solve task G1 then when I performed action $a$ in state $a$ and he said ``oui'', he meant ``incorrect''"}. 
+
+\todo{example step by step, first the world, one action, it interpretation wrt. each hypothesis, then accelerate and observe}
+
+By creating a set of hypothesis, the system end-up with a set of possible interpretation of the human teaching signals. But as the user have only one objective in mind, here G1, only the correct interpretation will exhibit a coherence between the signals and their associated meanings. 
+
+In our case, as the user is using symbolic signals, and that we assumed the user is coherent and use always the same symbol for the same meaning. We can infer that hypothesis G1 is the correct one as the resulting mapping between signal and meaning is more coherent.
+
+\todo{For the symbolic case, and given specific constraint we will present a minimalist proof once the associated mathematical notation will be introduced}
+
+\subsection{Interpretation hypothesis: a continuous signal example}
+
+The example described above simplifies the problem in some aspects. Indeed we assume the robot is already able to discriminate between perceptual events and has access to a unlabeled symbolic representation of the teaching signals. It would be the case when using a button based interface, however, when considering more ``natural'' means of interaction such as speech, the mapping between spoken words and their meaning should be learn by the machine. Indeed, the same word in never pronounced exactly the same way and some classification algorithm should be applied to train a discriminative model.
+
+We now considerer the same interaction as in previous section but with speech as the modality of interaction. For each action, the robot would receive raw unlabeled speech utterances. For the sake of the example, we illustrate the speech signals as two dimensional feature vectors. Those two dimensional point could represent speech but also any other modalities a human could use to interact with a robot, such as gestures, facial expression, or brain signals for example.
+
+
+\todo{visual example with T world, feedback}
+\todo{exemplify with visuals and describe the signals used as they will be the same for all the document visuals}
+
 The key challenge it to find out what it means to correctly label data.
 
 As illustrated in figure \ref{fig:intuition}, our system is looking for the hypothesis from which emerges a coherence between the spacial organization of label in the feature space and their associated labels.
 
-\subsection{Simultaneous Estimation of Task and Signal Model}
-\label{sec:Algorithm}
-\begin{figure}[!ht]
-\centering
-    \begin{tabular}{c|c|c}
-        \begin{subfigure}[t]{0.29\columnwidth}
-            \begin{flushleft}
-            \includegraphics[width=\columnwidth]{\imgpath/GM1}
-            \caption{}
-            \label{fig:GM1}
-            \end{flushleft}
-        \end{subfigure}
-        &
-        \begin{subfigure}[t]{0.29\columnwidth}
-            \begin{center}
-            \includegraphics[width=\columnwidth]{\imgpath/GM2}
-            \caption{}
-            \label{fig:GM2}
-            \end{center}
-        \end{subfigure}
-        &
-        \begin{subfigure}[t]{0.29\columnwidth}
-            \begin{flushright}
-            \includegraphics[width=\columnwidth]{\imgpath/GM3}
-            \caption{}
-            \label{fig:GM3}
-            \end{flushright}
-        \end{subfigure}
-    \end{tabular}
-\caption[]{Representation of inferred signal labels for a 1D grid world in function of the hypothesized task. Three task hypotheses are displayed in column from left to right [(a),~(b),~(c)]. On top is a 1D grid world with the hypothetic target state marked with a T letter. Notice that this hypothetic target is different for each of the three hypotheses. The arrows in each cell indicates what action should elicit a positive feedback, i.e.\ the optimal policy with respect to the hypothetic target. The user intended target is shown as the shaded blue state at the right extremity of the 1D world. Note that the system does not have access to this information. The correct hypothesis is the one on the Left [(a)] where the T state is the same as the shaded blue state.
-Below the 1D grid world, the signals received from the user are represented in a 2D feature space. They represent the user assessment signals of the past history of device's actions (e.g.\ moving randomly left and right). Our algorithm assigns virtual labels (green for ``correct'' and red for ``wrong'') to those signals with respect to their respective hypothetic target. Notice that the data points are the same for all three hypotheses, only their respective labels differ.
-With the virtual labels being assigned, we can compute the corresponding 2D Gaussian distributions estimates for each class (shown as colored ellipses) and each hypothesis. While for the correct hypothesis [(a)] the Gaussian distributions shows a large separability, the overlap increases as the hypothetic target (T) moves away from the real (blue shaded) one [(b), (c)]. This property can be exploited to estimate the correct hypothesis and the model generating the signals.}
-\label{fig:GM}
-\end{figure}
+which it can rely on to find a coherence between the interaction history with the human, a particlar frame, and a particlar task. We formalize this idea in next section.
+
+Noise
+
+
+\subsection{Different frames}
+
+We have seen the feedback frames where the human user is assessing the robot action. We could also considered a different interaction frame, where the user would indicate the robot which action to perform next. We call this kind of scenario guidance frames.
+
+\todo{exemplify with visuals and describe the signals used as they will be the same for all the document visuals}
+
+
+% We assume the system has access to the context in which the task should be executed (e.g. reaching one state among all) and knowns the interaction protocol used by the teacher (e.g. feedback on the agent actions). However the system do not know how to translate signals from the user into their symbolic meaning (e.g. correct/incorrect), neither which particular state it should reach.
+
+% Central to our method is a system of hypothesis. By assuming our system has access to the context and the interaction protocol, it can generate hypothesis about the task the human wants it to perform, e.g. reach this or that state. For a particular hypothesis, we can assign hypothetic labels (or meanings) to the human signals knowing their are limited to a fixed set and according to the current state of the world. The machine is ``reasoning'' as follow: \emph{"If the human wants me to solve task $\xi$, then when he said $e$, he meant $l$"}. By creating a set of hypothesis, the system end-up with a set of possible interpretation of the human teaching signals. But as the user have only one objective in mind $\hat{\xi}$, only the correct interpretation will correctly label the signals. The key challenge it to find out what it means to correctly label data.
+
+% As illustrated in figure \ref{fig:intuition}, our system is looking for the hypothesis from which emerges a coherence between the spacial organization of label in the feature space and their associated labels.
+
+% \subsection{Simultaneous Estimation of Task and Signal Model}
+% \label{sec:Algorithm}
+% \begin{figure}[!ht]
+% \centering
+%     \begin{tabular}{c|c|c}
+%         \begin{subfigure}[t]{0.29\columnwidth}
+%             \begin{flushleft}
+%             \includegraphics[width=\columnwidth]{\imgpath/GM1}
+%             \caption{}
+%             \label{fig:GM1}
+%             \end{flushleft}
+%         \end{subfigure}
+%         &
+%         \begin{subfigure}[t]{0.29\columnwidth}
+%             \begin{center}
+%             \includegraphics[width=\columnwidth]{\imgpath/GM2}
+%             \caption{}
+%             \label{fig:GM2}
+%             \end{center}
+%         \end{subfigure}
+%         &
+%         \begin{subfigure}[t]{0.29\columnwidth}
+%             \begin{flushright}
+%             \includegraphics[width=\columnwidth]{\imgpath/GM3}
+%             \caption{}
+%             \label{fig:GM3}
+%             \end{flushright}
+%         \end{subfigure}
+%     \end{tabular}
+% \caption[]{Representation of inferred signal labels for a 1D grid world in function of the hypothesized task. Three task hypotheses are displayed in column from left to right [(a),~(b),~(c)]. On top is a 1D grid world with the hypothetic target state marked with a T letter. Notice that this hypothetic target is different for each of the three hypotheses. The arrows in each cell indicates what action should elicit a positive feedback, i.e.\ the optimal policy with respect to the hypothetic target. The user intended target is shown as the shaded blue state at the right extremity of the 1D world. Note that the system does not have access to this information. The correct hypothesis is the one on the Left [(a)] where the T state is the same as the shaded blue state.
+% Below the 1D grid world, the signals received from the user are represented in a 2D feature space. They represent the user assessment signals of the past history of device's actions (e.g.\ moving randomly left and right). Our algorithm assigns virtual labels (green for ``correct'' and red for ``wrong'') to those signals with respect to their respective hypothetic target. Notice that the data points are the same for all three hypotheses, only their respective labels differ.
+% With the virtual labels being assigned, we can compute the corresponding 2D Gaussian distributions estimates for each class (shown as colored ellipses) and each hypothesis. While for the correct hypothesis [(a)] the Gaussian distributions shows a large separability, the overlap increases as the hypothetic target (T) moves away from the real (blue shaded) one [(b), (c)]. This property can be exploited to estimate the correct hypothesis and the model generating the signals.}
+% \label{fig:intuition}
+% \end{figure}
+
+\subsection{Is it the only way?}
+
+When we first look at the unlabeled signals, the first approach that one as in mind is to use a clustering algorithm to find the two clusters in the feature space. For very simple dataset, like the one presented in \todo{Figure smth}, a clustering algorithm will find the two clusters. However, without any additional information, it is impossible to know which one is associated to the meaning ``correct'' or to the meaning ``incorrect''.
+
+More importantly, clustering algorithms are prone to local extrema in the optimization process and for those dataset in high dimension with overlapping classes it is unlikely to find the correct underlying structure of the data. Our approach has the advantage to have access to hypothetic labels allowing to fit a classifier.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Assumptions}
+
+As depicted before a number of assumptions are made on the information accessible to the robot and the constraints applied on the interaction.
+
+\subsection{Frames}
+
+The first assumption is that the robot and the human are aware of the frame in which the interaction take place. This frame regulates the interaction between the two partners, it includes:
+
+\begin{itemize}
+
+\item The set of possible meanings the human refer to 
+
+\item \textbf{Details and timing of the interaction:} For example, that the human sends a signal to the robot after each action the robot performs. An other example may be the human providing a feedback signal between 0.2 and 2 seconds after the robot's action he is referring to, like in \cite{knox2009interactively}.
+
+\item \textbf{Constraints on the possible tasks:} For example the robot is aware that the human tries to have it grasp one object on the table. And not reach for an object in a different room. This limits the number of hypothesis the robot can create.
+
+\end{itemize}
+
+\subsection{Signals properties}
+
+coherence of the teacher
+
+signals are separable by the classifier used
+
+\subsection{World properties and symmetries}
+
+There is come cases where some hypothesis are not distinguishable. As the robot do not have a direct access to the true intended meaning of the user signals, it can only rely on the interpretation hypothesis made for each task.
+
+Two problems could appear \begin{inparaenum}[a)] \item two hypothesis may share the same interpretation model and can not be differentiate as they will attribute the same meaning to the signals, and \item two hypothesis may end up with opposite interpretation that are both as valid. \end{inparaenum}.
+
+For those case where two hypothesis share the same interpretation model, either the task are the same with respect the user, either some parts of the problem are hidden to the human user which can not provide instruction for them. We do not tackle this problematic in this thesis and assume the world properties ensure that two hypothesis will never share the same interpretation model. Most of the hypothesis will share some parts of the interpretation model but there will always exist one situation where two interpretation models separate.
+
+For those case where two hypothesis end up with opposite interpretation that are both valid, we first present a small example showcasing the problem.
+
+\todo{line word and interpretation hypothesis visual display}
+
+We define two task hypothesis as being symmetric. It is impossible to differentiate between those two. Therefore we will not considered environments holding this symmetric properties. One way to solve this problem is to add a ``goal reached'' action that is valid only at the goal state. 
+
+This action brakes the symmetry in the above example, as it is interpretation will be the same for all states that not an hypothetic goal state. In other words, in state 3, if agent performs action ``goal reached'', then the user will produce a signal meaning ``incorrect'', because the agent is neither in G1 or in G2. And the signal will be interpreted as an ``incorrect'' by the two interpretation hypothesis, breaking the symmetry problem.
+
+\todo{examplify the resulting stuff}
+
+This problem of symmetries holds for the guidance frame too. Indeed if the agent can only produce ``left'' and ``right'' commands, the interpretation hypothesis for G1 will be symmetric as the one for G2. If the user wants the robot to reach G1, it will only produce ``left'' guidance signals, which is represented by one cluster in the the feature space. And the ``right'' commands should never be used. The situation is symmetric for G2.
+
+\todo{showcase the guidance frame}
+
+When introducing the ``goal reached'' action, the user now can produce three different kind of meanings, which is represented by three different clusters in the feature space. However, here again, one of the meaning won't be used by the teacher. However the ``goal reached'' signal will be used only at the goal space, which is not the same for the two hypothesis, which break the symmetry.
+
+\todo{showcase the guidance frame}
+
+
+\subsection{Robot abilities}
+
+
+\transition
+
+All those constraints are usually present in the interactive learning literature. Some constraints are not always applied such as the ability of the robot to plan its action, or the fact that a finite number of task is defined in advance. 
+
+The ability to plan is linked to the need for the robot to evaluate the signals of the user in different situations. To do so it need to be able to project itself in the future to judge of the ``long term'' effect of tis actions. We could considered an agent that has access to the frame but is not able to plan its action in order to fulfill the goal. In such cases, the robot could learn by self-exploration the dynamics of the environment and later use this dynamic to infer a plan for a given task.
+
+The finite set of task hypothesis is a practical constraint for the setup considered in the remaining of this thesis. If the set of task hypothesis was infinite, and considering our interpretation hypothesis approach, we would have to sample a finite number of hypothesis to test on; and given the results, we should re-sample some new hypothesis and test again until some stopping criterion. This process is less reliable than assuming the correct task belong to a finite set of task. It would add an other layer of complexity, hard to track and understand, which would increase the difficult to explain the problem.
+
+The following of this chapter will consider the set of assumptions defined above. In chapter~\ref{chapter:limitations}, we will release the above assumptions, propose solutions to the associated problems and present simple experiments.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{How do we exploit it}
 
 \subsection{Principle}
 
@@ -130,29 +269,6 @@ Beginning phase two, all the classifiers are the same, the difference between hy
 So the same process are active in both pahse: non-expected prediction, and decrease of the classifier trust.
 In phase one, all hypothesis model there own stuff, there is less non-expected prediction, but the more we interact the less we trust some classifier which mixes labels.
 In phase two, all hypothesis start wth the same classifier, there is more non-expected prediction, and the more we interact the less we trust some classifier which mixes the labels (but here the time to radically change the trust we put in one classifier is long as they all start with the same data, the more we have similar data the less this plays a role.)
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Assumptions}
-
-\subsection{Frames}
-
-\subsection{Signals properties}
-
-\subsection{Symmetries}
-
-The idea of unlabeleld frame idea summarize the problem of interaction face by our robot. When it can be defined, and those assumption are correct, then the following developement should work
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{How do we exploit it}
 
 \subsection{Notations and assumptions}
 
@@ -578,4 +694,4 @@ In this work we presented an interactive learning system that can learn the init
 
 
 
-
+say that the signal were very easy to classify

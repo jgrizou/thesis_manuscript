@@ -27,6 +27,7 @@ Perspectives - What now:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Continuous state space}
 
+
 In this section we extend our algorithm to a more complex scenario by considering a continuous world, more complex reward functions and the use of both feedback and guidance instructions. We investigate how our algorithm scales to such problem and how different exploration strategies perform.
 
 \subsection{Experimental System}
@@ -148,7 +149,9 @@ Figure~\ref{UncertaintyMap} shows the evolution of the estimated uncertainty map
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Finite set of Hypothesis}
+\section{Continous set of hypothesis}
+\label{chapter:limitations:continoushypothesis}
+
 a simple particle filter
 
 How to leverage from the finite set of hypothesis constraint? A potential avenue is to use a combination of particle filter and regularization on the task space.
@@ -203,5 +206,8 @@ xp with a grid world versus a real maze with many wall and see that random becom
 How the task properties (symmetries, size, \ldots) affect the learning properties?
 
 \section{No need for MDP}
+
+
+\section{Coherent means nothing}
 
 
