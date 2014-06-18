@@ -30,6 +30,8 @@ We start by exemplifying this problem in a simple 7 states and 4 actions discret
 
 \todo{Example using G1, and G2 only in the T world}
 
+\todo{expliitly say tht the robot does not have access to the labeled data}
+
 
 \transition
 
@@ -118,16 +120,163 @@ which it can rely on to find a coherence between the interaction history with th
 Noise
 
 
+% As illustrated in figure \ref{fig:intuition}, our system is looking for the hypothesis from which emerges a coherence between the spacial organization of label in the feature space and their associated labels.
+
+% \subsection{Simultaneous Estimation of Task and Signal Model}
+% \label{sec:Algorithm}
+% \begin{figure}[!ht]
+% \centering
+%     \begin{tabular}{c|c|c}
+%         \begin{subfigure}[t]{0.29\columnwidth}
+%             \begin{flushleft}
+%             \includegraphics[width=\columnwidth]{\imgpath/GM1}
+%             \caption{}
+%             \label{fig:GM1}
+%             \end{flushleft}
+%         \end{subfigure}
+%         &
+%         \begin{subfigure}[t]{0.29\columnwidth}
+%             \begin{center}
+%             \includegraphics[width=\columnwidth]{\imgpath/GM2}
+%             \caption{}
+%             \label{fig:GM2}
+%             \end{center}
+%         \end{subfigure}
+%         &
+%         \begin{subfigure}[t]{0.29\columnwidth}
+%             \begin{flushright}
+%             \includegraphics[width=\columnwidth]{\imgpath/GM3}
+%             \caption{}
+%             \label{fig:GM3}
+%             \end{flushright}
+%         \end{subfigure}
+%     \end{tabular}
+% \caption[]{Representation of inferred signal labels for a 1D grid world in function of the hypothesized task. Three task hypotheses are displayed in column from left to right [(a),~(b),~(c)]. On top is a 1D grid world with the hypothetic target state marked with a T letter. Notice that this hypothetic target is different for each of the three hypotheses. The arrows in each cell indicates what action should elicit a positive feedback, i.e.\ the optimal policy with respect to the hypothetic target. The user intended target is shown as the shaded blue state at the right extremity of the 1D world. Note that the system does not have access to this information. The correct hypothesis is the one on the Left [(a)] where the T state is the same as the shaded blue state.
+% Below the 1D grid world, the signals received from the user are represented in a 2D feature space. They represent the user assessment signals of the past history of device's actions (e.g.\ moving randomly left and right). Our algorithm assigns virtual labels (green for ``correct'' and red for ``wrong'') to those signals with respect to their respective hypothetic target. Notice that the data points are the same for all three hypotheses, only their respective labels differ.
+% With the virtual labels being assigned, we can compute the corresponding 2D Gaussian distributions estimates for each class (shown as colored ellipses) and each hypothesis. While for the correct hypothesis [(a)] the Gaussian distributions shows a large separability, the overlap increases as the hypothetic target (T) moves away from the real (blue shaded) one [(b), (c)]. This property can be exploited to estimate the correct hypothesis and the model generating the signals.}
+% \label{fig:intuition}
+% \end{figure}
+
+
 \subsection{Different frames}
 
 We have seen the feedback frames where the human user is assessing the robot action. We could also considered a different interaction frame, where the user would indicate the robot which action to perform next. We call this kind of scenario guidance frames.
 
-\todo{exemplify with visuals and describe the signals used as they will be the same for all the document visuals}
+\todo{exemplify guidance with visuals and describe the signals used as they will be the same for all the document visuals}
 
 
-% We assume the system has access to the context in which the task should be executed (e.g. reaching one state among all) and knowns the interaction protocol used by the teacher (e.g. feedback on the agent actions). However the system do not know how to translate signals from the user into their symbolic meaning (e.g. correct/incorrect), neither which particular state it should reach.
+\subsection{Is it the only way?}
 
-% Central to our method is a system of hypothesis. By assuming our system has access to the context and the interaction protocol, it can generate hypothesis about the task the human wants it to perform, e.g. reach this or that state. For a particular hypothesis, we can assign hypothetic labels (or meanings) to the human signals knowing their are limited to a fixed set and according to the current state of the world. The machine is ``reasoning'' as follow: \emph{"If the human wants me to solve task $\xi$, then when he said $e$, he meant $l$"}. By creating a set of hypothesis, the system end-up with a set of possible interpretation of the human teaching signals. But as the user have only one objective in mind $\hat{\xi}$, only the correct interpretation will correctly label the signals. The key challenge it to find out what it means to correctly label data.
+When we first look at the unlabeled signals, the first approach that one as in mind is to use a clustering algorithm to find the two clusters in the feature space. For very simple dataset, like the one presented in \todo{Figure smth}, a clustering algorithm will find the two clusters. However, without any additional information, it is impossible to know which one is associated to the meaning ``correct'' or to the meaning ``incorrect''.
+
+More importantly, clustering algorithms are prone to local extrema in the optimization process and for those datasets in high dimension with overlapping classes it is unlikely to find the correct underlying structure of the data. Our approach has the advantage to have access to hypothetic labels allowing to fit a classifier for each task hypothesis.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Assumptions}
+
+As depicted before a number of assumptions are made on the information accessible to the robot and the constraints applied on the interaction.
+
+\subsection{Frames}
+
+The first assumption is that the robot and the human are aware of the frame in which the interaction take place. This frame regulates the interaction between the two partners, it includes:
+
+\begin{itemize}
+
+\item \textbf{The set of possible meanings the human can refer to.} As depicted before, the set of meaning includes ``correct'' and ``incorrect'' for thoses cases where the user is assessong te robot's actions. It could also be the set of action names for those case where the user provides guidance on what to do next.
+
+\item \textbf{Details and timing of the interaction:} it corresponds to when and how the user will provide instruction signals. For example, the human sends a signal to the robot after each action the robot performs. An other example may be the human providing a feedback signal between 0.2 and 2 seconds after the robot's action he is referring to, like in \cite{knox2009interactively}.
+
+\item \textbf{Constraints on the possible tasks:} For example the robot is aware that the human wants to have it grasp one object on the table. And not reach for an object in a different room. This limits the number of hypothesis the robot can create.
+
+\end{itemize}
+
+By combining those three aspect of an interaction frame, the robot can create a set of interpretation hypothesis for the received teaching signals. For one possible task, and given a specific context (e.g. state and action performed in the environment), the robot can infer the meaning intended by the human user. By doing so for each possible task, it creates a set of interpretation hypothesis, which we rely on to fond the task taught by the user, as well as the signal to meaning mapping.
+
+To do so we rely on specific properties of the human teaching signals.
+
+\subsection{Signals properties}
+
+We make two assumptions about the human teaching signals properties:
+\begin{itemize}
+
+\item If the true intended meaning associated to each user signal was known it would be possible to train a classifier with reasonable accuracy. We will later see that the performance of the system are highly impacted by the quality of the training data. \todo{ref to where we we will see this}
+
+\item The teacher is coherent in its use of teaching signals and will always use the name kind of signals to mean the same things. For the case of two buttons, he will always use the same button to mean the same thing. It also apply for speech, facial expression, gestures, or brain signals. 
+
+\end{itemize}
+
+Those two properties are usual assumption in human-robot interaction, we here simply assume we can rely on the teacher behavior and that we could, in theory, learn a signal to meaning mapping.
+
+However there is one practical constraint that differ from more standard human-robot interaction scenario. Here, in theory, we cannot know in advance if a signal to meaning mapping can be learn. Indeed we do not have access to a database of signal-meaning pairs to train a classifier first, which allow to try different feature extraction process or different classifiers beforehand. This limitation requires to ensure the representation of the signal as well as the selected classifier allow to learn a signal to meaning mapping. 
+
+We will see from results in chapter \todo{ref to where we we will see this} that our algorithm can cope with highly overlapping data where the classifier produce close to random prediction. In such cases the algorithm will not make decision on which task is the correct one.
+
+\subsection{World properties and symmetries}
+
+There is come cases where some hypothesis are not distinguishable. As the robot do not have a direct access to the true intended meaning of the user signals, it can only rely on the interpretation hypothesis made for each task.
+
+Two problems could appear \begin{inparaenum}[a)] \item two hypothesis may share the same interpretation model and can not be differentiate as they will attribute the same meaning to the signals, and \item two hypothesis may end up with opposite interpretation that are both as valid. \end{inparaenum}.
+
+For those case where two hypothesis share the same interpretation model, either the task are the same with respect the user, either some parts of the problem are hidden to the human user which can not provide instruction for them. We do not tackle this problematic in this thesis and assume the world properties ensure that two hypothesis will never share the same interpretation model. Most of the hypothesis will share some parts of the interpretation model but there will always exist one situation where two interpretation models separate.
+
+For those case where two hypothesis end up with opposite interpretation that are both valid, we first present a small example showcasing the problem.
+
+\todo{line word and interpretation hypothesis visual display}
+
+We define two task hypothesis as being symmetric. It is impossible to differentiate between those two. Therefore we will not considered environments holding this symmetric properties. One way to solve this problem is to add a ``goal reached'' action that is valid only at the goal state. 
+
+This action brakes the symmetry in the above example, as it is interpretation will be the same for all states that not an hypothetic goal state. In other words, in state 3, if agent performs action ``goal reached'', then the user will produce a signal meaning ``incorrect'', because the agent is neither in G1 or in G2. And the signal will be interpreted as an ``incorrect'' by the two interpretation hypothesis, breaking the symmetry problem.
+
+\todo{examplify the resulting stuff}
+
+This problem of symmetries holds for the guidance frame too. Indeed if the agent can only produce ``left'' and ``right'' commands, the interpretation hypothesis for G1 will be symmetric as the one for G2. If the user wants the robot to reach G1, it will only produce ``left'' guidance signals, which is represented by one cluster in the the feature space. And the ``right'' commands should never be used. The situation is symmetric for G2.
+
+\todo{showcase the guidance frame}
+
+When introducing the ``goal reached'' action, the user now can produce three different kind of meanings, which is represented by three different clusters in the feature space. However, here again, one of the meaning won't be used by the teacher. However the ``goal reached'' signal will be used only at the goal space, which is not the same for the two hypothesis, which break the symmetry.
+
+\todo{showcase the guidance frame}
+
+\subsection{Robot's abilities}
+
+We further assume the robot is able to plan its action in order to fulfill a specific task. In other words, if the robot knew what the user wants it to do, it will be able to do it. It implies the robot as full knowledge of the world dynamics and knows how to make a plan. This way the robot can understand the theoretical relation between one action, a specific task and the signal of the user; and therefore create interpretation hypothesis.
+
+However, this ability could have been learn from previous self-exploration session of the environment allowing the robot to learn the dynamics of the environment.
+
+\transition
+
+All those constraints are usually present in the interactive learning literature. 
+
+Some aspects are often more constrained, especially either the signal to meaning mapping is known in advance and the agent infer the task based on the known instructions, either the task itself is known allowing the robot to assign meanings to the teaching signals allowing to it to learn the signal to meaning mapping. Our method generalize over those approach as we neither need to known the task, nor the signal-to-meaning mapping.
+
+Some other constraints are not always applied such as the ability of the robot to plan its action, or the fact that a finite number of task is defined in advance. 
+
+The ability to plan is linked to the need for the robot to evaluate the signals of the user in different situations. To do so it need to be able to project itself in the future to judge of the ``long term'' effect of tis actions. We could considered an agent that has access to the frame but is not able to plan its action in order to fulfill the goal. In such cases, the robot could learn by self-exploration the dynamics of the environment and later use this dynamic to infer a plan for a given task.
+
+The finite set of task hypothesis is a practical constraint for the setup considered in the remaining of this thesis. If the set of task hypothesis was infinite, and considering our interpretation hypothesis approach, we would have to sample a finite number of hypothesis to test on; and given the results, we should re-sample some new hypothesis and test again until some stopping criterion. This process is less reliable than assuming the correct task belong to a finite set of task. It would add an other layer of complexity, hard to track and understand, which would increase the difficult to explain the problem.
+
+The following of this chapter will consider the set of assumptions defined above. In chapter~\ref{chapter:limitations}, we will release the above assumptions, propose solutions to the associated problems and present simple experiments.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{How do we exploit it}
+
+As exemplified in figure\todo{ref figure}, generating interpretation hypothesis for each possible allow to find out the task the user has in mind. But as the user have only one objective in mind, only the correct interpretation will correctly assign meanings to the signals. In our example we were able to identify this task visually, by looking at the coherence between the spacial organization of the signals and their associated meanings. But our robots and algorithms, can not use our visual intuition. The key challenge it to find out what measure can reflect the coherence between the spacial organization of the signals and their associated meanings.
+
+A good measure of coherence can be computed by training the classifier on each of the signal-meaning hypothesis pairs and testing its accuracy. As for the wrong hypothesis the signals are not always associated with their correct meanings, it will become impossible to fit a good model on the data. 
+
+\todo{example with gaussian fitting as for AAAi, do it again with the new visuals}
+
+\todo{we capture by the assumption of the classifier on the spacial organization of data, for example the gaussina classifier assume data are distrivuted as gauusian stuff...
+alos mot of the algorithm regularize their cost function to avoid overfitting problem and indeed tries to identify the underlying structure of the data, i.e. a way to separte classes with the less complex model}
+
 
 % As illustrated in figure \ref{fig:intuition}, our system is looking for the hypothesis from which emerges a coherence between the spacial organization of label in the feature space and their associated labels.
 
@@ -166,177 +315,87 @@ We have seen the feedback frames where the human user is assessing the robot act
 % \label{fig:intuition}
 % \end{figure}
 
-\subsection{Is it the only way?}
+The following of this section formalizes this idea and present first results on a pick and place robotic scenario where the user provide instruction using speech utterances. From now on we will use the term label to refer to the meaning associated to user's signals.
 
-When we first look at the unlabeled signals, the first approach that one as in mind is to use a clustering algorithm to find the two clusters in the feature space. For very simple dataset, like the one presented in \todo{Figure smth}, a clustering algorithm will find the two clusters. However, without any additional information, it is impossible to know which one is associated to the meaning ``correct'' or to the meaning ``incorrect''.
+\subsection{Notations}
 
-More importantly, clustering algorithms are prone to local extrema in the optimization process and for those dataset in high dimension with overlapping classes it is unlikely to find the correct underlying structure of the data. Our approach has the advantage to have access to hypothetic labels allowing to fit a classifier.
+We consider interaction sessions where a machine can perform discrete actions from a set of available actions $a \in \mathcal{A}$ in an either discrete or continuous state space $s \in \mathcal{S}$. The user, that wants to achieve a task $\hat{\xi}$, is providing instructions to the machine using some specific signal $e$, represented as a feature vector  $e \in \mathbf{R}^d$. The task is sequential meaning it is completed by performing a sequence of actions. The machine ignores the task the user has in mind, as well as the actual meaning of each user's signal. Its objective is to simultaneously solve the task and learn a model for the user's signals. To achieve this, it has access to a sequence of triplets in the form $D_M = \{(s_i, a_i, e_i),\ i = 1,\ldots,M\}$, where $s_i$, $a_i$ and $e_i$ represent, respectively, the state, action and instruction signals at time step $i$. The behavior of the machine is determined by the actions $a\in\mathcal{A}$ and the corresponding transition model $p(s'\mid s,a)$.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Assumptions}
+We assume the system has access to a set of task hypothesis $\xi_1,\ldots,\xi_T$ which includes the task $\hat{\xi}$ the user wants to solve. We assume instruction signals $e$ have a finite and discrete number of meanings $l \in \{l_1, l_2, \ldots, l_L\}$ which we call labels and this is known by the user and the machine. And consider that the agent is given a frame function that given a state $s$, an action $a$ and a task $\xi$ return a label $l$. We will formalize our algorithm in terms of probabilities, therefore the frame represent the conditional probability of a label given a state, action, and a task, written as $p(l | s, a, \xi)$.
 
-As depicted before a number of assumptions are made on the information accessible to the robot and the constraints applied on the interaction.
+Given this frame, the history of interaction $D_M$ and a particular task $\xi$, we can associated with each past signal, given the specific state and action pair the robot was in, a label (or probability of label) resulting in a dataset composed of signal-label pairs. As there is $T$ task hypothesis, we end up with $T$ hypothetic sets. 
 
-\subsection{Frames}
+We assume that given such a set of signal-label pairs, it is possible to compute a model that classifies signals $e$ into meanings $l$, which we also called the signal to meaning mapping. The parameters of such a model will be denoted by $\theta$. Here again we formalize the classifier as the conditional probability of a label given a signal and a set of parameters, written as $p(l|e,\theta)$.
 
-The first assumption is that the robot and the human are aware of the frame in which the interaction take place. This frame regulates the interaction between the two partners, it includes:
-
-\begin{itemize}
-
-\item The set of possible meanings the human refer to 
-
-\item \textbf{Details and timing of the interaction:} For example, that the human sends a signal to the robot after each action the robot performs. An other example may be the human providing a feedback signal between 0.2 and 2 seconds after the robot's action he is referring to, like in \cite{knox2009interactively}.
-
-\item \textbf{Constraints on the possible tasks:} For example the robot is aware that the human tries to have it grasp one object on the table. And not reach for an object in a different room. This limits the number of hypothesis the robot can create.
-
-\end{itemize}
-
-\subsection{Signals properties}
-
-coherence of the teacher
-
-signals are separable by the classifier used
-
-\subsection{World properties and symmetries}
-
-There is come cases where some hypothesis are not distinguishable. As the robot do not have a direct access to the true intended meaning of the user signals, it can only rely on the interpretation hypothesis made for each task.
-
-Two problems could appear \begin{inparaenum}[a)] \item two hypothesis may share the same interpretation model and can not be differentiate as they will attribute the same meaning to the signals, and \item two hypothesis may end up with opposite interpretation that are both as valid. \end{inparaenum}.
-
-For those case where two hypothesis share the same interpretation model, either the task are the same with respect the user, either some parts of the problem are hidden to the human user which can not provide instruction for them. We do not tackle this problematic in this thesis and assume the world properties ensure that two hypothesis will never share the same interpretation model. Most of the hypothesis will share some parts of the interpretation model but there will always exist one situation where two interpretation models separate.
-
-For those case where two hypothesis end up with opposite interpretation that are both valid, we first present a small example showcasing the problem.
-
-\todo{line word and interpretation hypothesis visual display}
-
-We define two task hypothesis as being symmetric. It is impossible to differentiate between those two. Therefore we will not considered environments holding this symmetric properties. One way to solve this problem is to add a ``goal reached'' action that is valid only at the goal state. 
-
-This action brakes the symmetry in the above example, as it is interpretation will be the same for all states that not an hypothetic goal state. In other words, in state 3, if agent performs action ``goal reached'', then the user will produce a signal meaning ``incorrect'', because the agent is neither in G1 or in G2. And the signal will be interpreted as an ``incorrect'' by the two interpretation hypothesis, breaking the symmetry problem.
-
-\todo{examplify the resulting stuff}
-
-This problem of symmetries holds for the guidance frame too. Indeed if the agent can only produce ``left'' and ``right'' commands, the interpretation hypothesis for G1 will be symmetric as the one for G2. If the user wants the robot to reach G1, it will only produce ``left'' guidance signals, which is represented by one cluster in the the feature space. And the ``right'' commands should never be used. The situation is symmetric for G2.
-
-\todo{showcase the guidance frame}
-
-When introducing the ``goal reached'' action, the user now can produce three different kind of meanings, which is represented by three different clusters in the feature space. However, here again, one of the meaning won't be used by the teacher. However the ``goal reached'' signal will be used only at the goal space, which is not the same for the two hypothesis, which break the symmetry.
-
-\todo{showcase the guidance frame}
-
-
-\subsection{Robot abilities}
-
-
-\transition
-
-All those constraints are usually present in the interactive learning literature. Some constraints are not always applied such as the ability of the robot to plan its action, or the fact that a finite number of task is defined in advance. 
-
-The ability to plan is linked to the need for the robot to evaluate the signals of the user in different situations. To do so it need to be able to project itself in the future to judge of the ``long term'' effect of tis actions. We could considered an agent that has access to the frame but is not able to plan its action in order to fulfill the goal. In such cases, the robot could learn by self-exploration the dynamics of the environment and later use this dynamic to infer a plan for a given task.
-
-The finite set of task hypothesis is a practical constraint for the setup considered in the remaining of this thesis. If the set of task hypothesis was infinite, and considering our interpretation hypothesis approach, we would have to sample a finite number of hypothesis to test on; and given the results, we should re-sample some new hypothesis and test again until some stopping criterion. This process is less reliable than assuming the correct task belong to a finite set of task. It would add an other layer of complexity, hard to track and understand, which would increase the difficult to explain the problem.
-
-The following of this chapter will consider the set of assumptions defined above. In chapter~\ref{chapter:limitations}, we will release the above assumptions, propose solutions to the associated problems and present simple experiments.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{How do we exploit it}
-
-\subsection{Principle}
-
-The algorithm is  divided into a classification algorithm, estimating one classifier for each hypothesis based on past interaction, and a learning algorithm that uses the results and properties of this classifier to update the belief over hypothesis for current interaction.
-
-Our approach uses the same algorithm if we have label or not. For better explaining the approach, during the explanation we will refer to two phases in the learning process: phase 1 which is learning from scratch a task from unlabelled instruction and phase 2 which is learning a second (or third or) task based on the fact we already inferred a first one. Our algorithm is the same for the two phases but different factor are dominating on one or the other learning phase.
-
-Phase 1 is the main contribution of this work and enable a system to be instructed using signal initially unknown to the it. As stated before, our system will generate hypothesis over the possible task, infer the hypothetic label associated to the signal and check which hypothetic set of signal - label \ldots c nul
-
-Phase 2 seems to be simply learning from known instruction, where a calibration procedure has been performed before. But in our case it differs in one way, we keep generating hypothesis. We keep updating the classifier with the new pair of signal-label from the interaction. Wrong hypothesis will add wrong signal-label to the classifier reducing its quality, so reducing the sharpness of its prediction. The effect will be quite small wrt. the matching process but still helps. In other word we are integrating the fact that the user is not coherent with a hypothesis by integrating new data point in the classifier.
-
-Each hypothesis is believing it is the good one, it is modeling the signal to meaning mapping of the user wrt. the hypothesis objective. Then testing if it can predict the correct label for future interaction. As the user is actually following only one hypothesis, and the signal have some structure in the space, only one hypothesis will be able to predict correctly futture interaction. Our assumption is that the hypothesis which shows more coherence between expected label and predicted label is more likely to be the correct one. 
-
-In phase 1 it is the quality of prediction that differentiate hypothesis. Bad hypothesis will realize that they are not able to predict coherent output, this is mainly measured by the confusion matrix. Realize that if we use a batch method and have an over fitting classifier, no hypothesis will stand out because they will all predict correclty what is going on. With a classifiet that does not overfit, or is just trained on past data, the classifier will still tend to label the data according to the task, because the task is what generates the label (think of symetric hypothesis). But the more we collect data, the more we collect evidence that should make bad hypothesis mix labels, which reduce the quality of the classifier, i.e. it's ability to make correct prediction (different form the probabilitic output of the classifier), which makes the vote of this hypothesis weaker. And here is the trick, the confusion matrix model the noise in the prediction, in our case it can come from noise inherent of the data generation (overlap of distribution) or from teaching mistake (\textbf{teaching mistake with respect to the hypothesis considered}) that both mixes the labels and create non expected prediction from the classifier.
-
-After phase one, we found out which hypothesis was the correct one. We therefore have access to the ``true'' labelling of the data. At this point, we assign the same labels for all hypothesis.
-
-Beginning phase two, all the classifiers are the same, the difference between hypothesis will be on the match between classified signal and expected label. As we interact with the user, some teaching mistake occurs (\textbf{teaching mistake with respect to the hypothesis considered}) that both create non expected prediction from the classifier and decrease the trust I put into my classifier by mixing labels.
-
-So the same process are active in both pahse: non-expected prediction, and decrease of the classifier trust.
-In phase one, all hypothesis model there own stuff, there is less non-expected prediction, but the more we interact the less we trust some classifier which mixes labels.
-In phase two, all hypothesis start wth the same classifier, there is more non-expected prediction, and the more we interact the less we trust some classifier which mixes the labels (but here the time to radically change the trust we put in one classifier is long as they all start with the same data, the more we have similar data the less this plays a role.)
-
-\subsection{Notations and assumptions}
-
-We consider interaction sessions where a machine is solving a task $\hat{\xi}$ under the supervision of a user who gives feedback (or instructions) to the machine using some specific signal $e$. The machine is ignorant of the task to perform and of the actual meaning of the signals. Its objective is to simultaneously solve the task and learn a model for the user's signals. To achieve this, it has access to a sequence of triplets in the form $\{(s_i, a_i, e_i),\ i = 1,\ldots,M\}$, where $s_i$, $a_i$ and $e_i$ represent, respectively, the state, action and instruction signals at time step $i$. The behavior of the machine is determined by the actions $a\in\mathcal{A}$ and the corresponding transition model $p(s'\mid s,a)$.  We will denote $D_i$ to the history of $(e_i, s_i, a_i)$ up to time $i$.
-
-
-We make the following assumptions under this general paradigm. First, the system has access to a set of task hypothesis $\xi_1,\ldots,\xi_T$ which includes the task the user wants to solve. We assume instruction signals $e$ have a finite and discrete number of meanings $l \in \{l_1, l_2, \ldots, l_L\}$ which we call labels and this is known by the user and the machine. The simplest example -- the one we will use in the experiments -- is to consider two  possible meanings for the signals: correct or incorrect. We assume that given these labels, it is possible to compute a model that generates or classifies signals $e$ into meanings $l$. The parameters of such a model will be denoted by $\theta$.
-
-
-%The meaning of  model is unknown at start and is parametrize by $\theta$. Given a label $l$ it outputs the probability that an observed signal $e \in \mathbf{R}^n$ was generated by our model $p(e | l, \theta)$.
- 
-% the signal-to-meaning mapping. This mapping is done by a classifier parameterize by $\theta$, that is unknown at start. Given a signal $e \in \mathbf{R}^n$ the classifier outputs label probabilities $p(l^{H^\theta} | e, \theta)$.
-
-%We further assume that given a task $\xi$ and a state-action pair $(s, a)$, the machine has access to a model of the user expected labels $p(l^{H} | s, a, \xi)$. We denote as $D_i^\xi$ the history of $(e_i, s_i, a_i, p(l_i^{H} | s_i, a_i, \xi))$ up to time $i$ for task $\xi$. 
-%Given $D_i^\xi$, we can optimize the classifier parameters $\theta_i^{\xi}$.
-
+As the frame and the classifier distribution refers to probabilities about labels, we will use different notation for the labels given by the frame, which we denote $l^f$, and predicted by the classifier, which we denote $l^c$.  Additionally, for a given iteration step $i$, we will underscript our label notation with a $i$ referring to the iteration number.
 
 % For each hypothesis, at time $i$, we have several dataset $D_i^{\xi_t}$, which are used to train a classifier parametrize by $\theta_i^{\xi_t}$. Each classifier $\theta_i^{\xi_t}$ represents an interpretation hypothesis of the user given he is trying to instruct the task $\xi_t$.
 
 \subsection{Estimating Tasks Likelihoods}
 
-% \todo{Conceptual terms, no Gaussian classifier, no EEG}
 
-We start by assuming we are provided a calibrated model $\hat{\theta}$ and release this assumption later on.
+As explained in the beginning of this section, we will rely on the classification performance of each hypothetic classifier to find out which task is the more likely. More precisely we will compute the probability that every signal is correctly classified given a set of signal-label pairs. It is important to clarify the meaning of correctly classified. Indeed, the agent do not have access to the true labels of the data, so what we mean here by correctly refer to the hypothetic labels given by the hypothetic task considered. In other words, we compute whether or not the classifier computed for the specific state-action pairs is able to separate well the different classes. 
+
+The probability that one signal is correctly classified is the sum across all labels of the probabilities that a signal is of a given label times the probability that the model classifies it as being of this same label. Given an interaction tuple $(s,a,e)$, a task $\xi$, and a classifier $\theta$, we can compute the probability that one signal is correctly classified according to the frame as:
 %
-As mentioned in the introduction, knowing $\hat{\theta}$, we can compute the probability of each task $\xi_t$ after observation of a signal $e$ when performing action $a$ in state $s$.
-
 \begin{eqnarray}
-p_{\hat{\theta}}(\xi_t|e, s, a ) & \propto & p_{\hat{\theta}}(e |s, a, \xi_t) p(\xi_t)
-\label{eq:1}
+p(l^c = l^f | s, a, e, \theta, \xi) = \sum_{k = 1, \ldots, L} p(l^c = l_k | e, \theta) p(l^f = l_k | s, a, \xi)
 \end{eqnarray}
-where  $p_{\hat{\theta}}(e |s, a, \xi_t)$ takes into account all the probability of each possible meaning $l$ given the target $\xi_t$, the current state $s$ and the action $a$ executed by the machine.
-\begin{eqnarray}
-p_{\hat{\theta}}(e |s, a,  \xi_t) =  \sum_{k \in {1, \ldots, L}} p_{\hat{\theta}}(e |l = l_k) p(l = l_k| s, a, \xi_t).
-\end{eqnarray}
-
-This process can be repeated recursively for several interaction steps $i$, 
-
-\begin{eqnarray}
-\L_i^{\xi_t} & = & p(\xi_t|D_i^{\xi_t}, \hat{\theta}) \nonumber \\
-& \propto & p_{\hat{\theta}}(e_i |s_i, a_i, \xi_t) p_{ \hat{\theta}}(\xi_t|D_{i-1}^{\xi_t})
-\label{eq:filter}
-\end{eqnarray}
-
-with $p(\xi_t|D_0^{\xi_t})$ being the prior probability of each task. Also, one can estimate $p(\theta \mid D_i, \xi_{1:i})$, that is, the posterior distribution of the meaning parameters given the task being solved at each point in time. Note the different notation for the task and the meaning parameters. The reason is that $\theta$ is a shared parameter for different tasks, while the task being solved should in principle not affect the meaning of the signals $e$.
-
-%By normalizing the likelihoods of all task, we obtain the probability distribution between tasks. A threshold mechanism could be used to decide when to stop.
-
-We now relax the assumption we are given a model $\hat{\theta}$. The natural extension from the previous models is to compute the posterior distribution over the the task and the model, $p(\xi_t, \theta^{\xi_t} |e, s, a)$. However, the resulting distribution does not have a close form solution even when linear Gaussian likelihoods are used due to the combination of mixtures for each possible task. Another alternative is to compute the $\theta$ and $\xi$ that maximize the data likelihood. This is prone to fail in certain scenarios due to two reasons. First, it is common that different tasks share many labels (e.g. the policies to reach neighboring cells on a grid world are almost identical and, therefore, share most of the labels $l$) and results on large uncertainties in the task space that require multiple actions to be disambiguated. Second, if the signals are not well separated the meaning parameters $\theta$ of different tasks will not differ much.  
-
-For instance, under Gaussian assumptions for $p_{\theta}(e |l = l_k)$ and deterministic task labels $p(l = l_k| s, a, \xi_t)$, it is possible to integrate out  $\theta$ to compute the marginal likelihood $p(D_i\mid \xi)$. The resulting likelihood depends only on the traces of each $p_{\theta}(e |l = l_k)$. Empirical results with synthetic and EEG data for a reaching task on a grid revealed that, when the distributions over $e$ overlap, the traces were not enough to recover the most likely task and the corresponding meaning parameters. 
-
-To cope with these problems, we define the following pseudo-likelihood function 
-
-\begin{eqnarray}\label{eq:pseudo1}
-\lefteqn{P(D_n | \xi, \theta) \approx \prod_{i=1}^N p(e_i | \xi, \theta_{-i},s_i,a_i)}  \\ \label{eq:pseudo2}
-&=& \prod_{i=0}^N \sum_{l_c}\sum_l  p(e_i | \theta_{-i}, l_c)  p(l_c | \theta_{-i},l) p(l|\xi,s_i,a_i), 
-%p(\xi_t, \theta^{\xi_t} |e, s, a) & \propto & p(e | s, a, \xi_t, \theta^{\xi_t}) p(\xi_t, \theta^{\xi_t}).
-\label{eq:}
-\end{eqnarray}
-
-where $l$ represents the the meaning assigned by task $\xi$, action $a_i$ and state $s_i$ and $l_c$ is the label according to the meaning model $\theta_{-i}$ for a given label $l$.
-
-The pseudo-likelihood is built using a leave-one-out cross-validation strategy to evaluate the likelihood $p(e_i | \xi, \theta_{-i},s_i,a_i)$ of each signal based on the meaning parameters $\theta_{-i}$ learned for each task using all the other available signals. The rationale behind it is that for the correct task, the labels and signals will be more coherent than for other tasks resulting in higher likelihoods. If we interpret $p(e_i | \xi, \theta_{-i},s_i,a_i)$ as a classifier, its predicted labels match the ones provided by the task for different state-actions pairs. Note that wrong tasks assign wrong labels $l$ to the signals $e$ and, therefore, the learned models will have larger overlaps. 
-
-Each term of the pseudo-likelihood is computed from three terms. $p(l|\xi,s_i,a_i)$ represents the probability distributions of the meanings according to the task, the executed action and the current state.   $p(l_c | \theta_{-i},l)$ encodes which label will be actually recovered by $\theta_{-i}$. Intuitively, it models the quality of the model $\theta_{-i}$. $p(e_i | \theta_{-i}, l_c)$ is the likelihood of the signal given the meaning. 
 %
-The pseudo-likelihood is maximized in two steps. First, the maximum a posteriori estimate for each $\theta_{-i}$ of each task  is computed. Then, the term $p(l_c | \theta_{-i},l)$ is approximated by the corresponding confusion matrix of a classifier based on $\theta_{-i}$. Finally, the best task $\xi$ is the one that maximizes the pseudo-likelihood in Eq. \ref{eq:pseudo1}.
+This equation holds for one iteration step and assume the classifier is already given.  We should now compute the probability that all the labels expected by the frame and all the labels predicted by the classifier match together given a history of interaction and a hypothesized task. Given the full interaction history $D_M$ up to time step $M$, and a task $\xi_t$, we can infer the expected labels $l^f_{1,\ldots,M, \xi_t}$ associated to the signals $e_{1,\ldots,M}$, and compute the associated classifier represented by the set of parameters $\theta_{M, \xi_t}$. 
+
+For clarify of writing we simplify our notations, and remove the $\xi_t$ underscript. It is important for the reader to keep in mind that the robot will never have access to the true intended meaning of the users, therefore, as soon as we infer labels, they are always linked to a hypothesize task, which will always be included in the conditional part of the probability notations. Note that the tuple $(s, a, e)$ are observations independent of the task.
+
+Given the classifier $\theta_M$ associated to the task $\xi_t$ at time step $M$, the probability that every expected and predicted labels match together, which we call the likelihood of the task $\xi_t$, is given by:
+%
+\begin{eqnarray}
+\L(\xi_t) &=& \prod_{i = 1,\ldots,M} p(l^c_i = l^f_i | D_M, \xi_t) \nonumber \\ 
+&=& \prod_{i = 1,\ldots,M} \sum_{k = 1, \ldots, L} p(l^c_i = l_k | e_i, \theta_M) p(l^f_i = l_k | s_i, a_i, \xi_t)
+\label{eq:matchingoverfitting} 
+\end{eqnarray}
+%
+This equation resumes in computing the odds that all the prediction made by the classifier equals the labels used to train this classifier. Indeed, the classifier $\theta_{M}$ is here computed using all the history of interaction including all the pairs $(e_i, l^f_i)$. This is usually a bad idea to test on data used to learn. Indeed we can already spot a pitfall named overfitting. If the classifier do not generalize and learns a one to one mapping between the provided examples, the above equation will provide the same result for all hypothesis. 
+
+What we really want to test is if the system is able to make correct prediction about what the frame will predict for a new, never observed, situation, i.e. a new tuple $(s,a,e)$. One possible option is to incrementally update the likelihood of each task as soon as new data comes in:
+%
+\begin{eqnarray}
+\L_i(\xi_t) &=& p(l^c_i = l^f_i | D_i, \xi_t) ~~ \L_{i-1}(\xi_t) \nonumber \\ 
+&=& \sum_{k = 1, \ldots, L} p(l^c_i = l_k | e_i, \theta_{i-1}) p(l^f_i = l_k | s_i, a_i, \xi_t) ~~ \L_{i-1}(\xi_t) 
+\label{eq:matchingfilter} 
+\end{eqnarray}
+%
+where $\theta_{-i}$ is the classifier train on the all the past observation up to time $i-1$and according to the label generated from task $\xi_t$. And with $\L_{0}(\xi_t)$ being the prior at time 0 (before the experiment starts) for the task $\xi_t$, usually uniform over the task distribution.
+
+While this is a good enough option as it will be demonstrated in the remaining of this thesis, it does not use all available information. Indeed, the update that was made at time $i-10$ is now out of date as we now have $9$ more observation tuple available that may change our past estimates. It would be better to reassess the performance of the classifier given the full set of observation. To do so, and in order to avoid the problem of overfitting, the classifier should be trained on all data but the one tested. We denote by $\theta_{-i}$ a classifier trained on all data available up to time $i$ but the one of time step $i$. We can now rewrite the likelihood as:
+%
+\begin{eqnarray}
+\L(\xi_t) &=& \prod_{i = 1,\ldots,M} p(l^c_i = l^f_i | D_M, \xi_t) \nonumber \\ 
+&=& \prod_{i = 1,\ldots,M} \sum_{k = 1, \ldots, L} p(l^c_i = l_k | e_i, \theta_{-i}) p(l^f_i = l_k | s_i, a_i, \xi_t) 
+\label{eq:matching} 
+\end{eqnarray}
+%
+While this equation exhibit minor changes over Equation.~\ref{eq:matchingoverfitting}, it avoids problems of overfitting. However, this is already very costly in terms of computational cost and is unlikely to be usable in practice. For example, after $100$ steps, if just $10$ task hypothesis are considered, the system would have to compute $1000$ classifiers to update the likelihoods of each task.
+
+Still, this last approach is not taking into account the intrinsic quality of the classifier itself before taking into account its prediction. By this we ask the question of knowing how reliable the prediction of the classifier are? A common method to evaluate the uncertainty on the classifier prediction is to use a cross-validation procedure \todo{refer to intro part} to estimate the confusion matrix associated to the classifier. Such confusion matrix allow to infer the conditional probability of one label given the label prediction from the classifier $p(l = l_k| l^c = l_q, \theta)$, for a every combination of $k$ and $q$ in $1, \ldots, L$. Which can be used to temperate the predictions of the classifier. 
+
+For example, a dummy classifier could predict that any given signal $e$ will have a probability $1$ of being of class $l_1$. This classifier is obviously wrong if there more than two labels in the training dataset, and the cross-validation procedure will capture this problem while avoiding overfitting problems. If there were 2 classes with equals number of sample, the confusion matrix will give us the following information: $p(l = l_1| l^c = l_1, \theta) = p(l = l_2| l^c = l_1, \theta) = 0.5$. Meaning that when the classifier predicts label $l_1$ there is $50$ percent chances that the true label is actually $l_1$, and $50$ percent for $l_2$. In other words, the classifier is useless.
+
+Each element of a confusion matrix represents the joint probability $p(l = l_k, l^c = l_q| e, \theta)$ for a given combination of $k$ and $q$ in $1, \ldots, L$. 
+
+\todo{describe the conditional estimation from the joints}
+
+
+This latter equation captures well the  full aspect of the problem. However this is extremely time consuming, as it would require to train $10000$ classifiers after $100$ steps, for just $10$ task hypothesis, and using $10$ fold cross-validation. This is impossible to use in real time and, as for Equation~\ref{eq:matchingfilter}, we will rely on an iterative process to cope with this problem.
+
+
+
+
+
+The pseudo-likelihood is built using a leave-one-out cross-validation strategy to evaluate the likelihood $p(e_i | s_i, a_i, \xi, \theta_{-i})$ of each signal based on the meaning parameters $\theta_{-i}$ learned for each task using all the other available signals. The use of $\theta_{-i}$ indicates we use a leave one out method. If we interpret $p(e_i | s_i,a_i,\xi,\theta_{-i})$ as a classifier, its predicted labels should match the ones provided by the task for different state-actions pairs. The rationale behind it is that for the correct task, the signals and labels will be more coherent than for other tasks, which we measure as the predictive ability of a classifier trained on the signal-label pairs. Note that wrong tasks will assign wrong labels $l$ to the signals $e$, therefore the learned models will have larger overlaps (see Figure~\ref{fig:planningExplained}c). 
+
+Each term of the pseudo-likelihood is computed from three terms. $p(l|s_i,a_i,\xi)$ represents the probability distributions of the meanings according to a task, the executed action and the current state.   $p(l_c | l, \theta_{-i})$ encodes which label will be actually recovered by $\theta_{-i}$. Intuitively, it models the quality of the model $\theta_{-i}$. $p(e_i | l_c,\theta_{-i})$ is the likelihood of the signal given the meaning. 
+%
+The pseudo-likelihood is maximized in two steps. First, the maximum a posteriori estimate $\theta_{-i}$ of each task is computed. Then, the term $p(l_c | l, \theta_{-i})$ is approximated by the corresponding confusion matrix of the classifier based on $\theta_{-i}$. It is the probability that the classifier itself is reliable in its prediction. Finally, the best task $\xi$ should be the one that maximizes the pseudo-likelihood in Eq. \ref{eq:pseudo1}.
 
 \subsection{Decision and Task Change}
 
@@ -473,6 +532,29 @@ We use the same threshold mechanism as described in previous subsection to decid
 However, as tasks are identified, the prior becomes more informative and the adaptation may have problems to cope with drastic changes such as strongly modifying the signals. To handle this problem, we chose to limit the size of the prior through the use of a sliding window on past iterations which allows to estimate a moving average of parameters $\theta$. In practice, we limited $D^{\xi_t}_{i}$ to the last $250$ elements.
 
 \subsection{Using known signals}
+
+
+\section{Summary}
+
+The algorithm is  divided into a classification algorithm, estimating one classifier for each hypothesis based on past interaction, and a learning algorithm that uses the results and properties of this classifier to update the belief over hypothesis for current interaction.
+
+Our approach uses the same algorithm if we have label or not. For better explaining the approach, during the explanation we will refer to two phases in the learning process: phase 1 which is learning from scratch a task from unlabelled instruction and phase 2 which is learning a second (or third or) task based on the fact we already inferred a first one. Our algorithm is the same for the two phases but different factor are dominating on one or the other learning phase.
+
+Phase 1 is the main contribution of this work and enable a system to be instructed using signal initially unknown to the it. As stated before, our system will generate hypothesis over the possible task, infer the hypothetic label associated to the signal and check which hypothetic set of signal - label \ldots c nul
+
+Phase 2 seems to be simply learning from known instruction, where a calibration procedure has been performed before. But in our case it differs in one way, we keep generating hypothesis. We keep updating the classifier with the new pair of signal-label from the interaction. Wrong hypothesis will add wrong signal-label to the classifier reducing its quality, so reducing the sharpness of its prediction. The effect will be quite small wrt. the matching process but still helps. In other word we are integrating the fact that the user is not coherent with a hypothesis by integrating new data point in the classifier.
+
+Each hypothesis is believing it is the good one, it is modeling the signal to meaning mapping of the user wrt. the hypothesis objective. Then testing if it can predict the correct label for future interaction. As the user is actually following only one hypothesis, and the signal have some structure in the space, only one hypothesis will be able to predict correctly futture interaction. Our assumption is that the hypothesis which shows more coherence between expected label and predicted label is more likely to be the correct one. 
+
+In phase 1 it is the quality of prediction that differentiate hypothesis. Bad hypothesis will realize that they are not able to predict coherent output, this is mainly measured by the confusion matrix. Realize that if we use a batch method and have an over fitting classifier, no hypothesis will stand out because they will all predict correclty what is going on. With a classifiet that does not overfit, or is just trained on past data, the classifier will still tend to label the data according to the task, because the task is what generates the label (think of symetric hypothesis). But the more we collect data, the more we collect evidence that should make bad hypothesis mix labels, which reduce the quality of the classifier, i.e. it's ability to make correct prediction (different form the probabilitic output of the classifier), which makes the vote of this hypothesis weaker. And here is the trick, the confusion matrix model the noise in the prediction, in our case it can come from noise inherent of the data generation (overlap of distribution) or from teaching mistake (\textbf{teaching mistake with respect to the hypothesis considered}) that both mixes the labels and create non expected prediction from the classifier.
+
+After phase one, we found out which hypothesis was the correct one. We therefore have access to the ``true'' labeling of the data. At this point, we assign the same labels for all hypothesis.
+
+Beginning phase two, all the classifiers are the same, the difference between hypothesis will be on the match between classified signal and expected label. As we interact with the user, some teaching mistake occurs (\textbf{teaching mistake with respect to the hypothesis considered}) that both create non expected prediction from the classifier and decrease the trust I put into my classifier by mixing labels.
+
+So the same process are active in both phase: non-expected prediction, and decrease of the classifier trust.
+In phase one, all hypothesis model there own stuff, there is less non-expected prediction, but the more we interact the less we trust some classifier which mixes labels.
+In phase two, all hypothesis start with the same classifier, there is more non-expected prediction, and the more we interact the less we trust some classifier which mixes the labels (but here the time to radically change the trust we put in one classifier is long as they all start with the same data, the more we have similar data the less this plays a role.)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -695,3 +777,7 @@ In this work we presented an interactive learning system that can learn the init
 
 
 say that the signal were very easy to classify
+
+
+
+
