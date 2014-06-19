@@ -165,7 +165,7 @@ We have seen the feedback frames where the human user is assessing the robot act
 \todo{exemplify guidance with visuals and describe the signals used as they will be the same for all the document visuals}
 
 
-\subsection{Is it the only way?}
+\subsection{Why not a clustering algorithm}
 
 When we first look at the unlabeled signals, the first approach that one as in mind is to use a clustering algorithm to find the two clusters in the feature space. For very simple dataset, like the one presented in \todo{Figure smth}, a clustering algorithm will find the two clusters. However, without any additional information, it is impossible to know which one is associated to the meaning ``correct'' or to the meaning ``incorrect''.
 
@@ -332,7 +332,7 @@ As the frame and the classifier distribution refers to probabilities about label
 % For each hypothesis, at time $i$, we have several dataset $D_i^{\xi_t}$, which are used to train a classifier parametrize by $\theta_i^{\xi_t}$. Each classifier $\theta_i^{\xi_t}$ represents an interpretation hypothesis of the user given he is trying to instruct the task $\xi_t$.
 
 \subsection{Estimating Tasks Likelihoods}
-
+\label{chapter:lfui:likelihood}
 
 As explained in the beginning of this section, we will rely on the classification performance of each hypothetic classifier to find out which task is the more likely. More precisely we will compute the probability that every signal is correctly classified given a set of signal-label pairs. It is important to clarify the meaning of correctly classified. Indeed, the agent do not have access to the true labels of the data, so what we mean here by correctly refer to the hypothetic labels given by the hypothetic task considered. In other words, we compute whether or not the classifier computed for the specific state-action pairs is able to separate well the different classes. 
 
@@ -342,7 +342,7 @@ The probability that one signal is correctly classified is the sum across all la
 p(l^c = l^f | s, a, e, \theta, \xi) = \sum_{k = 1, \ldots, L} p(l^c = l_k | e, \theta) p(l^f = l_k | s, a, \xi)
 \end{eqnarray}
 %
-This equation holds for one iteration step and assume the classifier is already given.  We should now compute the probability that all the labels expected by the frame and all the labels predicted by the classifier match together given a history of interaction and a hypothesized task. Given the full interaction history $D_M$ up to time step $M$, and a task $\xi_t$, we can infer the expected labels $l^f_{1,\ldots,M, \xi_t}$ associated to the signals $e_{1,\ldots,M}$, and compute the associated classifier represented by the set of parameters $\theta_{M, \xi_t}$. 
+This equation estimate the joint probability for one new iteration step and assume the classifier is already given.  We should now compute the probability that all the labels expected by the frame and all the labels predicted by the classifier match together given a history of interaction and a hypothesized task. Given the full interaction history $D_M$ up to time step $M$, and a task $\xi_t$, we can infer the expected labels $l^f_{1,\ldots,M, \xi_t}$ associated to the signals $e_{1,\ldots,M}$, and compute the associated classifier represented by the set of parameters $\theta_{M, \xi_t}$. 
 
 For clarify of writing we simplify our notations, and remove the $\xi_t$ underscript. It is important for the reader to keep in mind that the robot will never have access to the true intended meaning of the users, therefore, as soon as we infer labels, they are always linked to a hypothesize task, which will always be included in the conditional part of the probability notations. Note that the tuple $(s, a, e)$ are observations independent of the task.
 
@@ -364,7 +364,7 @@ What we really want to test is if the system is able to make correct prediction 
 \label{eq:matchingfilter} 
 \end{eqnarray}
 %
-where $\theta_{-i}$ is the classifier train on the all the past observation up to time $i-1$and according to the label generated from task $\xi_t$. And with $\L_{0}(\xi_t)$ being the prior at time 0 (before the experiment starts) for the task $\xi_t$, usually uniform over the task distribution.
+where $\theta_{i-1}$ is the classifier trained on all the past observation up to time $i-1$and according to the label generated from task $\xi_t$. And with $\L_{0}(\xi_t)$ being the prior at time 0 (before the experiment starts) for the task $\xi_t$, usually uniform over the task distribution.
 
 While this is a good enough option as it will be demonstrated in the remaining of this thesis, it does not use all available information. Indeed, the update that was made at time $i-10$ is now out of date as we now have $9$ more observation tuple available that may change our past estimates. It would be better to reassess the performance of the classifier given the full set of observation. To do so, and in order to avoid the problem of overfitting, the classifier should be trained on all data but the one tested. We denote by $\theta_{-i}$ a classifier trained on all data available up to time $i$ but the one of time step $i$. We can now rewrite the likelihood as:
 %
@@ -374,187 +374,132 @@ While this is a good enough option as it will be demonstrated in the remaining o
 \label{eq:matching} 
 \end{eqnarray}
 %
-While this equation exhibit minor changes over Equation.~\ref{eq:matchingoverfitting}, it avoids problems of overfitting. However, this is already very costly in terms of computational cost and is unlikely to be usable in practice. For example, after $100$ steps, if just $10$ task hypothesis are considered, the system would have to compute $1000$ classifiers to update the likelihoods of each task.
+While this equation exhibit minor changes over Equation.~\ref{eq:matchingoverfitting}, it avoids problems of overfitting. However, this is already very costly in terms of computational cost and is unlikely to be usable in practice. For example, after $100$ steps, if just $10$ task hypothesis are considered, the system would have to compute $1000$ classifiers to update the likelihoods of each task. While for the previous equations (Eq.\ref{eq:matchingoverfitting,eq:matchingfilter}), if $10$ task hypothesis are considered, we only need to compute $10$ classifiers at each step.
 
-Still, this last approach is not taking into account the intrinsic quality of the classifier itself before taking into account its prediction. By this we ask the question of knowing how reliable the prediction of the classifier are? A common method to evaluate the uncertainty on the classifier prediction is to use a cross-validation procedure \todo{refer to intro part} to estimate the confusion matrix associated to the classifier. Such confusion matrix allow to infer the conditional probability of one label given the label prediction from the classifier $p(l = l_k| l^c = l_q, \theta)$, for a every combination of $k$ and $q$ in $1, \ldots, L$. Which can be used to temperate the predictions of the classifier. 
+Still, this last approach is not taking into account the quality of the classifier itself before taking into account its prediction. By this we ask the question of knowing how reliable the prediction of the classifier are? A common method to evaluate the uncertainty on the classifier prediction is to use a cross-validation procedure (see chapter~\ref{chapter:introduction:supervised}) to estimate the confusion matrix associated to the classifier. Such confusion matrix allow to infer the conditional probability of one label given the label prediction from the classifier $p(l^{cc} = l_k| l^c = l_q, \theta)$, for every combination of $k$ and $q$ in $1, \ldots, L$. Where $l^{cc}$ is the corrected, or ``temperated'', label predicted by the classifier given our estimates, our past experience, on the quality of its prediction using the cross validation procedure.
 
-For example, a dummy classifier could predict that any given signal $e$ will have a probability $1$ of being of class $l_1$. This classifier is obviously wrong if there more than two labels in the training dataset, and the cross-validation procedure will capture this problem while avoiding overfitting problems. If there were 2 classes with equals number of sample, the confusion matrix will give us the following information: $p(l = l_1| l^c = l_1, \theta) = p(l = l_2| l^c = l_1, \theta) = 0.5$. Meaning that when the classifier predicts label $l_1$ there is $50$ percent chances that the true label is actually $l_1$, and $50$ percent for $l_2$. In other words, the classifier is useless.
+For example, a dummy classifier could predict that any given signal $e$ will have a probability $1$ of being of class $l_1$. This classifier is obviously wrong if there more than two labels in the training dataset, and the cross-validation procedure will capture and quantify this problem. If there were 2 classes with equal number of samples, the confusion matrix will give us the following information: $p(l^{cc} = l_1| l^c = l_1, \theta) = p(l^{cc} = l_2| l^c = l_1, \theta) = 0.5$. Meaning that when the classifier predicts label $l_1$ there is $50$ percent chances that the true label is actually $l_1$, and $50$ percent for $l_2$. In other words, the classifier is useless. On the contrary, a perfect classifier, that never makes classification will be represented by the following conditional probabilities: $p(l^{cc} = l_1| l^c = l_1, \theta) = p(l^{cc} = l_2| l^c = l_2, \theta) = 1$ and therefore $p(l^{cc} = l_1| l^c = l_2, \theta) = p(l^{cc} = l_2| l^c = l_1, \theta) = 0$.
 
-Each element of a confusion matrix represents the joint probability $p(l = l_k, l^c = l_q| e, \theta)$ for a given combination of $k$ and $q$ in $1, \ldots, L$. 
-
-\todo{describe the conditional estimation from the joints}
-
-
-This latter equation captures well the  full aspect of the problem. However this is extremely time consuming, as it would require to train $10000$ classifiers after $100$ steps, for just $10$ task hypothesis, and using $10$ fold cross-validation. This is impossible to use in real time and, as for Equation~\ref{eq:matchingfilter}, we will rely on an iterative process to cope with this problem.
-
-
-
-
-
-The pseudo-likelihood is built using a leave-one-out cross-validation strategy to evaluate the likelihood $p(e_i | s_i, a_i, \xi, \theta_{-i})$ of each signal based on the meaning parameters $\theta_{-i}$ learned for each task using all the other available signals. The use of $\theta_{-i}$ indicates we use a leave one out method. If we interpret $p(e_i | s_i,a_i,\xi,\theta_{-i})$ as a classifier, its predicted labels should match the ones provided by the task for different state-actions pairs. The rationale behind it is that for the correct task, the signals and labels will be more coherent than for other tasks, which we measure as the predictive ability of a classifier trained on the signal-label pairs. Note that wrong tasks will assign wrong labels $l$ to the signals $e$, therefore the learned models will have larger overlaps (see Figure~\ref{fig:planningExplained}c). 
-
-Each term of the pseudo-likelihood is computed from three terms. $p(l|s_i,a_i,\xi)$ represents the probability distributions of the meanings according to a task, the executed action and the current state.   $p(l_c | l, \theta_{-i})$ encodes which label will be actually recovered by $\theta_{-i}$. Intuitively, it models the quality of the model $\theta_{-i}$. $p(e_i | l_c,\theta_{-i})$ is the likelihood of the signal given the meaning. 
+We integrate the following measure of prediction uncertainty in equation~\label{eq:matching}:
 %
-The pseudo-likelihood is maximized in two steps. First, the maximum a posteriori estimate $\theta_{-i}$ of each task is computed. Then, the term $p(l_c | l, \theta_{-i})$ is approximated by the corresponding confusion matrix of the classifier based on $\theta_{-i}$. It is the probability that the classifier itself is reliable in its prediction. Finally, the best task $\xi$ should be the one that maximizes the pseudo-likelihood in Eq. \ref{eq:pseudo1}.
+\begin{eqnarray}
+\L(\xi_t) &=& \prod_{i = 1,\ldots,M} p(l^{cc}_i = l^f_i | D_M, \xi_t) \nonumber \\ 
+&=& \prod_{i = 1,\ldots,M} \sum_{k = 1, \ldots, L} p(l^{cc}_i = l_k | e_i, \theta_{-i}) p(l^f_i = l_k | s_i, a_i, \xi_t)
+\label{eq:matchingcrossvalidation} 
+\end{eqnarray}
+%
+with:
+%
+\begin{eqnarray}
+p(l^{cc}_i = l_k | e_i, \theta_{-i}) =  \sum_{q = 1, \ldots, L} p(l^{cc}_i = l_k| l^c_i = l_q, \theta_{-i}) p(l^c_i = l_q | e_i, \theta_{-i})
+\label{eq:confusion} 
+\end{eqnarray}
+%
+Those latter equations capture well the full aspect of the problem. However this is extremely time consuming, as it would require to train $10000$ classifiers after $100$ steps, for just $10$ task hypothesis, and using $10$ fold cross-validation. This is impossible to use in real time and, as for Equation~\ref{eq:matchingfilter}, we will rely on an iterative process to cope with this problem:
+%
+\begin{eqnarray}
+\L_i(\xi_t) &=& p(l^{cc}_i = l^f_i | D_i, \xi_t) ~~ \L_{i-1}(\xi_t) \nonumber \\ 
+&=& \sum_{k = 1, \ldots, L} p(l^{cc}_i = l_k | e_i, \theta_{i-1}) p(l^f_i = l_k | s_i, a_i, \xi_t) ~~ \L_{i-1}(\xi_t)
+\label{eq:matchingfiltercrossvalidation} 
+\end{eqnarray}
+%
+with:
+%
+\begin{eqnarray}
+p(l^{cc}_i = l_k | e_i, \theta_{i-1}) =  \sum_{q = 1, \ldots, L} p(l^{cc}_i = l_k| l^c_i = l_q, \theta_{i-1}) p(l^c_i = l_q | e_i, \theta_{i-1})
+\label{eq:confusionfilter} 
+\end{eqnarray}
+%
+where $\theta_{i-1}$ is the classifier trained on all the past observation up to time $i-1$and according to the label generated from task $\xi_t$. And with $\L_{0}(\xi_t)$ being the prior at time 0 (before the experiment starts) for the task $\xi_t$, usually uniform over the task distribution.
+
+Following this latter equation, at each step, for $10$ task hypothesis, and using $10$ fold cross-validation to estimate $p(l^{cc} | l^c, \theta_{i-1})$ the system would have to compute $100$ classifiers to update the likelihoods of each task.
+
+\transition
+
+To summarize, we describe a succession of equation that all measure the same properties of a classifier, namely the probability that all its prediction are correct. We incrementally included some uncertainty measurement to avoid making too sharp estimates when the classifier are known to be of really bad qualities and to avoid the problems of overfitting.
+
+Each term of our pseudo-likelihood is computed from three terms, we will use generic name for the task and the classifier parameter, respectively $\xi$ and $\theta$. $p(l^f|s,a,\xi)$ represents the probability distributions of the meanings according to a task, the executed action and the current state, i.e. it represent the interaction frame. $p(l^c | e, \theta)$ is the raw prediction from the classifier $\theta$. And $p(l^{cc} | l^c, \theta)$ encodes which label should be actually recovered by $\theta$. Intuitively, it models the quality of the model $\theta$.
+
+In practice our pseudo-likelihood is maximized in two steps. First, the maximum a posteriori estimate $\theta$ of each task is computed. Then, the term $p(l^{cc} | l^c, \theta)$ is approximated by the corresponding confusion matrix of the classifier based on a cross validation on the training data. It is the probability that the classifier itself is reliable in its prediction. Finally, the best task $\xi$ should be the one that maximizes the pseudo-likelihood.
+
+Note that the term $p(l^{cc} | l^c, \theta)$ is a global approximation of the uncertainty of the prediction of the classifier. It consider that every predicted signal follow the same ``rule'' and does not depend on the signal $e$ to be predicted. 
+
+
+% A more precise approach would be to consider a confidence measure on the estimation of each point based on the location of this particular point in the feature space, i.e. $p(l^{cc} | l^c, e, \theta)$. For example, a point that is very close to a bunch of point that all belong to the same class is way more likely to be correctly classified than a point far away from any previously seen point or in the middle of a cloud of point with contradictory labels. For example, Montesano et al. in \cite{montesano2012active} use an algorithm that combines beta–binomial distributions and a non-parametric kernel approach to provide the full distribution for the probability of grasping
 
 \subsection{Decision and Task Change}
 
-The machine is simultaneously solving a task and learning the meanings associated to the signals. However, it is possible to solve the task before the meanings are perfectly modeled or vice-versa. Therefore, in practical terms it is necessary to be able to switch to the next task once it has been solved and to continue updating the meaning. 
-%
-We define $W^{\xi_t}$ the minimum of pairwise normalized likelihood between hypothesis $\xi_t$ and each other hypothesis: 
+Using any of the equation described above do not inform us about when our system is confident about which task hypothesis is the correct one. Indeed at every iteration step, one likelihood will be higher that the other, but which criteria should we used to decide what value for ``higher'' is enough.
 
-\begin{eqnarray}
-W^{\xi_t} = \argmin_{x~\in~{1, \ldots, T} \smallsetminus \{t\}} \frac{P(D_n | \xi_t, \theta)}{P(D_n | \xi_t, \theta) + P(D_n | \xi_x, \theta)}.
-\label{eq:weight}
-\end{eqnarray}
-
-When it exists a $t$ such that $W(\xi_t)$ exceeds a threshold $\beta \in ]0.5,1]$ we consider task $\xi_t$ is the one taught by the user.
-
-After identifying a task, we can infer the true labels of the past data and assign such labels for all hypothesis. The user starts teaching a new task using the same kind of signals. By using the same algorithm we can start learning this new task faster as all hypothesis share a common set of signal-label pairs. The meaning model is still updated step after step until next task is identified and labels reassigned.
-
-\subsection{stuff}
-
-
-This section formalizes the problem of executing a task when the mapping between raw EEG signals to a discrete label among a set of pre-defined labels is unknown. The main idea is depicted in Figure~\ref{fig:GM} for a toy 1D example. The user wants the device to reach the right-most state. For each device's action, he provides a feedback signal which encode whether the action executed is ``correct'' or ``wrong'' according to the intended target. Such signals are generated from an underlying model which maps a binary label (``correct'' or ``wrong'') to a continuous signal. However, neither the user's desired target nor the labels associated to the user's feedback signals are known.
-
-Considering that we can define a finite set of task hypotheses (e.g. reaching one of a finite number of states), we can infer the labels that should be provided by the user with respect to each hypothesis. Then, given a particular interaction history, it is possible to compute a different signal decoder for each task hypothesis. The key point is that only the correct hypothesis will assign the correct labels to all feedback signals (Figure~\ref{fig:GM1}), while the other hypotheses will gradually mix both classes as the hypothetic target gradually differs more from the correct one (Figure~\ref{fig:GM2}~and~\ref{fig:GM3}). Therefore, the hypothesis which provides the decoder with best accuracy and compactness can be selected as the most probable one. In the remainder of this section we show how this property can be exploited to estimate the target and the model generating the feedback signals.
-
-Formally, we represent the problem as a discrete or continuous set of states $s \in S$,  a finite set of possible actions $a \in A$, and a set of possible tasks, or targets, for which the system is able to plan the best sequence of actions. In the 1D example in Figure~\ref{fig:GM}, the state space is composed of seven discrete states, and the agent can perform unitary directional actions, i.e. move one cell left or right. During an interactive learning session, the agent will proactively perform actions which will in turn be evaluated as ``correct'' or ``wrong'' by the user with respect to the desired target state on the grid. In our case the feedback signals are error-related potentials measured in the brain activity of the subject.
-
-Let $e_i\in \mathbf{R}^n$ denote the feature vector of the EEG measurements obtained at iteration $i$ after the device performed action $a_i$ in state $s_i$. The label $z_i\in\{c,w\}$ of each feedback signal belongs to one of two classes (``correct'' or ``wrong'').
-%
-Following \cite{blankertz2010single} (\cite{blankertz2010single}), we will model the EEG signals using independent multivariate normal distributions for each class ($\mathcal{N}(\mu_c, \Sigma_c)$ and $\mathcal{N}(\mu_w, \Sigma_w)$). We will denote by $\theta$ this set of parameters $\{\mu_c, \Sigma_c,\mu_w, \Sigma_w\}$.
-
-We assume the system has access to a set of task hypotheses $\xi_1,\ldots,\xi_T$ which includes the task the user wants to solve. We do not make any particular assumption on how the task is represented but we assume that for each particular task $\xi$ we are able to compute a policy $\pi_\xi$ which represents the probability of choosing a given action $a$ in state $s$, $\pi_{\xi}(s,a) = p(a|s,\xi)$. As mentioned above, these are the policies that, conditioned on the task, provide labels to the feedback signals of a state-action pair (e.g. in a reaching task, progressing towards the goal will generate ``correct'' feedback while moving apart from it will generate ``wrong''feedback).
-
-The method aims to infer which task $\hat{\xi}$ the user wants to solve based on the user's feedback signals extracted from EEG measurements collected while the agent executes some actions. Following the analysis of Figure~\ref{fig:GM}, a sensible option to estimate the task is to measure the coherence of the signal model for each possible task using the virtual labels provided by the target policy. In other words, the best $(\xi,\theta)$ pair provides the lowest predictive error on the observed signals $p(e|s,a,\xi,\theta)$, which themselves were collected in the recent history of interaction. One possible way of solving this problem is to maximize the expected classification rate:
+The simplest method is to normalize the likelihood estimates to $1$, and considered the resulting value as the probability of each task:
 %
 \begin{eqnarray}
-\hat{\xi},\hat{\theta}&=& \arg\max_{\xi,\theta} E_e\left[ \delta(z(s,a,\xi), z(e,\theta)) \right]
+p(\xi_t) = \frac{\L(\xi_t)}{\sum_{u = 1,\ldots, T} \L(\xi_u)}
+\label{eq:probanormalize} 
 \end{eqnarray}
 %
-where $\delta()$ is an indicator function, $z(s,a,\xi)$ is the label (correct or wrong) corresponding to the execution of action $a$ in state $s$ under task $\xi$ and $z(e,\theta)$ is the label provided by classifying the EEG signal $e$ under the Gaussian classifier parameterized by $\theta$. The expected classification rate ($Ecr$) can be explicitly written dependent on the task and decoder model:
+Given this measure, we can define a probability threshold $\beta$, and when it exists a $t$ such that $p(\xi_t) > \beta$ we consider task $\xi_t$ is the one taught by the user.
+
+This method suffer from one important drawback, it does not scale well with the number of hypothesis. Indeed, the more hypothesis, the more the difference in likelihood between the best task and the other tasks should be important. Consider for example two cases: \begin{inparaenum}[a)] \item for only two hypothesis whose respective likelihoods are $[0.45, 0.05]$, their normalized likelihood is $[0.9,0.1]$ \item for four hypothesis whose respective likelihoods are $[0.45, 0.05, 0.05, 0.05]$, their normalized likelihoods are $[0.75, 0.083, 0.0833, 0.083]$. \end{inparaenum}. While the difference of likelihood between the best task and the others is the same in both condition, the normalization decreases the importance of the first task with respect to the other. Scaling this to one hundred hypothesis and the normalized likelihood requires huge likelihood difference to reach the same threshold. Normalized likelihood would require to change the threshold for every scenario depending on the number of hypothesis. 
+
+Comparing the likelihood pairwise is a more robust estimate. Considering the example describe above, the first hypothesis was 9 times more likely than all other hypothesis in all condition (2 or 4 hypothesis). We therefore define $W^{\xi_t}$  the minimum of pairwise normalized likelihood between hypothesis $\xi_t$ and each other hypothesis as our measure of confidence:
 %
 \begin{eqnarray}
-\lefteqn{Ecr\left( \delta(z(s,a,\xi), z(e,\theta)) \right) =}\nonumber\\
- &=& \sum_{k \in \{c,w\}} p(z=k|s,a,\xi) p(z=k|e,\theta)
-\label{eq:ecr} 
+W^{\xi_t} = \min_{u~\in~{1, \ldots, T} \smallsetminus \{t\}} \frac{\L(\xi_t)}{\L(\xi_t) + \L(\xi_u)}
+\label{eq:probapairwise}
 \end{eqnarray}
 %
-where $p(z=k|s,a,\xi)$ represents the probability of the user assigning label $k$ when assessing action $a$ in state $s$ according to task $\xi$. We add a noise term to cope with those situations where the user assessment may be wrong. The model for probability of correct assessment is then:
-%
-\begin{equation}
-    p(z=c|s,a,\xi) = \begin{cases}
-                           1-\alpha           & if~a = \arg\max_{a} \pi_{\xi}(s,a)\\
-                           \alpha             & \text{otherwise}\\
-                       \end{cases}
-\end{equation}
-%
-with $\alpha$ modeling the assessment error rate of the user, which was set to $0.1$ for our experiments.
+When it exists a $t$ such that $W^{\xi_t}$ exceeds a threshold $\beta \in ]0.5,1]$ we consider task $\xi_t$ is the one taught by the user.
 
-Finally, the term $p(z=k|e,\theta)$ is just the probability that the signal $e$ belong to class $k$ under the Gaussian model provided by $\theta$ and is given by:
-%
-\begin{eqnarray}
-    p(z=k|e,\theta) &=& 
-                \frac{p(e|z=k, \theta)p(z = k)}{\sum_{l \in \{c,w\}}{p(e|z=l,\theta)p(z=l)}}\nonumber\\
-                 &=& \frac{\mathcal{N}(e|\mu_k, \Sigma_k)p(z = k)}{\sum_{l \in \{c,w\}}{\mathcal{N}(e|\mu_l, \Sigma_l)p(z=l)}}
-    \label{eq:dev}
-\end{eqnarray}
-%
-As we do not have a priori knowledge on the user intended meaning, we assume that it is equiprobable $p(z = c) = p(z = w)$. We will factorize the optimization process using the fact that given a task $\xi$, the estimation of $\theta$ under the Gaussian model is straightforward. It basically requires to compute the maximum-likelihood estimate $\theta^{ML}_{\xi}$ using the labels associated to target $\xi$. We could also consider a prior distribution on the parameters and update it with new observations. Using the labels of target $\xi$, the estimation of $\theta$ under the Gaussian model described above simply returns to the computation of the posterior mean $\mu_z$ and covariance $\Sigma_z$ for each class $z \in \{c, w\}$. In order to avoid numerical problems when estimating the covariance for a low number of examples, a regularization term was applied to penalize very large and very small eigenvalues \cite{friedman1989regularized}:
-%
-\begin{eqnarray}
-\Sigma_z = (1-\lambda)\Sigma_z + \lambda \frac{trace(\Sigma_z)}{n} \textbf{I}_n
-\end{eqnarray}
-%
-with n the feature dimension, $\textbf{I}_n$ the identity matrix of size $n$, and $\lambda$ the regularization term which was set to $0.5$ for our experiments. An automatic adaptation of the regularization could also be considered \cite{ledoit2004well}.
+Going back to our previous example: \begin{inparaenum}[a)] \item for only two hypothesis whose respective likelihoods are $[0.45, 0.05]$, their normalized likelihood is $[0.9,0.1]$ while their minimum pairwise normalized likelihood is $[0.9, 0.111]$ \item for four hypothesis whose respective likelihoods are $[0.45, 0.05, 0.05, 0.05]$, their normalized likelihoods are $[0.75, 0.083, 0.0833, 0.083]$ while their minimum pairwise normalized likelihood is $0.9, 0.111, 0.111, 0.111]$. \end{inparaenum}. With our latter measure $W^{\xi_t}$, we can define a threshold that will hold for every scenario independently of the number of hypothesis. 
 
-Using equation~\ref{eq:ecr} to estimate the expected classification rate is difficult because we ideally want to estimate it on future, never observed, data. A possible solution is to use cross-validation or bootstrapping methods using the available data. However, for small amounts of data, these methods result in estimates with high variance \cite{bengio2004no} and computational cost.
+\subsection{From task to task}
 
-Alternatively, we propose to use another approximation of the expected classification rate, the Bhattacharyya coefficient. This coefficient has been related to the classification error of Gaussian models \cite{Kailath67} and is inversely proportional to the classification rate. Although there is no analytical relation between the coefficient and the classification rate, it is possible to derive bounds and good empirical approximations \cite{lee2000bayes}.
-%
-The Bhattacharyya coefficient $\rho \in [0,1]$ between the Gaussian distributions associated to label ``correct'' ($\mathcal{N}(\mu_c, \Sigma_c)$) and ``wrong'' ($\mathcal{N}(\mu_w, \Sigma_w)$) is:
-%
-\begin{eqnarray}
-\rho = e^{-D_B(\theta)}
-\end{eqnarray}
-%
-where $D_B$ is the Bhattacharyya distance:
-$D_B(\theta)=$\\$\frac{1}{8}(\mu_c-\mu_w)^T(\frac{\Sigma_c+\Sigma_w}{2})^{-1}(\mu_c-\mu_w)+\frac{1}{2}ln\left(\frac{det(\frac{\Sigma_c+\Sigma_w}{2})}{\sqrt{det\Sigma_c det\Sigma_w}}\right)$. 
+Once a task is identified with confidence, the robot executes that task and should prepare to receive new instructions from the user to execute a new task. Assuming the user starts teaching a new task using the same kind of signals, we now have much more information about the signal model. Indeed, we are confident that the user was providing instructions related to the previously identified task; therefore we can infer the true labels of the past signals. We can now  assign such labels to all hypothesis and by using the same algorithm we can start learning the new task faster as all hypothesis now share a common set of signal-label pairs. The meaning models for each hypothesis are still updated step after step until the new task is identified and labels reassigned.
 
-Finally, we approximate the expected classification rate as: 
-\begin{eqnarray}
-Ecr \propto 1 - \rho
-\end{eqnarray}
-
-
-\subsection{Confidence on Target Estimation}
-
-Now that we have an estimation of the expected classification rate, we need to take a decision with respect to which task is the one intended by the user. To do so we should compare the expected classification rate of every task hypothesis $\xi_t$ with $t \in \{1, \ldots, T\}$. The hypothesis whose associated model has the highest expected classification rate, i.e.\ the lowest value of $\rho$, is expected to be the one intended by the user, however it is meaningless to define an absolute threshold on the value of the expected classification rate itself. Indeed, different people generate different signals which result in classifiers of different qualities. To bypass this problem we rely on a voting system where we attribute each hypothesis $\xi_t$ a weight that is updated at every iteration.
-
-We rely on a pseudo-likelihood metric that for each hypothesis $\xi_t$ accumulate expected classification rate over time:
-%
-\begin{eqnarray}
-\L(\xi_t) = \prod_{i = 1}^{N} 1 - \rho_i^{\xi_t}
-\end{eqnarray}
-%
-with N the current number of iteration and $\rho_i^{\xi_t}$ the Bhattacharyya coefficient associated to task $\xi_t$ using all data up to time $i$. By normalizing the pseudo-likelihood values between every hypothesis, we obtain what can be viewed as the probability of each target:
-%
-\begin{eqnarray}
-p(\xi_t) = \frac{\L(\xi_t)}{\sum_{u \in \{1, \ldots, T\}} \L(\xi_u)}
-\end{eqnarray}
-%
-Once a target reaches a probability threshold $\beta$ we consider it as being the correct one, i.e.\ the one intended by the user. We used $\beta = 0.99$.
-
-\subsection{Estimation of further Tasks and Online Re-Estimation of Signal Model}
-\label{sec:AlgReUse}
-
-Once we have identified a first task, the user can change his desired target and our system has to identify the new target. However, the model of the feedback signals does not change and does not have to be re-learned from scratch. Indeed, once the system has correctly identified a task, it is possible to reuse acquired data by assigning to all the previously collected signals the labels associated to the previously estimated task. 
-
-The use of the Bhattacharyya coefficient provides a simple and efficient way to estimate a first target from scratch (when the number of examples is small) but does not allow a fast adaptation to new targets as the majority of collected signals now belong to the previous task. To avoid this problem we compute a classifier (e.g. a Gaussian Bayes classifier), and use it similarly to calibrated approaches in BCI. For this we factorize the joint distribution:
-%
-\begin{eqnarray}
-p(\xi_t, \theta \mid D^{\xi_t}_i) & \propto & p(\xi_t \mid D^{\xi_t}_i)p(\theta \mid \xi_t, D^{\xi_t}_i)
-\end{eqnarray}
-%
-where $D^{\xi_t}_i$ contains all the quadruplet $(e_i,s_i,a_i,z_i)$ up to time $i$, with the associated labels $z_i$ assigned with respect to task $\xi_t$. The factorization makes explicit that given the task $\xi_t$, the distribution $p(\theta \mid \xi_t, D^{\xi_t}_i)$ can be easily evaluated using the labels of each target. We approximate this posterior using the maximum likelihood point estimate $\theta^{ML}_{\xi_t}$ per target. For the term $p(\xi_t \mid D^{\xi_t}_i)$, we use a recursive Bayes filter:
-%
-\begin{eqnarray}
-p(\xi_t \mid D^{\xi_t}_i) &\propto & p(e_i \mid \xi_t, (s,a)_i,D^{\xi_t}_{i-1})p(\xi \mid D^{\xi_t}_{i-1}) \nonumber\\
-& \approx & p(e_i\mid \theta^{ML}_{\xi_t})p(\xi_t \mid D_{i-1}).
-\label{eq:taskprob}
-\end{eqnarray}
-%
-Notice that we are keeping a different symbol model  $\theta^{ML}_{\xi_t}$  for each possible target $\xi_t$, the maximum likelihood estimation needs to be done in relation to a dataset $D^{\xi_t}_{i-1}$ which include the expected labels of target $\xi_t$ up to time $i-1$. 
-
-We use the same threshold mechanism as described in previous subsection to decide whether or not a task can be considered the correct one. Whenever a task is identified, its labels are transferred to the quadruplets $D^{\xi_t}_{i}$ of all the other tasks to correct the prior for the next step with the right labels. This scheme performs a long term adaptation of $\theta$ to accommodate slight variations of EEG such as non-stationarities or variations induced by the task. 
-
-However, as tasks are identified, the prior becomes more informative and the adaptation may have problems to cope with drastic changes such as strongly modifying the signals. To handle this problem, we chose to limit the size of the prior through the use of a sliding window on past iterations which allows to estimate a moving average of parameters $\theta$. In practice, we limited $D^{\xi_t}_{i}$ to the last $250$ elements.
+\todo{illustrate this process}
 
 \subsection{Using known signals}
 
+In some cases the robot may already understand some of the communicative signal from the human. For example, the user could have access to two colored button, one green to mean ``correct'' and one red to mean ``incorrect''. However he may prefer using some speech commands to the robot. To allow for flexible interaction, such speech command should not be preprogrammed as the users may speak different languages, or prefer using the word ``yes'' instead of ``correct'' for example. Considering the mapping between buttons and meanings is known and the mapping between speech utterances and meanings is unknown we can add a terms to our likelihood equations that deal with the known signals. 
 
-\section{Summary}
+Knowing the meaning of a signal resumes in knowing the parameters $\theta_{button}$ corresponding to the mapping between signal and meanings. We can therefore define a separate likelihood update for the known signal that is the same than for the unknown signal, we simply do not update the classifier every step:
+%
+\begin{eqnarray}
+\L_{button}(\xi_t) &=& \prod_{i = 1,\ldots, M} p(l^{cc}_i = l^f_i | s_i, a_i, e_i, \xi_t, \theta_{button})
+\end{eqnarray}
+%
+The likelihood from the speech can be computed using the same process as described in subsection~\ref{chapter:lfui:likelihood}, which we rename $\L_{speech}(\xi_t)$ here for convenience of explanation .
 
-The algorithm is  divided into a classification algorithm, estimating one classifier for each hypothesis based on past interaction, and a learning algorithm that uses the results and properties of this classifier to update the belief over hypothesis for current interaction.
+Finally we can compute the final likelihood as the product of estimates from the known signals and from the unknown ones:
+%
+\begin{eqnarray}
+\L(\xi_t) &=& \L_{button}(\xi_t) ~~ \L_{speech}(\xi_t)
+\end{eqnarray}
+%
+It is very important to understand the difference between our method and a more usual method where the signal to meaning mapping is known in advance. This difference lies in the fact we estimate one classifier per task hypothesis depending on the interpretation hypothesis for this specific task. However if we have access to the true signal to meaning mapping, we have only one classifier common to all hypothesis. Therefore all the equation remains the same, only replacing a global classifier by a hypothetic one.
 
-Our approach uses the same algorithm if we have label or not. For better explaining the approach, during the explanation we will refer to two phases in the learning process: phase 1 which is learning from scratch a task from unlabelled instruction and phase 2 which is learning a second (or third or) task based on the fact we already inferred a first one. Our algorithm is the same for the two phases but different factor are dominating on one or the other learning phase.
+\subsection{Summary and rephrasing}
 
-Phase 1 is the main contribution of this work and enable a system to be instructed using signal initially unknown to the it. As stated before, our system will generate hypothesis over the possible task, infer the hypothetic label associated to the signal and check which hypothetic set of signal - label \ldots c nul
+I would like here to rephrase the ideas developed in this section. The readers that has the feeling of understanding all the aspects of the algorithm can safely skip this section as it is meant to re-explain and summarize the ideas and organization behind the different steps of the algorithm.
 
-Phase 2 seems to be simply learning from known instruction, where a calibration procedure has been performed before. But in our case it differs in one way, we keep generating hypothesis. We keep updating the classifier with the new pair of signal-label from the interaction. Wrong hypothesis will add wrong signal-label to the classifier reducing its quality, so reducing the sharpness of its prediction. The effect will be quite small wrt. the matching process but still helps. In other word we are integrating the fact that the user is not coherent with a hypothesis by integrating new data point in the classifier.
+The algorithm is divided into a classification algorithm, estimating one classifier for each hypothesis based on past interaction, and a filtering algorithm that uses the results and properties of this classifier to update the belief over hypothesis for current interaction.
 
-Each hypothesis is believing it is the good one, it is modeling the signal to meaning mapping of the user wrt. the hypothesis objective. Then testing if it can predict the correct label for future interaction. As the user is actually following only one hypothesis, and the signal have some structure in the space, only one hypothesis will be able to predict correctly futture interaction. Our assumption is that the hypothesis which shows more coherence between expected label and predicted label is more likely to be the correct one. 
+The key point is that each hypothesis is believing it is the good one, it is modeling the signal to meaning mapping of the user with respect to each hypothesis objective. We an then testing if this classifier can make accurate prediction on never observed data. As the user is actually following only one hypothesis, and the signal are assumed to have some structure in the feature space, only one hypothesis will be able to predict correctly future interaction. Our assumption is that the hypothesis which shows more coherence between expected label and predicted label is more likely to be the correct one.
 
-In phase 1 it is the quality of prediction that differentiate hypothesis. Bad hypothesis will realize that they are not able to predict coherent output, this is mainly measured by the confusion matrix. Realize that if we use a batch method and have an over fitting classifier, no hypothesis will stand out because they will all predict correclty what is going on. With a classifiet that does not overfit, or is just trained on past data, the classifier will still tend to label the data according to the task, because the task is what generates the label (think of symetric hypothesis). But the more we collect data, the more we collect evidence that should make bad hypothesis mix labels, which reduce the quality of the classifier, i.e. it's ability to make correct prediction (different form the probabilitic output of the classifier), which makes the vote of this hypothesis weaker. And here is the trick, the confusion matrix model the noise in the prediction, in our case it can come from noise inherent of the data generation (overlap of distribution) or from teaching mistake (\textbf{teaching mistake with respect to the hypothesis considered}) that both mixes the labels and create non expected prediction from the classifier.
+To better explain our approach in this section, we will refer to two phases in the learning process: \begin{inparaenum}[a)] \item phase 1 which is learning from scratch a task from unlabeled instructions, and \item phase 2 which is learning a second (or third, or \ldots) task based on the fact we already inferred a first one. \end{inparaenum} Our algorithm is the same for the two phases but different factor are dominating on one or the other learning phase.
 
-After phase one, we found out which hypothesis was the correct one. We therefore have access to the ``true'' labeling of the data. At this point, we assign the same labels for all hypothesis.
+Phase 1 is the main contribution of this work and enables a system to be instructed using signal initially unknown. As stated before, our system will generate hypothesis over the possible tasks, infer the hypothetic labels associated to the signal, compute a classifier for each hypothetic set of signal-label pairs, and assume the one of better quality correspond to the one the user has in mind. Bad hypothesis will realize that they are not able to produce coherent output, i.e. to predict properly unseen other signal-label pairs. By doing so the system ends up knowing what is the task taught by the teacher and consequently what are the true labels associated to the teaching signals. Consequently, at the end of phase 1, the system knows a lot more about the mapping between human signals and their meaning.
 
-Beginning phase two, all the classifiers are the same, the difference between hypothesis will be on the match between classified signal and expected label. As we interact with the user, some teaching mistake occurs (\textbf{teaching mistake with respect to the hypothesis considered}) that both create non expected prediction from the classifier and decrease the trust I put into my classifier by mixing labels.
+Phase 2 then seems to be simply learning from known instructions, as we now have the true labels associated to each signals, we can considered the resulting dataset as the result of a calibration procedure. But our algorithm actually improves over this simple approach. After phase one, we do not reduce in the use of one classifier, but we assign the same labels to all hypothesis. The key point is that we keep the hypothesis based approach, which means we keep updating all the classifiers with the new pairs of signal-label from the interaction, interpreted according to each task hypothesis As wrong hypothesis will add wrong signal-label pairs to the classifier, it will reduce the quality of the classifier, therefore reducing the sharpness, and quality, of its prediction; which we take into account in our updates. In other words, we are integrating the fact that the user is not coherent with a hypothesis by integrating new data point, labeled according to the task, in the classifier. Obviously the effect will be quite small if a huge number of samples are already available but we will see in later experiments with brain signals that this process reduces the number of mistakes made by the system, especially when the number of teaching signal is still low.
 
-So the same process are active in both phase: non-expected prediction, and decrease of the classifier trust.
-In phase one, all hypothesis model there own stuff, there is less non-expected prediction, but the more we interact the less we trust some classifier which mixes labels.
-In phase two, all hypothesis start with the same classifier, there is more non-expected prediction, and the more we interact the less we trust some classifier which mixes the labels (but here the time to radically change the trust we put in one classifier is long as they all start with the same data, the more we have similar data the less this plays a role.)
+% In the beginning phase 2, all the classifiers are the same, the difference between hypothesis will be on the match between classified signal and expected label. As we interact with the user, some teaching mistake occurs (\textbf{teaching mistake with respect to the hypothesis considered}) that both create non expected prediction from the classifier and decrease the trust I put into my classifier by mixing labels.
+
+\todo{To sum up, the same process is active in both phase: non-expected prediction that impact directly on the likelihood, and a decrease of the confidence on the classifier prediction. In phase one, all hypothesis model there own stuff, there is less non-expected prediction, but the more we interact the less we trust some classifier which mixes labels. In phase two, all hypothesis start with the same classifier, there is more non-expected prediction, and the more we interact the less we trust some classifier which mixes the labels (but here the time to radically change the trust we put in one classifier is long as they all start with the same data, the more we have similar data the less this plays a role.)}
+
+\transition
+
+Next section present results from our algorithm considering a pick and place robotic scenario where a human wants a robot to build a specific structure and provided instructions to the robot using vocal commands whose meaning are unknown to the robot at start.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
