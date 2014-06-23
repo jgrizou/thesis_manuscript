@@ -3,6 +3,7 @@
 \renewcommand{\imgpath}{\chapterpath/img}
 
 \newcommand{\tworldsize}{0.6}
+\newcommand{\signalwidth}{0.4}
 
 \chapter{Learning from Unlabeled Interaction Frames}
 \label{chapter:lfui}
@@ -41,8 +42,8 @@ A simulated teacher wants the robot to reach the left edge of the T world. To th
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=0.5\columnwidth]{\imgpath/feedback_signals_color.png}
-  \caption{The feedback signals used by our teacher in our visual examples. A signal of meaning ``correct'' will be at the right side of the feature space, and a signal of meaning ``incorrect'' will be on the left side. Importantly, the agent will never have access to the label information.}
+  \includegraphics[width=\signalwidth\columnwidth]{\imgpath/feedback_signals_color.png}
+  \caption{The feedback signals used by our simulated teacher in our visual examples. A signal of meaning ``correct'' will be at the right side of the feature space, and a signal of meaning ``incorrect'' will be on the left side. Importantly, the agent will never have access to the label information.}
   \label{fig:feedbacksignals}
 \end{figure}
 
@@ -176,8 +177,8 @@ We will give several visual example of the guidance frame in the following of th
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=0.5\columnwidth]{\imgpath/guidance_4_signals_color.png}
-  \caption{The guidance signals used by our teacher in our visual examples.}
+  \includegraphics[width=\signalwidth\columnwidth]{\imgpath/guidance_4_signals_color.png}
+  \caption{The guidance signals used by our simulated teacher in our visual examples.}
   \label{fig:guidancesignals}
 \end{figure}
 
@@ -251,29 +252,64 @@ We present the line word in Figure~\ref{fig:lineworld} which contains only the t
   \label{fig:lineworld}
 \end{figure}
 
-The interaction follows the same protocol as in previous examples, and following the feedback frame. As depicted in Figure~\ref{fig:lineworldfeedback2action}, after several interaction steps, the interpretation hypothesis for G1 and G2 display symmetric properties.
+The interaction follows the same protocol as in previous examples, and following the feedback frame. As depicted in Figure~\ref{fig:lineworldfeedback2action}, after several interaction steps, the interpretation hypothesis for G1 and G2 display symmetric properties. Indeed, even if in the end the interpretation of the signals differ between the hypothesis, the two interpretation match well with the data. As the optimal policies to reach each of the two goal states are symmetric in every state, the actions that trigger ``correct'' feedback with respect to G1 trigger ``incorrect'' feedback for G2 and vice versa. It is therefore impossible to know the true associated meaning of the signals without further information.
 
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\imgpath/feedback_2actions.png}
-  \caption{}
+  \caption{Interpretation hypothesis for an agent receive feedback on its action in the line word and where hypothetic task are G1 or G2. The agent can only perform right or left action which results in symmetric interpretation hypothesis of the feedback signals.}
   \label{fig:lineworldfeedback2action}
 \end{figure}
 
+It is theoretically impossible to differentiate symmetric task hypothesis, therefore we will not consider environments holding this symmetric properties. One way to solve this problem is to add a ``no move'' action that is valid only at the goal state, as depicted in Figure~\ref{fig:lineworld3action}.
 
-We define two task hypothesis as being symmetric if it is theoretically impossible to differentiate between those two. Therefore we will not considered environments holding this symmetric properties. One way to solve this problem is to add a ``goal reached'' action that is valid only at the goal state. 
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\tworldsize\columnwidth]{\imgpath/lineworld_with_state_number_and_action.png}
+  \caption{The line world and the new available actions, including a ``no move'' action.}
+  \label{fig:lineworld3action}
+\end{figure}
 
-This action brakes the symmetry in the above example, as it is interpretation will be the same for all states that not an hypothetic goal state. In other words, in state 3, if agent performs action ``goal reached'', then the user will produce a signal meaning ``incorrect'', because the agent is neither in G1 or in G2. And the signal will be interpreted as an ``incorrect'' by the two interpretation hypothesis, breaking the symmetry problem.
+When taking this action the agent to not change position on the grid. This action brakes the symmetry in the above example, as its interpretation will be the same for all states that are not an hypothetic goal state. In other words, in state 3, if agent performs action ``no move'', then the user will produce a signal meaning ``incorrect'', because the agent is neither in G1 nor in G2. And the signal will be interpreted as an ``incorrect'' by the two interpretation hypothesis, breaking the symmetry problem. The interpretation results after several iteration steps and using the new ``no move'' action are depicted in Figure~\ref{fig:lineworldfeedback3action}.
 
-\todo{examplify the resulting stuff}
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\tworldsize\columnwidth]{\imgpath/feedback_3actions.png}
+  \caption{Interpretation hypothesis for an agent receive feedback on its action in the line word and where hypothetic task are G1 or G2. The agent can perform right, left, or a ``no move'' action. As opposed to Figure~\ref{lineworldfeedback2action}, the ``no move'' action allow to break the symmetry of interpretation between G1 and G2.}
+  \label{fig:lineworldfeedback3action}
+\end{figure}
 
-This problem of symmetries holds for the guidance frame too. Indeed if the agent can only produce ``left'' and ``right'' commands, the interpretation hypothesis for G1 will be symmetric as the one for G2. If the user wants the robot to reach G1, it will only produce ``left'' guidance signals, which is represented by one cluster in the the feature space. And the ``right'' commands should never be used. The situation is symmetric for G2.
+This problem of symmetries holds for the guidance frame too. Indeed if the agent can only produce ``left'' and ``right'' commands, the interpretation hypothesis for G1 will be symmetric as the one for G2. If the user wants the robot to reach G1, it will only produce ``left'' guidance signals, which is represented by one cluster in the the feature space. And the ``right'' commands should never be used. The situation is symmetric for G2. The resulting interpretation hypothesis are shown in Figure~\ref{fig:lineworldguidance2action}.
 
-\todo{showcase the guidance frame}
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\signalwidth\columnwidth]{\imgpath/guidance_2_signals_color.png}
+  \caption{The guidance signals used by our simulated teacher in our line world visual examples with two actions.}
+  \label{fig:lineworldguidance2signals}
+\end{figure}
 
-When introducing the ``goal reached'' action, the user now can produce three different kind of meanings, which is represented by three different clusters in the feature space. However, here again, one of the meaning won't be used by the teacher. However the ``goal reached'' signal will be used only at the goal space, which is not the same for the two hypothesis, which break the symmetry.
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\tworldsize\columnwidth]{\imgpath/guidance_2actions.png}
+  \caption{Interpretation hypothesis for an agent receive guidance on its action in the line word and where hypothetic task are G1 or G2. The agent can only perform right or left action which results in symmetric interpretation hypothesis of the guidance signals.}
+  \label{fig:lineworldguidance2action}
+\end{figure}
 
-\todo{showcase the guidance frame}
+When introducing the ``goal reached'' action, the user now can produce three different kind of meanings, which is represented by three different clusters in the feature space. However, here again, one of the meaning won't be used by the teacher. However the ``goal reached'' signal will be used only at the goal space, which is not the same for the two hypothesis, which break the symmetry. The resulting interpretation hypothesis are shown in Figure~\ref{fig:lineworldguidance3action}.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\signalwidth\columnwidth]{\imgpath/guidance_3_signals_color.png}
+  \caption{The guidance signals used by our simulated teacher in our line world visual examples with three actions.}
+  \label{fig:lineworldguidance3signals}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\tworldsize\columnwidth]{\imgpath/guidance_3actions.png}
+  \caption{Interpretation hypothesis for an agent receive feedback on its action in the line word and where hypothetic task are G1 or G2. The agent can perform right, left, or a ``no move'' action. As opposed to Figure~\ref{lineworldguidance2action}, the ``no move'' action allow to break the symmetry of interpretation between G1 and G2.}
+  \label{fig:lineworldguidance3action}
+\end{figure}
 
 \subsection{Robot's abilities}
 
