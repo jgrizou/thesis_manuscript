@@ -2,6 +2,8 @@
 \renewcommand{\chapterpath}{\allchapterspath/lfui}
 \renewcommand{\imgpath}{\chapterpath/img}
 
+\newcommand{\tworldsize}{0.6}
+
 \chapter{Learning from Unlabeled Interaction Frames}
 \label{chapter:lfui}
 \minitoc
@@ -26,16 +28,47 @@ We start by exemplifying this problem in a simple 7 states and 4 actions discret
 \subsection{Example of the problem}
 \label{chapter:lfui:example}
 
-\todo{introduce the world, the signal, the protocol}
+We present a simplified example that will follow us all along the remaining of this thesis. In this example, as depicted in Figure~\ref{fig:Tworld} , an agent lives in a discrete 7 state T world and can perform 4 different action (go left, right, up ,and down).
 
-\todo{Example using G1, and G2 only in the T world}
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\tworldsize\columnwidth]{\imgpath/Tworld_with_state_number_and_action.png}
+  \caption{The T world and the available actions.}
+  \label{fig:Tworld}
+\end{figure}
 
-\todo{expliitly say tht the robot does not have access to the labeled data}
+A simulated teacher wants the robot to reach the left edge of the T world. To this end, he will provide feedback information to the robot. Feedback signals are represented as two dimensional feature vectors and can have two different meanings: ``correct'' or ``incorrect''. In our example, as depicted in Figure~\ref{fig:feedbacksignals} those signals are randomly generate by two multivariate normal distribution, one for each meaning. When the teacher wants to send a feedback of meaning ``correct'', he will send a signals on the right part of the feature space. Respectively, for a feedback meaning ``incorrect'' the signal will be on the left side of the feature space. Those signals could represent any modality the teacher uses to communicate with the robot, such as speech, gestures, facial expression, or event brain signals. 
 
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.5\columnwidth]{\imgpath/feedback_signals_color.png}
+  \caption{The feedback signals used by our teacher in our visual examples. A signal of meaning ``correct'' will be at the right side of the feature space, and a signal of meaning ``incorrect'' will be on the left side. Importantly, the agent will never have access to the label information.}
+  \label{fig:feedbacksignals}
+\end{figure}
+
+The interaction between the agent and the teacher follow a turn-taking social behavior, and goes as follow. First, the agent, which is a particular state, performs one action and ends up in a new state. The teacher, which observes the scene evaluate this action with respect to the task he has in mind, and he sends a signal to the robot corresponding to the chosen meaning. However, the robot neither has access to the task the user has in mind, neither it has access the the meaning of the signal sent by the teacher.
+
+For example, as depicted in Figure~\ref{fig:TworldOneStepUnlabeled}, the agent starts in state 3, performs action left, and ends-up in state 2. The teacher wants the agent to go to G1, therefore he sends a signal meaning that the previous action was ``correct'' with respect to the goal.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\tworldsize\columnwidth]{\imgpath/Tworld_feedback_unlabeled_one_action.png}
+  \caption{The user provide a feedback signal after each action of the agent. The agent starts in state 3, performs action left, and ends-up in state 2. The teacher wants the agent to go to G1, therefore he sends a signal meaning that the previous action was ``correct'' with respect to the goal. Note that the signal is on the right side of the space as described in Figure~\ref{fig:feedbacksignals}. However the agent does not have access to the label associated to this signal and it only observes a point in a two dimensional space.}
+  \label{fig:TworldOneStepUnlabeled}
+\end{figure}
+
+This sequence of interaction is repeated for several iteration until the agent agent finds out what the user wants it to do. After performing many actions, the robot ends-up with a lot of observations associating a state, an action and a feedback signal. As depicted in Figure~\ref{fig:TworldManyStepUnlabeled}, we can observe that two clusters has emerged in the feature space, this property will be exploited in the coming sections.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\tworldsize\columnwidth]{\imgpath/Tworld_feedback_unlabeled.png}
+  \caption{After performing many actions, the robot ends-up with a lot of observations associating a state, an action and a feedback signal. The robot do not have access to the label associated to the teaching signals. However it can observe the distribution of signal in the feature space. We can observe that two clusters has emerged in the feature space, this property will be exploited in the coming sections.}
+  \label{fig:TworldManyStepUnlabeled}
+\end{figure}
 
 \transition
 
-This problem is impossible to solve without further information. In practice it would be easier if the robot had access to the mapping between teaching signals and their meanings. A usual solution is therefore to rely on a phase of calibration, where the system is given signal-meaning pairs and learn the mapping using supervised learning algorithm. Given this information, in our example of \todo{Figure~\ref{}}, it becomes trivial to identify the task. Starting in state 3, if the robot do action ``right'', it ends up in state 4, and if it receives a signal of meaning ``incorrect'', then the correct task is to reach the left edge of the T marked by G1.
+This problem is impossible to solve without further information. In practice it would be easier if the robot had access to the mapping between teaching signals and their meanings. A usual solution is therefore to rely on a phase of calibration, where the system is given signal-meaning pairs and learn the mapping using supervised learning algorithm. Given this information, in our example of Figure~\ref{fig:TworldOneStepUnlabeled}, it becomes trivial to identify the task. Starting in state 3, if the robot do action ``left'', it ends up in state 2, and if it receives a signal of meaning ``correct'', then the correct task is to reach the left edge of the T marked by G1.
 
 As mentioned before, in this work the robot does not have access to this information, neither it can rely on the phase of calibration. However the robot has access to theoretical information about the human teaching behavior. The robot knows that in a given situation, and for a particular task, the human should send a signal of a specific meaning. For example, the robot knows that if it moves from state 3 to state 4, and that the human wants it to go in G1, then the signals received from the human means ``incorrect''. Respectively, if the robot moves from state 3 to state 4, and that the human wants it to go in G2, then the signals received from the human means ``correct''.
 
@@ -78,97 +111,80 @@ Following our example in section~\ref{chapter:lfui:example}, the robot knowns th
 
 Central to our method is a system of hypothesis. From the observation made in chapter~\ref{chapter:humanexperiment:interpretationhypothesis}, with the available information, the robot will generate interpretation hypothesis with respect to all possible tasks. For a particular hypothesis, the robot will assign hypothetic meanings to the human signals knowing their are limited to a fixed set and according to the current state of the world. The machine is ``reasoning'' as follow: \emph{"If the human wants me to solve task G1 then when I performed action ``right'' in state $3$, its feedback signal means ``incorrect''"}. 
 
-We exemplify the idea of interpretation hypothesis following our T world example in section~\ref{chapter:lfui:example} with a teacher using symbolic teaching signals. For the sake of our example, we only consider two hypothesis, G1 and G2.
+We exemplify the idea of interpretation hypothesis following our T world example in section~\ref{chapter:lfui:example}. For the sake of our example, we only consider two hypothesis, G1 and G2, as depicted in Figure~\ref{fig:TworldManyStepUnlabeled}.
 
 
-\subsection{Interpretation hypothesis: a symbolic signal example}
+\subsection{Interpretation hypothesis}
 
-We further assume that the user is coherent and uses one signal for one meaning. The assumption is that the mapping between symbolic signals and their meaning can only be of two forms.
+We considerer the same interaction as in section~\ref{chapter:lfui:example}. For each action, the robot receives raw unlabeled two dimensional signals. For the sake of the example and ease of explanation, we consider those two-dimensional signals as representing speech utterances.
 
-It could be exemplified by an interface with two buttons, one for ``correct'' and one for ``incorrect'', but the mapping between the button and the meaning would not be defined in advance.
+Following the above explanation, for a particular hypothesis (G1 or G2), the robot can assign hypothetic meanings to the human signals knowing their are limited to a fixed set and according to the current state of the world. The machine is ``reasoning'' as follow: \emph{"If the human wants me to solve task G1 then when I performed action $a$ in state $a$ and he said ``oui'', he meant ``incorrect''"}. 
 
+We exemplify this process using the same example as in Figure~\ref{fig:TworldOneStepUnlabeled} and according to our two task hypothesis which are reaching either of the two edges marked as G1 or G2.
 
+The agent starts in state 3, performs action left, and ends-up in state 2. The teacher wants the agent to go to G1, therefore he sends a signal meaning that the previous action was ``correct'' with respect to the goal. However the agent does not have access to the label associated to this signal and it only observes a point in a two dimensional space. The agent will therefore generate interpretation hypothesis according to G1 and G2. With respect to the G1, the action was ``correct'' (Figure~\ref{fig:TworldLabelG1}) while with respect to G2 the action was ``incorrect'' (Figure~\ref{fig:TworldLabelG1}).
 
-\todo{figure with possible mapping}
+\begin{figure}[!ht]
+    \centering
+    \begin{subfigure}[b]{\tworldsize\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{\imgpath/Tworld_feedback_unlabeled_one_action.png}
+        \caption{Feedback signal as received by the agent without label.}
+    \end{subfigure}\\
+    \begin{subfigure}[b]{\tworldsize\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{\imgpath/Tworld_feedback_labeled_G1.png}
+        \caption{Feedback signal labeled according to G1.}
+        \label{fig:TworldLabelG1}
+    \end{subfigure}
+    \begin{subfigure}[b]{\tworldsize\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{\imgpath/Tworld_feedback_labeled_G2.png}
+        \caption{Feedback signal labeled according to G2.}
+        \label{fig:TworldLabelG2}
+    \end{subfigure}
+    \caption{Interpretation hypothesis made by the agent according to \ref{fig:TworldLabelG1} G1 and \ref{fig:TworldLabelG2} G2. The agent starts in state 3, performs action left, and ends-up in state 2. The meaning of the signal is different in both for both hypothesis.}
+    \label{fig:TworldLabel}
+\end{figure}
 
-For a particular hypothesis, the robot can assign hypothetic meanings)to the human signals knowing their are limited to a fixed set and according to the current state of the world. The machine is ``reasoning'' as follow: \emph{"If the human wants me to solve task G1 then when I performed action $a$ in state $a$ and he said ``oui'', he meant ``incorrect''"}. 
+By repeating this process for several iteration steps with the agent exploring all possible state-action pair, the system end-up with a set of possible interpretation of the human teaching signals. But as the user have only one objective in mind, here G1, only the correct interpretation will exhibit a coherence between the signals and their associated meanings. Note that when the agent moves in the trunk of the T, the interpretation hypothesis with respect to G1 an G2 give the same labels. Details about this interaction will be given in chapter~\ref{chapter:planning} to explain the problem of planning, here we assume the robot explores all state-action.
 
-\todo{example step by step, first the world, one action, it interpretation wrt. each hypothesis, then accelerate and observe}
+\begin{figure}[!ht]
+    \centering
+    \begin{subfigure}[b]{\tworldsize\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{\imgpath/Tworld_feedback_unlabeled.png}
+        \caption{Feedback signal as received by the agent without label.}
+    \end{subfigure}\\
+    \begin{subfigure}[b]{\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{\imgpath/Tworld_feedback_labeled_all_actions.png}
+        \caption{Feedback signal labeled according to G1 and G2.}
+        \label{fig:TworldLabelinterpretation}
+    \end{subfigure}
+    \caption{Interpretation hypothesis made by the agent according to G1 and G2 after many interaction steps. The teacher's task is to have the agent reach G1. The agent is exploring all the state space randomly. The labels associated to the task G1 are more coherent with the spacial organization of signals in the feature space.}
+    \label{fig:TworldLabel}
+\end{figure}
 
-By creating a set of hypothesis, the system end-up with a set of possible interpretation of the human teaching signals. But as the user have only one objective in mind, here G1, only the correct interpretation will exhibit a coherence between the signals and their associated meanings. 
-
-In our case, as the user is using symbolic signals, and that we assumed the user is coherent and use always the same symbol for the same meaning. We can infer that hypothesis G1 is the correct one as the resulting mapping between signal and meaning is more coherent.
-
-\todo{For the symbolic case, and given specific constraint we will present a minimalist proof once the associated mathematical notation will be introduced}
-
-\subsection{Interpretation hypothesis: a continuous signal example}
-
-The example described above simplifies the problem in some aspects. Indeed we assume the robot is already able to discriminate between perceptual events and has access to a unlabeled symbolic representation of the teaching signals. It would be the case when using a button based interface, however, when considering more ``natural'' means of interaction such as speech, the mapping between spoken words and their meaning should be learn by the machine. Indeed, the same word in never pronounced exactly the same way and some classification algorithm should be applied to train a discriminative model.
-
-We now considerer the same interaction as in previous section but with speech as the modality of interaction. For each action, the robot would receive raw unlabeled speech utterances. For the sake of the example, we illustrate the speech signals as two dimensional feature vectors. Those two dimensional point could represent speech but also any other modalities a human could use to interact with a robot, such as gestures, facial expression, or brain signals for example.
-
-
-\todo{visual example with T world, feedback}
-\todo{exemplify with visuals and describe the signals used as they will be the same for all the document visuals}
-
-The key challenge it to find out what it means to correctly label data.
-
-As illustrated in figure \ref{fig:intuition}, our system is looking for the hypothesis from which emerges a coherence between the spacial organization of label in the feature space and their associated labels.
-
-which it can rely on to find a coherence between the interaction history with the human, a particlar frame, and a particlar task. We formalize this idea in next section.
-
-Noise
-
-
-% As illustrated in figure \ref{fig:intuition}, our system is looking for the hypothesis from which emerges a coherence between the spacial organization of label in the feature space and their associated labels.
-
-% \subsection{Simultaneous Estimation of Task and Signal Model}
-% \label{sec:Algorithm}
-% \begin{figure}[!ht]
-% \centering
-%     \begin{tabular}{c|c|c}
-%         \begin{subfigure}[t]{0.29\columnwidth}
-%             \begin{flushleft}
-%             \includegraphics[width=\columnwidth]{\imgpath/GM1}
-%             \caption{}
-%             \label{fig:GM1}
-%             \end{flushleft}
-%         \end{subfigure}
-%         &
-%         \begin{subfigure}[t]{0.29\columnwidth}
-%             \begin{center}
-%             \includegraphics[width=\columnwidth]{\imgpath/GM2}
-%             \caption{}
-%             \label{fig:GM2}
-%             \end{center}
-%         \end{subfigure}
-%         &
-%         \begin{subfigure}[t]{0.29\columnwidth}
-%             \begin{flushright}
-%             \includegraphics[width=\columnwidth]{\imgpath/GM3}
-%             \caption{}
-%             \label{fig:GM3}
-%             \end{flushright}
-%         \end{subfigure}
-%     \end{tabular}
-% \caption[]{Representation of inferred signal labels for a 1D grid world in function of the hypothesized task. Three task hypotheses are displayed in column from left to right [(a),~(b),~(c)]. On top is a 1D grid world with the hypothetic target state marked with a T letter. Notice that this hypothetic target is different for each of the three hypotheses. The arrows in each cell indicates what action should elicit a positive feedback, i.e.\ the optimal policy with respect to the hypothetic target. The user intended target is shown as the shaded blue state at the right extremity of the 1D world. Note that the system does not have access to this information. The correct hypothesis is the one on the Left [(a)] where the T state is the same as the shaded blue state.
-% Below the 1D grid world, the signals received from the user are represented in a 2D feature space. They represent the user assessment signals of the past history of device's actions (e.g.\ moving randomly left and right). Our algorithm assigns virtual labels (green for ``correct'' and red for ``wrong'') to those signals with respect to their respective hypothetic target. Notice that the data points are the same for all three hypotheses, only their respective labels differ.
-% With the virtual labels being assigned, we can compute the corresponding 2D Gaussian distributions estimates for each class (shown as colored ellipses) and each hypothesis. While for the correct hypothesis [(a)] the Gaussian distributions shows a large separability, the overlap increases as the hypothetic target (T) moves away from the real (blue shaded) one [(b), (c)]. This property can be exploited to estimate the correct hypothesis and the model generating the signals.}
-% \label{fig:intuition}
-% \end{figure}
-
+In our case, as we assume the user is coherent and uses always the same kind of signal for the same meaning. By visual inspection, we can infer that hypothesis G1 is the correct one as the resulting mapping between signal and meaning is more coherent. The key challenge now is it find out how to identify a coherence between the spacial organization of label in the feature space and their associated labels with the tools available to the robot. We will formalize this idea in section \ref{chapter:lfui:how}. 
 
 \subsection{Different frames}
 
-We have seen the feedback frames where the human user is assessing the robot action. We could also considered a different interaction frame, where the user would indicate the robot which action to perform next. We call this kind of scenario guidance frames.
+We have seen the feedback frames where the human user is assessing the robot action. In this thesis, we will also consider a different interaction frame, where the user would indicate the robot which action to perform next. We call this kind of interaction frame the guidance frame.
 
-\todo{exemplify guidance with visuals and describe the signals used as they will be the same for all the document visuals}
+We will give several visual example of the guidance frame in the following of this chapter, we simply illustrate here the signal that will be associated to the different action. As depicted in Figure~\ref{fig:guidancesignals}, we used an easy to remember way of presenting the data, the cluster at the top of the feature space represents the ``up'' action, the one at the bottom the ``down'' action, the one at the right the ``right'' action, and the one at the left the ``left'' action.
 
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.5\columnwidth]{\imgpath/guidance_4_signals_color.png}
+  \caption{The guidance signals used by our teacher in our visual examples.}
+  \label{fig:guidancesignals}
+\end{figure}
 
 \subsection{Why not a clustering algorithm}
 \label{chapter:lfui:whynotEM}
 
-When we first look at the unlabeled signals, the first approach that one as in mind is to use a clustering algorithm to find the two clusters in the feature space. For very simple dataset, like the one presented in \todo{Figure smth}, a clustering algorithm will find the two clusters. However, without any additional information, it is impossible to know which one is associated to the meaning ``correct'' or to the meaning ``incorrect''.
+When we first look at the unlabeled signals, the first approach that one as in mind is to use a clustering algorithm to find the two clusters in the feature space. For very simple dataset, like the one presented in Figure~\ref{fig:TworldManyStepUnlabeled}, a clustering algorithm will find the two clusters. However, without any additional information, it is impossible to know which one is associated to the meaning ``correct'' or to the meaning ``incorrect''.
 
 More importantly, clustering algorithms are prone to local extrema in the optimization process and for those datasets in high dimension with overlapping classes it is unlikely to find the correct underlying structure of the data. Our approach has the advantage to have access to hypothetic labels allowing to fit a classifier for each task hypothesis.
 
@@ -226,9 +242,26 @@ For those case where two hypothesis share the same interpretation model, either 
 
 For those case where two hypothesis end up with opposite interpretation that are both valid, we first present a small example showcasing the problem.
 
-\todo{line word and interpretation hypothesis visual display}
+We present the line word in Figure~\ref{fig:lineworld} which contains only the top T bar of the T world. This world is very well suited to describe the symmetry problem. 
 
-We define two task hypothesis as being symmetric. It is impossible to differentiate between those two. Therefore we will not considered environments holding this symmetric properties. One way to solve this problem is to add a ``goal reached'' action that is valid only at the goal state. 
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\tworldsize\columnwidth]{\imgpath/lineworld_with_state_number_and_2action.png}
+  \caption{The line world and the available actions.}
+  \label{fig:lineworld}
+\end{figure}
+
+The interaction follows the same protocol as in previous examples, and following the feedback frame. As depicted in Figure~\ref{fig:lineworldfeedback2action}, after several interaction steps, the interpretation hypothesis for G1 and G2 display symmetric properties.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\tworldsize\columnwidth]{\imgpath/feedback_2actions.png}
+  \caption{}
+  \label{fig:lineworldfeedback2action}
+\end{figure}
+
+
+We define two task hypothesis as being symmetric if it is theoretically impossible to differentiate between those two. Therefore we will not considered environments holding this symmetric properties. One way to solve this problem is to add a ``goal reached'' action that is valid only at the goal state. 
 
 This action brakes the symmetry in the above example, as it is interpretation will be the same for all states that not an hypothetic goal state. In other words, in state 3, if agent performs action ``goal reached'', then the user will produce a signal meaning ``incorrect'', because the agent is neither in G1 or in G2. And the signal will be interpreted as an ``incorrect'' by the two interpretation hypothesis, breaking the symmetry problem.
 
@@ -262,12 +295,18 @@ The finite set of task hypothesis is a practical constraint for the setup consid
 
 The following of this chapter will consider the set of assumptions defined above. In chapter~\ref{chapter:limitations}, we will release the above assumptions, propose solutions to the associated problems and present simple experiments.
 
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{How do we exploit it}
+\label{chapter:lfui:how}
 
 As exemplified in figure\todo{ref figure}, generating interpretation hypothesis for each possible allow to find out the task the user has in mind. But as the user have only one objective in mind, only the correct interpretation will correctly assign meanings to the signals. In our example we were able to identify this task visually, by looking at the coherence between the spacial organization of the signals and their associated meanings. But our robots and algorithms, can not use our visual intuition. The key challenge it to find out what measure can reflect the coherence between the spacial organization of the signals and their associated meanings.
 
@@ -278,43 +317,6 @@ A good measure of coherence can be computed by training the classifier on each o
 \todo{we capture by the assumption of the classifier on the spacial organization of data, for example the gaussina classifier assume data are distrivuted as gauusian stuff...
 alos mot of the algorithm regularize their cost function to avoid overfitting problem and indeed tries to identify the underlying structure of the data, i.e. a way to separte classes with the less complex model}
 
-
-% As illustrated in figure \ref{fig:intuition}, our system is looking for the hypothesis from which emerges a coherence between the spacial organization of label in the feature space and their associated labels.
-
-% \subsection{Simultaneous Estimation of Task and Signal Model}
-% \label{sec:Algorithm}
-% \begin{figure}[!ht]
-% \centering
-%     \begin{tabular}{c|c|c}
-%         \begin{subfigure}[t]{0.29\columnwidth}
-%             \begin{flushleft}
-%             \includegraphics[width=\columnwidth]{\imgpath/GM1}
-%             \caption{}
-%             \label{fig:GM1}
-%             \end{flushleft}
-%         \end{subfigure}
-%         &
-%         \begin{subfigure}[t]{0.29\columnwidth}
-%             \begin{center}
-%             \includegraphics[width=\columnwidth]{\imgpath/GM2}
-%             \caption{}
-%             \label{fig:GM2}
-%             \end{center}
-%         \end{subfigure}
-%         &
-%         \begin{subfigure}[t]{0.29\columnwidth}
-%             \begin{flushright}
-%             \includegraphics[width=\columnwidth]{\imgpath/GM3}
-%             \caption{}
-%             \label{fig:GM3}
-%             \end{flushright}
-%         \end{subfigure}
-%     \end{tabular}
-% \caption[]{Representation of inferred signal labels for a 1D grid world in function of the hypothesized task. Three task hypotheses are displayed in column from left to right [(a),~(b),~(c)]. On top is a 1D grid world with the hypothetic target state marked with a T letter. Notice that this hypothetic target is different for each of the three hypotheses. The arrows in each cell indicates what action should elicit a positive feedback, i.e.\ the optimal policy with respect to the hypothetic target. The user intended target is shown as the shaded blue state at the right extremity of the 1D world. Note that the system does not have access to this information. The correct hypothesis is the one on the Left [(a)] where the T state is the same as the shaded blue state.
-% Below the 1D grid world, the signals received from the user are represented in a 2D feature space. They represent the user assessment signals of the past history of device's actions (e.g.\ moving randomly left and right). Our algorithm assigns virtual labels (green for ``correct'' and red for ``wrong'') to those signals with respect to their respective hypothetic target. Notice that the data points are the same for all three hypotheses, only their respective labels differ.
-% With the virtual labels being assigned, we can compute the corresponding 2D Gaussian distributions estimates for each class (shown as colored ellipses) and each hypothesis. While for the correct hypothesis [(a)] the Gaussian distributions shows a large separability, the overlap increases as the hypothetic target (T) moves away from the real (blue shaded) one [(b), (c)]. This property can be exploited to estimate the correct hypothesis and the model generating the signals.}
-% \label{fig:intuition}
-% \end{figure}
 
 The following of this section formalizes this idea and present first results on a pick and place robotic scenario where the user provide instruction using speech utterances. From now on we will use the term label to refer to the meaning associated to user's signals.
 
@@ -452,7 +454,7 @@ W^{\xi_t} = \min_{u~\in~{1, \ldots, T} \smallsetminus \{t\}} \frac{\L(\xi_t)}{\L
 %
 When it exists a $t$ such that $W^{\xi_t}$ exceeds a threshold $\beta \in ]0.5,1]$ we consider task $\xi_t$ is the one taught by the user.
 
-Going back to our previous example: \begin{inparaenum}[a)] \item for only two hypothesis whose respective likelihoods are $[0.45, 0.05]$, their normalized likelihood is $[0.9,0.1]$ while their minimum pairwise normalized likelihood is $[0.9, 0.111]$ \item for four hypothesis whose respective likelihoods are $[0.45, 0.05, 0.05, 0.05]$, their normalized likelihoods are $[0.75, 0.083, 0.0833, 0.083]$ while their minimum pairwise normalized likelihood is $0.9, 0.111, 0.111, 0.111]$. \end{inparaenum}. With our latter measure $W^{\xi_t}$, we can define a threshold that will hold for every scenario independently of the number of hypothesis. 
+Going back to our previous example: \begin{inparaenum}[a)] \item for only two hypothesis whose respective likelihoods are $[0.45, 0.05]$, their normalized likelihood is $[0.9,0.1]$ while their minimum pairwise normalized likelihood is $[0.9, 0.1]$ \item for four hypothesis whose respective likelihoods are $[0.45, 0.05, 0.05, 0.05]$, their normalized likelihoods are $[0.75, 0.083, 0.0833, 0.083]$ while their minimum pairwise normalized likelihood is $0.9, 0.1, 0.1, 0.1]$. \end{inparaenum}. With our latter measure $W^{\xi_t}$, we can define a threshold that will hold for every scenario independently of the number of hypothesis. 
 
 \subsection{From task to task}
 \label{chapter:lfui:tasttotask}
