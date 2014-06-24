@@ -16,8 +16,8 @@
    inkscape:version="0.48.3.1 r9886"
    sodipodi:docname="feedback_3actions.svg"
    inkscape:export-filename="/home/jgrizou/Dropbox/thesis/visuals/lineworld_symmetries/feedback_2actions.png"
-   inkscape:export-xdpi="200"
-   inkscape:export-ydpi="200">
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300">
   <defs
      id="defs4">
     <clipPath
@@ -557,7 +557,7 @@
              sodipodi:cy="-53.999897"
              sodipodi:rx="32.857143"
              sodipodi:ry="31.428572"
-             d="m 1071.4286,-53.999897 a 32.857143,31.428572 0 1 1 -65.7143,0 32.857143,31.428572 0 1 1 65.7143,0 z"
+             d="m 1071.4286,-53.999897 c 0,17.357521 -14.7107,31.428572 -32.8572,31.428572 -18.1465,0 -32.8571,-14.071051 -32.8571,-31.428572 0,-17.357521 14.7106,-31.428572 32.8571,-31.428572 18.1465,0 32.8572,14.071051 32.8572,31.428572 z"
              transform="matrix(3.200054,0,0,-3.3455112,87.571279,3298.3278)" />
         </g>
       </g>

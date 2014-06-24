@@ -15,9 +15,9 @@
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
    sodipodi:docname="Tworld_feedback_labeled_up_down_with_gaussian.svg"
-   inkscape:export-filename="/home/jgrizou/Dropbox/thesis/visuals/tuto/Tworld_feedback_labeled_up_down_with_gaussian.png"
-   inkscape:export-xdpi="600"
-   inkscape:export-ydpi="600">
+   inkscape:export-filename="/home/jgrizou/Dropbox/thesis/visuals/tuto_feedback/Tworld_feedback_labeled_up_down_with_gaussian.png"
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300">
   <defs
      id="defs4">
     <clipPath
@@ -3695,7 +3695,7 @@
            sodipodi:cy="334.60477"
            sodipodi:rx="62.932503"
            sodipodi:ry="93.338097"
-           d="m 814.58698,334.60477 a 62.932503,93.338097 0 1 1 -125.865,0 62.932503,93.338097 0 1 1 125.865,0 z"
+           d="m 814.58698,334.60477 c 0,51.5492 -28.17584,93.33809 -62.9325,93.33809 -34.75666,0 -62.9325,-41.78889 -62.9325,-93.33809 0,-51.54921 28.17584,-93.3381 62.9325,-93.3381 34.75666,0 62.9325,41.78889 62.9325,93.3381 z"
            transform="matrix(2.3539573,0,0,1.8303368,-924.19835,226.83029)" />
         <path
            sodipodi:type="arc"
@@ -3705,7 +3705,7 @@
            sodipodi:cy="334.60477"
            sodipodi:rx="62.932503"
            sodipodi:ry="93.338097"
-           d="m 814.58698,334.60477 a 62.932503,93.338097 0 1 1 -125.865,0 62.932503,93.338097 0 1 1 125.865,0 z"
+           d="m 814.58698,334.60477 c 0,51.5492 -28.17584,93.33809 -62.9325,93.33809 -34.75666,0 -62.9325,-41.78889 -62.9325,-93.33809 0,-51.54921 28.17584,-93.3381 62.9325,-93.3381 34.75666,0 62.9325,41.78889 62.9325,93.3381 z"
            transform="matrix(2.7706051,0,0,1.8496473,-1614.035,246.24268)" />
       </g>
       <g

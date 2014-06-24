@@ -15,9 +15,9 @@
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
    sodipodi:docname="Tworld_with_state_number_and_action.svg"
-   inkscape:export-filename="/home/jgrizou/Dropbox/thesis/visuals/Tworld_with_state_number_and_action.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-filename="/home/jgrizou/Dropbox/thesis/visuals/worlds_and_datasets/Tworld_with_state_number_and_action.png"
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300">
   <defs
      id="defs4">
     <marker
@@ -503,7 +503,7 @@
            height="72.153755"
            x="932.84497"
            y="600.51233" /></flowRegion><flowPara
-         id="flowPara7952"></flowPara></flowRoot>    <g
+         id="flowPara7952" /></flowRoot>    <g
        id="g7994"
        transform="translate(-29.20509,-4.2948663)">
       <path

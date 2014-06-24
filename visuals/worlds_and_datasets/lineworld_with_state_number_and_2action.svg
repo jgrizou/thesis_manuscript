@@ -16,8 +16,8 @@
    inkscape:version="0.48.3.1 r9886"
    sodipodi:docname="lineworld_with_state_number_and_2action.svg"
    inkscape:export-filename="/home/jgrizou/Dropbox/thesis/visuals/worlds_and_datasets/lineworld_with_state_number_and_2action.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300">
   <defs
      id="defs4">
     <clipPath
@@ -350,6 +350,6 @@
              height="533.36053"
              x="-359.61432"
              y="-123.12399" /></flowRegion><flowPara
-           id="flowPara3925"></flowPara></flowRoot>    </g>
+           id="flowPara3925" /></flowRoot>    </g>
   </g>
 </svg>

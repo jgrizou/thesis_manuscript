@@ -16,8 +16,8 @@
    inkscape:version="0.48.3.1 r9886"
    sodipodi:docname="pick_and_place_guidance.svg"
    inkscape:export-filename="/home/jgrizou/Dropbox/thesis/visuals/pick_and_place/pick_and_place_feedback.png"
-   inkscape:export-xdpi="200"
-   inkscape:export-ydpi="200">
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300">
   <defs
      id="defs4">
     <clipPath
@@ -10702,7 +10702,7 @@
            height="164.28572"
            x="825.71429"
            y="1110.4375" /></flowRegion><flowPara
-         id="flowPara15839"></flowPara></flowRoot>    <flowRoot
+         id="flowPara15839" /></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot15887"
        style="font-size:17.5px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch Bold"
@@ -10713,7 +10713,7 @@
            height="94.285713"
            x="568.57141"
            y="769.00891" /></flowRegion><flowPara
-         id="flowPara15893"></flowPara></flowRoot>    <g
+         id="flowPara15893" /></flowRoot>    <g
        id="g16056"
        transform="translate(92.061996,0)"
        inkscape:export-filename="/home/jgrizou/Dropbox/thesis/visuals/pick_and_place/pick_and_place_guidance.png"
