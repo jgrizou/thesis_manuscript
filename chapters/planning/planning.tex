@@ -2,34 +2,71 @@
 \renewcommand{\chapterpath}{\allchapterspath/planning}
 \renewcommand{\imgpath}{\chapterpath/img}
 
+\newcommand{\plotsize}{0.6}
+
 \chapter{Planning upon Uncertainty}
 \label{chapter:planning}
 \minitoc
 
-Context - Why now: we shown that we can solve the problem but did not considered the problem of planning
 
-Need - Why the reader: the planning has been shown to be an important aspect of most online real world learning system, 
+In previous chapter, we presented our algorithm allowing to solve a task from human instruction signals without knowing in advance the mapping between the signals and their meanings. We have seen seen that the performances of our system is affected by the action selection method used by our robot. In this section we investigate further how the agent should plan its action to improve the learning efficiency. To do so, our agent will look for action that disambiguate between hypothesis, which is the one that reduce the uncertainty about which hypothesis is the correct one.
 
-Task - Why me: we investigated the problem of uncertainty in our problem
+We start by explaining what should be the method and measure of uncertainty use by a system that has access the the true signal to meaning mapping. We then providing an intuition on what are is the additional sources of uncertainty inherent to our problem, and link it with the problem of symmetries seen in chapter~\ref{chapter:lfui:symmetries}. After this, we propose two ways of estimating the uncertainty in our scenario, one on the signal space and one on the meaning space using hypothetic signals. We finally present simulated experiments showing that our measure of uncertainty allow the robot to plan efficiently its action in order to disambiguate between hypothesis. Those results uses a series of dataset of different qualities and dimensionality, and we will see that the performance of the system are affected by the quality of the data more than their dimensionality. An important aspect of our algorithm is to detect those cases it can not discriminate between task, and for those case where a good classifier can not be found, the algorithm will not select between hypothesis.
 
-Object- Why this chapter: We start by providing an intuition on what are the sources of uncertainty inherent to our problem. Describe a metric that is able to measure it and show on simulated experiment that this method is more efficient than several standard ones.
-
-Findings - What: We identified two sources of uncertainty in for our problem and combined them into one efficient metrics that reduce to other method if the mapping between signal and meaning was known
-
-Conclusions - So what: We can improve the learning efficiency of such a system that become aware of the information it misses or it miss model and can actively try to recover from this.
-
-Perspectives - What now: how does it apply to a real word complex scenario. actually useful for some person that can't use button and where signal are never the same, where some universal classifier does no exist.
-
-However the question of how the robot should select its future actions will be left aside in this section. As the agent's actions are triggering the teacher signals, we can expect that learning time will be improved by having the agent seeking for more informative signals. Next section will present how our robot can plan its action to do better.
+On this basis we will transition to chapter~\ref{chapter:bci} which present an application to brain computer interaction scenarios where human users guide an agent on a specific square of a grid using feedback signals and without having to calibrate the brain decoder before hand.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Problem formulation and assumptions}
+\section{Uncertainty for known signal to meaning mapping}
 
-Our algorithm is able to identify a task among a set of possible tasks. To do so it has to explore regions allowing to disambiguate among task hypotheses. There are several efficient model-based reinforcement learning exploration methods that add an exploration bonus for states that might provide more learning gains. Several theoretical results show that these approaches allow to learn tasks efficiently \cite{brafman2003r,kolter2009near}. We define an uncertainty measure and use model-based planning to select sequences of actions that guide the agent towards states that better identify the desired task.
+If the true mapping between human communicate signals and their meaning is provided to the machine, and that it still have to identify the correct between a finite set of task and has access to the interaction frame, the learning process is rather trivial. Indeed, in such case, the robot should only compares if what the meaning received from the human match well with what is expected from the given frame and a given task. If they match then we can increase the probability of such task, if it does we can decrease it.
+
+The robot should therefore seek for the state-action pairs that maximally disambiguate between hypothesis. For example, if for one given state-action pair, half of the hypothesis expect a signal of meaning ``correct'' and the other half expect one meaning ``incorrect''. By performing this action in that state, the system will rule out half of the hypothesis once the user will have provided its feedback. 
+
+It is important for this process to be weighted by the current probability associated with each task hypothesis. Indeed once we have rules out half of the hypothesis, we should only focus as differentiating the remaining hypothesis. For this the robot should seek for a new state-action pair where the remaining hypothesis will disagree on the expected meaning from the teacher.
+
+But this process is here describe in a way that is not realistic, our robot can not query any state-action pair, it can not teleport but rather should navigate through the all state space to be able to finally perform that state-action pair. And on that way to a specific state-action pair, it may already have received new information changing its current belief on the hypothesis probabilities.
+
+A solution to this problem is to add exploration-bonuses for each state-action pair corresponding to the uncertainty associated to each state-action pair. The agent can then select it next action considering the full map of uncertainty. By seeing those exploration-bonuses as rewards in a reinforcement learning scenario the agent select the action that maximize uncertainty reduction on the task in the long term. There are several efficient model-based reinforcement learning exploration methods that add an exploration bonus for states that might provide more learning gains. Several theoretical results show that these approaches allow to learn tasks efficiently \cite{brafman2003r,kolter2009near}. 
+
+Following our notation, we can define an uncertainty measure as the variance of the expected meaning for each task weighted by their current probability, for a specific state and action and the feedback frame:
+
+\begin{eqnarray}
+U(s,a) = weightedVariance(p(l = ``correct''| s, a, \xi), p(\xi))
+\end{eqnarray}
+
+
+
+\cite{lopes2009active}, if the classifier is known, equation \ref{eq:planningOneSignal} reduces to the one presented in \cite{macl11simul} 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Where is the uncertainty}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{How can we measure this uncertainty}
+
+\subsection{The importance of weighting estimates}
+
+\subsection{Measure on the signal space}
+
+
+We define an uncertainty measure and use model-based planning to select sequences of actions that guide the agent towards states that better identify the desired task.
 
 Our algorithm is based on comparing the expected classification rate between different task hypotheses. Therefore, to disambiguate between hypotheses, it has to collect data which are likely to affect differently the dataset quality of competing hypotheses. As we have access to the optimal policies of each task, we can choose for a given task an action in a given state and predict to receive a ``correct'' or ``wrong'' label. Such label is linked to a signal generation model (parameterized by $\theta^{ML}_{\xi_t}$) which differs from task to task, and to the optimal action at that particular state. A state-action pair where the optimal actions and the signal models are the same for all hypotheses is unlikely to tell them apart and will be less informative that any other state-action where either optimal actions or signal models differ between hypotheses.
 
@@ -43,19 +80,7 @@ Computing the similarity between two Gaussian distributions for all state-action
 
 Computed for each state and action, this measure is then used as an exploration bonus, whereas we switch to a pure exploitation of the task after reaching the desired confidence level~$\beta$.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{What is different with our setup that should be exploited, visual example}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{How do we exploit it}
+\subsection{A measure projected in the meaning space}
 
 refer to the video I did
 
@@ -67,7 +92,7 @@ In order to exemplify the specificity of our problem in terms of planning we pre
 
 \begin{figure}[!ht]
   \centering
-      \includegraphics[width=0.6\columnwidth]{\imgpath/planning.png}
+      \includegraphics[width=0.5\columnwidth]{\imgpath/planning.png}
       \caption{A ``T'' world scenario and the interpretation results for different planning strategies. The agent should reach either of the two edges of the T world (marked with the letter ``G''). The arrows represent the optimal policy. For each move it receives unlabeled two dimensional teaching signal which are interpreted according to each hypothesis. a) shows the interpretation results if the agent only perform right and left action in the top of the T world, b) shows the results when the agent only perform up and down action in the trunk of the T, and c) shows results for an agent performing all possible actions.}
     \label{fig:planningExplained}
 \end{figure}
@@ -189,9 +214,9 @@ The first objective is to study the impact of the exploration approach proposed 
 \paragraph{Planning Methods}
 Figure \ref{fig:planning} compares the number of steps (with maximum values of 500 steps) needed to identify the first task when learning from scratch with different planning methods. Following the most probable task (i.e. going greedy) does not allow the system to explore sufficiently. On the contrary, our proposed planning method leads the system towards regions that maximize disambiguation among hypotheses. Furthermore, it also performs better than assessing uncertainty on the task space only. Given these results, the remainder of this section will only consider our planning method.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
   \centering
-      \includegraphics[width=\columnwidth]{\imgpath/plot_artificial_planning}
+      \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_artificial_planning}
       \caption{Number of steps to complete first task, comparison of different exploration methods with 30 dimensional artificial data. When learning from scratch, planning upon uncertainty in both task and signal space performs better than relying only on task uncertainty. Greedy action selection rarely disambiguates between hypothesis.}
     \label{fig:planning}
 \end{figure}
@@ -201,18 +226,18 @@ Figure \ref{fig:planning} compares the number of steps (with maximum values of 5
 
 Figure \ref{fig:firstArtificial} compares the number of steps (with maximum values of 500 steps) needed to identify the first task when learning from scratch with different dimensionality of datasets. As can be seen, the convergence speed is only slightly affected by the features dimensionality. On the other hand, the dataset quality (measured in terms of their associated ten-fold accuracies) is the main cause of performances decay. Furthermore, for those datasets with accuracies between $60\%$ and $70\%$, the system is not able (on average) to learn the task after 500 steps.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
   \centering
-      \includegraphics[width=\columnwidth]{\imgpath/plot_artificial_firstconf}
+      \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_artificial_firstconf}
       \caption{Number of steps to complete first task using artificial data. Under 60 percent accuracy, the confidence threshold cannot be reached in 500 steps. The dataset qualities, more than their dimensionality, impact the learning time.}
       \label{fig:firstArtificial}
 \end{figure} 
 
 Once one task is completed, a new one is selected randomly. Figure \ref{fig:nCorrectArtificial} compares the number of tasks that can be achieved in 500 steps. As expected, the lower the quality of the data, the less number of task can be completed. On the other hand, with accuracies higher than $90\%$ dataset quality we can achieve more than 30 tasks on average. 
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
-    \includegraphics[width=\columnwidth]{\imgpath/plot_artificial_nCorrect}
+    \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_artificial_nCorrect}
     \caption{Number of tasks correctly achieved in 500 steps, artificial data. Quality of dataset impacts the number of task identified in 500 steps, more evidence should be collected to reach the confidence threshold.}
     \label{fig:nCorrectArtificial}
 \end{figure} 
@@ -224,7 +249,7 @@ An important aspect of the proposed learning approach was that the first task le
 \paragraph{Example}
 Figure \ref{fig:sequence} shows one particular run of 500 steps comparing our self-calibration method with a calibration procedure of 400 steps. The two independent runs use as real EEG dataset with $80\%$ ten-fold classification accuracy. As our algorithm is operational from the first step, it can estimate the real task when sufficient evidence has been collected. On the other hand, a calibration approach collects signal-label pairs for a fixed number of steps and use the resulting classifier without updating it. This provokes that, during the calibration phase, no tasks can be learned, substantially delaying the user's online operation.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=\columnwidth]{\imgpath/plot_the_aaai_sequence}
 \caption{Time-line of one run from EEG dataset of $80\%$ ten-fold classification accuracy, self-calibration (top) versus 400 steps calibration (bottom). Green (filled) and red (dashed) bars represents respectively correct and incorrect task achievement. The proposed self-calibration method allow to reach a first task faster than would take a calibration procedure.}
@@ -235,7 +260,7 @@ Figure \ref{fig:sequence} shows one particular run of 500 steps comparing our se
 
 Figure \ref{fig:sequence_evolution} shows the evolution of classification rate between our self-calibration method with a calibration procedure of 400 steps. As our method assigns different labels to each new teaching signal, the resulting classifiers have different performances, which help identifying the correct task. Once a task is identified (e.g.\ step 85 and 134), the corresponding labels are taken as ground truth, and all classifiers will have the same accuracies. As the agent starts exploring again the environment to estimate the new tasks, all the classifiers expect the true one will start to have worse accuracies again.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=\columnwidth]{\imgpath/plot_evo_classification_rate}
 \caption{Evolution of classification rate of one run from EEG dataset of 83 percent accuracy, self-calibration (top) versus 400 steps calibration (bottom). On top, the red line represented the classifier corresponding the successive tasks taught by the user, the dashed blue one represent all others tasks. Our method updates classifiers every steps.}
@@ -246,9 +271,9 @@ Figure \ref{fig:sequence_evolution} shows the evolution of classification rate b
 
 Figure \ref{fig:firstEEG} shows the results per group of dataset. Our algorithm allows to complete the first task without errors and in a fair amount of iteration.  For our method, the learning time is strongly correlated with the dataset quality. However calibration methods, which do not update their classifier once calibrated, identify more tasks incorrectly.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
-\includegraphics[width=\columnwidth]{\imgpath/plot_EEG_calib_firstconf}
+\includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_EEG_calib_firstconf}
 \caption{Number of steps to complete first task with EEG data. The method scale well to EEG data. Contrary to the standard calibration approaches, we do not make mistakes with low quality datasets.}
 \label{fig:firstEEG}
 \end{figure} 
@@ -272,9 +297,9 @@ Dataset Accuracies & Self-calibration & Calibration \\ \hline
 \label{tab:correctLabelRatio}
 \end{table}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
-\includegraphics[width=\columnwidth]{\imgpath/plot_explaination_for_calib_failure}
+\includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_explaination_for_calib_failure}
 \caption{Difference between true accuracy and estimated accuracy. True accuracy is the performance of the classifier on the unused data. Estimated accuracy is the 10 fold cross validation performance of the classifier on collected data. A negative(positive) value indicates the classifier is over(under)-estimating its performance. Calibration methods tend to produce over-confident classifiers, certainly due to the biased positive to negative training example ratio, see table \ref{tab:correctLabelRatio}.}
 \label{fig:calibFail}
 \end{figure}
@@ -283,18 +308,18 @@ Dataset Accuracies & Self-calibration & Calibration \\ \hline
 
 Figure \ref{fig:nCorrectEEG} compares the number of tasks that can be achieved in 500 steps. With 90\% and more dataset quality we can achieve about 20 tasks on average. The results are consistent with artificial dataset analysis.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
-\includegraphics[width=\columnwidth]{\imgpath/plot_EEG_calib_nCorrect}
+\includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_EEG_calib_nCorrect}
 \caption{Number of task correctly achieved in 500 steps with EEG data. Calibration methods can not complete a significant number of task as most the time is spent on calibration.}
 \label{fig:nCorrectEEG}
 \end{figure} 
 
 The calibration methods can not complete many task as a significant amount of iteration was used for calibrating the system. A calibration of 200 steps makes as many good estimation than our method, but it also makes many wrong estimation, see figure \ref{fig:nWrongEEG}. For calibration methods, the less time spent on calibration, the poorer the classifier which implies more mistakes.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
-\includegraphics[width=\columnwidth]{\imgpath/plot_EEG_calib_nWrong}
+\includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_EEG_calib_nWrong}
 \caption{Number of task incorrectly achieved in 500 steps with EEG data. Calibration methods, which do not update their models once calibrated, make more errors.}
 \label{fig:nWrongEEG}
 \end{figure}
@@ -303,16 +328,16 @@ The calibration methods can not complete many task as a significant amount of it
 
 Figure \ref{fig:nCorrectEEG_last100} compares the number of task that can be achieved during the last 100 steps with EEG data. With 80-90\% dataset quality, all methods achieve an average success rate of one task every 20 steps. However calibration methods, which do not update their models once calibrated, make more mistakes (see figure \ref{fig:nWrongEEG_last100}).
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
-\includegraphics[width=\columnwidth]{\imgpath/plot_EEG_calib_nCorrect_last100}
+\includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_EEG_calib_nCorrect_last100}
 \caption{Number of task correctly achieved during the last 100 steps with EEG data. All methods have equivalent successful reaching rate.}
 \label{fig:nCorrectEEG_last100}
 \end{figure} 
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
-\includegraphics[width=\columnwidth]{\imgpath/plot_EEG_calib_nWrong_last100}
+\includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_EEG_calib_nWrong_last100}
 \caption{Number of task incorrectly achieved during the last 100 steps with EEG data. Calibration methods, which do not update their models once calibrated, make more errors.}
 \label{fig:nWrongEEG_last100}
 \end{figure} 
@@ -320,30 +345,24 @@ Figure \ref{fig:nCorrectEEG_last100} compares the number of task that can be ach
  shows the number of tasks identified with respect to the accuracy of the dataset, and the number of tasks incorrectly identified. Notice how the number of identified task is correlated to the quality of the dataset. Importantly, we were able to identify 15 to 20 tasks in 500 steps on good quality dataset without the need for a calibration procedure.
 
 
-\begin{figure*}[t]
-\centering
-\begin{minipage}[t]{.65\columnwidth}
-  \centering
-          \includegraphics[width=\columnwidth]{\imgpath/plot_EEG_planning}
-          \caption{\todo{this is the plot for EEG data, xp are running for artificial data}}
-      \label{fig:planning}
-\end{minipage}
-\begin{minipage}[t]{.65\columnwidth}
-  \centering
-          \includegraphics[width=\columnwidth]{\imgpath/plot_artificial_firstconf}
-          \caption{Under 70 percent accuracy, the confidence threshold cannot be reached in 500 steps. The dataset qualities, more than their dimensionality, impact the learning time.}
-          \label{fig:firstArtificial}
-\end{minipage}    
-\begin{minipage}[t]{.65\columnwidth}
-  \centering
-              \includegraphics[width=\columnwidth]{\imgpath/plot_artificial_nCorrect}
-          \caption{Quality of dataset impacts the number of task identified in 500 steps, more evidence should be collected to reach the confidence threshold.}
-          \label{fig:nCorrectArtificial}
-\end{minipage}
-\end{figure*} 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_EEG_planning}
+    \caption{\todo{this is the plot for EEG data, xp are running for artificial data}}
+    \label{fig:planning}
+\end{figure} 
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{\imgpath/plot_the_aaai_sequence}
-\caption{The proposed self-calibration method allow to reach a first task faster, with performance increasing with time. One run from EEG dataset of 83 percent accuracy, self-calibration versus 400 steps calibration.}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_artificial_nCorrect}
+    \caption{Quality of dataset impacts the number of task identified in 500 steps, more evidence should be collected to reach the confidence threshold.}
+    \label{fig:nCorrectArtificial}
+\end{figure} 
+
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_artificial_nCorrect}
+    \caption{Quality of dataset impacts the number of task identified in 500 steps, more evidence should be collected to reach the confidence threshold.}
+    \label{fig:nCorrectArtificial}
 \end{figure} 
