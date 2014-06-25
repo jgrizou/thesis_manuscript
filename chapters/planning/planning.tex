@@ -53,6 +53,36 @@ U(s,a) = weightedVariance(p(l = ``correct''| s, a, \xi), p(\xi))
 \section{Where is the uncertainty}
 
 
+In order to exemplify the specificity of our problem in terms of planning we present a simple experiment and compare the effect of different action selection strategies. In this scenario, the agent is in a T world with 7 states and can perform 4 actions (right, left, up, and down). The user wants the robot to reach the left edge (marked by G1) of the T, (see Figure~\ref{fig:planningExplained} top). The agent knows the users wants it to go to one of the two edges (G1 or G2) but not which one. The agent will perform some actions, and the user will assess the correctness of each agent's action by providing a two dimensional teaching signal. The agent does not known which signal means ``correct'' and which signal means ``incorrect''. As there is two possible tasks, the agent will assign labels to every user's signals according to each hypothesis. The result of the labeling process is displayed as colored dots (green for ``correct''and red for ``incorrect'') in Figure \ref{fig:planningExplained} (a, b, and c), where the left part corresponds to hypothesis 1 (G1) and the right part to hypothesis 2 (G2).
+
+If the agent knew how to interpret the signal, i.e. which signal corresponds to correct or incorrect feedback, the optimal action to differentiate between the two hypothesis would be to perform right and left actions in the top part of the T. However in our problem the classifier is not given and the agent is building a different model for each hypothesis. As a results, we end up with two opposite interpretations of the user signal, which are both as valid (see Figure~\ref{fig:planningExplained}a) and do not allow to differentiate between hypothesis.
+
+Considering that the agent does not know the signal to meaning classifier, a sensitive option is to select actions that allow to unequivocally identify the model. In our scenario taking only up and down actions in the trunk of the T leads to identical interpretation for each hypothesis (see Figure~\ref{fig:planningExplained}b). However this method do not allow to disambiguate between hypothesis and in most setting, such as the grid world we consider later, there is no state-action pair leading to unequivocal interpretations.
+
+However performing all the four actions allow to disambiguate between hypothesis. As shown in Figure~\ref{fig:planningExplained}c, hypothesis 1 stands out by the nice coherence between the labels and the spacial organization of the data. This informs us that hypothesis 1 is the task the user has in mind and that feedback signals in the right and left part of the feature space means ``correct'' and ``incorrect'' respectively.
+
+For our kind of problem the agent can not just try to differentiate hypothesis by finding state-action pair where expected feedback differs but should also collect data to build a good model or at least invalidate other models. Can we find a measure of uncertainty that account for both? Going back to Figure~\ref{fig:planningExplained} (a and b), we understand that, to differentiate hypothesis in situation a) the best actions to perform are up and down in the T trunk while in situation b) the best actions to perform are right and left in the top part of the T. This corresponds to the uncertainty in the signal space. In the case of a) when going left both hypothesis agree that they will receive a signal in the right part of the feature space even if they disagree on its meaning. However for action down, both hypothesis agree they should receive a signal of meaning ``incorrect'' but disagree on the expected location of such signal in the feature space. In the case of b) when going up both hypothesis agree they will receive a signal in the right part of the feature space and agree on its meaning. However for action left, both hypothesis disagree about the meaning of the signal they should receive and as both share the same signal model they expect a signal in different locations of the feature space.
+
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\signalwidth\columnwidth]{\visualspath/tuto_feedback/Tworld_feedback_labeled_right_left.png}
+  \caption{Results of the labeling process if the agent only performs right and left actions in the top of the T world. This is the symmetry problem encountered in previous chapter~\ref{chapter:lfui:symmetries}.}
+  \label{fig:planningrightleft}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\signalwidth\columnwidth]{\visualspath/tuto_feedback/Tworld_feedback_labeled_up_down.png}
+  \caption{Results of the labeling process if the agent only performs up and down actions in the trunk of the T. The interpretation of the signal for both hypothesis are the same, this method allow to build a good model.}
+  \label{fig:planningrightleft}
+\end{figure}
+
+
+\todo{this is not allays that easy, for example if we add a third hypothesis, it is not more possible to find action whose interpretation are the same for all. But our simple example allow to understand the two principle we should consider when selecting action, finding the model and discriminating the models.}
+
+\todo{show 3 hyp and explain it is even worth for 624 hyp}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -79,6 +109,9 @@ U(s,a) &=& - \sum_{i = 1}^{T} \sum_{j = 1}^{T} S_{ij}(s,a) p(\xi_i)p(\xi_j)
 Computing the similarity between two Gaussian distributions for all state-action pairs was not feasible in real time. In order to improve computation efficiency we do not rely on a precise metric between Gaussian distributions and only consider the similarity between their means (empirical tests did show that this approximation does not impact the results).
 
 Computed for each state and action, this measure is then used as an exploration bonus, whereas we switch to a pure exploitation of the task after reaching the desired confidence level~$\beta$.
+
+
+Estimating uncertainty in the signal space is in practice too costly as it requires to compute, for every state-action pair, the overlap between many continuous probability distributions weighted by their respective expected contribution. Following the discussion presented in previous section, we will rely on our pseudo-likelihood metric. As we cannot predict, neither control, the signal we will receive for a particular state-action, we will rely on our past history of signal and compute the expected joint probability based on previously experienced signals.
 
 \subsection{A measure projected in the meaning space}
 
