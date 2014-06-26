@@ -2,6 +2,10 @@
 \renewcommand{\chapterpath}{\allchapterspath/planning}
 \renewcommand{\imgpath}{\chapterpath/img}
 
+\newcommand{\twoplanningwidth}{0.7}
+\newcommand{\threeplanningwidth}{1}
+\newcommand{\twotworldsize}{0.8}
+\newcommand{\threetworldsize}{1}
 \newcommand{\plotsize}{0.6}
 
 \chapter{Planning upon Uncertainty}
@@ -66,22 +70,17 @@ For our kind of problem the agent can not just try to differentiate hypothesis b
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\signalwidth\columnwidth]{\visualspath/tuto_feedback/Tworld_feedback_labeled_right_left.png}
+  \includegraphics[width=\twotworldsize\columnwidth]{\visualspath/tuto_feedback/Tworld_feedback_labeled_right_left_with_gaussian.png}
   \caption{Results of the labeling process if the agent only performs right and left actions in the top of the T world. This is the symmetry problem encountered in previous chapter~\ref{chapter:lfui:symmetries}.}
   \label{fig:planningrightleft}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\signalwidth\columnwidth]{\visualspath/tuto_feedback/Tworld_feedback_labeled_up_down.png}
+  \includegraphics[width=\twotworldsize\columnwidth]{\visualspath/tuto_feedback/Tworld_feedback_labeled_up_down_with_gaussian.png}
   \caption{Results of the labeling process if the agent only performs up and down actions in the trunk of the T. The interpretation of the signal for both hypothesis are the same, this method allow to build a good model.}
-  \label{fig:planningrightleft}
+  \label{fig:planningupdown}
 \end{figure}
-
-
-\todo{this is not allays that easy, for example if we add a third hypothesis, it is not more possible to find action whose interpretation are the same for all. But our simple example allow to understand the two principle we should consider when selecting action, finding the model and discriminating the models.}
-
-\todo{show 3 hyp and explain it is even worth for 624 hyp}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -91,10 +90,40 @@ For our kind of problem the agent can not just try to differentiate hypothesis b
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{How can we measure this uncertainty}
 
-\subsection{The importance of weighting estimates}
+\subsection{The importance of weighting}
 
 \subsection{Measure on the signal space}
 
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspath/planning/planning_right_left_agree.png}
+  \caption{a}
+  \label{fig:uncertaintysignalrightleftagree}
+\end{figure}
+
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspath/planning/planning_right_left_disagree.png}
+  \caption{a}
+  \label{fig:uncertaintysignalrightleftdisagree}
+\end{figure}
+
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspath/planning/planning_up_down_agree.png}
+  \caption{a}
+  \label{fig:uncertaintysignalupdownagree}
+\end{figure}
+
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspath/planning/planning_up_down_disagree.png}
+  \caption{a}
+  \label{fig:uncertaintysignalupdowndisagree}
+\end{figure}
 
 We define an uncertainty measure and use model-based planning to select sequences of actions that guide the agent towards states that better identify the desired task.
 
@@ -115,7 +144,33 @@ Estimating uncertainty in the signal space is in practice too costly as it requi
 
 \subsection{A measure projected in the meaning space}
 
-refer to the video I did
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspath/planning/planning_right_left_expected_matched.png}
+  \caption{a}
+  \label{fig:uncertaintysmeaningupdownexpectedleft}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspath/planning/planning_right_left_expected_unmatched.png}
+  \caption{a}
+  \label{fig:uncertaintysmeaningupdownexpectedright}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspath/planning/planning_right_left_unexpected_left_signal.png}
+  \caption{a}
+  \label{fig:uncertaintysmeaningupdownunexpectedleft}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspath/planning/planning_right_left_unexpected_right_signal.png}
+  \caption{a}
+  \label{fig:uncertaintysmeaningupdownunexpectedright}
+\end{figure}
 
 After several interaction with the user, our algorithm is able to identify a task among a set of possible tasks. To do so it has to explore regions that allow to disambiguate among hypothesis. There are several efficient model-based reinforcement learning exploration methods that add an exploration bonus for states that might provide more learning gains. Several theoretical results show that these approaches allow to learn tasks efficiently \cite{brafman2003r,kolter2009near}. We define an uncertainty measure and use model-based planning to select sequences of actions that guide the agent toward states that better identify the desired task.
 
@@ -163,6 +218,36 @@ Our measure of global uncertainty $U(s,a)$ will be higher when, for a given stat
 This measure is then used as a classical exploration bonus method. We will switch to a pure exploitation of the task after reaching the desired confidence level.
 
 Interestingly this approach generalizes over other active sampling method \cite{lopes2009active}, if the classifier is known, equation \ref{eq:planningOneSignal} reduces to the one presented in \cite{macl11simul} and is no longer dependent on signal $e$. As our uncertainty function combines uncertainty on both signal and task space, when former is known, the latter becomes the sole source of ambiguity.
+
+\subsection{Why not building model first}
+
+Figure~\ref{fig:planningupdown} 
+
+this is not allays that easy, for example if we add a third hypothesis, it is not more possible to find action whose interpretation are the same for all. But our simple example allow to understand the two principle we should consider when selecting action, finding the model and discriminating the models.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\threetworldsize\columnwidth]{\visualspath/planning/Tworld_feedback_3hyp.png}
+  \caption{a}
+  \label{fig:planning3hyp}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\threetworldsize\columnwidth]{\visualspath/planning/Tworld_feedback_3hyp_right_left.png}
+  \caption{a}
+  \label{fig:planning3hyprightleft}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\threetworldsize\columnwidth]{\visualspath/planning/Tworld_feedback_3hyp_up_down_no_bump.png}
+  \caption{a}
+  \label{fig:planning3hypupdown}
+\end{figure}
+
+
+\todo{show 3 hyp and explain it is even worth for 624 hyp}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
