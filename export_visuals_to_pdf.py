@@ -4,11 +4,9 @@ import os
 import sys
 import subprocess
 
-dpi = sys.argv[1]
-
 hereFolder = os.path.dirname(os.path.realpath(__file__))
 visualsFolder = os.path.join(hereFolder, "visuals")
-visualsForThesisFolder = os.path.join(hereFolder, "visuals"+str(dpi))
+visualsForThesisFolder = os.path.join(hereFolder, "visualspdf")
 
 if not os.path.exists(visualsForThesisFolder):
     os.makedirs(visualsForThesisFolder)
@@ -16,24 +14,21 @@ if not os.path.exists(visualsForThesisFolder):
 cnt = 0
 for path, subdirs, files in os.walk(visualsFolder):
     for filename in files:
-        extension = os.path.splitext(filename)[1]
-        if extension == ".png":
+        name, extension = os.path.splitext(filename)
+        if extension == ".svg":
             cnt += 1
 
-            cmd = "convert "
-            cmd += os.path.join(path, filename)
-            cmd += " -units PixelsPerInch -resample "
-            cmd += str(dpi)
-            cmd += " "
+            infile = os.path.join(path, filename)
 
             newFolder =  path.replace(visualsFolder, visualsForThesisFolder)
             if not os.path.exists(newFolder):
                 os.makedirs(newFolder)
 
-            newFilename = os.path.join(newFolder, filename)
-            cmd += newFilename
+            outfile = os.path.join(newFolder, name+".pdf")
 
-            dispStr = str(cnt) + ": converting " + filename + " ..."
+            cmd = "inkscape --file=" + infile + " --export-pdf=" + outfile
+
+            dispStr = str(cnt) + ": converting " + filename + " to pdf ..."
             print dispStr
             
             subprocess.call(cmd, shell=True)
