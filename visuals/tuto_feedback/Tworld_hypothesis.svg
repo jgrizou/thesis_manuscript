@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="1695.4792"
-   height="559.74744"
+   width="1695.4775"
+   height="559.7486"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
@@ -399,8 +399,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.5820903"
-     inkscape:cx="784.08487"
-     inkscape:cy="224.3209"
+     inkscape:cx="784.08316"
+     inkscape:cy="204.56453"
      inkscape:document-units="px"
      inkscape:current-layer="g7994-2"
      showgrid="false"
@@ -424,7 +424,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -432,7 +432,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-1047.9919,-488.83543)">
+     transform="translate(-1047.9936,-488.8343)">
     <g
        transform="matrix(1.25,0,0,-1.25,919.65986,1048.4409)"
        inkscape:label="ink_ext_XXXXXX"
@@ -763,7 +763,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="test"
-     transform="translate(-1.2500001e-6,1.75e-6)">
+     transform="translate(-0.00171125,0.00113175)">
     <flowRoot
        xml:space="preserve"
        id="flowRoot7946"

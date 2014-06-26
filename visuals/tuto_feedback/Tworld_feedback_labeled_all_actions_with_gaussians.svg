@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="825.28204"
-   height="569.89038"
+   width="825.28375"
+   height="569.89197"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
@@ -390,7 +390,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.89639154"
      inkscape:cx="409.72417"
-     inkscape:cy="202.5447"
+     inkscape:cy="189.71551"
      inkscape:document-units="px"
      inkscape:current-layer="g25785"
      showgrid="false"
@@ -398,10 +398,10 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="1855"
-     inkscape:window-height="1176"
-     inkscape:window-x="65"
-     inkscape:window-y="313"
+     inkscape:window-width="1050"
+     inkscape:window-height="1656"
+     inkscape:window-x="1920"
+     inkscape:window-y="24"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
@@ -411,7 +411,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -419,7 +419,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(35.169549,-212.95475)">
+     transform="translate(35.169549,-212.95322)">
     <g
        transform="matrix(1.25,0,0,-1.25,-16.875806,753.96647)"
        inkscape:label="ink_ext_XXXXXX"
@@ -3258,7 +3258,7 @@
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="Layer"
-     transform="translate(35.169549,-212.95475)">
+     transform="translate(35.169549,-212.95322)">
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch Bold"

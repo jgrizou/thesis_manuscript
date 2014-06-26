@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="4238.8076"
-   height="4182.9375"
+   width="4240.001"
+   height="4182.9399"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
@@ -429,8 +429,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.12502565"
-     inkscape:cx="2025.0837"
-     inkscape:cy="1765.8247"
+     inkscape:cx="2025.0717"
+     inkscape:cy="1673.85"
      inkscape:document-units="px"
      inkscape:current-layer="layer7"
      showgrid="false"
@@ -451,7 +451,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -459,7 +459,7 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="Layer"
-     transform="translate(644.7814,-1136.7687)"
+     transform="translate(644.7694,-1136.7728)"
      style="display:inline">
     <g
        transform="matrix(1.25,0,0,-1.25,111.37104,648.41977)"
@@ -5079,7 +5079,7 @@
      id="layer6"
      inkscape:label="Layerline"
      style="display:inline"
-     transform="translate(-1378.7541,-1607.4063)">
+     transform="translate(-1378.7661,-1607.4104)">
     <path
        style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
        d="m 1832.7971,2505.5552 c 3609.073,0 3609.073,0 3609.073,0"
@@ -5106,7 +5106,7 @@
      id="layer5"
      inkscape:label="Layeraction"
      style="display:inline"
-     transform="translate(-1378.7541,-1607.4063)">
+     transform="translate(-1378.7661,-1607.4104)">
     <g
        style="display:inline"
        id="g13128"
@@ -5725,7 +5725,7 @@
      id="layer7"
      inkscape:label="hypo"
      style="display:inline"
-     transform="translate(-1378.7541,-1607.4063)">
+     transform="translate(-1378.7661,-1607.4104)">
     <rect
        style="fill:none;stroke:#ff3333;stroke-width:4.99999905;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect17809"
