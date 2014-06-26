@@ -33,7 +33,7 @@ We present a simplified example that will follow us all along the remaining of t
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\tworldsize\columnwidth]{\visualspath/worlds_and_datasets/Tworld_with_state_number_and_action.pdf}
+  \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/worlds_and_datasets/Tworld_with_state_number_and_action.pdf}
   \caption{The T world and the available actions.}
   \label{fig:Tworld}
 \end{figure}
@@ -42,7 +42,7 @@ A simulated teacher wants the robot to reach the left edge of the T world. To th
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\signalwidth\columnwidth]{\visualspath/worlds_and_datasets/feedback_signals_color.pdf}
+  \includegraphics[width=\signalwidth\columnwidth]{\visualspdf/worlds_and_datasets/feedback_signals_color.pdf}
   \caption{The feedback signals used by our simulated teacher in our visual examples. A signal of meaning ``correct'' will be at the right side of the feature space, and a signal of meaning ``incorrect'' will be on the left side. Importantly, the agent will never have access to the label information.}
   \label{fig:feedbacksignals}
 \end{figure}
@@ -53,7 +53,7 @@ For example, as depicted in Figure~\ref{fig:TworldOneStepUnlabeled}, the agent s
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\tworldsize\columnwidth]{\visualspath/tuto_feedback/Tworld_feedback_unlabeled_one_action.pdf}
+  \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_unlabeled_one_action.pdf}
   \caption{The user provide a feedback signal after each action of the agent. The agent starts in state 3, performs action left, and ends-up in state 2. The teacher wants the agent to go to G1, therefore he sends a signal meaning that the previous action was ``correct'' with respect to the goal. Note that the signal is on the right side of the space as described in Figure~\ref{fig:feedbacksignals}. However the agent does not have access to the label associated to this signal and it only observes a point in a two dimensional space.}
   \label{fig:TworldOneStepUnlabeled}
 \end{figure}
@@ -62,7 +62,7 @@ This sequence of interaction is repeated for several iteration until the agent a
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\tworldsize\columnwidth]{\visualspath/tuto_feedback/Tworld_feedback_unlabeled.pdf}
+  \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_unlabeled.pdf}
   \caption{After performing many actions, the robot ends-up with a lot of observations associating a state, an action and a feedback signal. The robot do not have access to the label associated to the teaching signals. However it can observe the distribution of signal in the feature space. We can observe that two clusters has emerged in the feature space, this property will be exploited in the coming sections.}
   \label{fig:TworldManyStepUnlabeled}
 \end{figure}
@@ -125,7 +125,7 @@ We exemplify this process using the same example as in Figure~\ref{fig:TworldOne
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\tworldsize\columnwidth]{\visualspath/tuto_feedback/Tworld_hypothesis.pdf}
+  \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/tuto_feedback/Tworld_hypothesis.pdf}
   \caption{Optimal policies associated to the two task hypothesis G1 and G2 in the T world. Such policies are known by both the human and the agent, and allow the agent to interpret a human signal with respect to a given task.}
   \label{fig:Twolrdpolicies}
 \end{figure}
@@ -136,18 +136,18 @@ The agent starts in state 3, performs action left, and ends-up in state 2. The t
     \centering
     \begin{subfigure}[b]{\tworldsize\columnwidth}
         \centering
-        \includegraphics[width=\columnwidth]{\visualspath/tuto_feedback/Tworld_feedback_unlabeled_one_action.pdf}
+        \includegraphics[width=\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_unlabeled_one_action.pdf}
         \caption{Feedback signal as received by the agent without label.}
     \end{subfigure}\\
     \begin{subfigure}[b]{\tworldsize\columnwidth}
         \centering
-        \includegraphics[width=\columnwidth]{\visualspath/tuto_feedback/Tworld_feedback_labeled_G1.pdf}
+        \includegraphics[width=\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_labeled_G1.pdf}
         \caption{Feedback signal labeled according to G1.}
         \label{fig:TworldLabelG1}
     \end{subfigure}
     \begin{subfigure}[b]{\tworldsize\columnwidth}
         \centering
-        \includegraphics[width=\columnwidth]{\visualspath/tuto_feedback/Tworld_feedback_labeled_G2.pdf}
+        \includegraphics[width=\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_labeled_G2.pdf}
         \caption{Feedback signal labeled according to G2.}
         \label{fig:TworldLabelG2}
     \end{subfigure}
@@ -161,12 +161,12 @@ By repeating this process for several iteration steps with the agent exploring a
     \centering
     \begin{subfigure}[t]{\tworldsize\columnwidth}
         \centering
-        \includegraphics[width=\columnwidth]{\visualspath/tuto_feedback/Tworld_feedback_unlabeled.pdf}
+        \includegraphics[width=\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_unlabeled.pdf}
         \caption{Feedback signal as received by the agent without label.}
     \end{subfigure}\\
     \begin{subfigure}[b]{\columnwidth}
         \centering
-        \includegraphics[width=\columnwidth]{\visualspath/tuto_feedback/Tworld_feedback_labeled_all_actions.pdf}
+        \includegraphics[width=\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_labeled_all_actions.pdf}
         \caption{Feedback signal labeled according to G1 and G2.}
         \label{fig:TworldLabelinterpretation}
     \end{subfigure}
@@ -186,7 +186,7 @@ We will give several visual example of the guidance frame in the following of th
 
 % \begin{figure}[!ht]
 %   \centering
-%   \includegraphics[width=\signalwidth\columnwidth]{\visualspath/worlds_and_dataset/guidance_4_signals_color.pdf}
+%   \includegraphics[width=\signalwidth\columnwidth]{\visualspdf/worlds_and_dataset/guidance_4_signals_color.pdf}
 %   \caption{The guidance signals used by our simulated teacher in our visual examples.}
 %   \label{fig:guidancesignals}
 % \end{figure}
@@ -259,7 +259,7 @@ We present the line word in Figure~\ref{fig:lineworld} which contains only the t
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\tworldsize\columnwidth]{\visualspath/worlds_and_datasets/lineworld_with_state_number_and_2action.pdf}
+  \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/worlds_and_datasets/lineworld_with_state_number_and_2action.pdf}
   \caption{The line world and the available actions.}
   \label{fig:lineworld}
 \end{figure}
@@ -268,7 +268,7 @@ The interaction follows the same protocol as in previous examples, and following
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\tworldsize\columnwidth]{\visualspath/lineworld_symmetries/feedback_2actions.pdf}
+  \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/lineworld_symmetries/feedback_2actions.pdf}
   \caption{Interpretation hypothesis for an agent receive feedback on its action in the line word and where hypothetic task are G1 or G2. The agent can only perform right or left action which results in symmetric interpretation hypothesis of the feedback signals.}
   \label{fig:lineworldfeedback2action}
 \end{figure}
@@ -277,7 +277,7 @@ It is theoretically impossible to differentiate symmetric task hypothesis, there
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\tworldsize\columnwidth]{\visualspath/worlds_and_datasets/lineworld_with_state_number_and_action.pdf}
+  \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/worlds_and_datasets/lineworld_with_state_number_and_action.pdf}
   \caption{The line world and the new available actions, including a ``no move'' action.}
   \label{fig:lineworld3action}
 \end{figure}
@@ -286,7 +286,7 @@ When taking this action the agent to not change position on the grid. This actio
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\tworldsize\columnwidth]{\visualspath/lineworld_symmetries/feedback_3actions.pdf}
+  \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/lineworld_symmetries/feedback_3actions.pdf}
   \caption{Interpretation hypothesis for an agent receive feedback on its action in the line word and where hypothetic task are G1 or G2. The agent can perform right, left, or a ``no move'' action. As opposed to Figure~\ref{lineworldfeedback2action}, the ``no move'' action allow to break the symmetry of interpretation between G1 and G2.}
   \label{fig:lineworldfeedback3action}
 \end{figure}
@@ -295,14 +295,14 @@ This problem of symmetries holds for the guidance frame too. Indeed if the agent
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\signalwidth\columnwidth]{\visualspath/worlds_and_datasets/guidance_2_signals_color.pdf}
+  \includegraphics[width=\signalwidth\columnwidth]{\visualspdf/worlds_and_datasets/guidance_2_signals_color.pdf}
   \caption{The guidance signals used by our simulated teacher in our line world visual examples with two actions.}
   \label{fig:lineworldguidance2signals}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\tworldsize\columnwidth]{\visualspath/lineworld_symmetries/guidance_2actions.pdf}
+  \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/lineworld_symmetries/guidance_2actions.pdf}
   \caption{Interpretation hypothesis for an agent receive guidance on its action in the line word and where hypothetic task are G1 or G2. The agent can only perform right or left action which results in symmetric interpretation hypothesis of the guidance signals.}
   \label{fig:lineworldguidance2action}
 \end{figure}
@@ -311,14 +311,14 @@ When introducing the ``goal reached'' action, the user now can produce three dif
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\signalwidth\columnwidth]{\visualspath/worlds_and_datasets/guidance_3_signals_color.pdf}
+  \includegraphics[width=\signalwidth\columnwidth]{\visualspdf/worlds_and_datasets/guidance_3_signals_color.pdf}
   \caption{The guidance signals used by our simulated teacher in our line world visual examples with three actions.}
   \label{fig:lineworldguidance3signals}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\tworldsize\columnwidth]{\visualspath/lineworld_symmetries/guidance_3actions.pdf}
+  \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/lineworld_symmetries/guidance_3actions.pdf}
   \caption{Interpretation hypothesis for an agent receive feedback on its action in the line word and where hypothetic task are G1 or G2. The agent can perform right, left, or a ``no move'' action. As opposed to Figure~\ref{lineworldguidance2action}, the ``no move'' action allow to break the symmetry of interpretation between G1 and G2.}
   \label{fig:lineworldguidance3action}
 \end{figure}
@@ -360,7 +360,7 @@ By assuming the signals generated by the teacher can be separated by a quadratic
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=\columnwidth]{\visualspath/tuto_feedback/Tworld_feedback_labeled_all_actions_with_gaussians.pdf}
+    \includegraphics[width=\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_labeled_all_actions_with_gaussians.pdf}
     \caption{Interpretation hypothesis made by the agent according to G1 and G2 after many interaction steps with their associated Gaussian distribution (approximated by hand). The teacher's task is to have the agent reach G1. The agent is exploring all the state space randomly. The labels associated to the task G1 are more coherent with the spacial organization of signals in the feature space. This is measured by expected difference in prediction performance made by the each Gaussian classifier.}
     \label{fig:TworldLabelGaussian}
 \end{figure}
@@ -510,7 +510,7 @@ Going back to our previous example: \begin{inparaenum}[a)] \item for only two hy
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\tworldsize\columnwidth]{\visualspath/reuse/Tworld_feedback_propagate_labels.pdf}
+  \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/reuse/Tworld_feedback_propagate_labels.pdf}
   \caption{Once a task is identified with confidence, we propagate the label of the best hypothesis to all the other hypothesis.}
   \label{fig:TworldPropagate}
 \end{figure}
@@ -520,7 +520,7 @@ Once a task is identified with confidence, the robot executes that task and shou
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\tworldsize\columnwidth]{\visualspath/reuse/Tworld_feedback_teaching_again.pdf}
+  \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/reuse/Tworld_feedback_teaching_again.pdf}
   \caption{When teaching a second task, all hypothesis starts with the same signal-label pairs. After a few new interaction step, some differences in labeling occurs which are easy to detect as they do not comform with the a priori model and allow to discard quickly the second hypothesis G2. But this process also impacts on the trained classifiers which either keep the same quality level or start getting of lower quality for the wrong hypothesis. This is clearly visible after many steps in the new interaction session.}
   \label{fig:TworldReuse}
 \end{figure}
@@ -675,7 +675,7 @@ Before presenting the results from this first experiment, we illustrate here qui
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\tworldsize\columnwidth]{\visualspath/pick_and_place/pick_and_place_world.pdf}
+  \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/pick_and_place/pick_and_place_world.pdf}
   \caption{A schematic view of the pick and place problem. There is three object that can be move in 4 different positions and stacked on two level maximum. The robot's gripper can move step by step at any of those four positions, grasp the object on top of the stack and release object on top of the stack if the stack is not full.}
   \label{fig:lfui:pickplaceworld}
 \end{figure}
@@ -684,7 +684,7 @@ In order to complete a task, i.e. to reach a specific configuration of ball, the
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\columnwidth]{\visualspath/pick_and_place/pick_and_place_sequence.pdf}
+  \includegraphics[width=\columnwidth]{\visualspdf/pick_and_place/pick_and_place_sequence.pdf}
   \caption{A pick and place sequence showing the three hypothesis we will compare on our visuals examples and the sequence of actions from hypothesis 1 to hypothesis 3 through hypothesis 2. While hypothesis 1 and hypothesis 3 seems ``close'' in terms of object position, they are actually far ``away'' one from an other in terms of action.}
   \label{fig:lfui:pickplacesequence}
 \end{figure}
@@ -693,7 +693,7 @@ For the case when the user is delivering feedback to the robot, the labeling pro
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\columnwidth]{\visualspath/pick_and_place/pick_and_place_feedback.pdf}
+  \includegraphics[width=\columnwidth]{\visualspdf/pick_and_place/pick_and_place_feedback.pdf}
   \caption{Results of the labeling process for our three hypothesis considering the feedback frame. The robot is exploring randomly the state space. The teacher is providing feedback with respect to hypothesis 1. Only a few state-action pairs allowed to differentiate between hypothesis 1 and 2.}
   \label{fig:lfui:pickplacefeedback}
 \end{figure}
@@ -703,14 +703,14 @@ For the guidance case, the user uses the signals presented in Figure~\ref{fig:lf
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\signalwidth\columnwidth]{\visualspath/pick_and_place/guidance_pick_and_place.pdf}
+  \includegraphics[width=\signalwidth\columnwidth]{\visualspdf/pick_and_place/guidance_pick_and_place.pdf}
   \caption{The guidance signals used by our simulated teacher for our visual examples.}
   \label{fig:lfui:pickplaceguidancesignals}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\columnwidth]{\visualspath/pick_and_place/pick_and_place_guidance.pdf}
+  \includegraphics[width=\columnwidth]{\visualspdf/pick_and_place/pick_and_place_guidance.pdf}
   \caption{Results of the labeling process for our three hypothesis considering the guidance frame. The robot is exploring randomly the state space. The teacher is providing guidance with respect to hypothesis 1. The dot that contain two color are case where the user could have given two different guidance signals. It is only for hypothesis 1 that all points in one cluster share one color. The case of guidance with multiple optimal action in some state make the learning process more ambiguous and may require some additional time compared to the feedback case.}
   \label{fig:lfui:pickplaceguidance}
 \end{figure}

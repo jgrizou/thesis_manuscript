@@ -70,14 +70,14 @@ For our kind of problem the agent can not just try to differentiate hypothesis b
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\twotworldsize\columnwidth]{\visualspath/tuto_feedback/Tworld_feedback_labeled_right_left_with_gaussian.pdf}
+  \includegraphics[width=\twotworldsize\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_labeled_right_left_with_gaussian.pdf}
   \caption{Results of the labeling process if the agent only performs right and left actions in the top of the T world. This is the symmetry problem encountered in previous chapter~\ref{chapter:lfui:symmetries}.}
   \label{fig:planningrightleft}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\twotworldsize\columnwidth]{\visualspath/tuto_feedback/Tworld_feedback_labeled_up_down_with_gaussian.pdf}
+  \includegraphics[width=\twotworldsize\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_labeled_up_down_with_gaussian.pdf}
   \caption{Results of the labeling process if the agent only performs up and down actions in the trunk of the T. The interpretation of the signal for both hypothesis are the same, this method allow to build a good model.}
   \label{fig:planningupdown}
 \end{figure}
@@ -96,7 +96,7 @@ For our kind of problem the agent can not just try to differentiate hypothesis b
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspath/planning/planning_right_left_agree.pdf}
+  \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/planning/planning_right_left_agree.pdf}
   \caption{a}
   \label{fig:uncertaintysignalrightleftagree}
 \end{figure}
@@ -104,7 +104,7 @@ For our kind of problem the agent can not just try to differentiate hypothesis b
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspath/planning/planning_right_left_disagree.pdf}
+  \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/planning/planning_right_left_disagree.pdf}
   \caption{a}
   \label{fig:uncertaintysignalrightleftdisagree}
 \end{figure}
@@ -112,7 +112,7 @@ For our kind of problem the agent can not just try to differentiate hypothesis b
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspath/planning/planning_up_down_agree.pdf}
+  \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_agree.pdf}
   \caption{a}
   \label{fig:uncertaintysignalupdownagree}
 \end{figure}
@@ -120,7 +120,7 @@ For our kind of problem the agent can not just try to differentiate hypothesis b
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspath/planning/planning_up_down_disagree.pdf}
+  \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_disagree.pdf}
   \caption{a}
   \label{fig:uncertaintysignalupdowndisagree}
 \end{figure}
@@ -146,28 +146,60 @@ Estimating uncertainty in the signal space is in practice too costly as it requi
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspath/planning/planning_right_left_expected_matched.pdf}
+  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_right_left_expected_matched.pdf}
+  \caption{a}
+  \label{fig:uncertaintysmeaningrightleftexpectedleft}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_right_left_expected_unmatched.pdf}
+  \caption{a}
+  \label{fig:uncertaintysmeaningrightleftexpectedright}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_right_left_unexpected_left_signal.pdf}
+  \caption{a}
+  \label{fig:uncertaintysmeaningrightleftunexpectedleft}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_right_left_unexpected_right_signal.pdf}
+  \caption{a}
+  \label{fig:uncertaintysmeaningrightleftunexpectedright}
+\end{figure}
+
+
+%%
+
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_expected_matched.pdf}
   \caption{a}
   \label{fig:uncertaintysmeaningupdownexpectedleft}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspath/planning/planning_right_left_expected_unmatched.pdf}
+  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_expected_unmatched.pdf}
   \caption{a}
   \label{fig:uncertaintysmeaningupdownexpectedright}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspath/planning/planning_right_left_unexpected_left_signal.pdf}
+  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_unexpected_left_signal.pdf}
   \caption{a}
   \label{fig:uncertaintysmeaningupdownunexpectedleft}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspath/planning/planning_right_left_unexpected_right_signal.pdf}
+  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_unexpected_right_signal.pdf}
   \caption{a}
   \label{fig:uncertaintysmeaningupdownunexpectedright}
 \end{figure}
@@ -178,12 +210,6 @@ To solve our problem we need to identify simultaneously the task and how to inte
 
 In order to exemplify the specificity of our problem in terms of planning we present a simple experiment and compare the effect of different action selection strategies. In this scenario, the agent is in a T world with 7 states and can perform 4 actions (right, left, up, and down). The goal of the agent is to reach one of the two edges of the T world (see figure \ref{fig:planningExplained} top), the one the user has in mind. After each agent's move, the user assesses the correctness of the agent action by providing a two dimensional teaching signal. The system then assign a label to each signal according to each hypothesis. The result of the labeling process is display as colored dot in figure \ref{fig:planningExplained} (a, b, and c), where the left part corresponds to hypothesis 1 and the right part to hypothesis 2.
 
-\begin{figure}[!ht]
-  \centering
-      \includegraphics[width=0.5\columnwidth]{\imgpath/planning.png}
-      \caption{A ``T'' world scenario and the interpretation results for different planning strategies. The agent should reach either of the two edges of the T world (marked with the letter ``G''). The arrows represent the optimal policy. For each move it receives unlabeled two dimensional teaching signal which are interpreted according to each hypothesis. a) shows the interpretation results if the agent only perform right and left action in the top of the T world, b) shows the results when the agent only perform up and down action in the trunk of the T, and c) shows results for an agent performing all possible actions.}
-    \label{fig:planningExplained}
-\end{figure}
 
 If the agent knew how to interpret the signal, i.e. which signal correspond to correct and incorrect feedback, the optimal action to differentiate between the two hypothesis would be to perform right and left actions in the top part of the T. However in our problem the classifier is not given and the agent is building a different model for each hypothesis. As a results, we end up with two opposite interpretations of the user signal, which are both as valid (see figure \ref{fig:planningExplained}a) and do not allow to differentiate between hypothesis.
 
@@ -225,29 +251,31 @@ Figure~\ref{fig:planningupdown}
 
 this is not allays that easy, for example if we add a third hypothesis, it is not more possible to find action whose interpretation are the same for all. But our simple example allow to understand the two principle we should consider when selecting action, finding the model and discriminating the models.
 
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=\threetworldsize\columnwidth]{\visualspath/planning/Tworld_feedback_3hyp.pdf}
-  \caption{a}
-  \label{fig:planning3hyp}
-\end{figure}
+\todo{show 3 hyp and explain it is even worth for 624 hyp}
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\threetworldsize\columnwidth]{\visualspath/planning/Tworld_feedback_3hyp_right_left.pdf}
+  \includegraphics[width=\threetworldsize\columnwidth]{\visualspdf/planning/Tworld_feedback_3hyp_right_left.pdf}
   \caption{a}
   \label{fig:planning3hyprightleft}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\threetworldsize\columnwidth]{\visualspath/planning/Tworld_feedback_3hyp_up_down_no_bump.pdf}
+  \includegraphics[width=\threetworldsize\columnwidth]{\visualspdf/planning/Tworld_feedback_3hyp_up_down_no_bump.pdf}
   \caption{a}
   \label{fig:planning3hypupdown}
 \end{figure}
 
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\threetworldsize\columnwidth]{\visualspdf/planning/Tworld_feedback_3hyp.pdf}
+  \caption{a}
+  \label{fig:planning3hyp}
+\end{figure}
 
-\todo{show 3 hyp and explain it is even worth for 624 hyp}
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -257,7 +285,7 @@ this is not allays that easy, for example if we add a third hypothesis, it is no
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Method}
 
-In the subsequent analysis, we assume that a trainer provides feedback for the actions taken by a learner. Specifically, we consider the user is delivering signals that can be mapped into binary feedback: correct $c$ and incorrect $w$. 
+In the subsequent analysis, we assume that a trainer provides feedback for the actions taken by a learner. 
 
 \subsection{World and Task}
 We consider a 5x5 grid world, where an agent can perform five different discrete actions: move up, down, left, right, or a stop action. The user goal is to teach the agent to reach one of the $25$ discrete positions which represent the set of possible tasks (unknown to the agent). We thus consider that the agent has access to 25 different task hypothesis (one with goal location at each of the cells). We use \textit{Markov Decision Processes} (MDP) to represent the problem \cite{sutton1998reinforcement}. From a given task $\xi$, represented as a reward function, we can compute the corresponding policy $\pi^{\xi}$ using, for instance, Value Iteration \cite{sutton1998reinforcement}. The policies allow us to interpret the teaching signals with respect to the interaction protocol defined. For the current work we will consider the user is providing feedback on the agent action. We define $p(l | \xi, s, a)$ as:
