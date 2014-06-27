@@ -26,16 +26,19 @@ On this basis we will transition to chapter~\ref{chapter:bci} which present an a
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Uncertainty for known signal to meaning mapping}
 
-If the true mapping between human communicate signals and their meaning is provided to the machine, and that it still have to identify the correct between a finite set of task and has access to the interaction frame, the learning process is rather trivial. Indeed, in such case, the robot should only compares if what the meaning received from the human match well with what is expected from the given frame and a given task. If they match then we can increase the probability of such task, if it does we can decrease it.
+If the true mapping between human communicate signals and their meaning is provided to the machine, and that it still has to identify the correct task between a finite set of task and has access to the interaction frame, the learning process is rather trivial. Indeed, in such case, the robot should only compares if what the meaning received from the human match well with what is expected from the given frame and a given task. If they match then we can increase the probability of such task, if they do not match we can decrease the probability.
 
-The robot should therefore seek for the state-action pairs that maximally disambiguate between hypothesis. For example, if for one given state-action pair, half of the hypothesis expect a signal of meaning ``correct'' and the other half expect one meaning ``incorrect''. By performing this action in that state, the system will rule out half of the hypothesis once the user will have provided its feedback. 
+The robot should therefore seek for the state-action pairs that maximally disambiguate between hypothesis. For example, if for one given state-action pair, half of the hypothesis expect a signal of meaning ``correct'' and the other half expect one of meaning ``incorrect''. By performing this action in that state, the system will rule out half of the hypothesis once the user will have provided its feedback. 
 
-It is important for this process to be weighted by the current probability associated with each task hypothesis. Indeed once we have rules out half of the hypothesis, we should only focus as differentiating the remaining hypothesis. For this the robot should seek for a new state-action pair where the remaining hypothesis will disagree on the expected meaning from the teacher.
+It is important for this process to be weighted by the current probability associated with each task hypothesis. Indeed once we have rules out half of the hypothesis, we should only focus on differentiating the remaining hypothesis. For this the robot should seek for a new state-action pair where the remaining hypothesis will disagree on the expected meaning from the teacher.
 
-But this process is here describe in a way that is not realistic, our robot can not query any state-action pair, it can not teleport but rather should navigate through the all state space to be able to finally perform that state-action pair. And on that way to a specific state-action pair, it may already have received new information changing its current belief on the hypothesis probabilities.
+But this process is here describe in a way that is not realistic, our robot can not query any state-action pair, it can not teleport but rather should navigate through the all state space to be able to finally perform that state-action pair. And on its way to a specific state-action pair, it may already have received new information changing its current belief on the hypothesis probabilities.
 
-A solution to this problem is to add exploration-bonuses for each state-action pair corresponding to the uncertainty associated to each state-action pair. The agent can then select it next action considering the full map of uncertainty. By seeing those exploration-bonuses as rewards in a reinforcement learning scenario the agent select the action that maximize uncertainty reduction on the task in the long term. There are several efficient model-based reinforcement learning exploration methods that add an exploration bonus for states that might provide more learning gains. Several theoretical results show that these approaches allow to learn tasks efficiently \cite{brafman2003r,kolter2009near}. 
+A solution to this problem is to add exploration-bonuses for each state-action pair corresponding to the uncertainty associated to each state-action pair. The agent can then select its next action considering the full map of uncertainty. By seeing those exploration-bonuses as rewards in a reinforcement learning scenario the agent select the action that maximizes uncertainty reduction on the task in the long term. There are several efficient model-based reinforcement learning exploration methods that add an exploration bonus for states that might provide more learning gains. Several theoretical results show that these approaches allow to learn tasks efficiently \cite{brafman2003r,kolter2009near}. 
 
+
+
+\todo{
 Following our notation, we can define an uncertainty measure as the variance of the expected meaning for each task weighted by their current probability, for a specific state and action and the feedback frame:
 
 \begin{eqnarray}
@@ -44,10 +47,10 @@ U(s,a) = weightedVariance(p(l = ``correct''| s, a, \xi), p(\xi))
 
 
 
-\cite{lopes2009active}, if the classifier is known, equation \ref{eq:planningOneSignal} reduces to the one presented in \cite{macl11simul} 
+\cite{lopes2009active}, if the classifier is known, equation \ref{eq:planningOneSignal} reduces to the one presented in \cite{macl11simul} }
 
 
-
+This method works well if the machine has access to the true intended meaning of the user, which is not the case for us. We will now investigate what makes our problem different in terms of planning.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -55,25 +58,22 @@ U(s,a) = weightedVariance(p(l = ``correct''| s, a, \xi), p(\xi))
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Where is the uncertainty}
+\label{chapter:planning:where}
 
 
-In order to exemplify the specificity of our problem in terms of planning we present a simple experiment and compare the effect of different action selection strategies. In this scenario, the agent is in a T world with 7 states and can perform 4 actions (right, left, up, and down). The user wants the robot to reach the left edge (marked by G1) of the T, (see Figure~\ref{fig:planningExplained} top). The agent knows the users wants it to go to one of the two edges (G1 or G2) but not which one. The agent will perform some actions, and the user will assess the correctness of each agent's action by providing a two dimensional teaching signal. The agent does not known which signal means ``correct'' and which signal means ``incorrect''. As there is two possible tasks, the agent will assign labels to every user's signals according to each hypothesis. The result of the labeling process is displayed as colored dots (green for ``correct''and red for ``incorrect'') in Figure \ref{fig:planningExplained} (a, b, and c), where the left part corresponds to hypothesis 1 (G1) and the right part to hypothesis 2 (G2).
+In order to exemplify the specificity of our problem in terms of planning we will rely again on our T world scenario and compare the effect of different action selection strategies. We remind that the user always wants the robot to reach the left edge (marked by G1) of the T.
 
-If the agent knew how to interpret the signal, i.e. which signal corresponds to correct or incorrect feedback, the optimal action to differentiate between the two hypothesis would be to perform right and left actions in the top part of the T. However in our problem the classifier is not given and the agent is building a different model for each hypothesis. As a results, we end up with two opposite interpretations of the user signal, which are both as valid (see Figure~\ref{fig:planningExplained}a) and do not allow to differentiate between hypothesis.
 
-Considering that the agent does not know the signal to meaning classifier, a sensitive option is to select actions that allow to unequivocally identify the model. In our scenario taking only up and down actions in the trunk of the T leads to identical interpretation for each hypothesis (see Figure~\ref{fig:planningExplained}b). However this method do not allow to disambiguate between hypothesis and in most setting, such as the grid world we consider later, there is no state-action pair leading to unequivocal interpretations.
-
-However performing all the four actions allow to disambiguate between hypothesis. As shown in Figure~\ref{fig:planningExplained}c, hypothesis 1 stands out by the nice coherence between the labels and the spacial organization of the data. This informs us that hypothesis 1 is the task the user has in mind and that feedback signals in the right and left part of the feature space means ``correct'' and ``incorrect'' respectively.
-
-For our kind of problem the agent can not just try to differentiate hypothesis by finding state-action pair where expected feedback differs but should also collect data to build a good model or at least invalidate other models. Can we find a measure of uncertainty that account for both? Going back to Figure~\ref{fig:planningExplained} (a and b), we understand that, to differentiate hypothesis in situation a) the best actions to perform are up and down in the T trunk while in situation b) the best actions to perform are right and left in the top part of the T. This corresponds to the uncertainty in the signal space. In the case of a) when going left both hypothesis agree that they will receive a signal in the right part of the feature space even if they disagree on its meaning. However for action down, both hypothesis agree they should receive a signal of meaning ``incorrect'' but disagree on the expected location of such signal in the feature space. In the case of b) when going up both hypothesis agree they will receive a signal in the right part of the feature space and agree on its meaning. However for action left, both hypothesis disagree about the meaning of the signal they should receive and as both share the same signal model they expect a signal in different locations of the feature space.
-
+Starting form the explanation in previous section, if the agent knew how to interpret the teaching signals, i.e. which signal corresponds to correct or incorrect feedback, the optimal action to differentiate between the two hypothesis (G1 and G2) would be to perform right and left actions in the top part of the T. However as the classifier is not given, the agent builds a different model for each hypothesis and ends-up in with symmetric interpretation of the signals which are both as valid (see Figure~\ref{fig:planningrightleft}) and do not allow to differentiate between hypothesis.
 
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\twotworldsize\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_labeled_right_left_with_gaussian.pdf}
-  \caption{Results of the labeling process if the agent only performs right and left actions in the top of the T world. This is the symmetry problem encountered in previous chapter~\ref{chapter:lfui:symmetries}.}
+  \caption{Results of the labeling process if the agent only performs right and left actions in the top of the T world. This is the symmetry problem encountered in previous chapter~\ref{chapter:lfui:symmetries}. The resulting signal-label pairs for G1 and G2, while opposite, are both as likely to correspond to the data.}
   \label{fig:planningrightleft}
 \end{figure}
+
+Considering that the agent does not know the signal to meaning classifier, a sensitive option is to select actions that allow to unequivocally identify the model. In our scenario taking only up and down actions in the trunk of the T leads to identical interpretation for each hypothesis (see Figure~\ref{fig:planningupdown}). However this method do not allow to disambiguate between hypothesis and in most settings, such as the grid world we consider later, there is no state-action pair leading to unequivocal interpretations.
 
 \begin{figure}[!ht]
   \centering
@@ -81,6 +81,22 @@ For our kind of problem the agent can not just try to differentiate hypothesis b
   \caption{Results of the labeling process if the agent only performs up and down actions in the trunk of the T. The interpretation of the signal for both hypothesis are the same, this method allow to build a good model.}
   \label{fig:planningupdown}
 \end{figure}
+
+Those two examples exemplify the specificity of our planning problem. The agent can not just try to differentiate hypothesis by finding state-action pair where expected feedback differs (left-right actions in Figure~\ref{fig:planningrightleft}) but should also collect data to build a good model (up-down actions in Figure~\ref{fig:planningupdown}). What is the optimal next action to take in the previous condition?
+
+\begin{itemize}
+\item In the situation from Figure~\ref{fig:planningrightleft}, the robot as a symmetric interpretation for G1 and G2 and should therefore perform an action that break this symmetry and collect one signal with identical label for both hypothesis. By performing the action down in the T trunk, both hypothesis will associated to the corresponding teaching signal a label ``incorrect'', which will break the symmetry.
+\item In the situation from Figure~\ref{fig:planningupdown}, the robot as an identical interpretation for G1 and G2 and should therefore collect one signal whose label will be different for each hypothesis. By performing the action left in the top of the T, hypothesis G1 will associate the label ``correct'', while hypothesis will associate the label ``incorrect'', which will break the similarity between models.
+\end{itemize}
+
+Can we find a measure of uncertainty that account for both cases? The measure defined in previous section would not work as the uncertainty measure was independent of the signal-to-meaning mapping. Indeed this mapping was the same for every hypothesis. However in our scenario, each hypothesis has a different signal-to-meaning mapping and therefore there is also uncertainty on the signal-to-meaning mapping.
+
+% \begin{itemize}
+% \item In the situation from Figure~\ref{fig:planningrightleft}, when going left both hypothesis agree that they will receive a signal in the right part of the feature space even if they disagree on its meaning. However for action down, both hypothesis agree they should receive a signal of meaning ``incorrect'' but disagree on the expected location of such signal in the feature space.
+% \item In the situation from Figure~\ref{fig:planningupdown}, when going down both hypothesis agree they will receive a signal in the left part of the feature space and agree on its meaning. However for action left, both hypothesis disagree about the meaning of the signal they should receive and as both share the same signal model they expect a signal in different locations of the feature space.
+% \end{itemize}
+
+We should measure uncertainty taking into account the uncertainty related to the different tasks, as well as, the uncertainty from the different interpretation models associated to each task. This characteristic will be visually exemplified in the next section and we will present two ways of measuring the uncertainty. The first method measures the uncertainty on the expected signals between each hypothesis for a given state-action pair. The second method present one signal sample to be evaluated by each hypothetic classifier an compared to the expectation from the state-action pair, we then measure the variance between the expectation of this signal sample between each hypothesis.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -90,9 +106,19 @@ For our kind of problem the agent can not just try to differentiate hypothesis b
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{How can we measure this uncertainty}
 
+Before providing visual examples and associated equations to our uncertainty measure methods, we remind the importance of weighting the importance of each hypothesis proportional to their current probability. We then present our two methods, the first method measures the uncertainty on the expected signals between each hypothesis for a given state-action pair. The second method rely on sampling some teaching signals and asking each hypothesis if this signal is expected or not for the given state-action pair.
+
 \subsection{The importance of weighting}
 
+We want to measure the uncertainty about the tasks and signal models in order to collect information allowing to reduce this uncertainty. The uncertainty is therefore not a constant, it depends on our current belief about each hypothesis which changes whenever a new teaching signal is observed.
+
+As we want to find which task is the correct one among the set of task hypothesis, we should aim a pulling apart the hypothesis which are currently the more probable. Once we have rules out half of the hypothesis, we should only focus on differentiating the remaining hypothesis. Therefore when estimating the uncertainty, we should weight each vote according to each hypothesis probability. In practice, if one hypothesis has a probability of 1 there should be no uncertainty for all state-action pairs considered.
+
 \subsection{Measure on the signal space}
+
+As detailed in section~\ref{chapter:planning:where}, our uncertainty measure should take into account the difference between the signal models associated to each hypothesis. We illustrate here in more details how this uncertainty can be measure by comparing the expected signals for each hypothesis.
+
+We start by considering the situation in Figure~\ref{fig:planningrightleft} where the two hypothesis have symmetric signal models. As depicted in Figure~\ref{fig:uncertaintysignalrightleftagree}, when selecting action left, both hypothesis agree that they will receive a signal in the right part of the feature space even if they disagree on its meaning. Therefore taking action left in state 3 has low uncertainty on the expected signal.
 
 \begin{figure}[!ht]
   \centering
@@ -101,6 +127,7 @@ For our kind of problem the agent can not just try to differentiate hypothesis b
   \label{fig:uncertaintysignalrightleftagree}
 \end{figure}
 
+However for action down, both hypothesis agree they should receive a signal of meaning ``incorrect'' but disagree on the expected location of such signal in the feature space (see Figure~\ref{fig:uncertaintysignalrightleftdisagree}).Therefore taking action down in state 3 has high uncertainty on the expected signal.
 
 \begin{figure}[!ht]
   \centering
@@ -110,6 +137,8 @@ For our kind of problem the agent can not just try to differentiate hypothesis b
 \end{figure}
 
 
+We now consider the situation in Figure~\ref{fig:planningupdown} where the two hypothesis have the same signal model. As depicted in Figure~\ref{fig:uncertaintysignalupdownagree}, when going down both hypothesis agree they will receive a signal in the left part of the feature space and agree on its meaning. Therefore taking action down in state 3 has low uncertainty on the expected signal.
+
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_agree.pdf}
@@ -117,6 +146,7 @@ For our kind of problem the agent can not just try to differentiate hypothesis b
   \label{fig:uncertaintysignalupdownagree}
 \end{figure}
 
+However for action left, both hypothesis disagree about the meaning of the signal they should receive and as both share the same signal model they expect a signal in different locations of the feature space (see Figure~\ref{fig:uncertaintysignalupdowndisagree}). Therefore taking action left in state 3 has high uncertainty on the expected signal.
 
 \begin{figure}[!ht]
   \centering
@@ -125,24 +155,25 @@ For our kind of problem the agent can not just try to differentiate hypothesis b
   \label{fig:uncertaintysignalupdowndisagree}
 \end{figure}
 
-We define an uncertainty measure and use model-based planning to select sequences of actions that guide the agent towards states that better identify the desired task.
 
-Our algorithm is based on comparing the expected classification rate between different task hypotheses. Therefore, to disambiguate between hypotheses, it has to collect data which are likely to affect differently the dataset quality of competing hypotheses. As we have access to the optimal policies of each task, we can choose for a given task an action in a given state and predict to receive a ``correct'' or ``wrong'' label. Such label is linked to a signal generation model (parameterized by $\theta^{ML}_{\xi_t}$) which differs from task to task, and to the optimal action at that particular state. A state-action pair where the optimal actions and the signal models are the same for all hypotheses is unlikely to tell them apart and will be less informative that any other state-action where either optimal actions or signal models differ between hypotheses.
+To sum up a state-action pair where the optimal actions and the signal models are the same for all hypotheses is unlikely to tell those hypothesis apart. It will be less informative that any other state-action where either optimal actions or signal models differ between hypotheses. To do so, for a given state-action pair, we should compute the similarity between the expected signals for each task. The more they are similar the less they are uncertain.
 
-Thus, we define a measure of global uncertainty $U(s,a)$ that is higher when, for a given state-action, there is a high incongruity between either optimal actions or signal models. For this we compute a similarity matrix $S$ where each element $S_{ij}(s,a)$ corresponds to the similarity of the distributions of signals associated to the expected label from tasks $i$ and $j$ if action $a$ is performed in state $s$. The final uncertainty value $U(s,a)$ is computed as the opposite of the weighted sum of the similarity matrix elements:
-%
+Our visual examples represent the expected signal for each hypothesis as the mean of the distribution corresponding to the expected label. This is a very rough approximation, indeed, the signal model is here model by a Gaussian distribution. Therefore comparing the similarity between the respective distribution would be more suited. Moreover, very often the frame take into account possible teaching mistake from the user and some probability of receiving an ``incorrect'' feedback while the action was optimal exist. This should also be taken into account when computing the similarity between signal distributions, which should in this example composed of mixture of Gaussian whose associated weight are the probability of receiving their associated meaning. In addition, we here only consider two hypothesis, but as soon as this number increases, we should compute the similarity between a multitude of distributions. 
+
+We define a measure of global uncertainty $U(s,a)$ that is higher when, for a given state-action, there is a high incongruity between either optimal actions or signal models. For this we compute a similarity matrix $S$ where each element $S_{ij}(s,a)$ corresponds to the similarity of the distributions of signals associated to the expected label from tasks $i$ and $j$ if action $a$ is performed in state $s$. The final uncertainty value $U(s,a)$ is computed as the opposite of the weighted sum of the similarity matrix elements:
+
 \begin{eqnarray}
 U(s,a) &=& - \sum_{i = 1}^{T} \sum_{j = 1}^{T} S_{ij}(s,a) p(\xi_i)p(\xi_j)
 \end{eqnarray}
-%
-Computing the similarity between two Gaussian distributions for all state-action pairs was not feasible in real time. In order to improve computation efficiency we do not rely on a precise metric between Gaussian distributions and only consider the similarity between their means (empirical tests did show that this approximation does not impact the results).
 
-Computed for each state and action, this measure is then used as an exploration bonus, whereas we switch to a pure exploitation of the task after reaching the desired confidence level~$\beta$.
+Computed for each state and action, this measure is then used as an exploration bonus to select sequences of actions that guide the agent towards states that better identify the desired task.
 
-
-Estimating uncertainty in the signal space is in practice too costly as it requires to compute, for every state-action pair, the overlap between many continuous probability distributions weighted by their respective expected contribution. Following the discussion presented in previous section, we will rely on our pseudo-likelihood metric. As we cannot predict, neither control, the signal we will receive for a particular state-action, we will rely on our past history of signal and compute the expected joint probability based on previously experienced signals.
+Estimating uncertainty in the signal space as presented in this section is in practice very costly as it requires to compute, for every state-action pair, the overlap between many continuous probability distributions weighted by their respective expected contribution. In next section we present an other metric for computing the uncertainty which rely on our pseudo-likelihood metric defined in chapter~\ref{chapter:lfui:how}. This method rely on sampling some teaching signals and asking each hypothesis if this signal is expected or not for the given state-action pair.
 
 \subsection{A measure projected in the meaning space}
+
+
+
 
 \begin{figure}[!ht]
   \centering
@@ -367,6 +398,10 @@ Figure \ref{fig:planning} compares the number of steps (with maximum values of 5
     \label{fig:planning}
 \end{figure}
 
+
+\todo{change with last UAI version}
+
+\todo{we only compare the ability to differentatie task not to solve them, whereas we switch to a pure exploitation of the task after reaching the desired confidence level~$\beta$.}
 
 \paragraph{Dimensionality}
 
