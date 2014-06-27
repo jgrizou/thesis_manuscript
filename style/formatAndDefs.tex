@@ -82,21 +82,6 @@
 \definecolor{linkcol}{rgb}{0,0,0.4} 
 \definecolor{citecol}{rgb}{0.5,0,0} 
 
-%todo
-\newcommand{\todo}[1]{{\small\color{red}[#1]}}
-
-\newcommand{\question}[1]{
-\begin{center}
-    \rule[2pt]{2cm}{0.5pt}\\
-    \emph{#1}\\
-    \rule[2pt]{2cm}{0.5pt}
-\end{center}}
-
-\newcommand{\transition}[1]{
-\begin{center}
-    \rule[2pt]{2cm}{0.5pt}\\
-\end{center}}
-
 % Change this to change the informations included in the pdf file
 
 % See hyperref documentation for information on those parameters
@@ -246,5 +231,21 @@ urlcolor=linkcol %couleur des liens pour les url
 {\newpage\vspace*{\fill}\thispagestyle{empty}\renewcommand{\headrulewidth}{0pt}}
 {\vspace*{\fill}}
 
+%
+\newcommand{\todo}[1]{{\small\color{red}[#1]}}
+
+\newcommand{\question}[1]{
+\begin{center}
+    \rule[2pt]{2cm}{0.5pt}\\
+    \emph{#1}\\
+    \rule[2pt]{2cm}{0.5pt}
+\end{center}}
+
+\newcommand{\transition}[1]{
+\begin{center}
+    \rule[2pt]{2cm}{0.5pt}\\
+\end{center}}
+
+\newcommand{\define}[2]{\let#1\outer\renewcommand#1{#2}}
 
 

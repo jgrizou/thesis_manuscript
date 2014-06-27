@@ -1,9 +1,9 @@
 %!TEX root = ../../thesis.tex
-\renewcommand{\chapterpath}{\allchapterspath/lfui}
-\renewcommand{\imgpath}{\chapterpath/img}
+\define{\chapterpath}{\allchapterspath/lfui}
+\define{\imgpath}{\chapterpath/img}
 
-\newcommand{\tworldsize}{0.6}
-\newcommand{\signalwidth}{0.4}
+\define{\tworldsize}{0.6}
+\define{\signalwidth}{0.4}
 
 \chapter{Learning from Unlabeled Interaction Frames}
 \label{chapter:lfui}
@@ -610,29 +610,31 @@ For this particular representation we assume that the reward function representi
 
 From a given task $\xi$, we can compute the corresponding policy $\pi^{\xi}$. This policy allows to interpret the teaching signals with respect to the interaction protocol defined. In this experiment, we will consider the user is providing either feedback or guidance on the agent's actions. 
 
-\paragraph{} For the feedback case, we define $p(l |s,a,\xi)$ as:
+\paragraph{} For the feedback case, we define $p(l^f |s,a,\xi)$ as:
 %
 \begin{equation}
-    p(l = \emph{correct} |s,a,\xi) = 
+    p(l^f = \emph{correct} |s,a,\xi) = 
     \begin{cases}
     1-\alpha               & if~a = \argmax_a \pi^{\xi}(s,a)\\
         \alpha             & \text{otherwise}\\
    \end{cases}
+   \label{eq:feedbackframe}
 \end{equation}
 %
-with $\alpha$ modeling the expected error rate of the user and $p(l = wrong |s,a,\xi) = 1 - p(l = correct |s,a,\xi)$.
+with $\alpha$ modeling the expected error rate of the user and $p(l^f = wrong |s,a,\xi) = 1 - p(l^f = correct |s,a,\xi)$.
 
-\paragraph{} For the guidance case, the user instructions represent the next action the robot should perform, therefore it only depend on the current state of the robot and the task considered. In our scenario, there is 4 different possible actions ($nA = 4$) in each state. We define $p(l |s, \xi)$ for each action as:
+\paragraph{} For the guidance case, the user instructions represent the next action the robot should perform, therefore it only depend on the current state of the robot and the task considered. In our scenario, there is 4 different possible actions ($nA = 4$) in each state. We define $p(l^f |s, \xi)$ for each action as:
 %
 \begin{equation}
-    p(l = a |s,\xi) = 
+    p(l^f = a |s,\xi) = 
     \begin{cases}
         1-\alpha & if~a = \argmax_a \pi^{\xi}(s,a)\\
         \frac{\alpha}{nA} & \text{otherwise}\\
    \end{cases}
+   \label{eq:guidanceframe}
 \end{equation}
 %
-with $\alpha$ modeling the expected error rate. As the agent can perform 4 different actions, we used the constant $\frac{\alpha}{3}$ in order to conserve the property $\sum_a p(l = a |s,\xi) = 1$. This assumes the distribution of errors from the teacher are uniform. For those cases where there is more than one optimal action, the probability is uniformly splitted among them. If all actions are optimal, they all share the same probability of $\frac{1}{nA}$.
+with $\alpha$ modeling the expected error rate. As the agent can perform 4 different actions, we used the constant $\frac{\alpha}{3}$ in order to conserve the property $\sum_a p(l^f = a |s,\xi) = 1$. This assumes the distribution of errors from the teacher are uniform. For those cases where there is more than one optimal action, the probability is uniformly splitted among them. If all actions are optimal, they all share the same probability of $\frac{1}{nA}$.
 
 \paragraph{} It is important to remember that those frames, while capturing a realistic interaction protocol, are arbitrary and we will explicitly ask the user to conform to them. Here we assume the teacher is aware of the optimal policies to fulfill the task, and additionally shares the same representation of the problem than the robot. Especially for the scenario considered, the user should be aware that the robot can not move from position 1 to position 4 in one action. But it should rather pass thought all intermediate position $(1 \rightarrow 2 \rightarrow 3 \rightarrow 4)$. However as we known the user will probably not always provide the good signals, we added a noise term $\alpha$ that account for those unpredictable teaching mistakes. For all following experiments $\alpha$ was set to $0.1$.
 

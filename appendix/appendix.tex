@@ -1,10 +1,66 @@
 %!TEX root = ../thesis.tex
-\renewcommand{\chapterpath}{appendix}
-\renewcommand{\imgpath}{appendix/img}
+\define{\chapterpath}{appendix}
+\define{\imgpath}{appendix/img}
 
+\define{\twoplanningwidth}{0.7}
+\define{\threeplanningwidth}{1}
+
+%%
 \chapter{Appendix}
-\label{chapter:Appendix}
+\label{appendix}
 
 \section{Additional visuals of uncertainty}
+\label{appendix:uncertaintymeaning}
 
-projected in the meaning space for the case where the both hypothesis shared a similar model
+This section present the illustration of the planning method relying on sampling teaching signal and  asking every hypothesis if each of those signals are expected or not for the given state-action pair. 
+
+We present the case where the models between hypothesis are identical. As depicted in Figure~\ref{fig:uncertaintymeaningupdownexpectedright}, when selecting action down in state 3 and if the user sends a signal in the right part of the feature space, both hypothesis agree that this particular signal is unexpected given this state-action pair. Hypothesis 1 expects a signal of meaning ``incorrect'', and the teacher signal is classified as being of class ``correct''. Hypothesis 2 expects a signal of meaning ``incorrect'' and the teacher signal is classified as being of class ``correct''. Therefore receiving this particular signal after taking action down in state 3 has low uncertainty.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_expected_unmatched.pdf}
+  \caption{a}
+  \label{fig:uncertaintymeaningupdownexpectedright}
+\end{figure}
+
+This same process can be executed for any teaching signal. For example, as depicted in Figure~\ref{fig:uncertaintymeaningupdownexpectedleft}, considering a teaching signal on the left side of the feature space, if the agent performs action down in state 3, both hypothesis agree that this particular signal is expected. Hypothesis 1 expects a signal of meaning ``incorrect'', and the teacher signal is classified as being of class ``incorrect''. Hypothesis 2 expects a signal of meaning ``incorrect'' and the teacher signal is classified as being of class ``incorrect''. Therefore receiving this particular signal after taking action down in state 3 has low uncertainty.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_expected_matched.pdf}
+  \caption{a}
+  \label{fig:uncertaintymeaningupdownexpectedleft}
+\end{figure}
+
+However for action left, the two hypothesis disagree on whether such signals are expected or not given the state-action pair considered. As depicted in Figure~\ref{fig:uncertaintymeaningupdownunexpectedright}, when selecting action left in state 3 and if the user sends a signal in the right part of the feature space, hypothesis 1 expects a signal of meaning ``correct'', and the teacher signal is classified as being of class ``correct''. And hypothesis 2 expects a signal of meaning ``incorrect'' and the teacher signal is classified as being of class ``correct''. Therefore receiving this particular signal after taking action down in state 3 is expected for hypothesis 1 but not expected for hypothesis 2, there is high uncertainty.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_unexpected_right_signal.pdf}
+  \caption{a}
+  \label{fig:uncertaintymeaningupdownunexpectedright}
+\end{figure}
+
+Similarly, as depicted in Figure~\ref{fig:uncertaintymeaningupdownunexpectedleft}, considering a teaching signal on the left side of the feature space, if the agent performs action left in state 3, hypothesis 1 expects a signal of meaning ``incorrect'', and the teacher signal is classified as being of class ``incorrect''. And hypothesis 2 expects a signal of meaning ``incorrect'' and the teacher signal is classified as being of class ``correct''. Therefore receiving this particular signal after taking action down in state 3 is not expected for hypothesis 1 but expected for hypothesis 2, there is high uncertainty.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_unexpected_left_signal.pdf}
+  \caption{a}
+  \label{fig:uncertaintymeaningupdownunexpectedleft}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
