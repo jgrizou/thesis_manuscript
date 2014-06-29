@@ -30,6 +30,17 @@ Perspectives - What now:
 \section{Exploiting overlap between distributions}
 \label{chapter:limitations:overlap}
 
+
+Recent works have explored the use of brain signals to directly control virtual and robotic agents in sequential tasks. So far in such brain-computer interfaces (BCIs), an explicit calibration phase was required to build a decoder that translates raw EEG signals from the brain of each user into meaningful feedback signals.
+%
+This paper proposes a method that removes the need for such a calibration phase, and allows a user to control an agent to solve a sequential task.
+%
+The proposed method assumes a distribution of possible tasks, and infers the interpretation of EEG signals and the task by selecting the hypothesis which best explains the history of interaction. 
+%
+Also, we use a measure of uncertainty of the task and of the EEG signal interpretation as an exploratory reward for a planning strategy, and this speeds up learning by guiding the system to regions that help disambiguate among task hypotheses.
+%
+We report experiments where four users control, by means of a BCI, an agent on a virtual world to reach a target without any previous calibration process.
+
 examplify here the work of AAAI with the bhattacharrya method
 
 
