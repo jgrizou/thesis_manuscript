@@ -71,10 +71,9 @@ Figure~\ref{fig:sequence_evolution} shows the evolution of classification rate b
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_EEG_planning.eps}
-    \caption{\todo{this is the plot for EEG data, xp are running for artificial data}}
+    \caption{Number of steps to complete first task using EEG data of different quality. The EEG data have similar properties than our 30 dimensional simulated data in Figure~\ref{fig:artificialplanning}. Our planning method based on both the task and the signal to meaning mapping uncertainty is more efficient that choosing action randomly, greedily or only based on the uncertainty on the task.}
     \label{fig:planningEEG}
 \end{figure}
-
 
 
 \subsection{Time to first task}
@@ -84,7 +83,7 @@ Figure~\ref{fig:firstEEG} shows the results per group of dataset. Our algorithm 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_EEG_calib_firstconf.eps}
-\caption{Number of steps to complete first task with EEG data. The method scale well to EEG data. Contrary to the standard calibration approaches, we do not make mistakes with low quality datasets.}
+\caption{Number of steps to complete first task with EEG data. The percentage of time the task first task was correct is show on top of the each box plot. The method scale well to EEG data. Contrary to the standard calibration approaches, we do not make mistakes with low quality datasets.}
 \label{fig:firstEEG}
 \end{figure} 
 
@@ -155,7 +154,7 @@ Dataset Accuracies & Self-calibration & Calibration \\ \hline
 80-90 & 0.57 (0.03) & 0.8 (0) \\
 90-100 & 0.59 (0.01) & 0.8 (0) \\
 \end{tabular}
-\caption{Mean ratio of positive examples in training dataset (standard deviation shown in parenthesis). Calibration procedure for ErrP EEG signal usual account for a 80 percent ratio of positive examples. However when following our method we collect as many positive than negative examples, see discussion in section \ref{sec:conclusion}.}
+\caption{Mean ratio of positive examples in training dataset (standard deviation shown in parenthesis). Calibration procedure for ErrP EEG signal usual account for a 80 percent ratio of positive examples. However when following our method we collect as many positive than negative examples. This is likely to impact the quality of Errp signal received from the human during online experiment.}
 \label{tab:correctLabelRatio}
 \end{table}
 
@@ -176,37 +175,40 @@ Dataset Accuracies & Self-calibration & Calibration \\ \hline
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/timefirst.eps}
-\caption{a}
+\caption{Number of steps to complete first task with EEG data. Comparison between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' (power), or both method combined (power matching). The use of the power information affect the usual performance for the low quality dataset. For datasets of low quality, while the time to first seems more advantageous for the method using the power information, most of the estimated task are erroneous (see Figure~\ref{fig:errorfirst_powermatching}) which makes the use of the power information critical for such low quality data. However those errors occurs for very low quality datasets, which are not the main target of our algorithm. For the datasets of higher quality, the power information allow to slightly speed up the learning compared to our method (matching) which do not rely on known information.}
 \label{fig:timefirst_powermatching}
-\end{figure} 
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/correct.eps}
-\caption{Number of task correctly achieved in 500 steps with EEG data.}
-\label{fig:nCorrect_powermatching}
-\end{figure} 
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/error.eps}
-\caption{Number of task incorrectly achieved in 500 steps with EEG data.}
-\label{fig:nWrongEEG_powermatching}
 \end{figure} 
 
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/errorfirst.eps}
-\caption{a}
+\caption{Percentage of time the first task estimated was erroneous using EEG data. Comparison between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' (power), or both method combined (power matching). For low quality datasets, the power information increases the number of erroneous estimation. However those errors occurs for very low quality datasets, which are not the main target of our algorithm.}
 \label{fig:errorfirst_powermatching}
 \end{figure} 
 
 
 \begin{figure}[!ht]
 \centering
+\includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/correct.eps}
+\caption{Number of task correctly achieved in 500 steps with EEG data. Comparison between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' (power), or both method combined (power matching). The power information alone is sufficient to solve our problem but is less efficient than the other methods.}
+\label{fig:nCorrect_powermatching}
+\end{figure} 
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/error.eps}
+\caption{Number of task correctly achieved in 500 steps with EEG data. Comparison between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' (power), or both method combined (power matching). The power information makes more mistakes for low quality dataset which also impact the power matching method. However those errors occurs for very low quality datasets, which are not the main target of our algorithm.}
+\label{fig:nWrongEEG_powermatching}
+\end{figure} 
+
+For such data it would be better to change the representation of the signal or the classifier used in order to get better .
+
+
+\begin{figure}[!ht]
+\centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/nSim.eps}
-\caption{a}
+\caption{\todo{use a table instead of this figure}}
 \label{fig:nSim_powermatching}
 \end{figure} 
 
@@ -221,7 +223,7 @@ Dataset Accuracies & Self-calibration & Calibration \\ \hline
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/onlineXP/timefirst.eps}
-\caption{a}
+\caption{Number of steps to complete first task for all subjects in our online experiments. The results are plotted against the a posteriori computed 10 fold accuracy of our classifier on each subject EEG signals. The relation between data quality and the time to first task is in line with our simulated results shown in Figure~\ref{fig:timefirst_powermatching} Note that this first target was always the correct one for every subject.}
 \label{fig:timefirst_online}
 \end{figure} 
 
@@ -240,7 +242,7 @@ Dataset Accuracies & Self-calibration & Calibration \\ \hline
 \label{fig:error_online}
 \end{figure} 
 
-
+\todo{summarize all this in a table, but keep two figure to have a visuals which is important.}
 
 \transition
 
