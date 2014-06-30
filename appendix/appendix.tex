@@ -2,13 +2,70 @@
 \define{\chapterpath}{appendix}
 \define{\imgpath}{appendix/img}
 
-\define{\twoplanningwidth}{0.7}
-\define{\threeplanningwidth}{1}
-
 %%
 \chapter{Appendix}
 \label{appendix}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Illustration of the pick and place scenario}
+\label{appendix:pickplace}
+
+We illustrate in Figure~\ref{fig:lfui:pickplaceworld} the pick and place world of chapter~\ref{chpater:lfui} (where we used balls instead of cubes). There is three object that can be move in 4 different positions and stacked on two level maximum. The robot's gripper can move step by step at any of those four positions, grasp the object on top of the stack and release the object on top of a stack only if the stack is not full.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/pick_and_place/pick_and_place_world.pdf}
+  \caption{A schematic view of the pick and place problem. There is three object that can be move in 4 different positions and stacked on two level maximum. The robot's gripper can move step by step at any of those four positions, grasp the object on top of the stack and release the object on top of a stack only if the stack is not full.}
+  \label{fig:lfui:pickplaceworld}
+\end{figure}
+
+In order to complete a task, i.e. to reach a specific configuration of ball, the robot as to perform an ordered sequence of action in order to move the ball in the appropriate way. In this example, we will consider only 3 out of the 624 possible hypothesis for illustration purpose. Figure~\ref{fig:lfui:pickplacesequence} shows a sequence of action starting in our hypothesis one configuration and going to our hypothesis 3 configuration in the shortest number of action as possible. Hypothesis 2 is a state on this path. While hypothesis 1 and hypothesis 3 seems ``close'' in terms of object position, they are actually far ``away'' one from an other in terms of action.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\columnwidth]{\visualspdf/pick_and_place/pick_and_place_sequence.pdf}
+  \caption{A pick and place sequence showing the three hypothesis we will compare on our visuals examples and the sequence of actions from hypothesis 1 to hypothesis 3 through hypothesis 2. While hypothesis 1 and hypothesis 3 seems ``close'' in terms of object position, they are actually far ``away'' one from an other in terms of action.}
+  \label{fig:lfui:pickplacesequence}
+\end{figure}
+
+For the case when the user is delivering feedback to the robot, the labeling process is presented in Figure~\ref{fig:lfui:pickplacefeedback} for a robot action randomly in the environment. Note that hypothesis 1 and 2 are the more difficult to discriminate by acting randomly as they share most of their optimal policies.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\columnwidth]{\visualspdf/pick_and_place/pick_and_place_feedback.pdf}
+  \caption{Results of the labeling process for our three hypothesis considering the feedback frame. The robot is exploring randomly the state space. The teacher is providing feedback with respect to hypothesis 1. Only a few state-action pairs allowed to differentiate between hypothesis 1 and 2.}
+  \label{fig:lfui:pickplacefeedback}
+\end{figure}
+
+
+For the guidance case, the user uses the signals presented in Figure~\ref{fig:lfui:pickplaceguidancesignals} an the labeling process is presented in Figure~\ref{fig:lfui:pickplaceguidance} for a robot action randomly in the environment. Note that in some state there may be two optimal action to perform. For example, in Figure~\ref{fig:lfui:pickplacesequence}, for inverting two stacked balls there is two different optimal policies, either the one presented, or putting the blue ball in position 2 and the green in position 3 during the exchange of position. Those case make the learning process more difficult but we can still visually find out that only for hypothesis 1 that all points in one cluster share one color. This can be capture by our algorithm.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\signalwidth\columnwidth]{\visualspdf/pick_and_place/guidance_pick_and_place.pdf}
+  \caption{The guidance signals used by our simulated teacher for our visual examples.}
+  \label{fig:lfui:pickplaceguidancesignals}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\columnwidth]{\visualspdf/pick_and_place/pick_and_place_guidance.pdf}
+  \caption{Results of the labeling process for our three hypothesis considering the guidance frame. The robot is exploring randomly the state space. The teacher is providing guidance with respect to hypothesis 1. The dot that contain two color are case where the user could have given two different guidance signals. It is only for hypothesis 1 that all points in one cluster share one color. The case of guidance with multiple optimal action in some state make the learning process more ambiguous and may require some additional time compared to the feedback case.}
+  \label{fig:lfui:pickplaceguidance}
+\end{figure}
+
+We have provided an example of the pick and place world with two dimensional signals and considering only three hypothesis. In chapter~\ref{chapter:lfui:results}, we consider real spoken words mapped to a 20 dimensional space and the full space of hypothesis which consist of 624 possible object configurations.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Additional visuals of uncertainty}
 \label{appendix:uncertaintymeaning}
 

@@ -2,9 +2,6 @@
 \define{\chapterpath}{\allchapterspath/lfui}
 \define{\imgpath}{\chapterpath/img}
 
-\define{\tworldsize}{0.6}
-\define{\signalwidth}{0.4}
-
 \chapter{Learning from Unlabeled Interaction Frames}
 \label{chapter:lfui}
 \minitoc
@@ -549,6 +546,7 @@ Finally we can compute the final likelihood as the product of estimates from the
 It is very important to understand the difference between our method and a more usual method where the signal to meaning mapping is known in advance. This difference lies in the fact we estimate one classifier per task hypothesis depending on the interpretation hypothesis for this specific task. However if we have access to the true signal to meaning mapping, we have only one classifier common to all hypothesis. Therefore all the equation remains the same, only replacing a global classifier by a hypothetic one.
 
 \subsection{Summary and rephrasing}
+\label{chapter:lfui:rephrasing}
 
 I would like here to rephrase the ideas developed in this section. The readers that has the feeling of understanding all the aspects of the algorithm can safely skip this section as it is meant to re-explain and summarize the ideas and organization behind the different steps of the algorithm.
 
@@ -665,60 +663,7 @@ Note that all three classifiers have accuracy close to 100 percent on our speech
 
 The selection of the robot's actions at runtime can be done in different ways. As different sampling methods can lead to different learning behaviors we will compare two different methods: random and  $\epsilon$-greedy. When following random action selection the robot does not use its current knowledge of the task and randomly select actions. Whereas with $\epsilon$-greedy method the robot performs actions according to the current belief of what the task is, i.e. following the policy corresponding to the most likely task hypothesis. The corresponding optimal action is chosen with $1-\epsilon$ probability, otherwise, a random one is selected. In our experiment we show only results with $\epsilon =  0.1$.
 
-In the next section, we will investigate how the root can actively select its future actions in order to improve its performances.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Illustration}
-
-Before presenting the results from this first experiment, we illustrate here quickly the pick and place world (Figure~\ref{fig:lfui:pickplaceworld}) where we used balls instead of cubes and the results of the labeling process for the feedback and guidance case.
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/pick_and_place/pick_and_place_world.pdf}
-  \caption{A schematic view of the pick and place problem. There is three object that can be move in 4 different positions and stacked on two level maximum. The robot's gripper can move step by step at any of those four positions, grasp the object on top of the stack and release object on top of the stack if the stack is not full.}
-  \label{fig:lfui:pickplaceworld}
-\end{figure}
-
-In order to complete a task, i.e. to reach a specific configuration of ball, the robot as to perform an ordered sequence of action in order to move the ball in the appropriate way. In this example, we will consider only 3 out of the 624 possible hypothesis for illustration purpose. Figure~\ref{fig:lfui:pickplacesequence} shows a sequence of action starting in our hypothesis one configuration and going to our hypothesis 3 configuration in the shortest number of action as possible. Hypothesis 2 is a state on this path. While hypothesis 1 and hypothesis 3 seems ``close'' in terms of object position, they are actually far ``away'' one from an other in terms of action.
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=\columnwidth]{\visualspdf/pick_and_place/pick_and_place_sequence.pdf}
-  \caption{A pick and place sequence showing the three hypothesis we will compare on our visuals examples and the sequence of actions from hypothesis 1 to hypothesis 3 through hypothesis 2. While hypothesis 1 and hypothesis 3 seems ``close'' in terms of object position, they are actually far ``away'' one from an other in terms of action.}
-  \label{fig:lfui:pickplacesequence}
-\end{figure}
-
-For the case when the user is delivering feedback to the robot, the labeling process is presented in Figure~\ref{fig:lfui:pickplacefeedback} for a robot action randomly in the environment. Note that hypothesis 1 and 2 are the more difficult to discriminate by acting randomly as they share most of their optimal policies.
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=\columnwidth]{\visualspdf/pick_and_place/pick_and_place_feedback.pdf}
-  \caption{Results of the labeling process for our three hypothesis considering the feedback frame. The robot is exploring randomly the state space. The teacher is providing feedback with respect to hypothesis 1. Only a few state-action pairs allowed to differentiate between hypothesis 1 and 2.}
-  \label{fig:lfui:pickplacefeedback}
-\end{figure}
-
-
-For the guidance case, the user uses the signals presented in Figure~\ref{fig:lfui:pickplaceguidancesignals} an the labeling process is presented in Figure~\ref{fig:lfui:pickplaceguidance} for a robot action randomly in the environment. Note that in some state there may be two optimal action to perform. For example, in Figure~\ref{fig:lfui:pickplacesequence}, for inverting two stacked balls there is two different optimal policies, either the one presented, or putting the blue ball in position 2 and the green in position 3 during the exchange of position. Those case make the learning process more difficult but we can still visually find out that only for hypothesis 1 that all points in one cluster share one color. This can be capture by our algorithm.
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=\signalwidth\columnwidth]{\visualspdf/pick_and_place/guidance_pick_and_place.pdf}
-  \caption{The guidance signals used by our simulated teacher for our visual examples.}
-  \label{fig:lfui:pickplaceguidancesignals}
-\end{figure}
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=\columnwidth]{\visualspdf/pick_and_place/pick_and_place_guidance.pdf}
-  \caption{Results of the labeling process for our three hypothesis considering the guidance frame. The robot is exploring randomly the state space. The teacher is providing guidance with respect to hypothesis 1. The dot that contain two color are case where the user could have given two different guidance signals. It is only for hypothesis 1 that all points in one cluster share one color. The case of guidance with multiple optimal action in some state make the learning process more ambiguous and may require some additional time compared to the feedback case.}
-  \label{fig:lfui:pickplaceguidance}
-\end{figure}
-
-We have provided an example of the pick and place world with two dimensional signals and considering only three hypothesis. In next section, we consider real spoken words mapped to a 20 dimensional space and the full space of hypothesis which consist of 624 possible object configuration.
+It is only in the next chapter that we will investigate how the robot can actively selects its future actions in order to improve its performances.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -726,12 +671,15 @@ We have provided an example of the pick and place world with two dimensional sig
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
+\label{chapter:lfui:results}
 
 Experiments presented in this section follow the protocol described in figure~\ref{fig:lfui:bloc}, where each turn the agent performs one action and waits for the teaching signals from the teacher. We first present a set of simulated experiments using the same MDP as for the real world experiment. We start by assuming that the teacher provides feedback instructions without any mistakes, therefore only the variability in the signals remains. We compare first the different classifiers, and then the performances of $\epsilon$-greedy versus random action selection methods both for feedback and guidance modes. Later, we present an analysis of robustness to teacher mistakes. The last simulated experiment studies the case where the teacher has also access to buttons of known meaning. Finally, we show the result using a real robot where we study how signals knowledge learned in a first run can be used in a second one to learn more efficiently.
 
 In order to be able to compute statistically significant results for the learning algorithm, we created a database of speech signals that can be used in simulated experiments. All results report averages of $20$ executions of the algorithm with different start and goal states. 
 
 As we have $624$ hypothesis, we must update $624$ likelihoods at each step. Depending on the likelihood equation considered this may not be feasible on real time. As we would like to run it in real time and as the speech signal are very well separated int he feature space, we do will use the simplest version of our likelihood estimation method described in Equation~\ref{eq:matchingoverfitting}. To estimate the probability of each task we will normalize the likelihood estimates $\L_(\xi_1),\ldots,\L_(\xi_T)$ to 1.
+
+The interrested reader will find in appendix~\ref{appendix:pickplace} an illustration of the pick and place world as well as the results of the labeling process for the feedback and guidance case.
 
 \subsection{Learning feedback signals}
 
