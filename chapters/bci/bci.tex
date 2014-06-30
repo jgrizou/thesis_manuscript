@@ -204,7 +204,7 @@ To build our feature vector we consider two fronto-central channels (FCz and Cz)
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=\eegsize\columnwidth]{\imgpath/illustration/correctEEG.pdf}
+\includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/powerdiff.eps}
 \caption{\todo{matlab plot of power positive versus power negative}}
 \label{fig:EEGpower}
 \end{figure} 
@@ -221,7 +221,14 @@ powerIncorrect(\xi_t) = \frac{\sum_{i = 1}^{M} p(l^c = ``incorrect"| e_i , \thet
 \end{eqnarray}s
 with $\theta$ the classifier associated to the task $\xi_t$.
 
-\todo{give the value of power for both classes}
+\todo{accuracy = 0.83
+powerCorrect = 670
+powerWrong = 1031
+ratio = 1.54
+ratio symmetric = 0.65
+accuracy shuffle = 0.61
+ratio shuffle = 1.00
+}
 
 \subsection{How to use the power information}
 
@@ -236,6 +243,40 @@ Measuring the ratio of power allow to not be dependent on each individual person
 
 
 \subsection{Comparison with and without the power information}
+
+% nSim =
+
+%   Columns 1 through 3
+
+%     26    58    82
+%     23    58    91
+%     21    61    78
+
+%   Columns 4 through 5
+
+%    286    48
+%    271    57
+%    271    69
+
+% ratioFirstWrong =
+
+%   Columns 1 through 2
+
+%          0         0
+%     0.8261    0.1034
+%     0.6190    0.0164
+
+%   Columns 3 through 4
+
+%          0         0
+%     0.0330    0.0332
+%     0.0256    0.0185
+
+%   Column 5
+
+%          0
+%          0
+%          0
 
 \begin{figure}[!ht]
 \centering
@@ -294,16 +335,9 @@ For such data it would be better to change the representation of the signal or t
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=\plotsize\columnwidth]{\imgpath/onlineXP/correct.eps}
+\includegraphics[width=\plotsize\columnwidth]{\imgpath/onlineXP/correct_and_error.eps}
 \caption{a}
-\label{fig:correct_online}
-\end{figure} 
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\plotsize\columnwidth]{\imgpath/onlineXP/error.eps}
-\caption{a}
-\label{fig:error_online}
+\label{fig:correcterror_online}
 \end{figure} 
 
 \todo{summarize all this in a table, but keep two figure to have a visuals which is important.}
