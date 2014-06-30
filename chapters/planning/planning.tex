@@ -2,12 +2,6 @@
 \define{\chapterpath}{\allchapterspath/planning}
 \define{\imgpath}{\chapterpath/img}
 
-\define{\twoplanningwidth}{0.7}
-\define{\threeplanningwidth}{1}
-\define{\twotworldsize}{0.8}
-\define{\threetworldsize}{1}
-\define{\plotsize}{0.6}
-
 \chapter{Planning upon Uncertainty}
 \label{chapter:planning}
 \minitoc
@@ -39,6 +33,23 @@ A solution to this problem is to add exploration-bonuses for each state-action p
 
 
 \todo{
+
+
+
+Measuring task uncertainty follows along the same lines as previous work \cite{macl09airl}. The idea is to take a query-by-committee approach where each ``member'' of the committee, i.e. each task hypothesis $\xi_k$, influences the process according to its importance in the committee, i.e its respective likelihood $\L^{\xi_k}$. We define a vector that accumulates the weighted optimal actions of each hypothesis: 
+%
+\[
+c(s,a) = \sum_i \L^{\xi_i} \delta(\pi(s,a)^{\xi_i}>0)
+\]
+%
+where $\delta$ is a Dirac function that is 1 if the argument is true and zero otherwise. For each state, the vector entropy of the $c(s,a)$ measures the disagreement between hypotheses. We can make a state-wide measure of uncertainty by summing the entropies corresponding to each state-action pair:
+%
+\[
+v_t(s)=\sum_a \mathcal{H}(c(s,a))
+\]
+
+
+
 Following our notation, we can define an uncertainty measure as the variance of the expected meaning for each task weighted by their current probability, for a specific state and action and the feedback frame:
 
 \begin{eqnarray}
@@ -216,7 +227,7 @@ To summarize, in order to estimate uncertainty between hypothesis for a given st
 
 This measure has the important advantage of using the exact same equation as the one used for computing the likelihood of each task (chapter~\ref{chapter:lfui:likelihood}). Additionally, we do not have to compute the similarity between continuous distribution. We only need to compute the predicted labels $l^c$ associated to the sampled signal $e$ once per hypothesis. Then, to compute the full uncertainty map for each state and action pair, we have to compare those predicted labels with the expected labels $l^f$ from each state-action pair and each hypothesis.
 
-We note $J^{\xi_t}(s,a,e) = p(l^c = l^f | s, a, e, \theta_{xi_t}, \xi_t)$, which is Equation~\ref{eq:matchingoverfitting}) given the classifier $\theta_{\xi_t}$ associated to task $\xi_t$ and a particular state, action, and signal. We note $J^{\xi}(s,a,e)$ the vector $[J^{\xi_1}(s,a,e), \ldots, J^{\xi_T}(s,a,e)]$. and $W_{i}^{\xi} = [W^{\xi_1}, \ldots, W^{\xi_T}]$ the weights associated to each hypothesis. Such weight can be the one in presented in Equation~\ref{eq:probapairwise} or the probability from Equation~\ref{eq:probanormalize}.
+We note $J^{\xi_t}(s,a,e) = p(l^c = l^f | s, a, e, \theta_{xi_t}, \xi_t)$, which is Equation~\ref{eq:matchingoverfitting}) given the classifier $\theta_{\xi_t}$ associated to task $\xi_t$ and a particular state, action, and signal. We note $J^{\xi}(s,a,e)$ the vector $[J^{\xi_1}(s,a,e), \ldots, J^{\xi_T}(s,a,e)]$. and $W_{i}^{\xi} = [W^{\xi_1}, \ldots, W^{\xi_T}]$ the weights associated to each hypothesis. Such weight can be the one presented in Equation~\ref{eq:probapairwise} or the probability from Equation~\ref{eq:probanormalize}.
 
 The uncertainty of one state-action pair given a signal $e$ is computed as the weighted variance of the joint probabilities:
 
