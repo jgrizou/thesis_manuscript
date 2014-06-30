@@ -21,23 +21,15 @@ The application of this work to BCI is a collaboration with I{\~n}aki Iturrate a
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Related work}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Using pre-recorded EEG signals}
 
-We want to apply our algortihm to BCI scenario, before trying out on real subject we tested the feasibility of the proposed self-calibration approach using real ErrP datasets. The objective of this analysis is to study the scalability of our method to EEG data, which may have different properties than our artificial dataset. We will see that our algortihm conserve good properties using EEG signals.
+We want to apply our algorithm to BCI scenario, before trying out on real subject we tested the feasibility of the proposed self-calibration approach using real ErrP datasets. The objective of this analysis is to study the scalability of our method to EEG data, which may have different properties than our artificial dataset. We will see that our algorithm conserve good properties using EEG signals.
 
 \subsection{Dataset and scenario}
 
 \paragraph{EEG datasets}  The EEG data were recorded in a previous study \cite{iturrate2013task} where participants monitored on a screen the execution of a task where a virtual device had to reach a given goal. The motion of the device could be correct (towards the goal) or erroneous (away from the goal). The subjects were asked to mentally assess the device movements as erroneous or non-erroneous. The EEG signals were recorded with a gTec system with 32 electrodes distributed according to an extended 10/20 international system with the ground on FPz and the reference on the left earlobe. The ErrP features were extracted from two fronto-central channels (FCz and Cz) within a time window of $[200,700]$ ms (being 0 ms the action onset of the agent) and downsampled to $32$ Hz. This leaded to a vector of $34$ features.
 
-Note that the scenario used to collect the EEG data is the same as the one we run in our simulated experiement and is the same as the one we will run in our online experiment with real subjects.
+Note that the scenario used to collect the EEG data is the same as the one we run in our simulated experiment and is the same as the one we will run in our online experiment with real subjects.
 
 \paragraph{Comparison with calibration methods} In order to show the benefit of learning without explicit calibration, we compare our method with the standard supervised BCI calibration procedure. In this calibration procedure, which can last for up to 40 minutes, the experimenter needs to record enough data from the user from several offline runs, where the user is not controlling the agent but just passively assessing its actions. Following the literature on ErrPs \cite{chavarriaga2010learning,iturrate2013task} our training data will consist of 80 percent of positive examples (associated to a correct feedback) and 20 percent of negative examples (associated to an incorrect feedback). Our proposed algorithm is compared with different (but standard) sizes of calibration datasets: 200, 300 and 400 examples.
 
@@ -45,7 +37,7 @@ Note that the scenario used to collect the EEG data is the same as the one we ru
 
 Figure~\ref{fig:sequence} shows one particular run of 500 steps comparing our self-calibration method with a calibration procedure of 400 steps. The two independent runs use a real EEG dataset with $80\%$ ten-fold classification accuracy. As our algorithm is operational from the first step, it can estimate the real task when sufficient evidence has been collected. On the other hand, a calibration approach collects signal-label pairs for a fixed number of steps and use the resulting classifier without updating it. This provokes that, during the calibration phase, no tasks can be learned, substantially delaying the user's online operation. 
 
-Of important interreset is the ability of the algortihm to evaluate when sufficient evidence has been collected. The dataset considered is relatively good quality, and we do not needd 400 steps to identify the first task. When doing a claibration procedure, the experiment can not knwon in advance the quality of each particular subject. Therefore, he must run a calibration for long enough so as to have enough data point to adapt to all possible data quality. However, for some subject collecting 100 sample is enough.
+Of important interest is the ability of the algorithm to evaluate when sufficient evidence has been collected. The dataset considered is relatively good quality, and we do not need 400 steps to identify the first task. When doing a calibration procedure, the experiment can not known in advance the quality of each particular subject. Therefore, he must run a calibration for long enough so as to have enough data point to adapt to all possible data quality. However, for some subject collecting 100 sample is enough.
 
 \begin{figure}[!ht]
 \centering
@@ -183,7 +175,7 @@ But, while this conclusion seems satisfying and is likely to explain the observa
 
 The work of Chavarriaga et al. and Iturrate et al. shows that high variability in the teaching signals properties are observed when varying the task and the teaching protocol \cite{chavarriaga2010learning, iturrate2013task}. Indeed Errp signals are signals that corresponds more to non expected movement from the agent than to voluntary erroneous assessment. This means that the user should not expect the agent to make a mistake for the signal to be present and of good intensity. With a 50/50 percent ratio, the subject is unlikely to be surprise and may produce signal of lower quality.
 
-During our first session of online experiments with real subjects we observed that the quality of the received data were very poor, even for subjects that were highly trained to assess the agent action using their brain. The main cause was the behavior of the agent which is very confusing with respect to the goal. At the beginning of the experiments, for the subject the agent seems to act randomly, without trying to move toward the target. Therefore subject have high difficulty to generated Errp signals of good quality, which makes the process longer, which do not improve the behavior of the agent and further reduces the engagement of the users in the teaching task. Studying in more details the impact of the agent behavior on the Errp signals was not our main goal with this study and more thorough analysis is required to make more firm conclusion.
+During our first session of online experiments with real subjects we observed that the quality of the received data were very poor, even for subjects that were highly trained to assess the agent action using their brain. The main cause was the behavior of the agent which is very confusing with respect to the goal. At the beginning of the experiments, for the subject the agent seems to act randomly, without trying to move toward the target. Therefore subject have high difficulty to generated Errp signals of good quality, which makes the process longer, do not improve the behavior of the agent and further reduces the engagement of the users in the teaching task. Studying in more details the impact of the agent behavior on the Errp signals is not our main goal and more thorough analysis is required to provide more firm conclusion.
 
 Consequently, while some subject succeeded in the teaching task, we observed a relatively high number of errors and long teaching time. Therefore we decided to include an a priori information in the system in order to improve the learning time and the behavior of the agent. This properties relates to difference in power (sum of the EEG feature squared) between EEG signals of meaning ``correct'' and ``incorrect''. The signal related to the unexpected, erroneous action, being more powerful. However this property is not enough to identify with certainty ``correct'' and ``incorrect'' signals. In next section, we study in more detailed this properties and show how it can be exploited in our system.
 
@@ -193,6 +185,65 @@ Consequently, while some subject succeeded in the teaching task, we observed a r
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Including Prior Information}
+
+In this section we detail how we can exploit the difference of power between our two class of signals. The signal related to the unexpected, erroneous action, being more powerful, it gives an an absolute information about which group of point should mean ``incorrect''. While this property is not enough to identify with certainty ``correct'' and ``incorrect'' signals, we will see that it allow to differentiate between symmetric hypothesis, which improves the performances of our algorithm as well as the behavior of the agent at run time. 
+
+\subsection{Difference of power between correct and incorrect signal}
+
+As shown in Figure~\ref{fig:EEGsample}, the EEG signal associated to ``incorrect'' labels have slightly more amplitude than the one associated to ``correct'' labels, especially at \todo{300ms}.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\eegsize\columnwidth]{\imgpath/illustration/correctEEG.pdf}
+\includegraphics[width=\eegsize\columnwidth]{\imgpath/illustration/errorEEG.pdf}
+\caption{\todo{change with one figure inkscaped}}
+\label{fig:EEGsample}
+\end{figure}
+
+To build our feature vector we consider two fronto-central channels (FCz and Cz) in a time window of $[200,700]$ ms (being 0 ms the action onset of the agent) and downsampled the signal to $32$ Hz. Each element of the feature vector is the value in microvolts of the signal at the corresponding time. To compute the power information contained in our signal we simply compute the sum of the square of each feature representing our signal. This simple approximation allow to capture the slight difference in power between ``incorrect'' and ``correct'' signal (see Figure~\ref{fig:EEGpower}). However this is not enough to classify a single signal with more than 60 percent accuracy, which is almost random. But considering a group of point we can observe that the mean of power of the ``incorrect'' class is higher that the mean power of the ``correct'' class. We will exploit this property as an a priori information of which group of point should means ``correct'' or ``incorrect''.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\eegsize\columnwidth]{\imgpath/illustration/correctEEG.pdf}
+\caption{\todo{matlab plot of power positive versus power negative}}
+\label{fig:EEGpower}
+\end{figure} 
+
+\begin{eqnarray}
+powerCorrect(\xi_t) = \frac{\sum_{i = 1}^{M} p(l^c = ``correct"| e_i , \theta) ~~ e_i^T e_i}{\sum_{i = 1}^{M} p(l^c = ``correct"| e_i , \theta)}
+\label{eq:powerCorrect}
+\end{eqnarray}
+with $\theta$ the classifier associated to the task $\xi_t$.
+
+\begin{eqnarray}
+powerIncorrect(\xi_t) = \frac{\sum_{i = 1}^{M} p(l^c = ``incorrect"| e_i , \theta) ~~ e_i^T e_i}{\sum_{i = 1}^{M} p(l^c = ``incorrect"| e_i , \theta)}
+\label{eq:powerIncorrect}
+\end{eqnarray}s
+with $\theta$ the classifier associated to the task $\xi_t$.
+
+\todo{give the value of power for both classes}
+
+\subsection{How to use the power information}
+
+\begin{eqnarray}
+\L_{power}(\xi_t) = \frac{powerIncorrect(\xi_t)}{powerCorrect(\xi_t)}
+\label{eq:power}
+\end{eqnarray}
+
+\todo{provide example of power with good labels, symmetric, and mixed, just numbers not a figure.}
+
+Measuring the ratio of power allow to not be dependent on each individual person, we only want to measure to which extend we are associating the label in the correct way to disambiguate between symmetric case. Also it would impossible to define an absolute threshold between the power of each classes that would decide whether one task is the correct one.
+
+
+\subsection{Comparison with and without the power information}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/nSim.eps}
+\caption{\todo{use a table instead of this figure}}
+\label{fig:nSim_powermatching}
+\end{figure} 
+
 
 \begin{figure}[!ht]
 \centering
@@ -224,16 +275,7 @@ Consequently, while some subject succeeded in the teaching task, we observed a r
 \label{fig:nWrongEEG_powermatching}
 \end{figure} 
 
-For such data it would be better to change the representation of the signal or the classifier used in order to get better .
-
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/nSim.eps}
-\caption{\todo{use a table instead of this figure}}
-\label{fig:nSim_powermatching}
-\end{figure} 
-
+For such data it would be better to change the representation of the signal or the classifier used in order to get better.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
