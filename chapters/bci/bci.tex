@@ -22,6 +22,7 @@ The application of this work to BCI is a collaboration with I{\~n}aki Iturrate a
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Using pre-recorded EEG signals}
+\label{chapter:bci:EEGsignals}
 
 We want to apply our algorithm to BCI scenario, before trying out on real subject we tested the feasibility of the proposed self-calibration approach using real ErrP datasets. The objective of this analysis is to study the scalability of our method to EEG data, which may have different properties than our artificial dataset. We will see that our algorithm conserve good properties using EEG signals.
 
@@ -148,6 +149,7 @@ However, in our scenario, the agent is not aware of the goal the user has in min
 
 \begin{table}
 \centering
+\rowcolors{2}{gray!25}{white}
 \begin{tabular}{c c c}
 Dataset Accuracies & Self-calibration & Calibration \\ \hline
 50-60 & 0.48 (0.02) & 0.8 (0) \\
@@ -186,63 +188,188 @@ Consequently, while some subject succeeded in the teaching task, we observed a r
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Including Prior Information}
 
-In this section we detail how we can exploit the difference of power between our two class of signals. The signal related to the unexpected, erroneous action, being more powerful, it gives an an absolute information about which group of point should mean ``incorrect''. While this property is not enough to identify with certainty ``correct'' and ``incorrect'' signals, we will see that it allow to differentiate between symmetric hypothesis, which improves the performances of our algorithm as well as the behavior of the agent at run time. 
+In this section we detail how we can exploit the difference of power between our two class of signals. The signal related to the unexpected, erroneous action, being more powerful, it gives an an absolute information about which group of point should mean ``incorrect''. While this property is not enough to identify with certainty ``correct'' and ``incorrect'' signals, we will see that it allow to differentiate between symmetric hypothesis, which improves the performances of our algorithm as well as the behavior of the agent at run time.
 
 \subsection{Difference of power between correct and incorrect signal}
 
-As shown in Figure~\ref{fig:EEGsample}, the EEG signal associated to ``incorrect'' labels have slightly more amplitude than the one associated to ``correct'' labels, especially at \todo{300ms}.
+As shown in Figure~\ref{fig:EEGsample}, the EEG signals associated to ``incorrect'' labels have slightly more amplitude than the one associated to ``correct'' labels, especially at around 300ms.
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=\eegsize\columnwidth]{\imgpath/illustration/correctEEG.pdf}
 \includegraphics[width=\eegsize\columnwidth]{\imgpath/illustration/errorEEG.pdf}
-\caption{\todo{change with one figure inkscaped}}
+\caption{Low-pass filtered EEG signals associated to ``correct'' labels (top) and to ``incorrect'' labels (bottom).  The signals have slightly different amplitudes, especially at around 300ms. \todo{change with one figure inkscaped}}
 \label{fig:EEGsample}
 \end{figure}
 
-To build our feature vector we consider two fronto-central channels (FCz and Cz) in a time window of $[200,700]$ ms (being 0 ms the action onset of the agent) and downsampled the signal to $32$ Hz. Each element of the feature vector is the value in microvolts of the signal at the corresponding time. To compute the power information contained in our signal we simply compute the sum of the square of each feature representing our signal. This simple approximation allow to capture the slight difference in power between ``incorrect'' and ``correct'' signal (see Figure~\ref{fig:EEGpower}). However this is not enough to classify a single signal with more than 60 percent accuracy, which is almost random. But considering a group of point we can observe that the mean of power of the ``incorrect'' class is higher that the mean power of the ``correct'' class. We will exploit this property as an a priori information of which group of point should means ``correct'' or ``incorrect''.
+To build our feature vector we consider two fronto-central channels (FCz and Cz) in a time window of $[200,700]$ ms (being 0 ms the action onset of the agent) and downsampled the signal to $32$ Hz. Each element of the feature vector is the value in microvolts of the signal at the corresponding time. To compute the power information contained in our signal we simply compute the sum of the square of each feature representing our signal. This simple approximation allows to capture the slight difference in power between ``incorrect'' and ``correct'' signals (see Figure~\ref{fig:EEGpower}). However this is not enough to classify a single signal with more than 60 percent accuracy, which is almost random. But considering a group of point we can observe that the mean of power of the ``incorrect'' class is higher that the mean power of the ``correct'' class. We will exploit this property as an a priori information of which group of point should means ``correct'' or ``incorrect''.
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/powerdiff.eps}
-\caption{\todo{matlab plot of power positive versus power negative}}
+\caption{Box plot of the power of each individual signal for one of our EEG dataset. The datasetis of good quality and our classifier reaches a classifiaction rate of 83 percent. The mean power information from the ``incorrect'' signals is higher than for the ``correct'' ones.}
 \label{fig:EEGpower}
 \end{figure} 
 
+
+To compute the power information of signal associated to the ``correct'' labels, we simply compute the weighted mean of the power of the signals weighted by their probability of being of label ``correct''. 
 \begin{eqnarray}
 powerCorrect(\xi_t) = \frac{\sum_{i = 1}^{M} p(l^c = ``correct"| e_i , \theta) ~~ e_i^T e_i}{\sum_{i = 1}^{M} p(l^c = ``correct"| e_i , \theta)}
 \label{eq:powerCorrect}
 \end{eqnarray}
-with $\theta$ the classifier associated to the task $\xi_t$.
+with $\theta$ representing the classifier trained on the available signal-label pairs associated to the task $\xi_t$.
 
+Similarly for the ``incorrect'' labels, we simply compute the weighted mean of the power of our signals weighted by their probability of being of label ``incorrect''. 
 \begin{eqnarray}
 powerIncorrect(\xi_t) = \frac{\sum_{i = 1}^{M} p(l^c = ``incorrect"| e_i , \theta) ~~ e_i^T e_i}{\sum_{i = 1}^{M} p(l^c = ``incorrect"| e_i , \theta)}
 \label{eq:powerIncorrect}
-\end{eqnarray}s
-with $\theta$ the classifier associated to the task $\xi_t$.
+\end{eqnarray}
+with $\theta$ representing the classifier trained on the available signal-label pairs associated to the task $\xi_t$.
 
-\todo{accuracy = 0.83
-powerCorrect = 670
-powerWrong = 1031
-ratio = 1.54
-ratio symmetric = 0.65
-accuracy shuffle = 0.61
-ratio shuffle = 1.00
-}
+For the dataset shown in Figure~\ref{fig:EEGpower}, the $powerCorrect = 670$ and $powerIncorrect = 1031$. Note that this is different form the value shown by the gray circle in Figure~\ref{fig:EEGpower}. For our estimate we use the probability of each point of being of one label predicted by our classifier and not the one given in input to the classifier. 
 
 \subsection{How to use the power information}
+
+As for the case of known signals described in chapter~\ref{chapter:lfui:known}, we will define a specific likelihood function for the information provided by the power information and combined it with the information from our initial algorithm. We define as likelihood the ratio of the power associated to the ``incorrect'' class over the one from the ``correct'' class:
 
 \begin{eqnarray}
 \L_{power}(\xi_t) = \frac{powerIncorrect(\xi_t)}{powerCorrect(\xi_t)}
 \label{eq:power}
 \end{eqnarray}
 
-\todo{provide example of power with good labels, symmetric, and mixed, just numbers not a figure.}
+For our previous example of Figure~\ref{fig:EEGpower}, this ratio equals 1.54. A likelihood above 1 indicates the labels are more likely to be correctly associated with the signals. Considering now our algorithm that assign different labels for each task hypothesis and the specific case of our symmetry problems discussed in chapter~\ref{chapter:lfui:symmetries}. In such cases the correct hypothesis will have this ratio of 1.54 as the label for ``incorrect'' are actually associated to the ``incorrect'' signals. But for the symmetric case, while our non-informed algorithm could not make the difference, our new measure gives a power ratio of 0.65. Indeed as the labels are switched, the power of class ``correct'' will be higher than the one from class ``incorrect''. Now considering an other hypothesis, whose labels are fully mixed, the power ratio will be equal to 1, as point with low and high power will be equally distributed. However in this case our non-informed algorithm will be able to measure the change in classifier quality, which, for one of our test move from 83 percent to 61 percent classification rate.
 
-Measuring the ratio of power allow to not be dependent on each individual person, we only want to measure to which extend we are associating the label in the correct way to disambiguate between symmetric case. Also it would impossible to define an absolute threshold between the power of each classes that would decide whether one task is the correct one.
+Measuring the ratio of power allow to not be dependent on arbitrary absolute difference between the power values which may differ between individuals. Indeed, it would be impossible to define an absolute threshold between the power of each classes that would decide whether one task is the correct one for everyone. 
 
+Also, we only want to measure to which extend we are associating the labels in the correct way to disambiguate between symmetric case. This is likely to improve the behavior of the agent, therefore improving the quality of the signals receive from the subjects. 
+
+It is of crucial importance to understand the use of the power information is only possible thanks to the specific nature of the Errp EEG signals. It would be of not use for our artificial 2D datasets. However other signals may have similar properties, such as the tone of voice that could differ between ``correct'' and ``incorrect'' feedback.
+
+Our likelihood based on the likelihood between the power component of each classes will be used as for known button as described in chapter~\ref{chapter:lfui:known}. Before running new online EEG experiments with human subjects, we verify how this new method behaves with our pre-recorded dataset. In next section, we compared the performance between using only the power information, only our initial algorithm, or the combination of both.
 
 \subsection{Comparison with and without the power information}
+
+We consider the same setting as for the experiments described in section~\ref{chapter:bci:EEGsignals}. 
+
+\paragraph{Time to first task} Figure~\ref{fig:timefirst_powermatching} compares the number of iterations needed to identify the first time with confidence between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' (power), or both method combined (power matching). The use of the power information affects the performances for the low quality dataset. For datasets of low quality, while the time to first seems more advantageous for the method using the power information, most of the estimated task are erroneous (see Figure~\ref{tab:errorTaskRatio}) which makes the use of the power information critical for such low quality data. However those errors occurs for very low quality datasets, which are not the main target of our algorithm. For such data it would be better to change the representation of the signal or the classifier used. For the datasets of higher quality, the power information allow to slightly speed up the learning compared to our method (matching) which do not rely on known information. 
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/timefirst.eps}
+\caption{Number of steps to complete first task with EEG data. Comparison between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' (power), or both method combined (power matching). The use of the power information affects the performance for the low quality dataset. For datasets of low quality, while the time to first seems more advantageous for the method using the power information, most of the estimated task are erroneous (see Figure~\ref{tab:errorTaskRatio}) which makes the use of the power information critical for such low quality data. However those errors occurs for very low quality datasets, which are not the main target of our algorithm. For the datasets of higher quality, the power information allow to slightly speed up the learning compared to our method (matching) which do not rely on known information.}
+\label{fig:timefirst_powermatching}
+\end{figure} 
+
+\begin{table}
+\centering
+\rowcolors{2}{gray!25}{white}
+\begin{tabular}{c c c c}
+    Dataset Accuracies & Matching & Power & Power-Matching \\ \hline
+    50-60 & 0 & 0.83 & 0.62 \\ 
+    60-70 & 0 & 0.10 & 0.02 \\
+    70-80 & 0 & 0.03 & 0.03 \\
+    80-90 & 0 & 0.03 & 0.02 \\
+    90-100 & 0 & 0 & 0 \\
+\end{tabular}
+\caption{Percentage of time the first task estimated was erroneous using EEG data. Comparison between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' (power), or both method combined (power matching). For very low quality datasets, the power information increases the number of erroneous estimation.}
+\label{tab:errorTaskRatio}
+\end{table}
+
+
+\paragraph{Number of tasks achieved in 500 steps}
+
+We compare the number of task correctly (Figure~\ref{fig:nCorrect_powermatching}) and incorrectly (Figure~\ref{fig:nWrongEEG_powermatching})reached in 500 steps between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' (power), or both method combined (power matching). The power information makes more mistakes for low quality dataset which also impact the power matching method. However those errors occurs for very low quality datasets, which are not the main targets of our algorithm. For signals of above 60 percent classification rate, the power information improve the number of task we can reach. 
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/correct.eps}
+\caption{Number of task correctly achieved in 500 steps with EEG data. Comparison between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' (power), or both method combined (power matching). The power information alone is sufficient to solve our problem but is less efficient than the other methods.}
+\label{fig:nCorrect_powermatching}
+\end{figure} 
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/error.eps}
+\caption{Number of task correctly achieved in 500 steps with EEG data. Comparison between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' (power), or both method combined (power matching). The power information makes more mistakes for low quality dataset which also impact the power matching method. However those errors occurs for very low quality datasets, which are not the main targets of our algorithm.}
+\label{fig:nWrongEEG_powermatching}
+\end{figure} 
+
+
+The power information alone is not enough to identify a high number of task, even if the number of steps to reach the first target are similar. The difference lies in the reallocation of labels we performed after a task is identified. As described in chapter~\ref{chapter:lfui:tasttotask}, once one task is identified with confidence we propagates its labels to all the other hypothesis. As a consequence, a majority of signal have identical labels, and the number of new signals with different labels needed to pull apart two hypothesis in terms of power ratio between classes increases. This is a problem resulting in measure relying only on global measure on the data. Our non-informed method (matching), measure the global quality of each classifiers but also consider the classification of each new signals individually, which speeds up the task reaching rate as the interaction goes on. See also the discussion of Figure~\ref{fig:sequence_evolution}.
+
+
+Our results confirms that the use of the power information improves the performance of our algorithm. In addition, by disambiguating faster the task with symmetric properties, it also improves the visual impression our subjects get from the behavior of the agent with improved the quality of the signals received during our experimental test. At the time of writing those lines, this study was not over and this particular point requires a more detailed analysis to show and quantify this difference. It is particularly difficult to find a measure of perception of the agent behavior to quantify the difference between the use or not of the power information. We can only report here our experience from running the experiments, which is the reason of using the power information.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Experiments with real users}
+
+We ran online experiment where 3 subjects  control our agent in a virtual world. Each subject was asked to mentally assess the agent's actions with respect to a given target. The system was not calibrated to decode the user EEG signals beforehand. Once the agent identified a task, and whatever the success or failure of the task identification, the user selected a new goal state randomly, the agent reseted the task likelihoods, propagates the believed labels, and teaching started again. At no point the agent has access to a measure of its performance, it could only refer to the unlabeled feedback signals from the user. There was an action every three seconds. Each experiment lasted 500 actions minimum, after 500 steps we kept running the system until a next task was reached.
+
+As depicted in Figure~\ref{fig:correcterror_online}, our system was able to identify many task correctly. As for our simulated experiments, there are strong variations among subjects but we note that our system  always identified the first task correctly (see Table~\ref{tab:onlineXPsummary}) and in less iterations than a normal calibration phase requires (between 300 and 600 examples depending on the user performance \cite{chavarriaga2010learning,iturrate2010single}) (see Figure~\ref{fig:timefirst_online}).
+
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\plotsize\columnwidth]{\imgpath/onlineXP/correct_and_error.eps}
+\caption{Number of task correctly (green dot) and incorrectly (red crosses) achieved in 500+ steps during our online experiment with real subjects. We kept running the experiments after 500 steps until the systems identified the next task. Our algorithm allow a user to control online and with their brain the final position of our agent, without the need to calibrate the system beforehand. The performance of the system is also correlated with the qualities of the EEG signals and matches well with our results form our simulated experiment.}
+\label{fig:correcterror_online}
+\end{figure} 
+
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\plotsize\columnwidth]{\imgpath/onlineXP/timefirst.eps}
+\caption{Number of steps to complete first task for all subjects in our online experiments. The results are plotted against the a posteriori computed 10 fold accuracy of our classifier on each subject EEG signals. The relation between data quality and the time to first task is in line with our simulated results shown in Figure~\ref{fig:timefirst_powermatching}. Note that this first target was always the correct one for every subject.}
+\label{fig:timefirst_online}
+\end{figure} 
+
+
+\begin{table}
+\centering
+\rowcolors{2}{gray!25}{white}
+\begin{tabular}{c c c c c c}
+    Subject & Class. rate & Steps to first task & First correct & N. correct & N. error\\ \hline
+    S1 & 80 & 101 & Yes & 16 & 2\\ 
+    S2 & 73 & 131 & Yes & 9 & 1\\
+    S3 & 64 & 265 & Yes & 3 & 1\\
+\end{tabular}
+\caption{Result from our online experiment. For each subject, we provide the classification rate our classifier would have if we knew the correct labels associated to the brain signals (Class. rate), the number of steps needed to identify the first task and if the task identified was the correct one. Finally, we give the number of task that were correctly and incorrectly identified in 500 steps.} 
+\label{tab:onlineXPsummary}
+\end{table}
+
+% \begin{figure}[!ht]
+% \centering
+% \includegraphics[width=\columnwidth]{\imgpath/onlineXP/table.png}
+% \caption{\todo{change with a latex table}}
+% \label{fig:correcterror_online}
+% \end{figure} 
+
+\transition
+
+Those results with real EEG signals allow us to believe such algorithm could have practical application into the real word. By removing the user of an expert to collect and calibrate the system, we may democratize the use of brain computer interface and allow their users to go out of the labs. 
+
+While this work offers a good solution to start interacting with systems without defining in advance the particular signals that will be used by the users, we have only demonstrated its performances on relatively simple scenario. Especially, we considered, discrete states and actions, synchronous protocol, and a finite set of task hypothesis. While those constraints are, currently, not limiting for BCI tasks, they are a more limiting factor for robotics experiments. In next chapter, we will address some of those limitations in more or less simple experiments, which may provide ideas for the future development of this work.
+
+% accuracy = 0.83
+% powerCorrect = 670
+% powerWrong = 1031
+% ratio = 1.54
+% ratio symmetric = 0.65
+% accuracy shuffle = 0.61
+% ratio shuffle = 1.00
+
+
+% \begin{figure}[!ht]
+% \centering
+% \includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/nSim.eps}
+% \caption{\todo{use a table instead of this figure}}
+% \label{fig:nSim_powermatching}
+% \end{figure} 
+
 
 % nSim =
 
@@ -278,74 +405,10 @@ Measuring the ratio of power allow to not be dependent on each individual person
 %          0
 %          0
 
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/nSim.eps}
-\caption{\todo{use a table instead of this figure}}
-\label{fig:nSim_powermatching}
-\end{figure} 
 
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/timefirst.eps}
-\caption{Number of steps to complete first task with EEG data. Comparison between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' (power), or both method combined (power matching). The use of the power information affect the usual performance for the low quality dataset. For datasets of low quality, while the time to first seems more advantageous for the method using the power information, most of the estimated task are erroneous (see Figure~\ref{fig:errorfirst_powermatching}) which makes the use of the power information critical for such low quality data. However those errors occurs for very low quality datasets, which are not the main target of our algorithm. For the datasets of higher quality, the power information allow to slightly speed up the learning compared to our method (matching) which do not rely on known information.}
-\label{fig:timefirst_powermatching}
-\end{figure} 
-
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/errorfirst.eps}
-\caption{Percentage of time the first task estimated was erroneous using EEG data. Comparison between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' (power), or both method combined (power matching). For low quality datasets, the power information increases the number of erroneous estimation. However those errors occurs for very low quality datasets, which are not the main target of our algorithm.}
-\label{fig:errorfirst_powermatching}
-\end{figure} 
-
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/correct.eps}
-\caption{Number of task correctly achieved in 500 steps with EEG data. Comparison between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' (power), or both method combined (power matching). The power information alone is sufficient to solve our problem but is less efficient than the other methods.}
-\label{fig:nCorrect_powermatching}
-\end{figure} 
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/error.eps}
-\caption{Number of task correctly achieved in 500 steps with EEG data. Comparison between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' (power), or both method combined (power matching). The power information makes more mistakes for low quality dataset which also impact the power matching method. However those errors occurs for very low quality datasets, which are not the main target of our algorithm.}
-\label{fig:nWrongEEG_powermatching}
-\end{figure} 
-
-For such data it would be better to change the representation of the signal or the classifier used in order to get better.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Experiments with real users}
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\plotsize\columnwidth]{\imgpath/onlineXP/timefirst.eps}
-\caption{Number of steps to complete first task for all subjects in our online experiments. The results are plotted against the a posteriori computed 10 fold accuracy of our classifier on each subject EEG signals. The relation between data quality and the time to first task is in line with our simulated results shown in Figure~\ref{fig:timefirst_powermatching} Note that this first target was always the correct one for every subject.}
-\label{fig:timefirst_online}
-\end{figure} 
-
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\plotsize\columnwidth]{\imgpath/onlineXP/correct_and_error.eps}
-\caption{a}
-\label{fig:correcterror_online}
-\end{figure} 
-
-\todo{summarize all this in a table, but keep two figure to have a visuals which is important.}
-
-\transition
-
-\todo{recap}
-
-Those results with real EEG signals allow us to believe such algorithm could have practical application into the real word. By removing the user of an expert to collect and calibrate the system, we may democratize the use of brain computer interface and allow their users to go out of the labs. However there is number of limitation that would need to be addressed, such as the synchronous interactions assumption, the discrete state, discrete action. Most of the current limitation of this work will be addressed in the next section.
-
-\todo{list limitation here}
+% \begin{figure}[!ht]
+% \centering
+% \includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/errorfirst.eps}
+% \caption{Percentage of time the first task estimated was erroneous using EEG data. Comparison between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' (power), or both method combined (power matching). For low quality datasets, the power information increases the number of erroneous estimation. However those errors occurs for very low quality datasets, which are not the main target of our algorithm.}
+% \label{fig:errorfirst_powermatching}
+% \end{figure} 
