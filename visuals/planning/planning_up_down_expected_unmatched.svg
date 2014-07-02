@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="planning_up_down_expected_disagree.svg"
+   sodipodi:docname="planning_up_down_expected_unmatched.svg"
    inkscape:export-filename="/home/jgrizou/Dropbox/thesis/visuals/planning/planning_right_left_unexpected_right_signal.png"
    inkscape:export-xdpi="300"
    inkscape:export-ydpi="300">
@@ -4445,5 +4445,5 @@
            width="1527.1116"
            id="rect35201-7-7-6-5-94" /></flowRegion><flowPara
          id="flowPara5000-3"
-         style="font-size:46.71653748px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch Bold">Both hypothesis agree that the teacher signal sample is unexpected for the state-action pair considered</flowPara></flowRoot>  </g>
+         style="font-size:46.71653748px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch Bold">Both hypothesis agree that the teacher signal sample is not expected for the state-action pair considered</flowPara></flowRoot>  </g>
 </svg>

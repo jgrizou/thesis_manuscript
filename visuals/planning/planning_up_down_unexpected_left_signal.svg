@@ -4413,5 +4413,5 @@
            y="703.53296"
            style="font-size:53.39033127px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch Bold" /></flowRegion><flowPara
          style="font-size:46.71653748px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch Bold"
-         id="flowPara5000-4">Hypothesis 1 says the signal sample is unexpected for this state-action while hypothesis 2 says the signal sample is expected for this state-action pair.</flowPara></flowRoot>  </g>
+         id="flowPara5000-4">Hypothesis 1 says the signal sample is not expected for this state-action while hypothesis 2 says the signal sample is expected for this state-action pair.</flowPara></flowRoot>  </g>
 </svg>
