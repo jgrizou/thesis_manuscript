@@ -60,7 +60,6 @@ For the guidance case, the user uses the signals presented in Figure~\ref{fig:lf
 
 We have provided an example of the pick and place world with two dimensional signals and considering only three hypothesis. In chapter~\ref{chapter:lfui:results}, we consider real spoken words mapped to a 20 dimensional space and the full space of hypothesis which consist of 624 possible object configurations.
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -108,11 +107,22 @@ Similarly, as depicted in Figure~\ref{fig:uncertaintymeaningupdownunexpectedleft
 \end{figure}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Illustration of the gridworld scenario}
+\label{appendix:gridworld}
 
+In chapter~\ref{chapter:planning}, we consider a 5x5 grid world, where an agent can perform five different discrete actions: move up, down, left, right, or a ``no move'' action. The user goal is to teach the agent to reach one (unknown to the agent) of the 25 discrete positions which represent the set of possible tasks. We also consider the user is providing feedback on the agent action. We illustrate in Figure~\ref{fig:appendix:gridworldfeedback}, a smaller 3x3 grid world example and the results of the hypothetic labeling process. As the teacher is providing feedback with respect to hypothesis 1, the labeling process for hypothesis 1 is more coherent with the spacial organization of the data. We note that hypothesis 9 has symmetric properties with hypothesis 1 but the use of the ``no move'' allow to break that symmetry.
 
-
-
-
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\columnwidth]{\visualspdf/gridworld/gridworld_feedback.pdf}
+  \caption{A schematic view of a 3x3 grid world scenario. There is nine possible hypothesis and the agent is acting randomly for this example. We show the results of the per hypothesis labeling process considering the feedback frame. The teacher is providing feedback with respect to hypothesis 1. The labeling process for hypothesis 1 is more coherent with the spacial organization of the data which indicates it is the one taught by the user. Hypothesis 9 has symmetric properties with hypothesis 1 but the use of the ``no move'' allow to break that symmetry.}
+  \label{fig:appendix:gridworldfeedback}
+\end{figure}
 
 
 
