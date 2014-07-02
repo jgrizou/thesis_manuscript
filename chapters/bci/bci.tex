@@ -307,7 +307,14 @@ Our results confirms that the use of the power information improves the performa
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiments with real users}
 
-We ran online experiment where 3 subjects  control our agent in a virtual world. Each subject was asked to mentally assess the agent's actions with respect to a given target. The system was not calibrated to decode the user EEG signals beforehand. Once the agent identified a task, and whatever the success or failure of the task identification, the user selected a new goal state randomly, the agent reseted the task likelihoods, propagates the believed labels, and teaching started again. At no point the agent has access to a measure of its performance, it could only refer to the unlabeled feedback signals from the user. There was an action every three seconds. Each experiment lasted 500 actions minimum, after 500 steps we kept running the system until a next task was reached.
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\bcisetupsize\columnwidth]{\visualspdf/onlineXP/setup.pdf}
+\caption{The BCI setup for online experiment. ON the screen is displayed the grid world with the agent in green. We displayed the intended target in red, which was selected randomly. The purpose of this red square is to help the user remembering the target and our algorithm is at no point aware of the position of this red square.}
+\label{fig:BCIsetup}
+\end{figure}
+
+We ran online experiment where 3 subjects  control our agent in a virtual world. The setup of our online experiment is shown in Figure~\ref{fig:BCIsetup}. Each subject was asked to mentally assess the agent's actions with respect to a given target. The system was not calibrated to decode the user EEG signals beforehand. Once the agent identified a task, and whatever the success or failure of the task identification, the user selected a new goal state randomly, the agent reseted the task likelihoods, propagates the believed labels, and teaching started again. At no point the agent has access to a measure of its performance, it could only refer to the unlabeled feedback signals from the user. There was an action every three seconds. Each experiment lasted 500 actions minimum, after 500 steps we kept running the system until a next task was reached.
 
 As depicted in Figure~\ref{fig:correcterror_online}, our system was able to identify many task correctly. As for our simulated experiments, there are strong variations among subjects but we note that our system  always identified the first task correctly (see Table~\ref{tab:onlineXPsummary}) and in less iterations than a normal calibration phase requires (between 300 and 600 examples depending on the user performance \cite{chavarriaga2010learning,iturrate2010single}) (see Figure~\ref{fig:timefirst_online}).
 
