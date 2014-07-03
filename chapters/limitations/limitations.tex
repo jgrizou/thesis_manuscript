@@ -367,14 +367,113 @@ Figure~\ref{UncertaintyMap} shows the evolution of the estimated uncertainty map
 \section{Continuous set of hypothesis}
 \label{chapter:limitations:continoushypothesis}
 
-a simple particle filter
-
-How to leverage from the finite set of hypothesis constraint? A potential avenue is to use a combination of particle filter and regularization on the task space.
-
-\paragraph{Pre-defined finite set of tasks and instruction meanings} In order to make the learning problem tractable, it was assumed in this article that the robot learner knows that the task to be learnt can be approximated by one task among a pre-defined set of tasks. Indeed, without constraining the space of possible tasks, an infinite number of reward functions may explain the particular teaching data received by the robot. In practice, the number of pre-defined tasks in the experiment was still relatively large (624), allowing a certain level of flexibility. Yet, it would be highly desirable to extend the possibility to deal with continuous task representation, allowing potentially infinite spaces of tasks. A potential avenue to address this would be to constrain search through a combination of regularization and particle filter approaches. The space of tasks to be sampled at a given moment may also be constrained by the current situation and context (for example, a robot hearing the instructions of a human while he is looking at cubes on a table may infer that the task has a higher probability to be defined in terms of manipulation of these cubes than to change the state of an object in another room). Similarly, the system assumed a pre-defined repertoire of possible meanings to be associated with continuous instruction signals. Extending the system towards the creation of novel meanings is an important question. Another approach, for both extending task and meaning repertoires dynamically, would be to allow the user to teach the robot new macro-actions, associated to new macro-instructions, or macro-state, for example based on the options framework \cite{sutton1999between}.
+\question{How to leverage from the finite set of hypothesis constraint?}
 
 
+In order to make the learning problem tractable, it was assumed that the robot learner knows that the task to be learnt can be approximated by one task among a pre-defined set of tasks. Indeed, without constraining the space of possible tasks, an infinite number of task may explain the particular teaching data received by the robot. In practice, the number of pre-defined tasks in the experiment was still relatively large, allowing a certain level of flexibility. Yet, it would be highly desirable to extend the possibility to deal with continuous task representation, allowing potentially infinite spaces of tasks. 
 
+A potential avenue to address this is to constrain search through a combination of regularization and particle filter approaches. In the following of this section, we present a simple particle filter based algorithm that allow an agent to identify a task from unlabeled instruction and considering an infinite set of hypothesis. The agent evolve in a 2 dimensional continuous state and should identify which one of the infinite amount of possible state it should reach.
+
+\subsection{World and task}
+
+We consider an agent living in a 2 dimensional continuous space bounded between 0 and 1 in both dimension. A teacher is providing indication about the orientation of the goal state compared to the robot state by drawing some patterns on a tablet. Those direction can only be selected among of the four cardinal directions that are the directions of north, east, south, and west. The teacher wants the robot to reach a particular state, that can be any position in the continuous 2 dimensional space. The robot is able to teleport itself to any location of the space to receive a new indication.
+
+We still consider a strong a priori knowledge on the space of task, which is that there is only one goal state. This is a very strong a priori regularization on the complexity of the problem. Considering there could be several goal positions, depending for example on the current position of the agent, would increase dramatically the search space; it would then be likely that many hypothesis of different complexity would explain perfectly the observed data. In such case a rule for regularizing the hypothesize task solution would be needed.
+
+\subsection{Finger movements datasets}
+
+We will present results using two different datasets made of finger movements performed on a tablet. 
+
+Our first dataset shown in Figure~\ref{fig:fingerdatasetdirection} is build from a user generating directional trajectories starting from the center of the tablet and going toward the edges of the tablet. We considered four different movement, one toward each edges, representing the four cardinal directions that are the directions of north, east, south, and west. 
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\plotsize\columnwidth]{\visualspdf/worlds_and_datasets/finger_signals_color.pdf}
+\caption{N}
+\label{fig:fingerdatasetdirection}
+\end{figure} 
+
+Our second dataset shown in Figure~\ref{fig:fingerdatasetsigns} is build from a user drawing The cardinal letters (N, S, W, and E) in the middle of the tablet.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\plotsize\columnwidth]{\visualspdf/worlds_and_datasets/finger_signals_color.pdf}
+\caption{N}
+\label{fig:fingerdatasetsigns}
+\end{figure} 
+
+To represent those trajectories, our feature vector is composed of 11 dimensions, where dimensions encodes:
+\begin{itemize}
+   \item The start X and Y positions (2 features)
+   \item The end X and Y positions (2 features)
+   \item The delta position between start and end position for X and Y coordinate (2 features)
+   \item The median X and Y positions (2 features)
+   \item The distance between start and end position (1 feature)
+   \item The total distance traveled by the finger (1 feature)
+   \item The average speed of the finger (1 feature)
+\end{itemize}
+
+Using this representation we achieve 100 percent accuracy on the directional movements dataset and 99 percent accuracy on the cardinal signs dataset, using a simple Gaussian classifier with one Gaussian per class.
+
+We remind that the direction of shape of each movement has no a priori meaning for the robot. For example, in our simulation we may use the ``W'' sign signals to mean the goal state is north to the agent position.
+
+
+\subsection{Evaluating task likelihood}
+
+As there is an infinity of possible goal state, the agent can not estimate the probability of all possible task in parallel. Therefore we will sample a finite number of task at each step and compute a likelihood value for each of those task. Then, given the ranking between them, we will keep some of the best one and sample a bunch of new ones, more details are provided in next subsection~\ref{chapter:limitations:continoushypothesis:particlefilter}.
+
+Our algorithm, as presented so far, was cumulatively accumulating evidence for each task and updated the likelihood of each task on a step by step basis. However for this experiment, as we the task hypothesis are changing step after step, we can not update the likelihood of each task on a step by step basis, as described in Equation~\ref{eq:matchingfiltercrossvalidation}. This approach allowed us to reduce the computational cost of our algorithm so as to be able to run our experiments in a reasonable amount of time. A possible option would be to use Equation~\ref{eq:matchingcrossvalidation}, but we would have to train a huge amount of classifier each step (100000 classifiers after 200 steps in this case).
+
+We selected an other option which rely on sampling different classifier from a meta-classifier, which allow us to generate classifiers at a low computational cost. Then given many classifiers for each task, we will compare the likelihood predicted by those classifiers and rank the task by a statistical test on the classifier evaluation. We describe each step of this process in the following paragraph.
+
+ which consist of sampling different classifiers
+With this method we only have to train one ``meta'' model for each hypothesis, which simply encodes a probability distribution over the mean and covariance. 
+
+The lower the number of point the more the distribution will be spread , the more, the less variability in the generated classifiers.
+
+directly use our to output the posterior probability of a signal given a class, which was used to estimate the probability of that point to belong to each of the class. By 
+
+Given this model we can sample, for very low computational cost, a multitude of possible QDA classifiers by sampling a mean and covariance for each class.
+
+\subsection{Hypothesis selection and generation methods}
+\label{chapter:limitations:continoushypothesis:particlefilter}
+
+As there is an infinity of possible goal state, the agent can not estimate the probability of all possible task in parallel. Therefore we will sample a finite number of task at each step and compute a likelihood value for each of those task. Given the ranking between them, we will keep some of the best one and sample a bunch of new ones.
+
+There is many parameters that will influence the performance of such an algorithm. We can change the number of task sampled, the number of task and the criteria of the task that stay in the pool from step to step, and we can change the method used to sample new task. 
+
+As this is an exploratory experiment, we will restrict our analysis to the influence of the method used to resample the pool of task hypothesis and consider either a random or an active strategy. In practice, we will consider a pool of 50 hypothesis. Each step, we will keep the best hypothesis from the pool and replace the 49 others using one of the sampling strategies define next.
+
+Our random generation of task simply keep the best hypothesis and generate 49 new task hypothesis randomly.
+
+Our active task generation method
+which simply selects new task around the current best task hypothesis
+
+
+\todo{cite particle filtrer}
+
+
+\subsection{Uncertainty based state sampling}
+
+The agent can control two parameters, the set of hypothetic task, and the next state to teleport to.
+
+
+
+
+
+\subsection{Results}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.6\columnwidth]{\imgpath/continuous_task/distEvolution.eps}
+\includegraphics[width=0.39\columnwidth]{\imgpath/continuous_task/endDist.eps}
+\caption{N}
+\label{fig:conitnuoustaskdistevolution}
+\end{figure}
+
+% 1,3 = 1.8934e-13
+% 1,4 = 8.3179e-25
+% 3,4 = 1.5650e-14
 
 % The Wilcoxon rank sum test is a nonparametric test for two populations when samples are independent. If X and Y are independent samples with different sample sizes, the test statistic which ranksum returns is the rank sum of the first sample.
 
@@ -382,21 +481,10 @@ How to leverage from the finite set of hypothesis constraint? A potential avenue
 
 % The Mann-Whitney U-test statistic, U, is the number of times a y precedes an x in an ordered arrangement of the elements in the two independent samples X and Y. It is related to the Wilcoxon rank sum statistic in the following way: If X is a sample of size nX, then
 
-% 1,3 =
-
-%    1.8934e-13
 
 
-% 1,4 =
-
-%    8.3179e-25
-
-
-% 3,4 =
-
-%    1.5650e-14
-
-
+\todo{Show the end map of sampled state with sampling versus random} 
+\todo{maybe a video of the evolution of things, or just some snapshots here}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -404,7 +492,7 @@ How to leverage from the finite set of hypothesis constraint? A potential avenue
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Pre-defined interaction frame}
+\section{Interaction frame hypothesis}
 
 
 \begin{figure}[!ht]
@@ -437,6 +525,7 @@ How to leverage from the finite set of hypothesis constraint? A potential avenue
 \label{fig:multipleframefeedbackvsguidance}
 \end{figure} 
 
+Considering our example in section~\ref{chapter:limitation:continoustask}, an other potential use of the frame hypothesis scheme describe above would be to consider two different referential for the cardinal signal direction. If the guidances where relative to the true North magnetic pole or to the current position of the user relative to the world. This experiment performed with a real robot, real users, considering a tablet, and different interaction frame has great potential to demonstrate our work to a broader audience.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -609,4 +698,8 @@ In our case, as the user is using symbolic signals, and that we assumed the user
 The example described above simplifies the problem in some aspects. Indeed we assume the robot is already able to discriminate between perceptual events and has access to a unlabeled symbolic representation of the teaching signals. It would be the case when using a button based interface, however, when considering more ``natural'' means of interaction such as speech, the mapping between spoken words and their meaning should be learn by the machine. Indeed, the same word in never pronounced exactly the same way and some classification algorithm should be applied to train a discriminative model.
 
 
+\section{stuff}
 
+Similarly, the system assumed a pre-defined repertoire of possible meanings to be associated with continuous instruction signals. Extending the system towards the creation of novel meanings is an important question. Another approach, for both extending task and meaning repertoires dynamically, would be to allow the user to teach the robot new macro-actions, associated to new macro-instructions, or macro-state, for example based on the options framework \cite{sutton1999between}.
+
+The space of tasks to be sampled at a given moment may also be constrained by the current situation and context (for example, a robot hearing the instructions of a human while he is looking at cubes on a table may infer that the task has a higher probability to be defined in terms of manipulation of these cubes than to change the state of an object in another room). 
