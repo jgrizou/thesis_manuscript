@@ -478,6 +478,7 @@ Note that the term $p(l^{cc} | l^c, \theta)$ is a global approximation of the un
 % A more precise approach would be to consider a confidence measure on the estimation of each point based on the location of this particular point in the feature space, i.e. $p(l^{cc} | l^c, e, \theta)$. For example, a point that is very close to a bunch of point that all belong to the same class is way more likely to be correctly classified than a point far away from any previously seen point or in the middle of a cloud of point with contradictory labels. For example, Montesano et al. in \cite{montesano2012active} use an algorithm that combines beta–binomial distributions and a non-parametric kernel approach to provide the full distribution for the probability of grasping
 
 \subsection{Decision and Task Change}
+\label{chapter:lfui:confidence}
 
 Using any of the equation described above do not inform us about when our system is confident about which task hypothesis is the correct one. Indeed at every iteration step, one likelihood will be higher that the other, but which criteria should we used to decide what value for ``higher'' is enough.
 

@@ -7,7 +7,7 @@
 \label{chapter:limitations}
 \minitoc
 
-Context - Why now: We have shown an algortihm that seems to work
+Context - Why now: We have shown an algorithm that seems to work
 
 Need - Why the reader: we need to know what are the hidden assumption that are really done and how to overcome them. And potential way to go into more complex problems
 
@@ -27,322 +27,14 @@ Perspectives - What now:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Exploiting overlap between distributions}
-\label{chapter:limitations:overlap}
-
-
-Recent works have explored the use of brain signals to directly control virtual and robotic agents in sequential tasks. So far in such brain-computer interfaces (BCIs), an explicit calibration phase was required to build a decoder that translates raw EEG signals from the brain of each user into meaningful feedback signals.
-%
-This paper proposes a method that removes the need for such a calibration phase, and allows a user to control an agent to solve a sequential task.
-%
-The proposed method assumes a distribution of possible tasks, and infers the interpretation of EEG signals and the task by selecting the hypothesis which best explains the history of interaction. 
-%
-Also, we use a measure of uncertainty of the task and of the EEG signal interpretation as an exploratory reward for a planning strategy, and this speeds up learning by guiding the system to regions that help disambiguate among task hypotheses.
-%
-We report experiments where four users control, by means of a BCI, an agent on a virtual world to reach a target without any previous calibration process.
-
-examplify here the work of AAAI with the bhattacharrya method
-
-
-For the planning we use it on the sexpected signal as describe in plaing blabal
-
-Computing the similarity between two Gaussian distributions for all state-action pairs was not feasible in real time. In order to improve computation efficiency we do not rely on a precise metric between Gaussian distributions and only consider the similarity between their means (empirical tests did show that this approximation does not impact the results).
-
-
-EEG-based brain-computer interfaces (BCI) have been used successfully to control different devices, such as robotic arms and simulated agents, using self-generated (e.g. motor imagery) and event-related potentials signals (see \cite{millan10} for a review). 
-%
-Error-related potentials (ErrPs) are one kind of event-related potential that appears when the user's expectation diverges from the actual outcome \cite{Falkenstein00}. Recently, they have been used as feedback signals for devices to solve a user's intended task \cite{chavarriaga2010learning,iturrate13}.
-
-As in most BCI applications, ErrP-based BCIs require a calibration phase to learn a decoder (e.g. a classifier) that translates raw EEG signals from the brain of each user into meaningful feedback signals. This calibration is required mainly due to several characteristics of the EEG signals, such as their non-stationary nature \cite{vidaurre11}; the large intra- and inter-subject variability \cite{Polich1997}, and the variations induced by the task \cite{iturrate2013task}. The presence of an explicit calibration phase, which length and frequency is hard to tune and is often tedious and impractical for users, hinders the deployments of BCI applications out of the lab and thus calibration free methods have been identified as an important step to apply this technology in real applications \cite{millan10}.
-
-Despite the importance of calibration-free BCIs, there are few BCI applications that are able to calibrate themselves during operation. For long term operation using motor rhythms, it is possible to adapt the decoder online \cite{vidaurre2010towards}. In invasive BCIs, Orsborn et al. proposed a method to learn from scratch in closed loop a decoder for known targets using pre-defined policies to each target \cite{Orsborn2012}. However, the approach needed for a warm-up period of around 15 minutes. For P300 spellers, Kindermans et al. proposed a method to auto-calibrate the P300 detector by exploiting multiple stimulations and prior information \cite{Kindermans2012a,Kindermans2012b,tangermann2013zero}. They particularly exploit the fact that the speller paradigm guarantees that only one event out of fixed number (e.g. one out of six) encodes a P300 potential. In our setup it is however impossible to define a sequence of actions that guarantee a specific ratio of label in the received signals.
-
-
-\cite{kindermans2014integrating}, they merge most of the method they have been developing.
-\begin{itemize}
-    \item Dynamic stopping, where the system stop when it reaches a confidence threshold.
-    \item Language model as a prior probability on next letter
-    \item Transfer learning where a model of previous subjects is used to ``regularizes the subject-specific solution towards the general model.''
-    \item Unsupervised learning (that is the EM approach we refer to when citing their work)
-\end{itemize}
-
-\cite{schettini2014self} continuous adaptation of the classifier model, a first session using a calibration procedure, and on latter run, the system re-calibrate itself continuously.
-
-
-Our main contribution is a BCI method without any explicit calibration phase that simultaneously and seamlessly infers a decoder of EEG error-related potentials while controlling a device to achieve a sequential task.
-
-The core idea of the method is to assume a distribution of possible tasks, and infer the interpretation of EEG signals and the task by selecting the hypothesis which best explains the history of interaction. In what follows, we will use the term ``virtual label'' or ``label'' to denote the interpretation of a given EEG signal as a feedback signal (e.g. ``correct'' or ``wrong''). Considering that, for a particular task hypothesis provides, we can infer the labels that should be provided by the user in each state of the task, thus, given a particular interaction history, it is possible to compute a different EEG decoder for each task hypothesis. As the correct task assigns the correct labels to the EEG signals, the hypothesis which provides the decoder with best classification accuracy and compactness can then be selected as the most probable. Since the process is iterative, this inference can be continuously run and updated as new data comes in, which removes the need for an explicit calibration.
-
-This method is inspired from our previous work \cite{grizou2013robot} which considered a robotic setting and speech utterances as feedback signals. In this work we improved the algorithm formalism, the robustness to noisy high-dimensional signals (e.g.\ EEG), and show that it is possible to use model-based planning based on the uncertainty about the tasks and the feedback signals to explore the space efficiently while learning.
-
-We also present an evaluation of this method with online experiments with four users who control an agent in a virtual world. The results show that the proposed method is able to learn good feedback models and solve the task efficiently without any explicit calibration. Offline experiments show that our unsupervised trained decoder achieves similar performances than calibration based systems and illustrate the benefits of our planning strategy for speeding up learning.
-
-\subsection{BCI control based on feedback signals}
-
-BCI control based on feedback signals differs from classical brain-computer interfaces in the sense that the user does not actively deliver commands to the device, but only delivers feedback about actions performed by the device \cite{chavarriaga2010learning,iturrate13}. In this setting, the device needs to actively execute actions to solve the task and to be able to learn an intelligent behavior from the feedback. This idea can be seen as a shared control strategy \cite{millan10}, where both the user and the device help each other to solve a task.
-
-Essentially, this BCI control follows an iterative sequential process where the device performs an action and the user assesses the action. This assessment will elicit potentials into the user's brain that can be recorded using EEG and will be different for correct and wrong assessments. The potentials elicited in the user's brain after performing assessments are called error-related potentials, signals generated when the user observes a device performing a wrong action \cite{FerrezErrores}. After a calibration phase and once a usable decoder of these signals is available, user's assessments can be translated into (normally binary) feedback, which the device can use to learn a task and adapt its behavior. 
-%
-This control based on user's assessments decoded from brain signals can be exemplified for a reaching task, where the user wants to reach a target position unknown by the system (see Figure \ref{fig:GM} Top). The device performs several discrete actions (e.g. moving left or right), and learns from the feedback given by the user. After several steps, as the meanings of the signals are known, the device can infer which is the user's desired position and how to reach it. The following section explain how we can achieve similar performance without knowing the brain signal decoder beforehand.
-
-\subsection{Method}
-
-
-\subsection{Control task}
-We consider a 5x5 grid world, where an agent can perform five different discrete actions: move up, down, left, right, or a target-reached action. The user goal is to teach the agent to reach one, yet unknown to the agent, of the $25$ discrete states which represent the set of possible tasks (i.e. one task per possible target state). We thus consider that the agent has access to 25 different task hypotheses. We use \textit{Markov Decision Processes} (MDP) to represent the problem \cite{sutton1998reinforcement}. From a given task $\xi$, represented as a reward function, we can compute the corresponding policy $\pi_{\xi}$ using, for instance, Value Iteration \cite{sutton1998reinforcement}. 
-
-\subsection{EEG-based feedback signals}
-
-EEG signals were recorded with a gTec system (2 gUSBamp amplifiers) with 32 electrodes distributed according to the 10/10 international system, with the ground on FPz and the reference on the left earlobe. The EEG signals were digitized with a sampling frequency of $256$ Hz, common-average-reference (CAR) filtered and band-pass filtered at $[0.5, 10]$ Hz. 
-
-During operation, the role of the users was to mentally assess the agent's actions as correct or wrong with respect to a selected target, obtaining this way error-related potentials. Previous studies have demonstrated that these signals can be detected online \cite{FerrezErrores}. Following these studies, features were extracted from two fronto-central channels (FCz and Cz) within a time window of $[200,700]$ ms ($0$ ms being the action onset of the agent) and downsampled to $32$ Hz. This leaded to a vector of $34$ features that was the input for our system.
+\input{\chapterpath/simple_vs_matching.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Results}
-
-\subsection{Simulated results}
-
-The objective of the offline analysis is to study the impact of our exploration method and evaluate if the classifier learned from scratch with our algorithm can be reused for learning new tasks. Finally we want to evaluate how robust the system is to abrupt changes in the signal properties. For these experiments, to ensure we have sufficient data to achieve statistically significant results, we rely on a large dataset of real EEG data. We used a dataset from \cite{iturrate2013task}, which covers ten subjects that performed two different control problems (denoted $T1$ and $T2$). The role of the users was similar (assess the agent's actions), but the problems differs in the state-action space size and visual representations. For each subject, $T1$ was composed of 1800 assessments, and $T2$ of 1200. Despite the fact that both problems elicit error-related potentials, the EEG signals presented significant differences \cite{iturrate2013task}.
-
-For each subject, and each dataset ($T1$ and $T2$), we simulated $20$ runs of $400$ iterations following the control task. Each time the device performed an action, we sampled the dataset using the ground truth labels corresponding to the correct task and then removed the chosen signal from it. After a first task was identified, and following our approach, we continued running the system to identify new tasks. 
-
-We present most of the results in terms of the quality of the dataset, measured as the classification accuracy that a calibrated brain signal classifier would obtain. Results vary strongly between subjects and we will see that it is a direct consequence of the difficulty of finding a classifier with high accuracy. 
-
-\paragraph{Planning Methods}
-We compared the average number of steps (with maximum values of $400$ steps) needed to identify the first task when learning from scratch with different planning methods.
-
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\columnwidth]{\imgpath/battacharyya/plot_planning_first}
-    \caption{Comparison of different exploration methods. Our proposed method, based on the uncertainty on the task and the signals interpretation, allows to lead the system to regions that improve disambiguation among hypotheses in a faster way. For the greedy method, all values were $400$ which indicates it never allowed to identify any task.}
-    \label{fig:compplan}
-\end{figure}
-
-Figure~\ref{fig:compplan} shows the results averaged across subjects, runs and datasets. Values of $400$ means the confidence threshold was not reached after 400 iterations. Our proposed method, based on the uncertainty on the task and the signals interpretation, allows to lead the system to regions that improve disambiguation among hypotheses in a faster way. Trying to follow the most probable task does not allow the system to explore sufficiently (Greedy), and at least some random exploration is necessary to allow a correct identification of the task ($\varepsilon$-greedy). Assessing uncertainty only on the task performs poorly as it does not take into account the signal interpretation ambiguity inherent to our problem. The large variability in the results is mainly due to the large variations in classification accuracy across subjects and datasets. Given these results, the remainder of this section will only consider our proposed planning method.
-
-\paragraph{Online re-estimation of classifier}
-After identifying the first task, and following our approach, we continued running the system and measured how many tasks were identified after $400$ steps. The quality of our unsupervised method can be measured according to the percentage of labels correctly assigned (according to the ground truth label), see Figure~\ref{fig:percentageLabels}. In general, having dataset with classification accuracies higher than $75\%$ guaranteed that more than $90\%$ of the labels were correctly assigned. This result shows that our algorithm can also be used to collect training data for calibrating any other state-of-the-art error-related potentials classifier, but has the important advantage of controlling the device at the same time.
-
-\begin{figure}[!ht]
-    \centering
-        \includegraphics[width=\plotsize\columnwidth]{\imgpath/battacharyya/plot_percent_label}
-        \caption{Percentage of labels correctly assigned according to the ground truth label (the markers show the median values and the error bars the $2.5$th and $97.5$th percentiles). In general, having dataset with classification accuracies higher than $75\%$ guaranteed that more than $90\%$ of the labels were correctly assigned.}
-        \label{fig:percentageLabels}
-\end{figure}
-
-Figure~\ref{fig:bhatta} demonstrates the advantage of switching to a Bayes filter method after identification of a first target instead of keeping the estimation given by the Bhattacharyya coefficient. On the one hand, Bhattacharyya coefficient works very well for small amounts of data because it directly compares model parameters. On the other hand, when there is sufficient data, training a classifier allows for a faster identification since the classifier makes a much harder decision when evaluating a new EEG signal.
-
-\begin{figure}[!ht]
-    \centering
-        \includegraphics[width=\plotsize\columnwidth]{\imgpath/battacharyya/plot_bhattha_vs_bayes}
-        \caption{Number of targets correctly identified in $400$ iterations (the markers show the median values and the error bars the $2.5$th and $97.5$th percentiles). Comparison between switching to a Bayes filter method after identification of a first target instead of keeping the estimation given by the Bhattacharyya coefficient. The Bayes filter allows for a faster identification.}
-        \label{fig:bhatta}
-\end{figure} 
-
-Figure~\ref{fig:avg_sum_400} shows the number of tasks correctly and incorrectly identified in $400$ iterations. For datasets of good qualities, we are able to identify more than $20$ tasks in $400$ iterations without the need for a calibration procedure (recap that previous works needed between 300 and 600 examples for the calibration phase \cite{chavarriaga2010learning,iturrate2010single}). The number of correctly identified tasks is strongly correlated to the quality of the dataset.
-
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\plotsize\columnwidth]{\imgpath/battacharyya/plot_first400_reach} 
-    \caption{Number of targets correctly and incorrectly identified in $400$ iterations (the markers show the median values and the error bars the $2.5$th and $97.5$th percentiles). For datasets of good qualities, we are able to identify more than $20$ tasks in $400$ iterations without the need for a calibration procedure.}
-    \label{fig:avg_sum_400}
-\end{figure} 
-
-\paragraph{Robustness to Abrupt Changes in the Signals' Properties }
-\label{CenterRobustnessToAbruptChangesInTheSignalsProperties}
-
-We now want to determine whether the system is robust to changes in the signals' properties that occur when we change between different problem settings \cite{iturrate2013task}. We modeled this by changing from $Ti$ to $Tj$ ($i \neq j$) after $400$ steps, and then executing $400$ more steps from $Tj$. Both combinations ($T1$ to $T2$ and $T2$ to $T1$) were tested.
-
-Figure~\ref{fig:stage2} shows the number of tasks identified depending on the classification accuracy on $Tj$ when training a classifier from dataset $Ti$. For abrupt changes which conserve a classification accuracy above $70\%$ on the new signals, our method, based on a limited size prior, is able to recover and solve more than $20$ tasks in $400$ iterations. For those cases where the accuracy change is too drastic, starting from scratch may be a better solution than relying on the adaptation properties of our algorithm.
-
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\plotsize\columnwidth]{\imgpath/battacharyya/plot_last400_reach}
-    \caption{Number of targets correctly and incorrectly identified in $400$ iterations after an abrupt change in the signals properties (the markers show the median values and the error bars the $2.5$th and $97.5$th percentiles). For abrupt changes which conserve a classification accuracy above $70\%$ on the new signals, our method, based on a limited size prior, is able to recover and solve more than $20$ tasks in $400$ iterations.}
-    \label{fig:stage2}
-\end{figure}
-
-\subsection{Online control}
-
-This experiment evaluates if we can identify the task desired by the user even without an explicit calibration phase and without prior knowledge of the brain signals. The experiments were conducted with four subjects (aged between $25$ and $28$). Each subject was asked to mentally assess the agent's actions with respect to a given target. The system was not calibrated to decode the user EEG signals beforehand. Each subject performed $5$ runs, for each run a new target was randomly selected and provided to the user. There was an action every three seconds. Each run lasted $200$ actions, and the time between runs was around one minute.
-
-The algorithm was able to identify the correct target for all runs of all the subjects, see Figure~\ref{fig:online_results}. There are strong variations among subjects but we note that our system identified each task in less iterations than a normal calibration phase requires (between 300 and 600 examples depending on the user performance \cite{chavarriaga2010learning,iturrate2010single}).
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=\plotsize\columnwidth]{\imgpath/battacharyya/plot_realevolution}    
-    \caption{Results from the online experiment: Evolution of the probability of the correct task for each subject and run. The algorithm was able to identify the correct target for each subjects and runs in less than 200 iterations.}
-    \label{fig:online_results} 
-\end{figure}
-
-Table~\ref{ch6tab:steps} shows for each subject and run the number of iterations needed to reach the confidence threshold for the subject selected target.
-
-On average, the number of iterations needed to identify the target was of 85 $\pm$ 32.
-
-\begin{table}[!ht]
-\centering
-\begin{footnotesize}
-\begin{tabular}{r|rrrrr|r}
-    %\toprule
-    & \textbf{Run1} & \textbf{Run2} & \textbf{Run3} & \textbf{Run4} & \textbf{Run5} & \textbf{mean$\pm$std} \\\hline
-    %\midrule
-    \textbf{S1} & 95 & 62 & 56 & 60 & 64 & 67 $\pm$ 16 \\
-    \textbf{S2} & 89 & 77 & 98 & 60 & 62  & 77 $\pm$ 17 \\
-    \textbf{S3} & 68 & 80 & 118 & 76 & 157 & 100 $\pm$ 37 \\
-    \textbf{S4} & 98 & 142 & 57 & 142 & 47 & 97 $\pm$ 45 \\
-    %\bottomrule
-\end{tabular}
-\end{footnotesize}
-  \caption{Results from the online experiment: Number of iterations needed to identify the correct target for each subject and run. On average, the number of iterations needed to identify the target was of 85 $\pm$ 32.}
-  \label{ch6tab:steps}
-\end{table}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Discussion}
-
-We introduced a novel method for calibration-free BCI based control of sequential tasks with feedback signals. The method provides an unsupervised way to train a decoder with almost the same performance as state-of-the-art supervised classifiers, while keeping the system operational and solving the task requested by the user since the beginning. 
-%
-The intuition for our method is that the classification of the brain signals is easier when they are interpreted according to the task desired by the user. The method assumes a distribution of possible tasks and relies on finding which pair of decoder-task has the highest expected classification rate on the brain signals. 
-
-
-The algorithm was tested with real online experiments, showing that the users were able to guide an agent to a desired position by mentally assessing the agent's actions and without any explicit calibration phase. Offline experiments show that we can identify an average of 20 tasks in 400 iterations without any calibration, while in previous works the calibration phase used between 300 and 600 examples. To improve the efficiency of the algorithm, we introduced a new planning method that uses the uncertainty in the decoder-task estimation. Finally, we analyzed the performance of the system in the presence of abrupt changes in the EEG signals. Our proposed method was able to adapt and reuse its learned models to the new signals. Furthermore, in those cases when the transfer is not possible, our method can still be used to recalibrate the system from scratch while solving the task.
-
-A current limitation of the work is the need for a finite set of task hypotheses. This limitation could be solved by the use of a combination of particle filter and regularization on the task space. Additionally, our method can not dissociate fully symmetric hypotheses, e.g.\ right and left most state of our 1D grid world (Fig. \ref{fig:GM}), as the interpretation of feedback signals will also be symmetric and therefore as likely. This latter problem can be solved by redefining the set of hypotheses or the action set, for instance by adding a ``stop'' action valid only at the target state.
-
-This work opens a new perspective regarding the global challenge of interacting with machines. It has application to many interaction problems which requires a machine to learn how to interpret unknown communicative signals. A promising avenue, outside the BCI field, lies in human robot interaction scenarios where robots must learn from, and interact with, many different users who have their own limitations and preferences.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Continuous state space}
-
-
-In this section we extend our algorithm to a more complex scenario by considering a continuous world, more complex reward functions and the use of both feedback and guidance instructions. We investigate how our algorithm scales to such problem and how different exploration strategies perform.
-
-\subsection{Experimental System}
-
-We now illustrate the application of our algorithm in a more complex problem. This problem is known in the reinforcement learning literature as the \emph{puddle world}. The puddle world consist in a continuous-state MDP in which an agent must reach a goal region while avoiding a penalty region.
-% 
-In this work we consider a 2 dimensional puddle world with each dimension ranging between 0 and 1. Agent actions are discrete and represent steps in either North, South, East, West direction. One step length is sampled from a normal distribution of mean 0.1 and standard deviation 0.01.
-
-As in the previous experiment, we consider speech as the modality for interacting with the robot and we reuse the dataset used in section~\ref{sec:First}. The interaction scheme is turn taking, where the agent is performing an action and wait for a feedback or guidance signal to continue (see section \ref{sec:mixing}). We only consider a Gaussian classifier.
-
-\subsubsection{Task Representation}
-To define the set of possible tasks we project a 5x5 regular grid on top of the continuous world. One task is represented by a +1 reward in one of the 25 projected squares and a -100 reward in three consecutive (vertically or horizontally) squares. +1 and -100 area can not overlap (see figure~\ref{UncertaintyMap}(E) for an example). The set of possible task is defined as all possible combination of such reward function, for a total of 660 hypothesis. 
-
-We use the MDP framework to compute the corresponding policies. The world being continuous we use the tile coding function approximation \cite{sutton1998reinforcement}, with 10 overlapping 50x50 regular grids. %tillins. 
-A Q-Learning algorithm \cite{watkins1992q} is used to compute the Q-Values, with a discount rate of 0.99 and a learning rate of 0.01. The hypothesis policies are then defined as greedy according to the Q-Values.
-
-\subsubsection{Exploration strategies}
-
-We will investigate four different agent behaviors. 1) random, 2) $\epsilon$-greedy, 3) myopic uncertainty based exploration, which aim at selecting the action that is the most uncertain in the current state, and 4) full uncertainty based exploration which requires an uncertainty map to decide what to explore next, as presented in Section~\ref{sec:Planning}. 
-
-As we are in a continuous domain we can not compute the full uncertainty for each state as presented in Section \ref{sec:ExplorationMethod}, we therefore approximate this process. Extensions already exist for the continuous state problem \cite{nouri2010dimension,Hester13aamas} and we will rely on a sampling based method. One hundred random states are generated and evaluated in terms of task and instruction uncertainty as described in Algorithm~\ref{alg:u}. Each sampled state is associated to a reward value proportional to its uncertainty which is propagated to neighborhood states by using a fixed Gaussian kernel. We use as amplitude the uncertainty value and a diagonal covariance matrix of value 0.01. The resulting approximated uncertainty map is then used as a reward function in a new MDP problem. By solving this problem, using for instance Q-Learning, the agent plans actions to visit the most uncertain regions. The system can then run an $\epsilon$-greedy policy on this solution. In the following experiment, the agent will use an exploration ratio $\epsilon$ equal to $0.1$.
-
-\subsubsection{Feedback and Guidance Model}
-\label{sec:advancedModel}
-
-
-\subsection{Mixing feedback and guidance}
-\label{sec:mixing}
-
-The previously defined teaching signal model limits the use of only feedback or only guidance instruction. Such limitation can be restrictive for the user, we will now consider the case where teachers can use both, i.e. $z \in \{F \cup G\}$. Extending our algorithm to cases where possible meanings include both feedback and guidance requires a probabilistic model of how the teacher distribute feedback and guidance signals. This model must hold the following property $\sum_{i \in \{F \cup G\}} p(z = i|s,a,\hat{\xi})~=~1$. We define a variable $\beta$ that represents the probability of the user providing a feedback signal at each step, i.e. $p(z \in F) = \beta$, which implies $p(z \in G) = 1 - \beta$. 
-
-In \cite{macl11simul} the agent was estimating such protocol parameters from the interaction. In this work we will assume such parameter is known in advance (see Section~\ref{sec:advancedModel}) and further assume it does not depend on the task or on the state of the robot. 
-%
-Under this new definition we can change the likelihood function to:
-%
-\begin{eqnarray}
-\L_i &=&  p(n_i|s_i,a_i,\hat{\xi},\theta)\nonumber\\
-%               &=& \sum_{j} p(n_i|z = j,s_i,a_i,\hat{\xi},\theta)~p(z = j|s_i,a_i,\hat{\xi},\theta)    \nonumber\\
-                &=& \sum_{j} p(n_i|z = j,\theta)~p(z = j|s_i,a_i,\hat{\xi}) \nonumber\\
-                &=& \sum_{j} p(n_i|z = j,\theta)~w_{ij}^{\hat{\xi}}
-                \label{eq:likmix}
-\end{eqnarray}
-%
-with :
-%
-\begin{eqnarray}
-    w_{ij}^{\hat{\xi}} = 
-        \begin{cases} 
-            \beta~p(z|s_i,a_i,\hat{\xi}) &\mbox{for } z \in F \\
-            (1- \beta)~p(z|s_i,\hat{\xi}) & \mbox{for } z \in G
-        \end{cases} 
-\end{eqnarray}
-
-We consider both feedback and guidance instruction simultaneously. Extending our algorithm to cases where possible meanings include both feedback and guidance requires a probabilistic model of how the teacher distribute feedback and guidance signals. We will use the mixing model described in Section~\ref{sec:mixing} with the individual feedback and guidance model as describe in Section~\ref{sec:fisrtFrame} and a mixing ratio $\beta$ of 0.5. It means that the user is expected to deliver feedback and guidance signals at a similar rate.
-
-
-\subsection{Results}
-
-We present results from 75 runs of our experiment, where for each run we randomly choose a task to teach from the set of hypothesis as well as the initial state of the agent. For each experiment, we compute the likelihoods every 15 steps and performs a total of 35 updates, for a total of 525 iterations. Figure~\ref{Rmax} shows the average evolution of the taught task hypothesis likelihood.
-
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=\plotsize\columnwidth]{\imgpath/continuous_state/continuous}
-  \caption{Taught hypothesis normalized likelihood evolution (mean + standard error) thought iteration using Gaussian classifer. Comparaison of different exploration strategies. Uncertainty based exploration method, which plan on the long term, performs significantly better.}
-  \label{Rmax}
-\end{figure}
-
-Results from figure~\ref{Rmax} show that our algorithm can learn a task in a continuous world from unknown and noisy instructions whose possible meanings are both feedback and guidance and 10\% of the instructions were teaching mistakes. The uncertainty based planning strategy outperforms random action selection. Interestingly, myopic uncertainty based strategy, which is also based on both task and signal uncertainty, is not efficient. This result illustrates some of the issues discussed in section~\ref{sec:Planning}, when considering the agent as not being able to teleport, long term planning is more suited to explore efficiently the state space. 
-
-As expected $\epsilon$-greedy performs less efficiently than in the first setup. This is due to the properties of our new set of hypothesis where many hypothesis shared an identical positive reward area but have different puddle zone.
-
-Figure~\ref{UncertaintyMap} shows the evolution of the estimated uncertainty map for one run of the experiment. For each uncertainty map, the agent plans its actions to reach a maximal uncertainty region. The maximum uncertainty value decreases as the agent is correctly estimating the task.
-
-\begin{figure}[!htbp]
-  \centering
-      \begin{subfigure}[b]{0.35\columnwidth}
-          \centering
-          \includegraphics[trim=5cm 1.5cm 1.5cm 1.5cm, clip=true, width=\columnwidth]{\imgpath/continuous_state/30}
-          \caption{After 30 iterations.}
-          \label{fig:30}
-      \end{subfigure}
-      \begin{subfigure}[b]{0.35\columnwidth}
-          \centering
-          \includegraphics[trim=5cm 1.5cm 1.5cm 1.5cm, clip=true, width=\columnwidth]{\imgpath/continuous_state/90}
-          \caption{After 90 iterations.}
-          \label{fig:90}
-      \end{subfigure}\\
-      \begin{subfigure}[b]{0.35\columnwidth}
-          \centering
-          \includegraphics[trim=5cm 1.5cm 1.5cm 1.5cm, clip=true, width=\columnwidth]{\imgpath/continuous_state/160}
-          \caption{After 165 iterations.}
-          \label{fig:165}
-      \end{subfigure}
-      \begin{subfigure}[b]{0.35\columnwidth}
-          \centering
-          \includegraphics[trim=5cm 1.5cm 1.5cm 1.5cm, clip=true, width=\columnwidth]{\imgpath/continuous_state/240}
-          \caption{After 240 iterations.}
-          \label{fig:240}
-      \end{subfigure}\\
-      \begin{subfigure}[b]{0.25\columnwidth}
-          \centering
-          \includegraphics[trim=4cm 1cm 3.5cm 1cm, clip=true, width=\columnwidth]{\imgpath/continuous_state/puddle}     
-          \caption{Puddle world used by the teacher.}
-          \label{fig:puddle}
-      \end{subfigure}
-      \begin{subfigure}[t]{0.45\columnwidth}
-          \centering
-          \includegraphics[trim=2cm 1cm 3cm 2cm, clip=true, width=\columnwidth]{\imgpath/continuous_state/evo}
-          \caption{Taught hypothesis normalized likelihood evolution.}
-          \label{fig:evo}
-      \end{subfigure}
-        
-  \caption{Log Uncertainty maps after a) 30, b) 90, c) 165 and d) 240 iterations. e) shows the puddle world choosen by the teacher and f) shows the learning progress and the frame associated to each of the uncertainty map. In order to display the differences between log values, we bounded the colormap between -5 and 0, which correspond to uncertainty values between 0.0067 and 1. Some log values, especially for d), are lower than -5 and are displayed in the same color as -5. Best shown in color.}
-  \label{UncertaintyMap}
-\end{figure}
+\input{\chapterpath/model_overlap.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -351,154 +43,7 @@ Figure~\ref{UncertaintyMap} shows the evolution of the estimated uncertainty map
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{A frame is a generic function}
 
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Continuous set of hypothesis}
-\label{chapter:limitations:continoushypothesis}
-
-\question{How to leverage from the finite set of hypothesis constraint?}
-
-
-In order to make the learning problem tractable, it was assumed that the robot learner knows that the task to be learnt can be approximated by one task among a pre-defined set of tasks. Indeed, without constraining the space of possible tasks, an infinite number of task may explain the particular teaching data received by the robot. In practice, the number of pre-defined tasks in the experiment was still relatively large, allowing a certain level of flexibility. Yet, it would be highly desirable to extend the possibility to deal with continuous task representation, allowing potentially infinite spaces of tasks. 
-
-A potential avenue to address this is to constrain search through a combination of regularization and particle filter approaches. In the following of this section, we present a simple particle filter based algorithm that allow an agent to identify a task from unlabeled instruction and considering an infinite set of hypothesis. The agent evolve in a 2 dimensional continuous state and should identify which one of the infinite amount of possible state it should reach.
-
-\subsection{World and task}
-
-We consider an agent living in a 2 dimensional continuous space bounded between 0 and 1 in both dimension. A teacher is providing indication about the orientation of the goal state compared to the robot state by drawing some patterns on a tablet. Those direction can only be selected among of the four cardinal directions that are the directions of north, east, south, and west. The teacher wants the robot to reach a particular state, that can be any position in the continuous 2 dimensional space. The robot is able to teleport itself to any location of the space to receive a new indication.
-
-We still consider a strong a priori knowledge on the space of task, which is that there is only one goal state. This is a very strong a priori regularization on the complexity of the problem. Considering there could be several goal positions, depending for example on the current position of the agent, would increase dramatically the search space; it would then be likely that many hypothesis of different complexity would explain perfectly the observed data. In such case a rule for regularizing the hypothesize task solution would be needed.
-
-\subsection{Finger movements datasets}
-
-We will present results using two different datasets made of finger movements performed on a tablet. 
-
-Our first dataset shown in Figure~\ref{fig:fingerdatasetdirection} is build from a user generating directional trajectories starting from the center of the tablet and going toward the edges of the tablet. We considered four different movement, one toward each edges, representing the four cardinal directions that are the directions of north, east, south, and west. 
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\signalwidth\columnwidth]{\visualspdf/worlds_and_datasets/finger_signals_color.pdf}
-\caption{N}
-\label{fig:fingerdatasetdirection}
-\end{figure} 
-
-Our second dataset shown in Figure~\ref{fig:fingerdatasetsigns} is build from a user drawing The cardinal letters (N, S, W, and E) in the middle of the tablet.
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\columnwidth]{\visualspdf/worlds_and_datasets/finger_signals_color_signs.pdf}
-\caption{N}
-\label{fig:fingerdatasetsigns}
-\end{figure} 
-
-To represent those trajectories, our feature vector is composed of 11 dimensions, where dimensions encodes:
-\begin{itemize}
-   \item The start X and Y positions (2 features)
-   \item The end X and Y positions (2 features)
-   \item The delta position between start and end position for X and Y coordinate (2 features)
-   \item The median X and Y positions (2 features)
-   \item The distance between start and end position (1 feature)
-   \item The total distance traveled by the finger (1 feature)
-   \item The average speed of the finger (1 feature)
-\end{itemize}
-
-Using this representation we achieve 100 percent accuracy on the directional movements dataset and 99 percent accuracy on the cardinal signs dataset, using a simple Gaussian classifier with one Gaussian per class.
-
-We remind that the direction of shape of each movement has no a priori meaning for the robot. For example, in our simulation we may use the ``W'' sign signals to mean the goal state is north to the agent position.
-
-
-\subsection{Evaluating task likelihood}
-
-As there is an infinity of possible goal state, the agent can not estimate the probability of all possible task in parallel. Therefore we will sample a finite number of task at each step and compute a likelihood value for each of those task. Then, given the ranking between them, we will keep some of the best one and sample a bunch of new ones, more details are provided in next subsection~\ref{chapter:limitations:continoushypothesis:particlefilter}.
-
-Our algorithm, as presented so far, was cumulatively accumulating evidence for each task and updated the likelihood of each task on a step by step basis. However for this experiment, as we the task hypothesis are changing step after step, we can not update the likelihood of each task on a step by step basis, as described in Equation~\ref{eq:matchingfiltercrossvalidation}. This approach allowed us to reduce the computational cost of our algorithm so as to be able to run our experiments in a reasonable amount of time. A possible option would be to use Equation~\ref{eq:matchingcrossvalidation}, but we would have to train a huge amount of classifier each step (100000 classifiers after 200 steps in our experiments).
-
-We selected an other option which rely on sampling different classifier from a meta-classifier, which allow us to generate classifiers at a low computational cost. Then given many classifiers for each task, we will compare the likelihood predicted by those classifiers and rank the task by a statistical test on the classifier evaluation. We describe each step of this process in the following paragraph.
-
-The first step is to compute a ``meta'' model which encodes a distribution of probability on the classifier parameters, i.e. which encodes a probability distribution over the mean and covariance of each class. To do so, and given that we are using multivariate normal distribution, we use a noninformative (Jeffrey's) prior \cite{gelman2003bayesian} to estimate the probability distribution over the means and covariances:
-
-\begin{eqnarray}
-p(\mu_l|D) & = & t_{n-d}(\mu| \bar{x}_l, \frac{S_l}{n(n-d)})
-\label{eq:jeffreysmean}
-\end{eqnarray}
-
-\begin{eqnarray}
-p(\Sigma_l|D) & = & IW_{n-1}(\Sigma_l | S_l)
-\label{eq:jeffreyscov}
-\end{eqnarray}
-
-where $\bar{x}_l$ and $\S_l$ respectively represents the ML estimates of the mean and covariance for each class $l$ based on the dataset $D$, $n$ is the number of signals, and $d$ is the dimensionality of a signal feature vector.
-$\mu_l$ and $\Sigma_l$ are the posterior probability estimate of the mean and covariance given the noninformative prior. $IW$ denotes an Inverse Wishart function which is the multidimensional generalization of the inverse Gamma, it represents a probability distribution on covariance matrix.
-
-This ``meta'' model encodes the distribution of probability on the classifier parameters. Given this model we can sample, for very low computational cost, a multitude of possible QDA classifiers by sampling a mean and covariance for each class. And the more we have data to fit our model, the less uncertainty remains and the less variability will be observed in the generated classifiers. In our experiment we will sampled 20 classifiers per task.
-
-\todo{text here}
-
-
-Note that it would seem more straightforward to directly compute the marginal probability distribution of Equation~\ref{eq:prior} which integrates over the all distribution of parameters; and use this for our likelihood estimates of Equation~\ref{eq:matchingoverfitting}. Here we tried to get a measure of confidence on top of our likelihood estimates. This is why we generate several classifiers, test their performances and measure the probability that one set of classifiers is on average better that an other set of classifiers. To do so we model the distribution of performances of a set of classifiers by a normal distribution; and compute the probability that a sample drawn from the distribution associated to one set of classifiers has higher value than one drawn from the distribution associated the an other set of classifiers.
-
-\subsection{Task hypothesis selection and generation}
-\label{chapter:limitations:continoushypothesis:particlefilter}
-
-As there is an infinity of possible goal state, the agent can not estimate the probability of all possible task in parallel. Therefore, as described in previous subsection, we sample a finite number of task at each step and compute a confidence measure for each of those task. Given the ranking between them, we will keep some of the best one and sample a bunch of new ones.
-
-\todo{cite particle filtrer}
-
-There is many parameters that will influence the performance of such an algorithm. We can change the number of task sampled, the criteria for selecting the task(s) that stay in the pool from one step to another, and we can change the method used to sample new task. 
-
-As this is an exploratory experiment, we will restrict our analysis to the influence of the method used to resample the pool of task hypothesis and consider either a random or an active strategy. In practice, we will consider a pool of 50 hypothesis. Each step, we will keep the best hypothesis from the pool and replace the 49 others using one of the sampling strategies define next.
-
-The random generation of task simply keeps the best hypothesis and generate 49 new tasks hypothesis randomly.
-
-Our active task generation method simply selects new task around the current best task hypothesis. To do so, we create a mixture of Gaussians which define the probability distribution used to sample the new tasks. This mixture model is composed of:
-\begin{itemize}
-\item  one fixed Gaussian at the center of the state space (i.e. $[0.5, 0.5]$), with a diagonal covariance matrix, where each value on the diagonal is equal to $0.1$, and have an associated weight of $0.2$. This Gaussian, which as quite spread covariance matrix, maintains a level of exploration in the task generation process.
-\item a multitude of Gaussians, one at each location of the previous hypothesis positions (i.e. hypothesized task), whose associated weights are proportional to the probability associated to each task. The sum of the weights of those Gaussians behind 0.8, such as the sum of all mixture component weight is 1. All those Gaussians have a diagonal covariance matrix, where each value on the diagonal is equal to $0.01$. For computational purpose, each Gaussian had a minimal weight of $1e^{-6}$.
-\end{itemize}
-Note that the resulting distribution will be truncated as all the point generated outside of the boundaries of the space (i.e. between 0 and 1 for each dimension) will be translated to the closest position on the boundaries of the state space.
-
-
-\subsection{Uncertainty based state sampling}
-
-The agent can control two parameters, the set of hypothetic task, and the next state to teleport to.
-
-\subsection{Results}
-
-
-\paragraph{Distance to goal state}
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=0.6\columnwidth]{\imgpath/continuous_task/distEvolution.eps}
-\includegraphics[width=0.39\columnwidth]{\imgpath/continuous_task/endDist.eps}
-\caption{N}
-\label{fig:conitnuoustaskdistevolution}
-\end{figure}
-
-% 1,3 = 1.8934e-13
-% 1,4 = 8.3179e-25
-% 3,4 = 1.5650e-14
-
-% The Wilcoxon rank sum test is a nonparametric test for two populations when samples are independent. If X and Y are independent samples with different sample sizes, the test statistic which ranksum returns is the rank sum of the first sample.
-
-% The Wilcoxon rank sum test is equivalent to the Mann-Whitney U-test. The Mann-Whitney U-test is a nonparametric test for equality of population medians of two independent samples X and Y.
-
-% The Mann-Whitney U-test statistic, U, is the number of times a y precedes an x in an ordered arrangement of the elements in the two independent samples X and Y. It is related to the Wilcoxon rank sum statistic in the following way: If X is a sample of size nX, then
-
-\paragraph{Task sampling comparison}
-
-\todo{Show the map of sampled task with sampling versus random} 
-
-\paragraph{State sampling comparison}
-
-\todo{Show the end map of sampled state with sampling versus random} 
-
+demo some frame, remind it can include any specific detail known
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -506,39 +51,24 @@ The agent can control two parameters, the set of hypothetic task, and the next s
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Interaction frame hypothesis}
+\input{\chapterpath/continuous_state.tex}
 
 
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/multiple_frame/multiple_frame_feedback.pdf}
-\caption{N}
-\label{fig:multipleframeexplainedfeedback}
-\end{figure} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{\chapterpath/continuous_task.tex}
 
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/multiple_frame/multiple_frame_guidance.pdf}
-\caption{N}
-\label{fig:multipleframeexplainedguidance}
-\end{figure} 
 
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\plotsize\columnwidth]{\imgpath/multiple_frame/multiple_frame_all_teacher.eps}
-\caption{N}
-\label{fig:multipleframeall}
-\end{figure} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{\chapterpath/multiple_frame.tex}
 
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=0.49\columnwidth]{\imgpath/multiple_frame/multiple_frame_feedback_teacher.eps}
-\includegraphics[width=0.49\columnwidth]{\imgpath/multiple_frame/multiple_frame_guidance_teacher.eps}
-\caption{N}
-\label{fig:multipleframefeedbackvsguidance}
-\end{figure} 
-
-Considering our example in section~\ref{chapter:limitation:continoustask}, an other potential use of the frame hypothesis scheme describe above would be to consider two different referential for the cardinal signal direction. If the guidances where relative to the true North magnetic pole or to the current position of the user relative to the world. This experiment performed with a real robot, real users, considering a tablet, and different interaction frame has great potential to demonstrate our work to a broader audience.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -586,104 +116,6 @@ How the task properties (symmetries, size, \ldots) affect the learning propertie
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Coherent means nothing}
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Why should we correct classifiers prediction}
-
-
-we compared the result between 
-\ref{eq:matchingfilter}
-and
-\ref{eq:matchingfiltercrossvalidation} 
-
-Still, this last approach is not taking into account the quality of the classifier itself before taking into account its prediction. By this we ask the question of knowing how reliable the prediction of the classifier are? A common method to evaluate the uncertainty on the classifier prediction is to use a cross-validation procedure (see chapter~\ref{chapter:introduction:supervised}) to estimate the confusion matrix associated to the classifier. Such confusion matrix allow to infer the conditional probability of one label given the label prediction from the classifier $p(l^{cc} = l_k| l^c = l_q, \theta)$, for every combination of $k$ and $q$ in $1, \ldots, L$. Where $l^{cc}$ is the corrected, or ``temperated'', label predicted by the classifier given our estimates, our past experience, on the quality of its prediction using the cross validation procedure.
-
-We consider the same setting as for the experiments described in chapter~\ref{chapter:bci:EEGsignals} and used our 2 dimensionnal dataset of different quality as presented in chapter~\ref{chapter:planning:artificialsignals}. We ran 500 simulations for each method.
-
-
-% nSim =
-
-%   Columns 1 through 3
-
-%    104    98   123
-%    115    96    90
-
-%   Columns 4 through 5
-
-%     86    89
-%     83   117
-
-
-\paragraph{Time to first task} Figure~\ref{fig:timefirst_simplevsmatching} compares the number of iterations needed to identify the first time with confidence between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' (power), or both method combined (power matching). The use of the power information affects the performances for the low quality dataset. For datasets of low quality, while the time to first seems more advantageous for the method using the power information, most of the estimated task are erroneous (see Figure~\ref{tab:errorTaskRatio}) which makes the use of the power information critical for such low quality data. However those errors occurs for very low quality datasets, which are not the main target of our algorithm. For such data it would be better to change the representation of the signal or the classifier used. For the datasets of higher quality, the power information allow to slightly speed up the learning compared to our method (matching) which do not rely on known information. 
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\plotsize\columnwidth]{\imgpath/simplevsmatching/timefirst.eps}
-\caption{Number of steps to complete first task with EEG data. Comparison between Equation~\ref{eq:matchingfilter} (simple matching) and Equation~\ref{eq:matchingfiltercrossvalidation} (matching), where the latter correct the prediction of the classifier given the estimation of its confusion matrix. 
-% The use of the power information affects the performance for the low quality dataset. For datasets of low quality, while the time to first seems more advantageous for the method using the power information, most of the estimated task are erroneous (see Figure~\ref{tab:errorTaskRatio}) which makes the use of the power information critical for such low quality data. However those errors occurs for very low quality datasets, which are not the main target of our algorithm. For the datasets of higher quality, the power information allow to slightly speed up the learning compared to our method (matching) which do not rely on known information.
-}
-\label{fig:timefirst_simplevsmatching}
-\end{figure} 
-
-\begin{table}
-\centering
-\rowcolors{2}{gray!25}{white}
-\begin{tabular}{c c c c}
-    Dataset Accuracies & Simple Matching &  Matching \\ \hline
-    50-60 & 0.21 & 0 \\ 
-    60-70 & 0.16 & 0 \\
-    70-80 & 0.03 & 0 \\
-    80-90 & 0.02 & 0 \\
-    90-100 & 0.01 & 0 \\
-\end{tabular}
-\caption{Percentage of time the first task estimated was erroneous using EEG data. Comparison between Equation~\ref{eq:matchingfilter} (simple matching) and Equation~\ref{eq:matchingfiltercrossvalidation} (matching), where the latter correct the prediction of the classifier given the estimation of its confusion matrix. Only our method that account temperate the prediciton fo the classifier do not make mistake when estimating the first task.}
-\label{tab:errorTaskRatiosimplevsmatching}
-\end{table}
-
-\paragraph{Number of tasks achieved in 500 steps}
-
-We compare the number of task correctly (Figure~\ref{fig:nCorrect_simplevsmatching}) and incorrectly (Figure~\ref{fig:nWrongEEG_simplevsmatching})reached in 500 steps between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' (power), or both method combined (power matching). The power information makes more mistakes for low quality dataset which also impact the power matching method. However those errors occurs for very low quality datasets, which are not the main targets of our algorithm. For signals of above 60 percent classification rate, the power information improve the number of task we can reach. 
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\plotsize\columnwidth]{\imgpath/simplevsmatching/correct.eps}
-\caption{Number of task correctly achieved in 500 steps with 2 dimensional artificial data. Comparison between Equation~\ref{eq:matchingfilter} (simple matching) and Equation~\ref{eq:matchingfiltercrossvalidation} (matching), where the latter correct the prediction of the classifier given the estimation of its confusion matrix. 
-% The power information alone is sufficient to solve our problem but is less efficient than the other methods.
-}
-\label{fig:nCorrect_simplevsmatching}
-\end{figure} 
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\plotsize\columnwidth]{\imgpath/simplevsmatching/error.eps}
-\caption{Number of task incorrectly achieved in 500 steps with 2 dimensional artificial data. Comparison between Equation~\ref{eq:matchingfilter} (simple matching) and Equation~\ref{eq:matchingfiltercrossvalidation} (matching), where the latter correct the prediction of the classifier given the estimation of its confusion matrix.
-% The power information makes more mistakes for low quality dataset which also impact the power matching method. However those errors occurs for very low quality datasets, which are not the main targets of our algorithm.
-}
-\label{fig:nWrongEEG_simplevsmatching}
-\end{figure} 
-
-
-The power information alone is not enough to identify a high number of task, even if the number of steps to reach the first target are similar. The difference lies in the reallocation of labels we performed after a task is identified. As described in chapter~\ref{chapter:lfui:tasttotask}, once one task is identified with confidence we propagates its labels to all the other hypothesis. As a consequence, a majority of signal have identical labels, and the number of new signals with different labels needed to pull apart two hypothesis in terms of power ratio between classes increases. This is a problem resulting in measure relying only on global measure on the data. Our non-informed method (matching), measure the global quality of each classifiers but also consider the classification of each new signals individually, which speeds up the task reaching rate as the interaction goes on. See also the discussion of Figure~\ref{fig:sequence_evolution}.
-
-
-Our results confirms that the use of the power information improves the performance of our algorithm. In addition, by disambiguating faster the task with symmetric properties, it also improves the visual impression our subjects get from the behavior of the agent with improved the quality of the signals received during our experimental test. At the time of writing those lines, this study was not over and this particular point requires a more detailed analysis to show and quantify this difference. It is particularly difficult to find a measure of perception of the agent behavior to quantify the difference between the use or not of the power information. We can only report here our experience from running the experiments, which is the reason of using the power information.
-
-
-This is not possible with model method as the one presented in section~\ref{chapter:limitations:overlap}. Indeed to compute the prediction error of a model or a classifier, we need to compare its prediction with what is expected as a prediction. The labesl outputted from our classifier can be compared with the label given in input. But for a model that output the probability of a particular signal, we can not compared the the true probabilistic value of each point and therefore we cannot quantify the prediction errors of such model.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{A minimalist proof}
 
 proof and more simple scenario to analyse in more details what is happening and the porperties of this work is defninitevely missing and was not my principal interrest when develloping this work. As everyone as its prefered skills, I am sure there will be interrest people to work on this.
@@ -712,6 +144,8 @@ The example described above simplifies the problem in some aspects. Indeed we as
 
 
 \section{stuff}
+
+\subsection{Coherent means nothing}
 
 Similarly, the system assumed a pre-defined repertoire of possible meanings to be associated with continuous instruction signals. Extending the system towards the creation of novel meanings is an important question. Another approach, for both extending task and meaning repertoires dynamically, would be to allow the user to teach the robot new macro-actions, associated to new macro-instructions, or macro-state, for example based on the options framework \cite{sutton1999between}.
 

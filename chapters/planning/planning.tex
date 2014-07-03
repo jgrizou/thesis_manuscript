@@ -181,6 +181,7 @@ U(s,a) &=& - \sum_{i = 1}^{T} \sum_{j = 1}^{T} ~~ S_{ij}(s,a) ~ p(\xi_i) ~ p(\xi
 Computed for each state and action, this measure is then used as an exploration bonus to select sequences of actions that guide the agent towards states that better identify the desired task. We provide an example of planning using this method in chapter~\ref{chapter:limitations:overlap}, where we use the distance between distribution means as our measure of similarity.
 
 \subsection{A measure projected in the meaning space}
+\label{chapter:planning:uncertiantyprojected}
 
 Estimating uncertainty in the signal space as presented in the previous subsection is in practice very costly as it requires to compute, for every state-action pair, the overlap between many continuous probability distributions weighted by their respective expected contribution. In this subsection we present an other metric for computing the uncertainty which rely on our pseudo-likelihood metric defined in chapter~\ref{chapter:lfui:how}. This method rely on sampling some teaching signals and asking every hypothesis if each of those signals are expected or not for the given state-action pair. 
 
