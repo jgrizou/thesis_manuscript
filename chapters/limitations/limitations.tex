@@ -85,12 +85,7 @@ Essentially, this BCI control follows an iterative sequential process where the 
 %
 This control based on user's assessments decoded from brain signals can be exemplified for a reaching task, where the user wants to reach a target position unknown by the system (see Figure \ref{fig:GM} Top). The device performs several discrete actions (e.g. moving left or right), and learns from the feedback given by the user. After several steps, as the meanings of the signals are known, the device can infer which is the user's desired position and how to reach it. The following section explain how we can achieve similar performance without knowing the brain signal decoder beforehand.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Method}
+\subsection{Method}
 
 
 \subsection{Control task}
@@ -107,7 +102,7 @@ During operation, the role of the users was to mentally assess the agent's actio
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Results}
+\subsection{Results}
 
 \subsection{Simulated results}
 
@@ -211,7 +206,7 @@ On average, the number of iterations needed to identify the target was of 85 $\p
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Discussion}
+\subsection{Discussion}
 
 We introduced a novel method for calibration-free BCI based control of sequential tasks with feedback signals. The method provides an unsupervised way to train a decoder with almost the same performance as state-of-the-art supervised classifiers, while keeping the system operational and solving the task requested by the user since the beginning. 
 %
@@ -223,8 +218,6 @@ The algorithm was tested with real online experiments, showing that the users we
 A current limitation of the work is the need for a finite set of task hypotheses. This limitation could be solved by the use of a combination of particle filter and regularization on the task space. Additionally, our method can not dissociate fully symmetric hypotheses, e.g.\ right and left most state of our 1D grid world (Fig. \ref{fig:GM}), as the interpretation of feedback signals will also be symmetric and therefore as likely. This latter problem can be solved by redefining the set of hypotheses or the action set, for instance by adding a ``stop'' action valid only at the target state.
 
 This work opens a new perspective regarding the global challenge of interacting with machines. It has application to many interaction problems which requires a machine to learn how to interpret unknown communicative signals. A promising avenue, outside the BCI field, lies in human robot interaction scenarios where robots must learn from, and interact with, many different users who have their own limitations and preferences.
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -356,7 +349,9 @@ Figure~\ref{UncertaintyMap} shows the evolution of the estimated uncertainty map
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{No need for MDP}
+\section{A frame is a generic function}
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -388,7 +383,7 @@ Our first dataset shown in Figure~\ref{fig:fingerdatasetdirection} is build from
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=\plotsize\columnwidth]{\visualspdf/worlds_and_datasets/finger_signals_color.pdf}
+\includegraphics[width=\signalwidth\columnwidth]{\visualspdf/worlds_and_datasets/finger_signals_color.pdf}
 \caption{N}
 \label{fig:fingerdatasetdirection}
 \end{figure} 
@@ -397,7 +392,7 @@ Our second dataset shown in Figure~\ref{fig:fingerdatasetsigns} is build from a 
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=\plotsize\columnwidth]{\visualspdf/worlds_and_datasets/finger_signals_color.pdf}
+\includegraphics[width=\columnwidth]{\visualspdf/worlds_and_datasets/finger_signals_color_signs.pdf}
 \caption{N}
 \label{fig:fingerdatasetsigns}
 \end{figure} 
@@ -422,46 +417,61 @@ We remind that the direction of shape of each movement has no a priori meaning f
 
 As there is an infinity of possible goal state, the agent can not estimate the probability of all possible task in parallel. Therefore we will sample a finite number of task at each step and compute a likelihood value for each of those task. Then, given the ranking between them, we will keep some of the best one and sample a bunch of new ones, more details are provided in next subsection~\ref{chapter:limitations:continoushypothesis:particlefilter}.
 
-Our algorithm, as presented so far, was cumulatively accumulating evidence for each task and updated the likelihood of each task on a step by step basis. However for this experiment, as we the task hypothesis are changing step after step, we can not update the likelihood of each task on a step by step basis, as described in Equation~\ref{eq:matchingfiltercrossvalidation}. This approach allowed us to reduce the computational cost of our algorithm so as to be able to run our experiments in a reasonable amount of time. A possible option would be to use Equation~\ref{eq:matchingcrossvalidation}, but we would have to train a huge amount of classifier each step (100000 classifiers after 200 steps in this case).
+Our algorithm, as presented so far, was cumulatively accumulating evidence for each task and updated the likelihood of each task on a step by step basis. However for this experiment, as we the task hypothesis are changing step after step, we can not update the likelihood of each task on a step by step basis, as described in Equation~\ref{eq:matchingfiltercrossvalidation}. This approach allowed us to reduce the computational cost of our algorithm so as to be able to run our experiments in a reasonable amount of time. A possible option would be to use Equation~\ref{eq:matchingcrossvalidation}, but we would have to train a huge amount of classifier each step (100000 classifiers after 200 steps in our experiments).
 
 We selected an other option which rely on sampling different classifier from a meta-classifier, which allow us to generate classifiers at a low computational cost. Then given many classifiers for each task, we will compare the likelihood predicted by those classifiers and rank the task by a statistical test on the classifier evaluation. We describe each step of this process in the following paragraph.
 
- which consist of sampling different classifiers
-With this method we only have to train one ``meta'' model for each hypothesis, which simply encodes a probability distribution over the mean and covariance. 
+The first step is to compute a ``meta'' model which encodes a distribution of probability on the classifier parameters, i.e. which encodes a probability distribution over the mean and covariance of each class. To do so, and given that we are using multivariate normal distribution, we use a noninformative (Jeffrey's) prior \cite{gelman2003bayesian} to estimate the probability distribution over the means and covariances:
 
-The lower the number of point the more the distribution will be spread , the more, the less variability in the generated classifiers.
+\begin{eqnarray}
+p(\mu_l|D) & = & t_{n-d}(\mu| \bar{x}_l, \frac{S_l}{n(n-d)})
+\label{eq:jeffreysmean}
+\end{eqnarray}
 
-directly use our to output the posterior probability of a signal given a class, which was used to estimate the probability of that point to belong to each of the class. By 
+\begin{eqnarray}
+p(\Sigma_l|D) & = & IW_{n-1}(\Sigma_l | S_l)
+\label{eq:jeffreyscov}
+\end{eqnarray}
 
-Given this model we can sample, for very low computational cost, a multitude of possible QDA classifiers by sampling a mean and covariance for each class.
+where $\bar{x}_l$ and $\S_l$ respectively represents the ML estimates of the mean and covariance for each class $l$ based on the dataset $D$, $n$ is the number of signals, and $d$ is the dimensionality of a signal feature vector.
+$\mu_l$ and $\Sigma_l$ are the posterior probability estimate of the mean and covariance given the noninformative prior. $IW$ denotes an Inverse Wishart function which is the multidimensional generalization of the inverse Gamma, it represents a probability distribution on covariance matrix.
 
-\subsection{Hypothesis selection and generation methods}
+This ``meta'' model encodes the distribution of probability on the classifier parameters. Given this model we can sample, for very low computational cost, a multitude of possible QDA classifiers by sampling a mean and covariance for each class. And the more we have data to fit our model, the less uncertainty remains and the less variability will be observed in the generated classifiers. In our experiment we will sampled 20 classifiers per task.
+
+\todo{text here}
+
+
+Note that it would seem more straightforward to directly compute the marginal probability distribution of Equation~\ref{eq:prior} which integrates over the all distribution of parameters; and use this for our likelihood estimates of Equation~\ref{eq:matchingoverfitting}. Here we tried to get a measure of confidence on top of our likelihood estimates. This is why we generate several classifiers, test their performances and measure the probability that one set of classifiers is on average better that an other set of classifiers. To do so we model the distribution of performances of a set of classifiers by a normal distribution; and compute the probability that a sample drawn from the distribution associated to one set of classifiers has higher value than one drawn from the distribution associated the an other set of classifiers.
+
+\subsection{Task hypothesis selection and generation}
 \label{chapter:limitations:continoushypothesis:particlefilter}
 
-As there is an infinity of possible goal state, the agent can not estimate the probability of all possible task in parallel. Therefore we will sample a finite number of task at each step and compute a likelihood value for each of those task. Given the ranking between them, we will keep some of the best one and sample a bunch of new ones.
+As there is an infinity of possible goal state, the agent can not estimate the probability of all possible task in parallel. Therefore, as described in previous subsection, we sample a finite number of task at each step and compute a confidence measure for each of those task. Given the ranking between them, we will keep some of the best one and sample a bunch of new ones.
 
-There is many parameters that will influence the performance of such an algorithm. We can change the number of task sampled, the number of task and the criteria of the task that stay in the pool from step to step, and we can change the method used to sample new task. 
+\todo{cite particle filtrer}
+
+There is many parameters that will influence the performance of such an algorithm. We can change the number of task sampled, the criteria for selecting the task(s) that stay in the pool from one step to another, and we can change the method used to sample new task. 
 
 As this is an exploratory experiment, we will restrict our analysis to the influence of the method used to resample the pool of task hypothesis and consider either a random or an active strategy. In practice, we will consider a pool of 50 hypothesis. Each step, we will keep the best hypothesis from the pool and replace the 49 others using one of the sampling strategies define next.
 
-Our random generation of task simply keep the best hypothesis and generate 49 new task hypothesis randomly.
+The random generation of task simply keeps the best hypothesis and generate 49 new tasks hypothesis randomly.
 
-Our active task generation method
-which simply selects new task around the current best task hypothesis
-
-
-\todo{cite particle filtrer}
+Our active task generation method simply selects new task around the current best task hypothesis. To do so, we create a mixture of Gaussians which define the probability distribution used to sample the new tasks. This mixture model is composed of:
+\begin{itemize}
+\item  one fixed Gaussian at the center of the state space (i.e. $[0.5, 0.5]$), with a diagonal covariance matrix, where each value on the diagonal is equal to $0.1$, and have an associated weight of $0.2$. This Gaussian, which as quite spread covariance matrix, maintains a level of exploration in the task generation process.
+\item a multitude of Gaussians, one at each location of the previous hypothesis positions (i.e. hypothesized task), whose associated weights are proportional to the probability associated to each task. The sum of the weights of those Gaussians behind 0.8, such as the sum of all mixture component weight is 1. All those Gaussians have a diagonal covariance matrix, where each value on the diagonal is equal to $0.01$. For computational purpose, each Gaussian had a minimal weight of $1e^{-6}$.
+\end{itemize}
+Note that the resulting distribution will be truncated as all the point generated outside of the boundaries of the space (i.e. between 0 and 1 for each dimension) will be translated to the closest position on the boundaries of the state space.
 
 
 \subsection{Uncertainty based state sampling}
 
 The agent can control two parameters, the set of hypothetic task, and the next state to teleport to.
 
-
-
-
-
 \subsection{Results}
+
+
+\paragraph{Distance to goal state}
 
 \begin{figure}[!ht]
 \centering
@@ -481,10 +491,14 @@ The agent can control two parameters, the set of hypothetic task, and the next s
 
 % The Mann-Whitney U-test statistic, U, is the number of times a y precedes an x in an ordered arrangement of the elements in the two independent samples X and Y. It is related to the Wilcoxon rank sum statistic in the following way: If X is a sample of size nX, then
 
+\paragraph{Task sampling comparison}
 
+\todo{Show the map of sampled task with sampling versus random} 
+
+\paragraph{State sampling comparison}
 
 \todo{Show the end map of sampled state with sampling versus random} 
-\todo{maybe a video of the evolution of things, or just some snapshots here}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -515,7 +529,6 @@ The agent can control two parameters, the set of hypothetic task, and the next s
 \caption{N}
 \label{fig:multipleframeall}
 \end{figure} 
-
 
 \begin{figure}[!ht]
 \centering
