@@ -77,7 +77,6 @@ Figure~\ref{fig:planningEEG} compares the number of steps (with maximum values o
     \label{fig:planningEEG}
 \end{figure}
 
-
 \subsection{Time to first task}
 
 Figure~\ref{fig:firstEEG} shows the number of iterations to identify the first task and compares the results between our self-calibration method and calibration period of 200, 300, and 400 iterations. The percentage of time the task first task was correct is show on top of the each box plot. For our self-calibration method, the learning time is strongly correlated with the dataset quality. This is an important properties as we are able to adapt online to the quality of the data we receive. For dataset of more than 80 percent classification rate, we can complete the first task is less than 150 steps on average without mistake.
@@ -187,6 +186,7 @@ Consequently, while some subject succeeded in the teaching task, we observed a r
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Including Prior Information}
+\label{chapter:bci:priorpower}
 
 In this section we detail how we can exploit the difference of power between our two class of signals. The signal related to the unexpected, erroneous action, being more powerful, it gives an an absolute information about which group of point should mean ``incorrect''. While this property is not enough to identify with certainty ``correct'' and ``incorrect'' signals, we will see that it allow to differentiate between symmetric hypothesis, which improves the performances of our algorithm as well as the behavior of the agent at run time.
 

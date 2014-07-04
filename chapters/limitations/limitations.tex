@@ -7,20 +7,32 @@
 \label{chapter:limitations}
 \minitoc
 
-Context - Why now: We have shown an algorithm that seems to work
 
-Need - Why the reader: we need to know what are the hidden assumption that are really done and how to overcome them. And potential way to go into more complex problems
+In the previous chapters, we described an algorithm that allow a robot to learn a new task by interacting with a human partners without defining in advance how the signals of the user maps to the meaning used by the learning agent. We tested this algorithm on two domains, a pick and place scenario using speech commands, and a reaching task scenario using EEG signals. We demonstrated the use of our system online and with real subjects using their brain to assess agent's action with respect to a final desired position.
 
-Task - Why me: I investigated this question and ran some proof of concept experiment that demonstrate my points.
+However a number of assumptions and constraints have been defined. In this chapter we will detail a number of those limitations, discuss the possibility to overcome them and provide small experiments to demonstrate our ideas. 
 
-Object - Why this chapter: We list a number of limitation (continuous state, finite set of task, pre-defined unique interaction frame, human is not affected by agent behavior). We then provide ideas to solve that problem and illustrate with some more or less toy example.
+In section~\ref{chapter:limitiations:simplevsmatching} we explain why we decided to correct the classifiers prediction, 
 
-Findings - What: We found that there is some limitation and that some direction are shown to be working in simple scenarios.
+In section~\ref{chapter:limitations:overlap} we present an other method to identify the first target based on models overlap, we demonstrate online results with real subjects in a BCI scenario, and show its limitation for identifying further tasks.
 
-Conclusions - So what: Let's go work on finding the limitation
+In section~\ref{chapter:limitations:framegeneric} we insist again on the fact an interaction frame is not limited to the straightforward meaning correspond we assumed (feedback and guidance), and do not requires the robot to know how to perform a task.
 
-Perspectives - What now: 
+In section~\ref{chapter:limitations:continousstate}, we address the problem of continuous state space, and show that our method is not impacted by the continuous aspect of the problem. Indeed, as our method, when considering a simple frame, only requires to known the policy for each task, we can rely on any algorithm that computes a policy for continuous states given a pre-defined task.
 
+In section~\ref{chapter:limitations:continoushypothesis}, we release the assumption of a finite set of task and rely on a particle filter based method to dynamically update a finite set of hypothesis. We show that sampling actively the new task, as well as selecting actively the next visited state, significantly improves the final performance of our method.
+
+In section~\ref{chapter:limitations:framehypothesis}, we release the assumption that the interaction frame is known and consider the agent as access to a finite number of hypothetic interaction frames. We illustrated this problem in a simple scenario line world scenario. And present results from simulated experiments that demonstrate the ability our method to not only learn the task and the signal to meaning mapping, but also the interaction protocol used by the teacher.
+
+
+world properties
+
+human in the loop
+
+formalism and proof
+
+
+Finally in section~\ref{}, we discuss a number of limitations that were not addressed in this work and that are not straightforward to solve given our context. continuous actions, learning new meanings
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -42,6 +54,7 @@ Perspectives - What now:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{A frame is a generic function}
+\label{chapter:limitations:framegeneric}
 
 demo some frame, remind it can include any specific detail known
 
@@ -123,6 +136,10 @@ proof and more simple scenario to analyse in more details what is happening and 
 lack of proof
 
 \subsection{Interpretation hypothesis: a symbolic signal example}
+
+It is of paramount importance to understand the properties of our algorithm, and to be able to have some certitude about the convergence and accuracy properties. The work presented in this thesis neglected this aspect and relied more empirical evaluation. The next step for a motivated person it to work on a formalism and try to define some bounds of proof on some of the algorithm properties.
+
+Use the entropy information function to make this dummy proof.
 
 We further assume that the user is coherent and uses one signal for one meaning. The assumption is that the mapping between symbolic signals and their meaning can only be of two forms.
 

@@ -127,6 +127,7 @@ We want to measure the uncertainty about the tasks and signal models in order to
 As we want to find which task is the correct one among the set of task hypothesis, we should aim a pulling apart the hypothesis which are currently the more probable. Once we have rules out half of the hypothesis, we should only focus on differentiating the remaining hypothesis. Therefore when estimating the uncertainty, we should weight each vote according to each hypothesis probability. In practice, if one hypothesis has a probability of 1 there should be no uncertainty for all state-action pairs considered.
 
 \subsection{Measure on the signal space}
+\label{chapter:planning:uncertaintysignalspace}
 
 As detailed in section~\ref{chapter:planning:where}, our uncertainty measure should take into account the difference between the signal models associated to each hypothesis. We illustrate here in more details how this uncertainty can be measure by comparing the expected signals for each hypothesis.
 
