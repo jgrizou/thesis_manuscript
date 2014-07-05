@@ -15,13 +15,16 @@ Following \cite{blankertz2010single}, we model the EEG signals using independent
 Alternatively, we propose to exploit the fact that when labels are mixed, the Gaussians corresponding to each classes should overlap more than for the correct label association. The Bhattacharyya coefficient measures this overlap, and it has been related to the classification error of Gaussian models \cite{Kailath67} and is inversely proportional to the classification rate. Although there is no analytical relation between the coefficient and the classification rate, it is possible to derive bounds and good empirical approximations \cite{lee2000bayes}.
 
 The Bhattacharyya coefficient $\rho \in [0,1]$ between the Gaussian distributions associated to label ``correct'' ($\mathcal{N}(\mu_c, \Sigma_c)$) and ``incorrect'' ($\mathcal{N}(\mu_w, \Sigma_w)$) is:
-%
+
 \begin{eqnarray}
 \rho = e^{-D_B(\theta)}
 \end{eqnarray}
-%
+
 where $D_B$ is the Bhattacharyya distance:
-$D_B(\theta)=$\\$\frac{1}{8}(\mu_c-\mu_w)^T(\frac{\Sigma_c+\Sigma_w}{2})^{-1}(\mu_c-\mu_w)+\frac{1}{2}ln\left(\frac{det(\frac{\Sigma_c+\Sigma_w}{2})}{\sqrt{det\Sigma_c det\Sigma_w}}\right)$. 
+
+\begin{eqnarray}
+D_B(\theta) = \frac{1}{8}(\mu_c-\mu_w)^T(\frac{\Sigma_c+\Sigma_w}{2})^{-1}(\mu_c-\mu_w)+\frac{1}{2}ln\left(\frac{det(\frac{\Sigma_c+\Sigma_w}{2})}{\sqrt{det\Sigma_c det\Sigma_w}}\right)
+\end{eqnarray}
 
 Finally, we approximate the expected classification rate as:
 \begin{eqnarray}
