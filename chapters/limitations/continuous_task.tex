@@ -135,7 +135,29 @@ Only the combination of actively sampling new task and actively selecting new st
 
 In Figure~\ref{fig:continuoustaskdistevolution} left, we compare the distribution of final distance between our best hypothesis and the true goal position. First note that the important difference between displaying our results in terms of mean and standard error or in terms of a box plot, which shows the median and the 25th and 75th percentile (you can see the mean value as a colored dot). Especially for the ``uncertainty random'' method, the visual impression of the performance of the methods differs. This is due to the outliers, where even a few values far away from the main group of point can ``push'' the mean away, the normal distribution assumption do not hold for presenting our results. In order to statistically compare the efficiency of our methods, we use the Mann-Whitney U-test \cite{mann1947test} which is a nonparametric test for equality of population medians of two independent samples. We will use the one tailed version to specifically test whether one population has greater performances than the other. There is no measurable statistical difference between the ``random random'' and ``random active'' methods ($p = 0.68$). The ``uncertainty random'' performances over ``random random'' ($p<1e^{-10}$) and ``random active'' ($p<1e^{-10}$) are highly significant. As well as the difference between the ``uncertainty active'' and ``uncertainty random'' difference in performance ($p<1e^{-10}$).
 
-The results presented above where obtained using the directional finger movement dataset shown in Figure~\ref{fig:fingerdatasetdirection}. We now demonstrated how the same algorithm could handle different preferences of user finger gesture for cardinal direction indication. To do so we repeat the experiment wit the cardinal sign dataset of Figure~\ref{fig:fingerdatasetsigns}
+The results presented above where obtained using the directional finger movement dataset shown in Figure~\ref{fig:fingerdatasetdirection}. We now demonstrated how the same algorithm could handle different preferences of user finger gesture for cardinal direction indication. To do so we repeat the experiment with the cardinal sign dataset of Figure~\ref{fig:fingerdatasetsigns}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.62\columnwidth]{\imgpath/continuous_task/distEvo_signs.eps}
+\includegraphics[width=0.37\columnwidth]{\imgpath/continuous_task/endDist_signs.eps}
+\caption{Evolution of the distance to target using the cardinal signs finger movement dataset shown in Figure~\ref{fig:fingerdatasetsigns}. On the left is the evolution of the distance of the best position hypothesis to the goal position (mean and standard error shown as shaded area). On the right is a box plot of the distance of the best position hypothesis to the goal position at the end of the 200 iterations. Actively sampling new task hypothesis as well as selecting new state based on our uncertainty estimation outperform allow to identify the target position with very high accuracy and low variance. Note that some distant outliers are not shown on the box plots for readability reasons.}
+\label{fig:continuoustaskdistevolution_signs}
+\end{figure}
+
+\todo{comment Figure~\ref{fig:continuoustaskdistevolution_signs}}
+
+% 1,2 = 0.8687
+% 1,3 = 8.3903e-11
+% 2,3 = 1.5600e-12
+% 3,4 = 3.0863e-07
+
+
+
+% ranksum between uncertainty active on both side 1.2942e-04
+% final dist uncertainty active median move 0.0036
+% final dist uncertainty active median signs 0.0051
+%on a 1 by 1 meter square, it mean finding the target in less than 5 mm half of the time in 200 request without knowing the signal to meaning mapping beforehand
 
 \paragraph{Task sampling comparison}
 
