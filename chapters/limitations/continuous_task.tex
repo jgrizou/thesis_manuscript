@@ -1,7 +1,7 @@
 %!TEX root = ../../thesis.tex
 
 \section{Continuous set of hypothesis}
-\label{chapter:limitations:continoushypothesis}
+\label{chapter:limitations:continuoushypothesis}
 
 \question{How to leverage from the finite set of hypothesis constraint?}
 
@@ -73,8 +73,8 @@ p(\Sigma_l|D) & = & IW_{n-1}(\Sigma_l | S_l)
 \label{eq:jeffreyscov}
 \end{eqnarray}
 
-where $\bar{x}_l$ and $\S_l$ respectively represents the ML estimates of the mean and covariance for each class $l$ based on the dataset $D$, $n$ is the number of signals, and $d$ is the dimensionality of a signal feature vector.
-$\mu_l$ and $\Sigma_l$ are the posterior probability estimate of the mean and covariance given the noninformative prior. $IW$ denotes an Inverse Wishart function which is the multidimensional generalization of the inverse Gamma, it represents a probability distribution on covariance matrix.
+where $\bar{x}_l$ and $S_l$ respectively represents the ML estimates of the mean and covariance for each class $l$ based on the dataset $D$, $n$ is the number of signals, and $d$ is the dimensionality of a signal feature vector.
+$\mu_l$ and $\Sigma_l$ are the posterior estimates of the mean and covariance given the noninformative prior. $IW$ denotes an Inverse Wishart function which is the multidimensional generalization of the inverse Gamma, it represents a probability distribution on covariance matrix.
 
 This ``meta'' model encodes the distribution of probability on the classifier parameters. Given this model we can sample, for very low computational cost, a multitude of possible QDA classifiers by sampling a mean and covariance for each class. And the more we have data to fit our model, the less uncertainty remains and the less variability will be observed in the generated classifiers. In our experiment we will sampled 20 classifiers per task.
 

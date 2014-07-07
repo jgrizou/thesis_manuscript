@@ -6,31 +6,37 @@
 
 \question{How the world properties (symmetries, size, \ldots) affect the learning properties?}
 
-xp with a grid world versus a pick and place with many wall and see that random becomes bad
+As discussed in chapter~\ref{chapter:lfui:symmetries}, the properties of the world can affect the learning performances. For example some worlds have symmetric properties which makes some tasks impossible to differentiate. 
 
-refer to expeirmne in 5x5 grid world in section planning for 2d data and 90-100 data qualtities
+In this section, we compare how various planning method perform on our two different worlds, namely the pick and place scenario and the grid world. We will investigate a random strategy, several $\epsilon$-greedy (where the agent follows the best strategy or select an action randomly $\epsilon$ of the times), a strategy based on the task uncertainty (where we do not take the signal to meaning mapping uncertainty in to account), and our uncertainty based method described in chapter\ref{chapter:planning}. We will see that the size of the 
 
-refer to expeirmne with pick and place in section lfui and random planning (even if dtaset the same after 100 step no confidence)
+\subsection{Hypothesis and world properties}
+
+Our hypothesis is that the size and optimal policies properties will affect some of the planning method considered more than others. We 
+
+For the pick and place scenario, to reach the correct cube configuration the robot must achieve a very specfic sequence of action in the correct order But for the grid world, a multitude of path can be choosen. 
+
+We will also compares those result with our previous results using a 5 by 5 grid world of chaper~\ref{chapter:planning}
+
+Also for the pick and place scenario, if the signal to meaning mapping were known, to differentiate between two cube configuration that are close together, the agent must go toward those configuration to be able to discard one or an other task. For example, in our illustration of Figure~\ref{fig:lfui:pickplacesequence}, to differentiate between the two first state, one as to reach one of those two states to tell the difference. Indeed, their corresponding optimal policies are similar for every state except their two final states. However for the grid world scenario, if the signal to meaning mapping were known, one could differentiate between the top right state and the state directly on the left of that top right state by simply performing a left action on the bottom right state. And this whatever the size of the grid.
+
+\todo{compute amount of state where optimal polcies differs for two close task}
+
+refer to experiment with pick and place in section lfui and random planning (even if dataset the same after 100 step no confidence) but state space is 625 and no ore 25...
+
+\todo{figure to compare 5x5 and 25x25}
 
 50 run each method each world
-90-95 percent datasets
-
+90-100 percent datasets
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=\legendsidesize\columnwidth]{\imgpath/world_properties/firstreach.eps}
 \caption{Number of steps to reach first target state with confidence.}
 \label{fig:wordlpropertiestimefirst}
-\end{figure} 
+\end{figure}
 
-% nWrongFirstTarget =
-
-%      0     0
-%      0     1
-%      0     2
-%      1     2
-%      0     1
-%      0     2
+We report only 9 erroneous first task estimations accross all runs of our experiments and conditions.For the gridworld, 1 error for the Greedy method in. For the pick and place scenario, 1 for $\epsilon$-greedy 0.5, 2 for $\epsilon$-greedy 0.1, 2 for Greedy, 1 for Uncertainty task and 2 for Uncertainty signal.
 
 \begin{figure}[!ht]
 \centering
@@ -63,4 +69,6 @@ refer to expeirmne with pick and place in section lfui and random planning (even
 \label{tab:}
 \end{table}
 
+
+conclude by stating difference between end goal learning (graps object, reach state) and reward based learning. We only consider goal learning. episodic (find the right box) vs endless (collect more reward), different exploration function could be used for those
 
