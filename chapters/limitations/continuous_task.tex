@@ -112,7 +112,6 @@ We will compare two kind of active sampling, random and an uncertainty based met
 
 The active method rely again on a sampling method. At each step, we generate 1000 states randomly and compute the uncertainty associated to those states using the method describe in chapter~\ref{chapter:planning} by Equation~\ref{eq:planning} and using up to 20 sampled signals from our history of interaction. For the next state, we select, among the 1000 points, the one that as higher uncertainty, and teleport the agent to that state in order to collect the next teaching signal.
 
-
 \subsection{Results}
 
 We will compare all four combinations of the methods described above \begin{inparaenum}[a)] \item random state and task selection (which we call ``random random''), \item random selection of next state and active task sampling (which we call ``random active''), \item uncertainty based selection of next state and random task selection (which we call ``uncertainty random''), and \item uncertainty based selection of next state and active task sampling (which we call ``uncertainty active''). \end{inparaenum}
@@ -121,7 +120,9 @@ We ran 100 simulated experiments for each method and each dataset. Each experime
 
 \paragraph{Distance to goal state}
 
-For each method, we compare the evolution of the distance between the best task hypothesis through iteration (the more probable according to our estimate) and the goal state (see Figure~\ref{fig:continuoustaskdistevolution}).
+We first analyse the results using the directional finger movement dataset shown in Figure~\ref{fig:fingerdatasetdirection}. For each method, we compare the evolution of the distance between the best task hypothesis through iteration (the more probable according to our estimate) and the goal state (see Figure~\ref{fig:continuoustaskdistevolution}).
+
+Only the combination of actively sampling new task and actively selecting new state based on their relative uncertainty as overall better performance than any other combination of our method. Those two method are complementary, to find a task hypothesis better than our previous best estimates, it is likely that it is close to the current best hypothesis. Our active task sampling method allow to explore close to our previous best estimates. However, now that we have some hypothesis located in a restricted area of the space, we need to sample state in very precise location to be able to differentiate them, which our uncertainty based state selection allow. This explain why using one of the two method alone do not reach the same performances as their combination.
 
 \begin{figure}[!ht]
 \centering
@@ -131,11 +132,9 @@ For each method, we compare the evolution of the distance between the best task 
 \label{fig:continuoustaskdistevolution}
 \end{figure}
 
-Only the combination of actively sampling new task and actively selecting new state based on their relative uncertainty as overall better performance than any other combination of our method. Those two method are complementary, to find a task hypothesis better than our previous best estimates, it is likely that it is close to the current best hypothesis. Our active task sampling method allow to explore close to our previous best estimates. However, now that we have some hypothesis located in a restricted area of the space, we need to sample state in very precise location to be able to differentiate them, which our uncertainty based state selection allow. This explain why using one of the two method alone do not reach the same performances as their combination.
+In Figure~\ref{fig:continuoustaskdistevolution} right, we compare the distribution of final distance between our best hypothesis and the true goal position. First note that the important difference between displaying our results in terms of mean and standard error or in terms of a box plot, which shows the median and the 25th and 75th percentile (you can see the mean value as a colored dot). Especially for the ``uncertainty random'' method, the visual impression of the performance of the methods differs. This is due to the outliers, where even a few values far away from the main group of point can ``push'' the mean away, the normal distribution assumption do not hold for presenting our results. In order to statistically compare the efficiency of our methods, we use the Mann-Whitney U-test \cite{mann1947test} which is a nonparametric test for equality of population medians of two independent samples. We will use the one tailed version to specifically test whether one population has greater performances than the other. There is no measurable statistical difference between the ``random random'' and ``random active'' methods ($p = 0.68$). The ``uncertainty random'' performances over ``random random'' ($p<1e^{-10}$) and ``random active'' ($p<1e^{-10}$) are highly significant. As well as the difference between the ``uncertainty active'' and ``uncertainty random'' difference in performance ($p<1e^{-10}$).
 
-In Figure~\ref{fig:continuoustaskdistevolution} left, we compare the distribution of final distance between our best hypothesis and the true goal position. First note that the important difference between displaying our results in terms of mean and standard error or in terms of a box plot, which shows the median and the 25th and 75th percentile (you can see the mean value as a colored dot). Especially for the ``uncertainty random'' method, the visual impression of the performance of the methods differs. This is due to the outliers, where even a few values far away from the main group of point can ``push'' the mean away, the normal distribution assumption do not hold for presenting our results. In order to statistically compare the efficiency of our methods, we use the Mann-Whitney U-test \cite{mann1947test} which is a nonparametric test for equality of population medians of two independent samples. We will use the one tailed version to specifically test whether one population has greater performances than the other. There is no measurable statistical difference between the ``random random'' and ``random active'' methods ($p = 0.68$). The ``uncertainty random'' performances over ``random random'' ($p<1e^{-10}$) and ``random active'' ($p<1e^{-10}$) are highly significant. As well as the difference between the ``uncertainty active'' and ``uncertainty random'' difference in performance ($p<1e^{-10}$).
-
-The results presented above where obtained using the directional finger movement dataset shown in Figure~\ref{fig:fingerdatasetdirection}. We now demonstrated how the same algorithm could handle different preferences of user finger gesture for cardinal direction indication. To do so we repeat the experiment with the cardinal sign dataset of Figure~\ref{fig:fingerdatasetsigns}
+The results presented above where obtained using the directional finger movement dataset shown in Figure~\ref{fig:fingerdatasetdirection}. We now demonstrated how the same algorithm could handle different preferences of user finger gesture for cardinal direction indication. To do so we repeat the experiment with the cardinal sign dataset of Figure~\ref{fig:fingerdatasetsigns}.
 
 \begin{figure}[!ht]
 \centering
@@ -145,26 +144,21 @@ The results presented above where obtained using the directional finger movement
 \label{fig:continuoustaskdistevolution_signs}
 \end{figure}
 
-\todo{comment Figure~\ref{fig:continuoustaskdistevolution_signs}}
+Figure~\ref{fig:continuoustaskdistevolution_signs} left shows the evolution of the distance between the best task estimates and the goal task. We observe a larger diference between random and uncertainty based selectiong of next state. This could be explained by the porperties of the cardinal sign dataset, where the systme must make use of all features to differentiate between classes which requires more evidence to be collected. For the ddirectional finger movement dataset (Figure~\ref{fig:fingerdatasetdirection}), only two features (end position on X and Y axis) were enough to differentiate between all classes.
 
-% 1,2 = 0.8687
-% 1,3 = 8.3903e-11
-% 2,3 = 1.5600e-12
-% 3,4 = 3.0863e-07
+In Figure~\ref{fig:continuoustaskdistevolution_signs} right, we compare the distribution of final distance between our best hypothesis and the true goal position. There is no measurable statistical difference between the ``random random'' and ``random active'' methods ($p = 0.8687$). The ``uncertainty random'' performances over ``random random'' ($p<1e^{-10}$) and ``random active'' ($p<1e^{-10}$) are highly significant. As well as the difference between the ``uncertainty active'' and ``uncertainty random'' difference in performance ($p<1e^{-5}$).
 
-
-
-% ranksum between uncertainty active on both side 1.2942e-04
-% final dist uncertainty active median move 0.0036
-% final dist uncertainty active median signs 0.0051
-%on a 1 by 1 meter square, it mean finding the target in less than 5 mm half of the time in 200 request without knowing the signal to meaning mapping beforehand
+Finally, we note that the final median distance between the best position estimation and the goal position are 0.0036 and 0.0051 for the directional movement and cardinal sign movement respectively. While this does not really matter, this difference is significative ($p< 1e^{-3}$). However it is important to project this results in the real word, it would mean that given a one meter square area, our agent is able to find the position the user has in mind with less that 5 millimeter error, half of the time and given 200 requests, but without knowing the signal to meaning mapping beforehand. Moreover, as we have seen with our two datasets (Figure~\ref{fig:fingerdatasetdirection} and Figure~\ref{fig:fingerdatasetsigns}), given our simple representation of the finger movements, a great variety of possible signals can be considered.
 
 \paragraph{Task sampling comparison}
 
-\todo{Show the map of sampled task with sampling versus random} 
+We briefly illustrate the difference between our two task sampling methods, namely ``random'' and ``active''.
 
 \paragraph{State sampling comparison}
 
-\todo{Show the end map of sampled state with sampling versus random} 
+
+We briefly illustrate the difference between our two state sampling methods, namely ``random'' and ``uncertainty''.
+
+\subsection{Discussion}
 
 

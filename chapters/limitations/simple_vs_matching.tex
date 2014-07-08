@@ -1,6 +1,6 @@
 %!TEX root = ../../thesis.tex
 
-\section{Why should we correct classifiers prediction}
+\section{Why should we correct classifiers' predictions}
 \label{chapter:limitiations:simplevsmatching}
 
 We compare the performance of Equation~\ref{eq:matchingfilter} and Equation~\ref{eq:matchingfiltercrossvalidation} defined in chapter~\ref{chapter:lfui}. The main difference these two equation is that the second (Equation~\ref{eq:matchingfiltercrossvalidation}) is adding an other layer of verification, by estimating the intrinsic quality of the classifier used to classify the new observation. In others words, we temperate the prediction of the classifier given our knowledge about its quality, which we measure by computing the confusion matrix via a cross-validation procedure.
@@ -61,6 +61,6 @@ We compare the number of task correctly (Figure~\ref{fig:nCorrect_simplevsmatchi
 
 \todo{do it with EEG which should show a stronger effect}
 
-\transition
+\subsection{Discussion}
 
-Our results confirms that using the uncertainty on the prediction of our classifier makes our algorithm more robust. If we know the data will be of good enough quality, we can afford not correcting the classifier output (as with the speech dataset used in chapter~\ref{chapter:lfui}), but as soon as we have to deal with a variety of signals quality (like for BCI in chapter~\ref{chapter:bci}) it is better to include a measure of classifier quality on our likelihood update rule.
+Our results confirms that using the uncertainty on the prediction of our classifier makes our algorithm more robust. However we knew the data will be of good enough quality, we could afford not correcting the classifiers' outputs (as with the speech dataset used in chapter~\ref{chapter:lfui}), but as soon as we have to deal with a variety of signals quality (like for BCI in chapter~\ref{chapter:bci}) it is better to include a measure of classification quality on our likelihood update rule.

@@ -40,7 +40,6 @@ Finally in section~\ref{}, we discuss a number of limitations that were not addr
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{\chapterpath/simple_vs_matching.tex}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -63,8 +62,31 @@ Finally in section~\ref{}, we discuss a number of limitations that were not addr
 \section{A frame is a generic function}
 \label{chapter:limitations:framegeneric}
 
-demo some frame, remind it can include any specific detail known
+demo some frame
 
+\begin{figure}[!ht]
+\centering
+    \begin{subfigure}[b]{0.49\columnwidth}
+        \centering
+        \includegraphics[width=0.8\columnwidth]{\visualspdf/frame/gridworld_around.pdf}
+        \caption{W}
+        \label{fig:gridwolrdgenericframesaround}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\columnwidth}
+        \centering
+        \includegraphics[width=0.8\columnwidth]{\visualspdf/frame/gridworld_loop.pdf}
+        \caption{W}
+        \label{fig:gridwolrdgenericframesloop}
+    \end{subfigure}
+\caption{W}
+\label{fig:gridwolrdgenericframes}
+\end{figure}
+
+
+the robot do not need to know how to complete the task
+
+remind it can include any specific detail known
+like the beta param in next seciton
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -153,7 +175,7 @@ In our case, as the user is using symbolic signals, and that we assumed the user
 The example described above simplifies the problem in some aspects. Indeed we assume the robot is already able to discriminate between perceptual events and has access to a unlabeled symbolic representation of the teaching signals. It would be the case when using a button based interface, however, when considering more ``natural'' means of interaction such as speech, the mapping between spoken words and their meaning should be learn by the machine. Indeed, the same word in never pronounced exactly the same way and some classification algorithm should be applied to train a discriminative model.
 
 
-\section{stuff}
+\section{Discussion}
 
 \subsection{Coherent means nothing}
 

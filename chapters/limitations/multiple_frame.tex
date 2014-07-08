@@ -7,6 +7,8 @@
 
 Until now we have assumed that the interaction frame, which specifies the details of the interaction between the human and the machine was known. In this frame only the meaning of the signal was unknown. We now open this side of the interaction and considered the case where multiple interaction are define, but only one of them account for the interaction between the human and the machine.
 
+\subsection{Illustrations}
+
 We will use a very simple example to illustrate the problem and show computational results on the same simple scenario. We consider that the agent lives in the line word as defined in chapter~\ref{chapter:lfui::symmetries}, where the agent has access to the ``no move'' action in order to remove the symmetry problem. The agent knowns it should reach either of the two edges of the world, G1 or G2. And the agent knowns that the teacher is providing either feedback or guidance instructions. To handle this new hidden information we will rely again on our interpretation hypothesis process. This time, one hypothesis will be the combination of one task hypothesis and one frame hypothesis.  For our simple example, it results in having four hypothesis.
 
 The result of the labeling process is shown in Figure~\ref{fig:multipleframeexplainedfeedback} for a teacher providing feedback instruction according the task G1 (of course the agent do not have access to this information). The hypothesis that labels the signals according to the task G1 and the feedback frame is the one whose signal-labels pair match better with he underlying structure of the data. Indeed for the guidance case, the labeling process for hypothesis G1 is always giving a ``left'' label whether or not the agent is moving away or closer to the target which allow to differentiate between feedback and guidance case. To differentiate between G1 and G2, the same principle than the one described in chapter~\ref{chapter:lfui::symmetries} applies.
@@ -27,8 +29,9 @@ Considering now that the teacher is providing guidance instruction according the
 \label{fig:multipleframeexplainedguidance}
 \end{figure} 
 
-We now verify that the algorithm works in practice. We consider the same line world scenario as described above. For our experiments, the simulated teacher select randomly a target (G1 or G2) and an interaction frame (feedback or guidance). The agent is using our uncertainty based planning method as well as the same setting as described in chapter~\ref{chapter:planning:method}. We ran 100 simulations
+\subsection{Simple experiments}
 
+We now verify that the algorithm works in practice. We consider the same line world scenario as described above. For our experiments, the simulated teacher select randomly a target (G1 or G2) and an interaction frame (feedback or guidance). The agent is using our uncertainty based planning method as well as the same setting as described in chapter~\ref{chapter:planning:method}. We ran 100 simulations
 
 Figure~\ref{fig:multipleframeall} shows the evolution of our probability measure of the correct combination of task and interaction frame, which is adapted from Equation~\ref{eq:probapairwise} in chapter~\ref{chapter:lfui:confidence} (minimum of pairwise normalized likelihood) where each hypothesis is a combination of task and interaction frame. After 200 steps, all our experiments identified with probability 1 the correct combination of task and interaction frame. In practice, in our previous experiments, we used a confidence threshold of 0.9, under this condition most of our experiments would have identified the task in slighlty more than 50 steps.
 
@@ -49,6 +52,8 @@ We analyses in Figure~\ref{fig:multipleframefeedbackvsguidance} independently th
 \label{fig:multipleframefeedbackvsguidance}
 \end{figure} 
 
+
+\subsection{Discussion}
 
 From those results in a simplistic environment, we can envision that following our interpretation hypothesis method for both task and interaction frame combination, one could start learning a task from unlabeled instructions and undefined interaction frames. In the end, our system would not only learn the task and the signal to meaning mapping, but also the interaction protocol used by the teacher.
 
