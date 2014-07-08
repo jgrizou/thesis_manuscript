@@ -154,10 +154,71 @@ Finally, we note that the final median distance between the best position estima
 
 We briefly illustrate the difference between our two task sampling methods, namely ``random'' and ``active''.
 
+\begin{figure}[!ht]
+\centering
+    \begin{subfigure}[b]{\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth, trim=3.5cm 0cm 3.5cm 0cm, clip=true]{\imgpath/continuous_task/maps/random_task_sampling.eps}
+        \caption{Example of task hypothesis sampled using a random method.}
+        \label{fig:continuoustaskrandomtask}
+    \end{subfigure}
+    \begin{subfigure}[b]{\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth, trim=3.5cm 0cm 3.5cm -1cm, clip=true]{\imgpath/continuous_task/maps/active_task_sampling.eps}
+        \caption{Example of task hypothesis sampled using our active method.}
+        \label{fig:continuoustaskactivetask}
+    \end{subfigure}
+\caption{Examples of task hypothesis sampling strategies. In red is the goal task. In blue are the sampled task hypothesis at iteration 15, 50 and 150. The active sampling method progressively focus his sampling around the goal state.}
+\label{fig:continuoustasktasksampling}
+\end{figure}
+
 \paragraph{State sampling comparison}
 
-
 We briefly illustrate the difference between our two state sampling methods, namely ``random'' and ``uncertainty''.
+
+
+\begin{figure}[!ht]
+\centering
+    \begin{subfigure}[t]{0.49\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth, trim=2.5cm 0cm 2.5cm 0cm, clip=true]{\imgpath/continuous_task/maps/random_state_sampling.eps}
+        \caption{Visited states after 200 steps with random state selection.}
+        \label{fig:continuoustaskrandomstates}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth, trim=2.5cm 0cm 2.5cm 0cm, clip=true]{\imgpath/continuous_task/maps/uncertainty_state_sampling.eps}
+        \caption{Visited states after 200 steps with uncertainty based state selection.}
+        \label{fig:continuoustaskactivestates}
+    \end{subfigure}
+\caption{The state visited by the agent, i.e. in which it received instruction signals, after 200 steps. Comparison of random state selection (left) and uncertainty based state selection (right). Selecting state according to their uncertainty, allow to collect more information around the goal state, which allow to identify more precisely the target location.}
+\label{fig:continuoustasktasksampling}
+\end{figure}
+
+
+\begin{figure}[!ht]
+\centering
+    \begin{subfigure}[b]{\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{\imgpath/continuous_task/maps/distgoal_slow.eps}
+        \caption{Evolution of distance between he best task estimates and the goal position (left). The goal position being the red dot on the right plot.}
+        \label{fig:continuoustaskexampleslowdist}
+    \end{subfigure}
+    \begin{subfigure}[b]{\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth, trim=2.5cm 0cm 2.5cm -1cm, clip=true]{\imgpath/continuous_task/maps/weights_slow.eps}
+        \caption{Set of hypothesis after 15, 50, and 150 steps, with their associated probability show as colors. In order to allow for a good visualization of the maps, the associated value to each color are different for each time step. Red is associated to the most probable task, and blue for the less probable. The colors in the between are linearly maps according their associated weights.}
+        \label{fig:continuoustaskexampleslowweights}
+    \end{subfigure}
+    \begin{subfigure}[b]{\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth, trim=2.5cm 0cm 2.5cm -1cm, clip=true]{\imgpath/continuous_task/maps/uncertainty_slow.eps}
+        \caption{Uncertainty associated to each of the 1000 sampled states after 15, 50, and 150 steps. Only the most uncertain state will be select as the next state of the agent. The uncertainty maps evolve through time as the set of task hypothesis and their respective probability are updated. After 150 steps, the uncertainty is located around the goal position. In order to allow for a good visualization of the maps, the associated value to each color are different for each time step. Red is associated to the most probable task, and blue for the less probable. The colors in the between are linearly maps according their associated weights.}
+        \label{fig:continuoustaskexampleslowuncertainty}
+    \end{subfigure}
+\caption{Illustration of the uncertainty based state sampling process after 15, 50, and 150 steps. The uncertainty is measure for 1000 randomly generated states and according to the current set of task hypothesis ans their associated probabilities.}
+\label{fig:continuoustasktasksamplingexampleslow}
+\end{figure}
 
 \subsection{Discussion}
 
