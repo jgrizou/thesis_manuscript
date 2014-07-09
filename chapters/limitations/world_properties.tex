@@ -6,7 +6,7 @@
 
 \question{How the world properties (symmetries, size, \ldots) affect the learning properties?}
 
-As discussed in chapter~\ref{chapter:lfui:symmetries}, the properties of the world can affect the learning performances. For example some worlds have symmetric properties which makes some tasks impossible to differentiate. 
+As discussed in chapter~\ref{chapter:lfui:symmetries}, the properties of the world can affect the learning performances. For example some worlds have symmetric properties which makes some tasks impossible to differentiate.
 
 In this section, we compare how various planning method perform on our two different worlds, namely the pick and place scenario and the grid world. We will investigate a random strategy, several $\epsilon$-greedy (where the agent follows the best strategy or select an action randomly $\epsilon$ of the times), a strategy based on the task uncertainty (where we do not take the signal to meaning mapping uncertainty in to account), and our uncertainty based method described in chapter\ref{chapter:planning}. We will see that the size and the optimal policies properties of each world impacts the performances of some planning methods.
 
@@ -24,7 +24,7 @@ This can be measure by the amount of overlap between the optimal policies associ
 
 \subsection{Method}
 
-For our exepriments, we used the same condition as used in chapter~\ref{chapter:planning}, where the teacher is providing instruction following the feedback frame and using two dimensional signals of very good quality (i.e. between 90 and 100 percent of classification rate).
+We used the same condition as used in chapter~\ref{chapter:planning}, where the teacher is providing instruction following the feedback frame and using two dimensional signals of very good quality (i.e. between 90 and 100 percent of classification rate).
 
 We simulated 50 runs for each planning method and each world considered. There where 10 steps of initialization before the agent starts computing the first likelihood. During the first 10 steps, the agent where actiong randmly for all methods.
 
@@ -75,7 +75,7 @@ When comparing the performance on the grid world versus the pick and place world
 
 The time to reach a target with confidence is in the end what will matter for the potential users of such a system. However none of the planning method presented above are taking this objective into account. Obviously the random or greedy methods are not following any specific goal, while the uncertainty based method only tries to reduce the uncertainty about the task but not to solve that task. That is why we switch to a pure exploitation of the task once the confidence level is reached.
 
-Therefore it may be more relevant to look at the time needed to reach the confidence level for the first task, which is displayed in Figure~\ref{fig:wordlpropertiesconfidencefirst}.
+Therefore it may be more relevant to look at the time needed to reach the confidence level for the first task, which is displayed in Figure~\ref{fig:wordlpropertiesconfidencefirst}. We note that our uncertainty method is in act faster at identifying the task that the greedy method seems to find more far away from the goal at that time.
 
 \begin{figure}[!ht]
 \centering
@@ -84,7 +84,7 @@ Therefore it may be more relevant to look at the time needed to reach the confid
 \label{fig:wordlpropertiesconfidencefirst}
 \end{figure} 
 
-
+Figure~\ref{fig:wordlpropertiestargetdist} shows the number of action needed for the agent to reach the goal state once the task is identified with confidence. This plot only considers the runs where a target was reached (see Table~\ref{tab:wordlpropertiesnreach}). For the grid world, all planning methods identify the task less than 5 steps away from its associated goal state. However for the pick and place problem, by following our uncertainty based planning method the agent is on average 10 steps away from the goal state when it identifies a task with confidence.
 
 \begin{figure}[!ht]
 \centering
@@ -93,17 +93,22 @@ Therefore it may be more relevant to look at the time needed to reach the confid
 \label{fig:wordlpropertiestargetdist}
 \end{figure} 
 
-We hypothesized that, given the maze like properties of the pick and place problem, our agent would need to go toward the hypothesized target states to differentiate between them faster. And therefore that our uncertainty planning method may be more efficient in such case. This hypothesis is not confirmed and will require more investigation on what properties are actually influencing the efficiency of our algorithm and what additional metrics should be consider to improve our strategies. First we note that the Greedy method is going towards the best hypothesis goal state, which confirms our intuition of what is a good planning strategy in such world, but does not explain why our uncertainty method ends-up far from the goal state when the confidence level is reached. Second, one should analyze the behavior of the agent and the evolution of the probability associated to each task, and check which group of task are ruled out first between the Greedy and the uncertainty based method. 
+We hypothesized that, given the maze like properties of the pick and place problem, our agent would need to go toward the best hypothesized target states to differentiate between them faster. And therefore that our uncertainty planning method may be more efficient in such case. This hypothesis is not confirmed and requires more investigation on what properties are actually influencing the efficiency of our algorithm and what additional metrics should be considered to improve our strategies. Indeed none of the method presented are considering their performance on the task (yet unknown but estimated) in the action selection process. This is part of the discussion of next subsection.
+
+We note that the Greedy method is going towards the best hypothesis goal state, which confirms our intuition of what is a good planning strategy in such world, but does not explain why our uncertainty method ends-up far from the goal state when the confidence level is reached.
+% In order to explain this differences one should analyze the behavior of the agent and the evolution of the probability associated to each task, and check which group of tasks are ruled out first between the Greedy and the uncertainty based method that may explain the differences of behavior observed.
 
 Finally, as for the analysis of the size of the worlds, we note that in chapter~\ref{chapter:planning}~and~\ref{chapter:bci} the greedy method shows very poor performances for 30 dimensional signals. Therefore it is required to compare the performances of the planning methods for a variety of datasets with different dimensionality and quality.
 
 \subsection{Discussion}
 
-it shows that we do not master those properties 
+The main conclusion of our preliminary study is that we do not understand well the impact of some properties of the world and dataset on the final performance of the system. Many of those properties are tightly linked together and the additional layer of uncertainty inherent to our problem makes the dependencies hard to identifies.
 
-it is obviously dependent on plenty of other things not tested here the frame and signals quality and stuff
+However one important aspect highlighted by the study is that our uncertainty measure should be combined with other metrics to optimize additional criteria on the task. Our measure was developed to discriminate faster the correct hypothesis from the set of possible tasks and not to also execute that task as fast as possible.
 
-should we compare on the number of state or on the number of state action pair?
+We propose two different types of scenario that are likely to be useful in real world scenario: 
+\begin{itemize}
+\item Target based scenarios: The goal of the agent is to execute one specific action in a particular state and should not make mistakes in the execution of the task. For example, a robot should put one object to the bin for a human. The robot can navigate around of the objects area in order to collect feedback but should only grasp an object and put it to the bin once it is confident about which object to throw away. This includes all the scenario considered in this thesis, and as seen in this section there is room to improve over our uncertainty method by including information about the hypothesized task. A potential avenue is to merge our measure of uncertainty with the optimal policies for each task, such that, for two states with close uncertainty value, the one closer to the target should be preferred. When all task are equally probable, only the uncertainty should be taken into account. And once there is no more uncertainty, i.e. when confidence is reached, the action should be selected according to the task policy. The main problem is about how to weight the two functions.
 
-conclude by stating difference between end goal learning (graps object, reach state) and reward based learning. We only consider goal learning. episodic (find the right box) vs endless (collect more reward), different exploration function could be used for those
-
+\item Reward maximization scenarios: In such scenario the goal of the robot is to maximize the reward associated to the correct task. However, many tasks may share some parts of a reward functions. Therefore it is not always necessary to identify the correct task with confidence collect maximal reward. For example, in our puddle word scenario of section~\ref{chapter:limitations:continousstate}, two task may share the same goal area but different area to avoid. If the robot can reach the shared goal area by avoiding both negative areas, then the agent will have maximized the collected reward without ever knowing what specific task the user had in mind. Tackling this problem requires a different approach as the agent should now be confident that merging two reward functions is more optimal than trying to differentiate between them. However the robot can not merge all rewards function right from the start as no specific direction will emerge and the correct reward won't be maximized in the long run. 
+\end{itemize}
