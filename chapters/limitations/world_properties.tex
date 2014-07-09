@@ -24,47 +24,58 @@ This can be measure by the amount of overlap between the optimal policies associ
 
 \subsection{Method}
 
-we use a feedback frame, and the method used in planning for all our updates rule.
+For our exepriments, we used the same condition as used in chapter~\ref{chapter:planning}, where the teacher is providing instruction following the feedback frame and using two dimensional signals of very good quality (i.e. between 90 and 100 percent of classification rate).
 
-50 run each method each world
-90-100 percent datasets
+We simulated 50 runs for each planning method and each world considered. There where 10 steps of initialization before the agent starts computing the first likelihood. During the first 10 steps, the agent where actiong randmly for all methods.
 
-10 init steps
+\subsection{Results}
 
-\subsection{World size effects}
-
-
-\todo{figure to compare 5x5 and 25x25}
-
-\todo{important say that we are optimistic in the plot, saying that if they do not reach, we count 100, which is actualy optimistic}
-
-
-\subsection{Maze properties effects}
+In this subsection, we will analyze the Figure~\ref{fig:wordlpropertiestimefirst} which displays the number of iterations needed for our agent to reach a first task depending on the planning method and the worlds. We will first consider the difference between the 5x5 grid world and the 25x25 grid world, and then compare the grid world and the pick and place scenario.
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=\legendsidesize\columnwidth]{\imgpath/world_properties/firstreach.eps}
-\caption{Number of steps to reach first target state with confidence.}
+\caption{Number of steps to reach first target state with confidence. Comparing different action selection methods and different worlds. As soon as the dimensionality increase, selecting action randomly can not identify any task in 100 iterations. Our signal uncertainty based method, is the most efficient at reaching the first task in the grid world but seems outperformed by a simple greedy approach in our pick and place scenario.}
 \label{fig:wordlpropertiestimefirst}
 \end{figure}
 
-We report only 9 erroneous first task estimations across all runs of our experiments and conditions.For the grid world, 1 error for the Greedy method in. For the pick and place scenario, 1 for $\epsilon$-greedy 0.5, 2 for $\epsilon$-greedy 0.1, 2 for Greedy, 1 for Uncertainty task and 2 for Uncertainty signal.
+Before analyzing the results, there is several aspects that are important have in mind. First, Figure~\ref{fig:wordlpropertiestimefirst} displays the number of step needed to reach the target state while being confident this state is the correct one. The agent can become confident one task is the correct one while being in a state far from the goal state associated to that task. When the agent is confident about one task, it acts greedily according the optimal policies associated to that task. This fact will play an important role in our analysis of the pick and place results and on the following discussion.
+
+Also, when a method was not able to reach a task with confidence in 100 steps we considered a value of 100 for our plots. This is very optimistic for the corresponding methods, for example the random method is likely to need more than 100 steps in our larger worlds. We report the number of runs than reached a first target in less than 100 iterations in Table~\ref{tab:wordlpropertiesnreach}, which indicates that only our uncertainty based method was able to identify a task in less than 100 steps for every run. 
 
 \begin{table}[!ht]
 \centering
 \rowcolors{2}{gray!25}{white}
 \begin{tabular}{c c c c}
-    Planning method & Gridworld 25x25 &  Pick and place \\ \hline
-    Random & 0 & 1 \\ 
-    $\epsilon$-greedy 0.5 & 13 & 27 \\
-    $\epsilon$-greedy 0.1 & 48 & 48 \\
-    Greedy & 43 & 47 \\
-    Uncertainty task & 42 & 48 \\
-    Uncertainty signal & 50 & 50 \\
+    Planning methods & Gridworld 5x5 & Gridworld 25x25 &  Pick and place \\ \hline
+    Random & 47 & 0 & 1 \\ 
+    $\epsilon$-greedy 0.5 & 50 & 13 & 27 \\
+    $\epsilon$-greedy 0.1 & 46 & 48 & 48 \\
+    Greedy & 41 & 43 & 47 \\
+    Uncertainty task & 45 & 42 & 48 \\
+    Uncertainty signal & 50 & 50 & 50 \\
 \end{tabular}
 \caption{Number of experiments that reached at least one target in 100 steps.}
-\label{tab:}
+\label{tab:wordlpropertiesnreach}
 \end{table}
+
+
+Finally, our plots include correctly and wrongly identified first targets, however only a handful of task where incorrectly identified. We report only 12 erroneous first task estimations across all 900 runs of our experiments and conditions. For the 5x5 grid world, 1 error for the Random method, 1 for Uncertainty task and 1 for Uncertainty signal. For the 25x25 grid world, 1 error for the Greedy method. For the pick and place scenario, 1 for $\epsilon$-greedy 0.5, 2 for $\epsilon$-greedy 0.1, 2 for Greedy, 1 for Uncertainty task and 2 for Uncertainty signal.
+
+
+\paragraph{World size effects}
+
+As expected the random selection method fails at identifying a task when the state space grows. The first obvious observation is that all method requires more iteration to reach a first task when the size of the world increases. In a 5x5 grid world, a random strategy allows to visit a good percentage of the states which ensure the agent as collected useful evidence. However, a bigger world, it is important to target specific state. Interestingly, going toward the best estimate or using the uncertainty on the task only performs quite well, however only our uncertainty based method identified 50 times out of 50 the task in 100 steps.
+
+When comparing with the results of chapter~\ref{chapter:planning} Figure~\ref{fig:artificialplanning}, the greedy method is here way better. The only difference lies in the dimensionality of the dataset. We note that in the experiment of this section, the agent start by 10 random movement before starting updating likelihood, and as the data are 2 dimensional and of high qualities, it is rather easy to have a reasonable estimate of each classifiers. However in the experiments  chapter~\ref{chapter:planning} Figure~\ref{fig:artificialplanning}, the agent used 30 dimensional data and performed 42 steps of initialization, which means there were less point per class than of dimension which is probably the explanation of the difference observed. The effect of the dimensionality and quality of the datasets remains to be investigated in more details.
+
+\paragraph{Maze properties effects}
+
+When comparing the performance on the grid world versus the pick and place world on Figure~\ref{fig:wordlpropertiestimefirst}, we observe that our uncertainty based planning method is no more the most efficient method in the pick place word. And that a very simple method such as acting greedy according to the current best task estimates performs better. We also note that the random method is unable to identify a task in less than 100 steps. This result is in line with the results form chapter~\ref{chapter:lfui} Figure~\ref{fig:selectionMethod} (left), where after 100 steps most of the task where identified after 100 steps using a Greedy planning method. However, for the random action selection method, the confidence level was still far out of reach after 100 steps.
+
+The time to reach a target with confidence is in the end what will matter for the potential users of such a system. However none of the planning method presented above are taking this objective into account. Obviously the random or greedy methods are not following any specific goal, while the uncertainty based method only tries to reduce the uncertainty about the task but not to solve that task. That is why we switch to a pure exploitation of the task once the confidence level is reached.
+
+Therefore it may be more relevant to look at the time needed to reach the confidence level for the first task, which is displayed in Figure~\ref{fig:wordlpropertiesconfidencefirst}.
 
 \begin{figure}[!ht]
 \centering
@@ -73,18 +84,22 @@ We report only 9 erroneous first task estimations across all runs of our experim
 \label{fig:wordlpropertiesconfidencefirst}
 \end{figure} 
 
+
+
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/world_properties/difftargetconfidence.eps}
-\caption{Number of action needed to reach the first target when the agent reach confidence level for this target.}
+\caption{Number of action needed to reach the first target when the agent reach confidence level for this target. This plot only consider the runs where a target was reached in less than 100 steps (see Table~\ref{tab:wordlpropertiesnreach}). Random method for the 25x25 grid world is not represented as it never reached any, and random for the pick and place only considers one run.}
 \label{fig:wordlpropertiestargetdist}
 \end{figure} 
 
-refer to experiment with pick and place in section lfui and random planning (even if dataset the same after 100 step no confidence) but state space is 625 and no ore 25...
-random after 100 not at the confident level.
+We hypothesized that, given the maze like properties of the pick and place problem, our agent would need to go toward the hypothesized target states to differentiate between them faster. And therefore that our uncertainty planning method may be more efficient in such case. This hypothesis is not confirmed and will require more investigation on what properties are actually influencing the efficiency of our algorithm and what additional metrics should be consider to improve our strategies. First we note that the Greedy method is going towards the best hypothesis goal state, which confirms our intuition of what is a good planning strategy in such world, but does not explain why our uncertainty method ends-up far from the goal state when the confidence level is reached. Second, one should analyze the behavior of the agent and the evolution of the probability associated to each task, and check which group of task are ruled out first between the Greedy and the uncertainty based method. 
 
+Finally, as for the analysis of the size of the worlds, we note that in chapter~\ref{chapter:planning}~and~\ref{chapter:bci} the greedy method shows very poor performances for 30 dimensional signals. Therefore it is required to compare the performances of the planning methods for a variety of datasets with different dimensionality and quality.
 
 \subsection{Discussion}
+
+it shows that we do not master those properties 
 
 it is obviously dependent on plenty of other things not tested here the frame and signals quality and stuff
 

@@ -14,11 +14,11 @@ However a number of assumptions and constraints have been defined. In this chapt
 
 In section~\ref{chapter:limitiations:simplevsmatching} we compare the performance of Equation~\ref{eq:matchingfilter} and Equation~\ref{eq:matchingfiltercrossvalidation} defined in chapter~\ref{chapter:lfui}. We show that corrrecting the classifier prediction given our knowledge about one classifier (Equation~\ref{eq:matchingfiltercrossvalidation}) makes our algortihm more robust than relying on the raw classifier outputs (Equation~\ref{eq:matchingfilter}).
 
-In section~\ref{chapter:limitations:wordlproperties}, we 
+In section~\ref{chapter:limitations:wordlproperties}, we present preliminary studies on how different properties of the world impacts the efficiency of several planning methods. We specifically study the impact of the size and the maze like properties. This study will highlight the fact that our uncertainty based planning method allow to identify the correct task with best performance in a few types of problems. However we will see that, by not considering the performance on the task itself during the exploration, for some problems our method lacks of efficiency with respect to solving the task as fast as possible.
 
-In section~\ref{chapter:limitations:overlap} we present an other method to identify the first target based on models overlap, we demonstrate online results with real subjects in a BCI scenario, and show its limitation for identifying further tasks.
+In section~\ref{chapter:limitations:overlap} we introduce an other method to identify the first target based on models overlap, we present online results with real subjects in a BCI scenario, and show the limitation of this new method to identifying a sequence of multiple tasks.
 
-In section~\ref{chapter:limitations:framegeneric} we insist again on the fact an interaction frame is not limited to the straightforward meaning correspond we assumed (feedback and guidance), and do not requires the robot to know how to perform a task.
+In section~\ref{chapter:limitations:framegeneric} we insist again on the fact that an interaction frame is not limited to the straightforward meaning correspond we assumed (feedback and guidance), and do not requires the robot to know how to perform a task.
 
 In section~\ref{chapter:limitations:continousstate}, we address the problem of continuous state space, and show that our method is not impacted by the continuous aspect of the problem. Indeed, as our method, when considering a simple frame, only requires to known the policy for each task, we can rely on any algorithm that computes a policy for continuous states given a pre-defined task.
 
@@ -26,12 +26,15 @@ In section~\ref{chapter:limitations:continoushypothesis}, we release the assumpt
 
 In section~\ref{chapter:limitations:framehypothesis}, we release the assumption that the interaction frame is known and consider the agent as access to a finite number of hypothetic interaction frames. We illustrated this problem in a simple scenario line world scenario. And present results from simulated experiments that demonstrate the ability our method to not only learn the task and the signal to meaning mapping, but also the interaction protocol used by the teacher.
 
+
+section~\ref{chapter:limitations:userstudies}
 human in the loop
 
+section~\ref{chapter:limitations:proof}
 formalism and proof
 
 
-Finally in section~\ref{}, we discuss a number of limitations that were not addressed in this work and that are not straightforward to solve given our context. continuous actions, learning new meanings
+Finally in section~\ref{chapter:limitations:discussion}, we discuss a number of limitations that were not addressed in this work and that are not straightforward to solve given our context. Such as using continuous actions or learning new meanings.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -118,6 +121,8 @@ like the beta param in next seciton
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Human in the loop}
+\label{chapter:limitations:userstudies}
+
 
 In real-world applications, users are usually told how to interact with machines. Do people want to have an open-ended choice about what signal to use? Would they be more efficient? When is it better to use a calibration procedure?
 
@@ -145,6 +150,7 @@ In relation to targeting fluid interaction learning, we will consider in the fut
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{A minimalist proof}
+\label{chapter:limitations:proof}
 
 proof and more simple scenario to analyse in more details what is happening and the porperties of this work is defninitevely missing and was not my principal interrest when develloping this work. As everyone as its prefered skills, I am sure there will be interrest people to work on this.
 
@@ -176,6 +182,7 @@ The example described above simplifies the problem in some aspects. Indeed we as
 
 
 \section{Discussion}
+\label{chapter:limitations:discussion}
 
 \subsection{Coherent means nothing}
 
