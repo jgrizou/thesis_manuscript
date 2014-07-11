@@ -15,6 +15,10 @@ We consider an agent living in a 2 dimensional continuous space bounded between 
 
 We still consider a strong a priori knowledge on the space of task, which is that there is only one goal state. This is a very strong a priori regularization on the complexity of the problem. Considering there could be several goal positions, depending for example on the current position of the agent, would increase dramatically the search space; it would then be likely that many hypothesis of different complexity would explain perfectly the observed data. In such case a rule for regularizing the hypothesize task solution would be needed.
 
+\subsection{Interaction frame}
+
+We use the cardinal direction frame define in section~\label{chapter:limitations:framegeneric}, where the user provide an information about the cardinal direction of the goal state with respect the current agent position. The agent does not have to know how to reach a state to interpret the signal according to that state as only the absolute direction matters.
+
 \subsection{Finger movements datasets}
 
 We will present results using two different datasets made of finger movements performed on a tablet. 
@@ -52,10 +56,9 @@ Using this representation we achieve 100 percent accuracy on the directional mov
 
 We remind that the direction of shape of each movement has no a priori meaning for the robot. For example, in our simulation we may use the ``W'' sign signals to mean the goal state is north to the agent position.
 
-
 \subsection{Evaluating task likelihood}
 
-As there is an infinity of possible goal state, the agent can not estimate the probability of all possible task in parallel. Therefore we will sample a finite number of task at each step and compute a likelihood value for each of those task. Then, given the ranking between them, we will keep some of the best one and sample a bunch of new ones, more details are provided in next subsection~\ref{chapter:limitations:continoushypothesis:particlefilter}.
+As there is an infinity of possible goal state, the agent can not estimate the probability of all possible task in parallel. We will rely on a particle filter based apporach \cite{gordon1993novel,doucet2009tutorial,thrun2002particle}. The main idea consist of sampling a finite number of task and compute a confidence measure for each of those task. Given the ranking between them, we will aplly a resample step which consist of keeping some of the best task and sample a bunch of new ones. More details are provided in next subsection~\ref{chapter:limitations:continoushypothesis:particlefilter}, we present in this subsection how we estimate the probability of each sampled task.
 
 Our algorithm, as presented so far, was cumulatively accumulating evidence for each task and updated the likelihood of each task on a step by step basis. However for this experiment, as we the task hypothesis are changing step after step, we can not update the likelihood of each task on a step by step basis, as described in Equation~\ref{eq:matchingfiltercrossvalidation}. This approach allowed us to reduce the computational cost of our algorithm so as to be able to run our experiments in a reasonable amount of time. A possible option would be to use Equation~\ref{eq:matchingcrossvalidation}, but we would have to train a huge amount of classifier each step (100000 classifiers after 200 steps in our experiments).
 
@@ -76,28 +79,32 @@ p(\Sigma_l|D) & = & IW_{n-1}(\Sigma_l | S_l)
 where $\bar{x}_l$ and $S_l$ respectively represents the ML estimates of the mean and covariance for each class $l$ based on the dataset $D$, $n$ is the number of signals, and $d$ is the dimensionality of a signal feature vector.
 $\mu_l$ and $\Sigma_l$ are the posterior estimates of the mean and covariance given the noninformative prior. $IW$ denotes an Inverse Wishart function which is the multidimensional generalization of the inverse Gamma, it represents a probability distribution on covariance matrix.
 
-This ``meta'' model encodes the distribution of probability on the classifier parameters. Given this model we can sample, for very low computational cost, a multitude of possible QDA classifiers by sampling a mean and covariance for each class. And the more we have data to fit our model, the less uncertainty remains and the less variability will be observed in the generated classifiers. In our experiment we will sampled 20 classifiers per task.
+This ``meta'' model encodes the distribution of probability on the classifier parameters. Given this model we can sample, for very low computational cost, a multitude of possible QDA classifiers by sampling a mean and covariance for each class. The more we have data to fit our model, the less uncertainty remains and the less variability will be observed in the generated classifiers. 
 
-\todo{text here}
+In our experiment we will sampled 20 classifiers per task. For each sampled set of classifiers, we compute the probability value (i.e. the normalized likelihood) of each task. As a results we have 20 estimations of the probabilty of each task. We will consider one task as the best one once noe of the task as significantly better probabilities than all the others. 
 
+To do so we model our 20 probability estimate for each task by a normal distribution, and denote as $\mu_{\xi_t}$ and $\sigma_{\xi_t}$ the associated maximum likelihood estimates of the mean and variance. To compare two distributions, we compute the probability that one sample from the  Gaussian associated to one task has higher value than one sample from the Gaussian associated to the other task. To do so we compute the normal difference distribution between the two models of each task probabilities. The resulting model is also a normal distribution with mean and variance as follows:
+%
 \begin{eqnarray}
 \mu_{\xi_t - \xi_u} = \mu_{\xi_t} - \mu_{\xi_u} 
 \label{eq:meandiffgaussian}
 \end{eqnarray}
-
+%
 \begin{eqnarray}
 \sigma^2_{\xi_t - \xi_u} = \sigma^2_{\xi_t} + \sigma^2_{\xi_u}
 \label{eq:variancediffgaussian}
 \end{eqnarray}
+
+Finally we compute the probability than one sample from that class as a value above zero. This is simply $1 - \Phi(\mu_{\xi_t - \xi_u}, \sigma^2_{\xi_t - \xi_u})$, with $\Phi(\mu_{\xi_t - \xi_u}, \sigma^2_{\xi_t - \xi_u})$ the cumulative normal distribution associated to the normal distribution of mean $\mu_{\xi_t - \xi_u}$ and variance $\sigma^2_{\xi_t - \xi_u}$. Then, as for equation~\ref{eq:probapairwise} we take as probability for the task  $\xi_t$ the minimum of the pairwise comparison with all other tasks $\xi_u$ with $u~\in~{1, \ldots, T} \smallsetminus \{t\}$.
+
+There is a multitude of weak points in this method and we note that modeling a distribution of probability using a normal distribution violates the normality assumption. Using a beta distribution would have been more suitable but we could not find an anlytical solution to the difference between two beta distributions. However, we tried to use more standard statistical test, such as the one tailed Student's t-test or Welch's t-test, but the results were not satisfying as those tests only check whether or not the means of the distributions are equals.
 
 Note that it would seem more straightforward to directly compute the marginal probability distribution of Equation~\ref{eq:prior} which integrates over the all distribution of parameters; and use this for our likelihood estimates of Equation~\ref{eq:matchingoverfitting}. Here we tried to get a measure of confidence on top of our likelihood estimates. This is why we generate several classifiers, test their performances and measure the probability that one set of classifiers is on average better that an other set of classifiers. To do so we model the distribution of performances of a set of classifiers by a normal distribution; and compute the probability that a sample drawn from the distribution associated to one set of classifiers has higher value than one drawn from the distribution associated the an other set of classifiers.
 
 \subsection{Task hypothesis selection and generation}
 \label{chapter:limitations:continoushypothesis:particlefilter}
 
-As there is an infinity of possible goal state, the agent can not estimate the probability of all possible task in parallel. Therefore, as described in previous subsection, we sample a finite number of task at each step and compute a confidence measure for each of those task. Given the ranking between them, we will keep some of the best one and sample a bunch of new ones.
-
-\todo{cite particle filtrer}
+As there is an infinity of possible goal state, the agent can not estimate the probability of all possible task in parallel. We will rely on a particle filter based apporach \cite{gordon1993novel,doucet2009tutorial,thrun2002particle}. The main idea consist of sampling a finite number of task and compute a confidence measure for each of those task. Given the ranking between them, we will aplly a resample step which consist of keeping some of the best task and sample a bunch of new ones.
 
 There is many parameters that will influence the performance of such an algorithm. We can change the number of task sampled, the criteria for selecting the task(s) that stay in the pool from one step to another, and we can change the method used to sample new task. 
 
@@ -112,14 +119,13 @@ Our active task generation method simply selects new task around the current bes
 \end{itemize}
 Note that the resulting distribution will be truncated as all the point generated outside of the boundaries of the space (i.e. between 0 and 1 for each dimension) will be translated to the closest position on the boundaries of the state space.
 
-
 \subsection{Uncertainty based state sampling}
 
 The agent can also control the next state to teleport to. As seen in chapter~\ref{chapter:planning}, actively controlling agent state important can lead to better performances. Indeed the state of the agent influences the signal sent by the teacher. 
 
 We will compare two kind of active sampling, random and an uncertainty based method. The random method simply teleport the agent to a random position in the world. 
 
-The active method rely again on a sampling method. At each step, we generate 1000 states randomly and compute the uncertainty associated to those states using the method describe in chapter~\ref{chapter:planning} by Equation~\ref{eq:planning} and using up to 20 sampled signals from our history of interaction. For the next state, we select, among the 1000 points, the one that as higher uncertainty, and teleport the agent to that state in order to collect the next teaching signal.
+The active method rely again on a sampling method. At each step, we generate 1000 states randomly and compute the uncertainty associated to those states using the method described in chapter~\ref{chapter:planning} by Equation~\ref{eq:planning} and using up to 20 sampled signals from our history of interaction. For the next state, we select, among the 1000 points, the one that as higher uncertainty, and teleport the agent to that state in order to collect the next teaching signal.
 
 \subsection{Results}
 
@@ -163,6 +169,8 @@ Finally, we note that the final median distance between the best position estima
 
 We briefly illustrate the difference between our two task sampling methods, namely ``random'' and ``active''.
 
+Figure~\ref{fig:continuoustasktasksampling} shows the task sampled (in blue) at steps 15, 50, and 150 following a random (Fig.~\ref{fig:continuoustaskrandomtask}) or an active (Fig.~\ref{fig:continuoustaskactivetask}) resampling step. The active resampling allows to focus the set of task around the goal state (in red), which increases the changes of finding a better estimates of the task.
+
 \begin{figure}[!ht]
 \centering
     \begin{subfigure}[b]{\columnwidth}
@@ -185,6 +193,7 @@ We briefly illustrate the difference between our two task sampling methods, name
 
 We briefly illustrate the difference between our two state sampling methods, namely ``random'' and ``uncertainty''.
 
+Figure~\ref{fig:continuoustaskstatesampling} shows the state visited (in blue) at after 200 steps  following a random (Fig.~\ref{fig:continuousstaterandomstates}) or an uncertainty based (Fig.~\ref{fig:continuousstateuncertaintystates}) next state selection method. The uncertainty based method allows to visit more states around the goal state (in red), which increases the changes of differentiates between the set of task hypothesis.
 
 \begin{figure}[!ht]
 \centering
@@ -192,18 +201,19 @@ We briefly illustrate the difference between our two state sampling methods, nam
         \centering
         \includegraphics[width=\columnwidth, trim=2.5cm 0cm 2.5cm 0cm, clip=true]{\imgpath/continuous_task/maps/random_state_sampling.eps}
         \caption{Visited states after 200 steps with random state selection.}
-        \label{fig:continuoustaskrandomstates}
+        \label{fig:continuousstaterandomstates}
     \end{subfigure}
     \begin{subfigure}[t]{0.49\columnwidth}
         \centering
         \includegraphics[width=\columnwidth, trim=2.5cm 0cm 2.5cm 0cm, clip=true]{\imgpath/continuous_task/maps/uncertainty_state_sampling.eps}
         \caption{Visited states after 200 steps with uncertainty based state selection.}
-        \label{fig:continuoustaskactivestates}
+        \label{fig:continuousstateuncertaintystates}
     \end{subfigure}
-\caption{The state visited by the agent, i.e. in which it received instruction signals, after 200 steps. Comparison of random state selection (left) and uncertainty based state selection (right). Selecting state according to their uncertainty, allow to collect more information around the goal state, which allow to identify more precisely the target location.}
-\label{fig:continuoustasktasksampling}
+\caption{The state visited by the agent, i.e. in which it received instruction signals, after 200 steps. In red is the goal task. Comparison of random state selection (left) and uncertainty based state selection (right). Selecting state according to their uncertainty, allow to collect more information around the goal state, which allow to identify more precisely the target location.}
+\label{fig:continuoustaskstatesampling}
 \end{figure}
 
+Figure~\ref{fig:continuoustasktasksamplingexampleslow} details the uncertainty based method for selecting next visited states. Figure~\ref{fig:continuoustaskexampleslowdist} present the goal state for this specific run (right) and the evolution of the distance to the goal of the best estimate (left). Figure~\ref{fig:continuoustaskexampleslowweights} shows the set of task hypothesis at steps 15, 50, and 150 (as for Figure~\ref{fig:continuoustasktasksampling}) where the colors associted to each point represent the estimated probability of each task (red is high, blue is low). To sample the folowwing agent's state, we sample 1000 states randomly and estimates the unceratiny of each of those point using the method described in chapter~\ref{chapter:planning} by Equation~\ref{eq:planning}. Computing this uncertainty requires to have a set of hypothesis and their associated weights (shown in Figure~\ref{fig:continuoustaskexampleslowweights}), access to the interaction frame and a classifier for each hypothesis. The resulting maps for step 15, 50, and 150 are displayed in Figure~\ref{fig:continuoustaskexampleslowuncertainty} where the colors represent the uncertainty values (red is high, blue is low). The less the distribution of probably on task is flat, the more the uncertainty map is narrow and focused around the best estimate. The active task resampling step is beneficial to the uncertainty state selection step as it allows to specify the uncertainty in key areas.
 
 \begin{figure}[!ht]
 \centering
@@ -228,9 +238,3 @@ We briefly illustrate the difference between our two state sampling methods, nam
 \caption{Illustration of the uncertainty based state sampling process after 15, 50, and 150 steps. The uncertainty is measure for 1000 randomly generated states and according to the current set of task hypothesis ans their associated probabilities.}
 \label{fig:continuoustasktasksamplingexampleslow}
 \end{figure}
-
-\subsection{Discussion}
-
-
-
-
