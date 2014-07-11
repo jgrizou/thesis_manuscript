@@ -80,6 +80,15 @@ This ``meta'' model encodes the distribution of probability on the classifier pa
 
 \todo{text here}
 
+\begin{eqnarray}
+\mu_{\xi_t - \xi_u} = \mu_{\xi_t} - \mu_{\xi_u} 
+\label{eq:meandiffgaussian}
+\end{eqnarray}
+
+\begin{eqnarray}
+\sigma^2_{\xi_t - \xi_u} = \sigma^2_{\xi_t} + \sigma^2_{\xi_u}
+\label{eq:variancediffgaussian}
+\end{eqnarray}
 
 Note that it would seem more straightforward to directly compute the marginal probability distribution of Equation~\ref{eq:prior} which integrates over the all distribution of parameters; and use this for our likelihood estimates of Equation~\ref{eq:matchingoverfitting}. Here we tried to get a measure of confidence on top of our likelihood estimates. This is why we generate several classifiers, test their performances and measure the probability that one set of classifiers is on average better that an other set of classifiers. To do so we model the distribution of performances of a set of classifiers by a normal distribution; and compute the probability that a sample drawn from the distribution associated to one set of classifiers has higher value than one drawn from the distribution associated the an other set of classifiers.
 
@@ -221,5 +230,7 @@ We briefly illustrate the difference between our two state sampling methods, nam
 \end{figure}
 
 \subsection{Discussion}
+
+
 
 
