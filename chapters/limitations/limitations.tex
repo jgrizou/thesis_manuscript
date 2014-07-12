@@ -25,7 +25,6 @@ In section~\ref{chapter:limitations:continoushypothesis}, we release the assumpt
 
 In section~\ref{chapter:limitations:framehypothesis}, we release the assumption that the interaction frame is known and consider the agent as access to a finite number of hypothetic interaction frames. We illustrated this problem in a simple scenario line world scenario. And present results from simulated experiments that demonstrate the ability our method to not only learn the task and the signal to meaning mapping, but also the interaction protocol used by the teacher.
 
-
 section~\ref{chapter:limitations:userstudies}
 human in the loop
 
@@ -43,46 +42,7 @@ Finally in section~\ref{chapter:limitations:discussion}, we discuss a number of 
 % \input{\chapterpath/simple_vs_matching.tex}
 % \input{\chapterpath/world_properties.tex}
 % \input{\chapterpath/model_overlap.tex}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{A frame is a generic function}
-\label{chapter:limitations:framegeneric}
-
-demo some frame
-
-\begin{figure}[!ht]
-\centering
-    \begin{subfigure}[b]{0.49\columnwidth}
-        \centering
-        \includegraphics[width=0.8\columnwidth]{\visualspdf/frame/gridworld_around.pdf}
-        \caption{W}
-        \label{fig:gridwolrdgenericframesaround}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.49\columnwidth}
-        \centering
-        \includegraphics[width=0.8\columnwidth]{\visualspdf/frame/gridworld_loop.pdf}
-        \caption{W}
-        \label{fig:gridwolrdgenericframesloop}
-    \end{subfigure}
-\caption{W}
-\label{fig:gridwolrdgenericframes}
-\end{figure}
-
-
-the robot do not need to know how to complete the task
-
-remind it can include any specific detail known
-like the beta param in next seciton
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \input{\chapterpath/frame.tex}
 % \input{\chapterpath/continuous_state.tex}
 % \input{\chapterpath/continuous_task.tex}
 % \input{\chapterpath/multiple_frame.tex}
@@ -98,7 +58,9 @@ like the beta param in next seciton
 
 \question{Do people want to have an open-ended choice about what signal to use? \\ Would they be more efficient?}
 
-In real-world applications, users are usually told how to interact with machines. Do people want to have an open-ended choice about what signal to use? Would they be more efficient? When is it better to use a calibration procedure?
+In real-world applications, users are usually told how to interact with machines. 
+
+
 
 how does the agent behavior affect the algorithm assumption on human behavior
 
@@ -116,6 +78,9 @@ As we argued in the introduction, the work we presented is a starting point towa
 Indeed, our current system can be restrictive for the user as the number of interaction increases quickly with the complexity of the size of the task and meaning spaces. However, we have shown that the system is able to use known sources of information, which in real-world interaction could be leveraged to keep the sample complexity low.
 
 In relation to targeting fluid interaction learning, we will consider in the future how more complex kinds of instructions can be included in our formalism. Indeed, the possible teaching models used spontaneously by people can be more complex than the simple meaning correspondences we assumed \cite{thomaz2008teachable,Cakmak2010optimality}. Also the turn taking scheme could be made more natural, as the robot could ask questions \cite{cakmak2012designing} and accept asynchronous instructions.
+
+Do people want to have an open-ended choice about what signal to use? Would they be more efficient? When is it better to use a calibration procedure?
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -156,8 +121,6 @@ The example described above simplifies the problem in some aspects. Indeed we as
 
 \section{Discussion}
 \label{chapter:limitations:discussion}
-
-\subsection{Coherent means nothing}
 
 Similarly, the system assumed a pre-defined repertoire of possible meanings to be associated with continuous instruction signals. Extending the system towards the creation of novel meanings is an important question. Another approach, for both extending task and meaning repertoires dynamically, would be to allow the user to teach the robot new macro-actions, associated to new macro-instructions, or macro-state, for example based on the options framework \cite{sutton1999between}.
 
