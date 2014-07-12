@@ -46,40 +46,7 @@ Finally in section~\ref{chapter:limitations:discussion}, we discuss a number of 
 % \input{\chapterpath/continuous_state.tex}
 % \input{\chapterpath/continuous_task.tex}
 % \input{\chapterpath/multiple_frame.tex}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Human in the loop}
-\label{chapter:limitations:userstudies}
-
-\question{Do people want to have an open-ended choice about what signal to use? \\ Would they be more efficient?}
-
-In real-world applications, users are usually told how to interact with machines. 
-
-
-
-how does the agent behavior affect the algorithm assumption on human behavior
-
-Assumption: The properties of the signals do not change wrt. the behavior of the agent
-
-Users comply with the frame implemented. Same meaning, optimal strategies, timing...
-
-discuss how the setup can be used in HRI, but also semiotic stuff...
-
-\paragraph{Usability and user studies}
-
-Only prerecorded datasets have been used. However, signals may change during the learning. For instance, people can try to adapt themselves to a robot if they believe the latter is not understanding properly. Or, brain signals are sensitive to the protocol, the duration of the experiment or even the percentage of errors made by the agent \cite{chavarriaga2010learning}. To which extend the behavior of our agent changes the properties of the teaching signal? Can we adapt to such changes online? 
-
-As we argued in the introduction, the work we presented is a starting point towards forms of adaptive interaction with non-technical users, that we may call fluid interaction learning. While we studied in this article properties of learning algorithms that will be needed for such an endeavor, it remains to be shown how they can be integrated within a full real-world human-robot interaction scenario and architecture so that the usability and acceptability of such system can be evaluated. Thus, user studies in particular will be a crucial next step of this work. Some improvements of the system may be needed to reach acceptable levels of usability.
-Indeed, our current system can be restrictive for the user as the number of interaction increases quickly with the complexity of the size of the task and meaning spaces. However, we have shown that the system is able to use known sources of information, which in real-world interaction could be leveraged to keep the sample complexity low.
-
-In relation to targeting fluid interaction learning, we will consider in the future how more complex kinds of instructions can be included in our formalism. Indeed, the possible teaching models used spontaneously by people can be more complex than the simple meaning correspondences we assumed \cite{thomaz2008teachable,Cakmak2010optimality}. Also the turn taking scheme could be made more natural, as the robot could ask questions \cite{cakmak2012designing} and accept asynchronous instructions.
-
-Do people want to have an open-ended choice about what signal to use? Would they be more efficient? When is it better to use a calibration procedure?
+\input{\chapterpath/user_studies.tex}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
