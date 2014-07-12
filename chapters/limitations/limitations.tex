@@ -46,46 +46,14 @@ Finally in section~\ref{chapter:limitations:discussion}, we discuss a number of 
 % \input{\chapterpath/continuous_state.tex}
 % \input{\chapterpath/continuous_task.tex}
 % \input{\chapterpath/multiple_frame.tex}
-\input{\chapterpath/user_studies.tex}
-
+% \input{\chapterpath/user_studies.tex}
+\input{\chapterpath/proof.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{A minimalist proof}
-\label{chapter:limitations:proof}
-
-proof and more simple scenario to analyse in more details what is happening and the porperties of this work is defninitevely missing and was not my principal interrest when develloping this work. As everyone as its prefered skills, I am sure there will be interrest people to work on this.
-
-lack of proof
-
-\subsection{Interpretation hypothesis: a symbolic signal example}
-
-It is of paramount importance to understand the properties of our algorithm, and to be able to have some certitude about the convergence and accuracy properties. The work presented in this thesis neglected this aspect and relied more empirical evaluation. The next step for a motivated person it to work on a formalism and try to define some bounds of proof on some of the algorithm properties.
-
-Use the entropy information function to make this dummy proof.
-
-We further assume that the user is coherent and uses one signal for one meaning. The assumption is that the mapping between symbolic signals and their meaning can only be of two forms.
-
-It could be exemplified by an interface with two buttons, one for ``correct'' and one for ``incorrect'', but the mapping between the button and the meaning would not be defined in advance.
-
-\todo{figure with possible mapping}
-
-For a particular hypothesis, the robot can assign hypothetic meanings)to the human signals knowing their are limited to a fixed set and according to the current state of the world. The machine is ``reasoning'' as follow: \emph{"If the human wants me to solve task G1 then when I performed action $a$ in state $a$ and he said ``oui'', he meant ``incorrect''"}. 
-
-\todo{example step by step, first the world, one action, it interpretation wrt. each hypothesis, then accelerate and observe}
-
-By creating a set of hypothesis, the system end-up with a set of possible interpretation of the human teaching signals. But as the user have only one objective in mind, here G1, only the correct interpretation will exhibit a coherence between the signals and their associated meanings. 
-
-In our case, as the user is using symbolic signals, and that we assumed the user is coherent and use always the same symbol for the same meaning. We can infer that hypothesis G1 is the correct one as the resulting mapping between signal and meaning is more coherent.
-
-\todo{For the symbolic case, and given specific constraint we will present a minimalist proof once the associated mathematical notation will be introduced}
-
-The example described above simplifies the problem in some aspects. Indeed we assume the robot is already able to discriminate between perceptual events and has access to a unlabeled symbolic representation of the teaching signals. It would be the case when using a button based interface, however, when considering more ``natural'' means of interaction such as speech, the mapping between spoken words and their meaning should be learn by the machine. Indeed, the same word in never pronounced exactly the same way and some classification algorithm should be applied to train a discriminative model.
-
-
 \section{Discussion}
 \label{chapter:limitations:discussion}
 
