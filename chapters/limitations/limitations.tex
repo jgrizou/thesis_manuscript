@@ -25,12 +25,9 @@ In section~\ref{chapter:limitations:continoushypothesis}, we release the assumpt
 
 In section~\ref{chapter:limitations:framehypothesis}, we release the assumption that the interaction frame is known and consider the agent as access to a finite number of hypothetic interaction frames. We illustrated this problem in a simple scenario line world scenario. And present results from simulated experiments that demonstrate the ability our method to not only learn the task and the signal to meaning mapping, but also the interaction protocol used by the teacher.
 
-section~\ref{chapter:limitations:userstudies}
-human in the loop
+In section~\ref{chapter:limitations:userstudies}, we discuss the need for conducting user studies in more complex domain to evaluate the scalability, efficiency, and acceptability of our method.
 
-section~\ref{chapter:limitations:proof}
-formalism and proof
-
+In section~\ref{chapter:limitations:proof}, we pinpoint the importance of understanding the properties of our algorithm, and to be able to have some certitude about its convergence and accuracy properties; and we propose a minimalist proof of for our algortihm.
 
 Finally in section~\ref{chapter:limitations:discussion}, we discuss a number of limitations that were not addressed in this work and that are not straightforward to solve given our context. Such as using continuous actions or learning new meanings.
 
@@ -60,3 +57,5 @@ Finally in section~\ref{chapter:limitations:discussion}, we discuss a number of 
 Similarly, the system assumed a pre-defined repertoire of possible meanings to be associated with continuous instruction signals. Extending the system towards the creation of novel meanings is an important question. Another approach, for both extending task and meaning repertoires dynamically, would be to allow the user to teach the robot new macro-actions, associated to new macro-instructions, or macro-state, for example based on the options framework \cite{sutton1999between}.
 
 The space of tasks to be sampled at a given moment may also be constrained by the current situation and context (for example, a robot hearing the instructions of a human while he is looking at cubes on a table may infer that the task has a higher probability to be defined in terms of manipulation of these cubes than to change the state of an object in another room). 
+
+last limitations section: how to learn the interaction hypothesis and interaction frame is a big problem, refer to thomas thesis. (model of the world, strong restriction on the possible task, information about the interaction protocol, how to interpret a signal with respect to a task, and even how to measure its confidence.)
