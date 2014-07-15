@@ -608,14 +608,14 @@ For this particular representation we assume that the reward function representi
 \subsection{Feedback and Guidance Model}
 \label{chapter:lfui:framemodels}
 
-From a given task $\xi$, we can compute the corresponding policy $\pi^{\xi}$. This policy allows to interpret the teaching signals with respect to the interaction protocol defined. In this experiment, we will consider the user is providing either feedback or guidance on the agent's actions. 
+From a given task $\xi$, we can compute the corresponding policy $\pi_{\xi}$. This policy allows to interpret the teaching signals with respect to the interaction protocol defined. In this experiment, we will consider the user is providing either feedback or guidance on the agent's actions. 
 
 \paragraph{} For the feedback case, we define $p(l^f |s,a,\xi)$ as:
 %
 \begin{equation}
     p(l^f = \emph{correct} |s,a,\xi) = 
     \begin{cases}
-    1-\alpha               & if~a = \argmax_a \pi^{\xi}(s,a)\\
+    1-\alpha               & if~a = \argmax_a \pi_{\xi}(s,a)\\
         \alpha             & \text{otherwise}\\
    \end{cases}
    \label{eq:feedbackframe}
@@ -628,7 +628,7 @@ with $\alpha$ modeling the expected error rate of the user and $p(l^f = wrong |s
 \begin{equation}
     p(l^f = a |s,\xi) = 
     \begin{cases}
-        1-\alpha & if~a = \argmax_a \pi^{\xi}(s,a)\\
+        1-\alpha & if~a = \argmax_a \pi_{\xi}(s,a)\\
         \frac{\alpha}{nA} & \text{otherwise}\\
    \end{cases}
    \label{eq:guidanceframe}

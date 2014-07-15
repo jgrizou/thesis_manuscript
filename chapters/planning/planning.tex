@@ -30,36 +30,29 @@ But this process is here describe in a way that is not realistic, our robot can 
 
 A solution to this problem is to add exploration-bonuses for each state-action pair corresponding to the uncertainty associated to each state-action pair. The agent can then select its next action considering the full map of uncertainty. By seeing those exploration-bonuses as rewards in a reinforcement learning scenario the agent select the action that maximizes uncertainty reduction on the task in the long term. There are several efficient model-based reinforcement learning exploration methods that add an exploration bonus for states that might provide more learning gains. Several theoretical results show that these approaches allow to learn tasks efficiently \cite{brafman2003r,kolter2009near}. 
 
+Measuring uncertainty on the task follows along the same lines as the work of Manuel Lopes \cite{lopes2009active, macl09airl}. The idea is to take a query-by-committee approach where each member of the committee, i.e. each task hypothesis $\xi_k$, influences the process according to its importance in the committee, i.e its respective probability $p(\xi_k)$. 
 
-
-\todo{
-
-
-
-Measuring task uncertainty follows along the same lines as previous work \cite{macl09airl}. The idea is to take a query-by-committee approach where each ``member'' of the committee, i.e. each task hypothesis $\xi_k$, influences the process according to its importance in the committee, i.e its respective likelihood $\L^{\xi_k}$. We define a vector that accumulates the weighted optimal actions of each hypothesis: 
+We can define a vector that accumulates the weighted optimal actions of each hypothesis: 
 %
 \[
-c(s,a) = \sum_i \L^{\xi_i} \delta(\pi(s,a)^{\xi_i}>0)
+c(s,a) = \sum_{t = 1, \ldots, T} p(\xi_t) \delta(\pi_{\xi_t}(s,a) > 0)
 \]
+% \argmax_a \pi_{\xi_t}(s,a)) 
+% \delta(\pi_{\xi_t}(s,a)
 %
-where $\delta$ is a Dirac function that is 1 if the argument is true and zero otherwise. For each state, the vector entropy of the $c(s,a)$ measures the disagreement between hypotheses. We can make a state-wide measure of uncertainty by summing the entropies corresponding to each state-action pair:
+where $\delta$ is a Dirac function that is 1 if the argument is true and zero otherwise. For each state, the vector entropy of the $c(s,a)$ measures the disagreement between hypotheses.
 %
 \[
-v_t(s)=\sum_a \mathcal{H}(c(s,a))
+U(s,a) = \mathcal{H}(c(s,a))
 \]
+%
+% We can make a state-wide measure of uncertainty by summing the entropies corresponding to each state-action pair:
+% %
+% \[
+% U(s)=\sum_a \mathcal{H}(c(s,a))
+% \]
 
-
-
-Following our notation, we can define an uncertainty measure as the variance of the expected meaning for each task weighted by their current probability, for a specific state and action and the feedback frame:
-
-\begin{eqnarray}
-U(s,a) = weightedVariance(p(l = ``correct''| s, a, \xi), p(\xi))
-\end{eqnarray}
-
-
-
-\cite{lopes2009active}, if the classifier is known, equation \ref{eq:planningOneSignal} reduces to the one presented in \cite{macl11simul}}
-
+Given the uncertainty for each state-action pairs, we can define a reward function where at each state-action pair the reward equals the uncertainty value. By finding the policy that mximize the reward, i.e. the uncertainty, the agent should visit states that disambiguate between hypothesis. After some steps, the probability of all tasks can be evaluated again and the uncertainty map updated.
 
 This method works well if the machine has access to the true intended meaning of the user, which is not the case for us. We will now investigate what makes our problem different in terms of planning.
 
@@ -297,7 +290,7 @@ In all the experiment presented in this thesis, there is no scenario where a sta
 In the subsequent analysis, we will considerer a reaching task where an agent live in a grid world and should learn which square the human user want the agent to go. We considered the teacher provides feedback for the actions taken by the agent. Our aim is to apply this algorithm to brain computer interaction, and we will use artificial dataset of different qualities and dimension to simulated EEG signals.
 
 \subsection{World and Task}
-We consider a 5x5 grid world, where an agent can perform five different discrete actions: move up, down, left, right, or a ``no move'' action. The user goal is to teach the agent to reach one (unknown to the agent) of the 25 discrete positions which represent the set of possible tasks. We thus consider that the agent has access to 25 different task hypothesis (one with goal location at each of the cells). We use \textit{Markov Decision Processes} (MDP) to represent the problem \cite{sutton1998reinforcement}. From a given task $\xi$, represented as a reward function, we can compute the corresponding policy $\pi^{\xi}$ using, for instance, Value Iteration \cite{sutton1998reinforcement}. The policies allow us to interpret the teaching signals with respect to the interaction protocol defined. For the current work we will consider the user is providing feedback on the agent action, and use the feedback frame function as define in Equation~\ref{eq:feedbackframe}.
+We consider a 5x5 grid world, where an agent can perform five different discrete actions: move up, down, left, right, or a ``no move'' action. The user goal is to teach the agent to reach one (unknown to the agent) of the 25 discrete positions which represent the set of possible tasks. We thus consider that the agent has access to 25 different task hypothesis (one with goal location at each of the cells). We use \textit{Markov Decision Processes} (MDP) to represent the problem \cite{sutton1998reinforcement}. From a given task $\xi$, represented as a reward function, we can compute the corresponding policy $\pi_{\xi}$ using, for instance, Value Iteration \cite{sutton1998reinforcement}. The policies allow us to interpret the teaching signals with respect to the interaction protocol defined. For the current work we will consider the user is providing feedback on the agent action, and use the feedback frame function as define in Equation~\ref{eq:feedbackframe}.
 
 \subsection{Signal properties and classifier}
 
@@ -311,6 +304,47 @@ p(e|l, \theta) & = & t_{n-d}(e | \mu_l,\frac{\Sigma_l (n+1)}{n(n-d)})
 \end{eqnarray}
 
 where $\theta$ represents the ML estimates (mean $\mu_l$ and covariance $\Sigma_l$ for each class $l$) required to estimate the marginal under the Jeffreys prior, $n$ is the number of signals, and $d$ is the dimensionality of a signal feature vector.
+
+\todo{
+Finally to compute the probability of a label given a signal, we use the bayes rules as follows: 
+
+\begin{eqnarray}
+p(l = l_i| e, \theta) = \frac{p(e|\theta, l=l_i)}{\sum_k p(e|\theta, l=l_k)}
+\end{eqnarray}
+
+
+The term $p(z=l|e,\theta_{\xi})$ is just the probability of the meaning under the Gaussian model provided by $\theta_{\xi}$
+%
+\begin{eqnarray}
+  p(z=l|e,\theta) &=& 
+        \frac{p(e|z=l, \theta)p(z = l)}{\sum_{k=c,w}{p(e|z=k,\theta)p(z=k)}} = \frac{\mathcal{N}(e|\mu_l, \Sigma_l)p(z = l)}{\sum_{k=c,w}{\mathcal{N}(e|\mu_k, \Sigma_k)p(z=k)}}
+  \label{eq:dev}
+\end{eqnarray}
+%
+%$p(z=l|e,\theta) = \frac{\mathcal{N}(e|\mu_l, \Sigma_l)}{\sum_{k=c,w} \mathcal{N}(e|\mu_k, \Sigma_k)}$
+%I am not sure of the notation $\mathcal{N}(e|\mu_l, \Sigma_l)$ to define the pdf value for $e$
+%
+%This seems to be how to derive it but not sure
+%\begin{eqnarray}
+% p(z=l|e,\theta) &=& \frac{p(z = l,e|\theta)}{p(e|\theta)} \nonumber\\
+%       &=& \frac{p(e|z=l, \theta)p(z = l)}{\sum_{k=c,w}{p(e|z=k,\theta)p(z=k)}} \nonumber\\
+%       &=& \frac{\mathcal{N}(e|\mu_l, \Sigma_l)p(z = l)}{\sum_{k=c,w}{\mathcal{N}(e|\mu_k, \Sigma_k)p(z=k)}}
+% \label{eq:dev}
+%\end{eqnarray}
+%With $p(z = c) = p(z = w) = 0.5$
+
+
+Finally, the term $p(z=k|e,\theta)$ is just the probability that the signal $e$ belong to class $k$ under the Gaussian model provided by $\theta$ and is given by:
+%
+\begin{eqnarray}
+    p(z=k|e,\theta) &=& 
+                \frac{p(e|z=k, \theta)p(z = k)}{\sum_{l \in \{c,w\}}{p(e|z=l,\theta)p(z=l)}}\nonumber\\
+                 &=& \frac{\mathcal{N}(e|\mu_k, \Sigma_k)p(z = k)}{\sum_{l \in \{c,w\}}{\mathcal{N}(e|\mu_l, \Sigma_l)p(z=l)}}
+    \label{eq:dev}
+\end{eqnarray}
+%
+As we do not have a priori knowledge on the user intended meaning, we assume that it is equiprobable $p(z = c) = p(z = w)$. 
+}
 
 \subsection{Task Achievement}
 
@@ -364,9 +398,9 @@ Figure~\ref{fig:artificialplanning} compares the number of steps (with maximum v
     \label{fig:artificialplanning}
 \end{figure}
 
-As explained in section~\ref{chapter:planning:how}, the machine needs to collect two types of information, some about the true underlying model (Fig.~\ref{fig:planningupdown} and some to differentiate between hypotheses (Fig.~\ref{fig:planningrightleft}. The properties of the grid world make the random strategy quite efficient at collecting those two types of information. The differences between planning methods should be more evident when navigating a complex maze since our method allows to plan in order to collect the type of information we need. 
+As explained in section~\ref{chapter:planning:how}, the machine needs to collect two types of information, some about the true underlying model (Fig.~\ref{fig:planningupdown}) and some to differentiate between hypotheses (Fig.~\ref{fig:planningrightleft}). The properties of the grid world make the random strategy quite efficient at collecting those two types of information. The differences between planning methods should be more evident when navigating a complex maze since our method allows to plan in order to collect the type of information we need. 
 
-We will present a small study on how different world properties affect the learning efficiency in chapter~\todo{reference this here once written}. 
+We will present a small study on how different world properties affect the learning efficiency in chapter~\ref{chapter:limitations:wordlproperties}. 
 
 Also, we note that all planning methods were switched to pure exploitation (greedy) once the confidence level was reached. Therefore the performance in Figure~\ref{fig:artificialplanning} compares the ability of the different methods to discriminate between different task hypotheses, not their ability to solve the task itself.
 
