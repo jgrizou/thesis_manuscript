@@ -50,14 +50,16 @@ Given this two possible interpretation we can build a statistical model for the 
 In this thesis, as we were not considering symbolic signals, we used a metric that compares the expectation from the frame (i.e. lines (b) and (c)) with a classifier associated to each task. Let's use Equation~\ref{eq:matchingoverfitting} to compute the likelihood for each task. For G1 we obtain:
 %
 \begin{eqnarray}
-\L(G1) &=& \left((1*1)+(0*0)\right)\left((0*0)+(1*1)\right)\left((0*0)+(1*1)\right)\left((1*1)+(0*0)\right)  \nonumber \\
+\L(G1) &=& \left((1\times1)+(0\times0)\right)\left((0\times0)+(1\times1)\right)\left((0\times0)+(1\times1)\right)~\ldots  \nonumber \\
+&& \ldots~\left((1\times1)+(0\times0)\right)  \nonumber \\
 &=& 1 \nonumber
 \end{eqnarray}
 
 And for G2 we obtain:
 %
 \begin{eqnarray}
-\L(G2) &=& \left((0.5*0)+(0.5*1)\right)\left((0.5*1)+(0.5*0)\right)\left((0.5*0)+(0.5*1)\right)\left((0.5*1)+(0.5*0)\right) \nonumber \\
+\L(G2) &=& \left((0.5\times0)+(0.5\times1)\right)\left((0.5\times1)+(0.5\times0)\right)~\ldots  \nonumber \\
+&& \ldots~\left((0.5\times0)+(0.5\times1)\right)\left((0.5\times1)+(0.5\times0)\right) \nonumber \\
 &=& 0.0625 \nonumber
 \end{eqnarray}
 
@@ -73,20 +75,22 @@ We can explain this effect as follows. First, for all hypothesis this assumption
 
 Therefore, we can evaluate the possible mapping models based on the difference in policies between the optimal task and any hypothetic task using our $diff()$ function defined earlier. For a given task $\xi_t$ we can compute the ratio of optimal state-action pairs that are the same as for the true task $\hat{\xi}$, which we denote $\Upsilon_{\xi_t} = \frac{nSA - diff(\pi_t, \hat{\pi})}{nSA}$. Obviously the agent will never have access to this information and we only use this measure for our proof.
 
-Given our previously defined assumption, and assuming the agent visited all state-action pairs once, if the user use the blue button to mean ``correct'', then the blue signal model will be $[\Upsilon_{\xi_t},1-\Upsilon_{\xi_t}]_{B,\xi_t}$. Which implies the orange button mapping is $[1-\Upsilon_{\xi_t},\Upsilon_{\xi_t}]_{O,\xi_t}$. Respectively, if the user use the blue button to mean ``incorrect'', then the blue signal model will be $[1-\Upsilon_{\xi_t},\Upsilon_{\xi_t}]_{B,\xi_t}$. Which implies the orange button mapping is $[\Upsilon_{\xi_t},1-\Upsilon_{\xi_t}]_{O,\xi_t}$. 
+Given our previously defined assumption, and assuming the agent visited all state-action pairs once, if the user uses the blue button to mean ``correct'', then the blue signal model will be $[\Upsilon_{\xi_t},1-\Upsilon_{\xi_t}]_{B,\xi_t}$. Which implies the orange button mapping is $[1-\Upsilon_{\xi_t},\Upsilon_{\xi_t}]_{O,\xi_t}$. Respectively, if the user uses the blue button to mean ``incorrect'', then the blue signal model will be $[1-\Upsilon_{\xi_t},\Upsilon_{\xi_t}]_{B,\xi_t}$. Which implies the orange button mapping is $[\Upsilon_{\xi_t},1-\Upsilon_{\xi_t}]_{O,\xi_t}$. 
 
-As there is the same number of ``correct'' and ``incorrect'' expected labels, we can factorize the likelihood equation as follow:
+As there is the same number of ``correct'' and ``incorrect'' expected labels, we can factorize the likelihood equation as follow (see appendix~\ref{appendix:proof}):
 %
 \begin{eqnarray}
-\L(\xi_t) &=& \left(\Upsilon_{\xi_t}^2 + (1-\Upsilon_{\xi_t})^2 \right)^{nSA}
+\L(\xi_t) &=& \Upsilon_{\xi_t}^{nSA.\Upsilon_{\xi_t}} \times (1-\Upsilon_{\xi_t})^{nSA.(1-\Upsilon_{\xi_t})}
 \label{eq:likelihoodproof}
 \end{eqnarray}
 
-Note that, thanks to our assumption, this equation is in the end the same whatever the button chosen by the user to mean ``correct'', i.e. for the blue button it is $\left(\Upsilon_{\xi_t}^2 + (1-\Upsilon_{\xi_t})^2 \right)^{nSA}$ and for the orange button it is $\left((1- \Upsilon_{\xi_t})^2 + \Upsilon_{\xi_t}^2 \right)^{nSA}$. We can check our previous likelihood estimate in our simple example of Figure~\ref{fig:proofsymbolic} considering the 4 state-action space visited are the only one available in the world, and considering we receive button presses as in line (d). We obtain the same likelihoods as the one derived in the first subsection, i.e. $\L(G1) = (1^2 + 0^2)^4 = 1^4 = 1$ and $\L(G1) = (0.5^2 + 0.5^2)^4 = 0.5^4 = 0.0625$.
+Note that this equation is the same whatever the button chosen by the user to mean ``correct''. We can check our previous likelihood estimate in our simple example of Figure~\ref{fig:proofsymbolic} considering the 4 state-action space visited are the only one available in the world, and considering we receive button presses as in line (d). We obtain the same likelihoods as the one derived in the first subsection, i.e. $\L(G1) = 1^{1\times4} \times 0^{0\times4} = 1$ and $\L(G1) = 0.5^{0.5\times4} \times 0.5^{0.5\times4} = 0.5^4 = 0.0625$.
 
-Let's plot the likelihood function with respect to the full range of value that $\Upsilon_{\xi_t}$ can take, i.e. between 0 and 1. We consider that $nSA = 1$ for now. Obviously with such a value of nSA, and given our assumption, the range of value that $\Upsilon_{\xi_t}$ can really take is extremely limited, i.e. only 0 or 1. Indeed $nSA = 1$ means there is only one state-action pair in the robot environment, which only allow for two different task, either is is good to do this state-action, either it is bad. However, now that we have our theoretical estimate of the likelihood function we shall study its properties isolated from the number of state-action pair in the world. Of course, the equation is only valid if the agent visited all state-action pair but for the sake of our analysis, we consider that the value of $nSA$ is the number of state-action pair visited by the agent in a world holding the properties we assumed.
+Let's plot the likelihood function with respect to the full range of value that $\Upsilon_{\xi_t}$ can take, i.e. between 0 and 1. We consider that $nSA = 1$ for now. Obviously such a value of $nSA$ is impossible in practice given our assumptions, we need as many optimal and non-optimal state-action pair, which means that $nSA$ must be an even number. However, now that we have our theoretical estimate of the likelihood function we shall study its properties in a theoretical way. Additionally, our equation is only valid if the agent visited all state-action pair but for the sake of our analysis, we consider that the value of $nSA$ represents the number of state-action pair visited by the agent. Moreover, there exist a relation between the number of state-action pair and the discrete set of value that $\Upsilon_{\xi_t}$ can take given our assumptions, but for the sake of the analysis we consider the full range of value between 0 and 1.
 
-Figure~\ref{fig:prooflikelihoodone} shows the likelihood function for $nSA = 1$. As expected the likelihood decrease is higher for the correct task, i.e. when $\Upsilon_{\xi_t} = 1$, and decrease as the number of state-action pairs that differ increase, i.e. when $\Upsilon_{\xi_t}$ decrease. However this function holds an interesting property, which is that once more than half of the optimal state-action pair differs with the true task, the function increases again. Until is reaches a point where none of the optimal state-action pair of the task are the same as for the true task. This specific case is what we called symmetric task hypothesis, where the symmetric interpretation of the feedback signals is as likely as  the correct interpretation of the signals. Indeed none state-action pairs allow to break this symmetry for the feedback frame.
+Figure~\ref{fig:prooflikelihoodone} shows the likelihood function for $nSA = 1$. As expected the likelihood value is higher for the correct task, i.e. when $\Upsilon_{\xi_t} = 1$, and decrease as the number of state-action pairs that differ increase, i.e. when $\Upsilon_{\xi_t}$ decrease. However this function holds an interesting property, which is that once more than half of the optimal state-action pair differs with the true task, the function increases again. Until is reaches a point where none of the optimal state-action pair of the task are the same as for the true task. This specific case is what we called symmetric task hypothesis, where the symmetric interpretation of the feedback signals is as likely as  the correct interpretation of the signals. Indeed none of the state-action pairs allow to break this symmetry for the feedback frame. 
+
+Therefore, given all the assumptions considered, if the agent is provided with a set of task hypothesis, that included the correct task $\hat{\xi}$ but does not include any symmetric hypothesis --- which means all tasks hold the following property $\Upsilon_{\xi_t} > 0$ ---, we can guarantee that if the teacher visits all state-action pairs once, the user intended task $\hat{\xi}$ --- which hold the property $\Upsilon_{\xi_t} = 1$ --- will have the greater likelihood. In other words: $\L(\hat{\xi}) > \L(\xi_t)$ if $\Upsilon_{\xi_t} \in~]0,1[$.
 
 \begin{figure}[!ht]
 \centering
@@ -124,11 +128,11 @@ We can do the same in our simple example, indeed, as we assumed that the user is
 The binary entropy function, denoted $H_{\mathrm b}(p)$, is the entropy of a Bernoulli process with probability of success p, and can be computed as follows:
 
 \begin{eqnarray}
-H_{\mathrm b}=-p\log_2 p - (1-p)\log_2(1-p) 
+H_{\mathrm b}(p) = -p\log_2(p) - (1-p)\log_2(1-p) 
 \label{eq:likelihoodentropy}
 \end{eqnarray}
 
-The binary entropy function is shown in Figure~\ref{fig:prooflikelihoodentropy}. As one would expect the shape of the entropy function to hold similar properties than our likelihood Equation~\ref{eq:likelihoodproof}.
+The binary entropy function is shown in Figure~\ref{fig:prooflikelihoodentropy}. As one would expect the shape of the entropy function holds similar properties than our likelihood Equation~\ref{eq:likelihoodproof}.
     
 \begin{figure}[!ht]
 \centering
@@ -143,6 +147,6 @@ Therefore, this method alone is not enough to estimate which task is the correct
 
 \subsection{Discussion}
 
-\todo{All this is extremely specific and I have not idea on how to make a proof with less restricted conditions.}
+While it is always interesting and useful to formulate proof of algorithm, the restricted assumption used in this section makes it impossible to use this results in practical scenario. But we note that our experimental results shows that our algorithm can work with fairly good performance on different scenarios using continuous signals as noisy as EEG signals.
 
-% The example described above simplifies the problem in many aspects. Indeed we assume the robot is already able to discriminate between perceptual events and has access to a unlabeled symbolic representation of the teaching signals. It would be the case when using a button based interface, however, when considering more ``natural'' means of interaction such as speech, the mapping between spoken words and their meaning should be learn by the machine. Indeed, the same word in never pronounced exactly the same way and some classification algorithm should be applied to train a discriminative model.
+I personally have very few experience in making proof for such kind of problems and it may be useful to pursue in that direction by releasing some of the assumption steps after steps. Starting with the assumption that all hypothesis have half of their state-action pair optimal and half non-optimal, and progressively accounting for some teaching mistakes. Reaching that level of proof would already offer some guarantees for simple scenario using discrete state, discrete action, and symbolic signals but under more realistic teaching condition.

@@ -124,6 +124,44 @@ In chapter~\ref{chapter:planning}, we consider a 5x5 grid world, where an agent 
   \label{fig:appendix:gridworldfeedback}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Details of the likelihood function factorization}
+\label{appendix:proof}
+
+We remind the likelihood equation:
+%
+\begin{eqnarray}
+\L(\xi_t) &=& \prod_{i = 1,\ldots,M} p(l^c_i = l^f_i | D_M, \xi_t) \nonumber \\ 
+&=& \prod_{i = 1,\ldots,M} \sum_{k = 1, \ldots, L} p(l^c_i = l_k | e_i, \theta_M) p(l^f_i = l_k | s_i, a_i, \xi_t) \nonumber
+\end{eqnarray}
+%
+where $p(l^c_i = l_k | e_i, \theta_M)$ is the classification of the signal $e_i$ from our classification model $\theta_M$, and $p(l^f_i = l_k | s_i, a_i, \xi_t)$ is the expected label given by the frame.
+
+Following our simple symbolic example of chapter~\ref{chapter:limitations:proof}, the expected labels are either ``correct'' or ``incorrect'' and, as the user makes not mistake, the probabilities are either 0 or 1. We denote $[1,0]_{s_i,a_i,\xi_t}$ the vector of probability which associate a probability of 1 for the meaning ``correct'' (i.e. $p(l^f_i = ``correct" | s_i, a_i, \xi_t) = 1$ ) and of 0 for the meaning ``incorrect'' (i.e. $p(l^f_i = ``incorrect" | s_i, a_i, \xi_t) = 0$ ). Respectively for the non-optimal state-action pairs, this vector becomes $[0,1]_{s_i,a_i,\xi_t}$.
+
+Similarly, given our development of chapter~\ref{chapter:limitations:proof}, and assuming the agent visited all state-action pairs once, if the user uses the blue button to mean ``correct'', then the blue signal model will be $[\Upsilon_{\xi_t},1-\Upsilon_{\xi_t}]_{B,\xi_t}$. Which implies the orange button mapping is $[1-\Upsilon_{\xi_t},\Upsilon_{\xi_t}]_{O,\xi_t}$. Respectively, if the user uses the blue button to mean ``incorrect'', then the blue signal model will be $[1-\Upsilon_{\xi_t},\Upsilon_{\xi_t}]_{B,\xi_t}$. Which implies the orange button mapping is $[\Upsilon_{\xi_t},1-\Upsilon_{\xi_t}]_{O,\xi_t}$.  Where $\Upsilon_{\xi_t} = \frac{nSA - diff(\pi_t, \hat{\pi})}{nSA}$ denote the ratio of optimal state-action pairs of $\xi_t$ that are the same as for the true task $\hat{\xi}$.
+
+Using this notation, we can write the likelihood equation as a product of vector's products. Where for example, $\sum_{k = 1, \ldots, L} p(l^c_i = l_k | e_i, \theta_M) p(l^f_i = l_k | s_i, a_i, \xi_t)$ can be written as $[\Upsilon_{\xi_t},1-\Upsilon_{\xi_t}]_{B,\xi_t}.[1,0]_{s_i,a_i,\xi_t}^T$ for those cases where the user pressed the blue button (i.e. $e_i = B$) after an optimal state-action pair (i.e. the expected meanings is ``correct'', i.e. $[1,0]_{s_i,a_i,\xi_t}$), and given that the blue button was the one used by the teacher to mean ``correct'', resulting in $[\Upsilon_{\xi_t},1-\Upsilon_{\xi_t}]_{B,\xi_t}$ as the button to meaning model.
+
+Let's now list all the possible cases. We can split the state-action pairs in half, the one that are optimal according to the teacher intended task $\hat{\xi}$ (there is $\frac{nSA}{2}$ of them) and the one that are non-optimal according to the teacher intended task $\hat{\xi}$ (there is $\frac{nSA}{2}$ of them). For the state-action pairs that are optimal, the user will press the button he uses to mean ``correct'' (i.e. the blue or the orange one), respectively for the non-optimal, he will press the other button (i.e. the orange or the blue one).
+
+But the agent evaluates those button presses with respect to the task hypothesis currently considered $\xi_t$, which might not be the one the teacher as in mind. Therefore, only a fraction of the time the button presses match with what is expected by the task considered $\xi_t$. This number can be exactly identified as $\frac{nSA}{2}.\Upsilon_{\xi_t}$. Therefore for $\frac{nSA}{2}.\Upsilon_{\xi_t}$ state-action pairs, the ``correct'' button was pressed for the ``correct'' meaning. For one state-action pair, this represent an update of the likelihood function by $[\Upsilon_{\xi_t},1-\Upsilon_{\xi_t}].[1,0]^T$, which is simply $\Upsilon_{\xi_t}$. As there is $\frac{nSA}{2}.\Upsilon_{\xi_t}$ similar situations the update is $\Upsilon_{\xi_t}^{\frac{nSA}{2}.\Upsilon_{\xi_t}}$.
+
+Similarly there is $\frac{nSA}{2}.(1-\Upsilon_{\xi_t})$, where the ``incorrect'' button was pressed for the ``correct'' meaning. Which represent an update of $[\Upsilon_{\xi_t},1-\Upsilon_{\xi_t}].[0,1]^T$, which is simply $1-\Upsilon_{\xi_t}$. As there is $\frac{nSA}{2}.(1-\Upsilon_{\xi_t})$ similar situations the update is $(1-\Upsilon_{\xi_t})^{\frac{nSA}{2}.(1-\Upsilon_{\xi_t})}$.
+
+And as the situation is symmetric for the non-optimal state-action pair of the teacher intended task $\hat{\xi}$, the likelihood equation can be rewritten as:
+
+\begin{eqnarray}
+\L(\xi_t) &=& \Upsilon_{\xi_t}^{\frac{nSA}{2}.\Upsilon_{\xi_t}} \times (1-\Upsilon_{\xi_t})^{\frac{nSA}{2}.(1-\Upsilon_{\xi_t})} \times \Upsilon_{\xi_t}^{\frac{nSA}{2}.\Upsilon_{\xi_t}} \times (1-\Upsilon_{\xi_t})^{\frac{nSA}{2}.(1-\Upsilon_{\xi_t})} \nonumber \\
+&=& \Upsilon_{\xi_t}^{nSA.\Upsilon_{\xi_t}} \times (1-\Upsilon_{\xi_t})^{nSA.(1-\Upsilon_{\xi_t})} \nonumber
+\end{eqnarray}
+
+Note that this equation is the same whatever the button chosen by the user to mean ``correct''.
+
 
 
 
