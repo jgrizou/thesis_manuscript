@@ -305,46 +305,14 @@ p(e|l, \theta) & = & t_{n-d}(e | \mu_l,\frac{\Sigma_l (n+1)}{n(n-d)})
 
 where $\theta$ represents the ML estimates (mean $\mu_l$ and covariance $\Sigma_l$ for each class $l$) required to estimate the marginal under the Jeffreys prior, $n$ is the number of signals, and $d$ is the dimensionality of a signal feature vector.
 
-\todo{
 Finally to compute the probability of a label given a signal, we use the bayes rules as follows: 
-
-\begin{eqnarray}
-p(l = l_i| e, \theta) = \frac{p(e|\theta, l=l_i)}{\sum_k p(e|\theta, l=l_k)}
-\end{eqnarray}
-
-
-The term $p(z=l|e,\theta_{\xi})$ is just the probability of the meaning under the Gaussian model provided by $\theta_{\xi}$
 %
 \begin{eqnarray}
-  p(z=l|e,\theta) &=& 
-        \frac{p(e|z=l, \theta)p(z = l)}{\sum_{k=c,w}{p(e|z=k,\theta)p(z=k)}} = \frac{\mathcal{N}(e|\mu_l, \Sigma_l)p(z = l)}{\sum_{k=c,w}{\mathcal{N}(e|\mu_k, \Sigma_k)p(z=k)}}
-  \label{eq:dev}
+    p(l = l_i|e,\theta) &=& \frac{p(e|l = l_i, \theta)p(l = l_i)}{\sum_{k = 1,\ldots, L}{p(e|l = l_k,\theta)p(l = l_k)}}\nonumber \\
+    &=& \frac{p(e|l=l_i, \theta)}{\sum_{k = 1,\ldots, L} p(e|l=l_k)} \nonumber
 \end{eqnarray}
 %
-%$p(z=l|e,\theta) = \frac{\mathcal{N}(e|\mu_l, \Sigma_l)}{\sum_{k=c,w} \mathcal{N}(e|\mu_k, \Sigma_k)}$
-%I am not sure of the notation $\mathcal{N}(e|\mu_l, \Sigma_l)$ to define the pdf value for $e$
-%
-%This seems to be how to derive it but not sure
-%\begin{eqnarray}
-% p(z=l|e,\theta) &=& \frac{p(z = l,e|\theta)}{p(e|\theta)} \nonumber\\
-%       &=& \frac{p(e|z=l, \theta)p(z = l)}{\sum_{k=c,w}{p(e|z=k,\theta)p(z=k)}} \nonumber\\
-%       &=& \frac{\mathcal{N}(e|\mu_l, \Sigma_l)p(z = l)}{\sum_{k=c,w}{\mathcal{N}(e|\mu_k, \Sigma_k)p(z=k)}}
-% \label{eq:dev}
-%\end{eqnarray}
-%With $p(z = c) = p(z = w) = 0.5$
-
-
-Finally, the term $p(z=k|e,\theta)$ is just the probability that the signal $e$ belong to class $k$ under the Gaussian model provided by $\theta$ and is given by:
-%
-\begin{eqnarray}
-    p(z=k|e,\theta) &=& 
-                \frac{p(e|z=k, \theta)p(z = k)}{\sum_{l \in \{c,w\}}{p(e|z=l,\theta)p(z=l)}}\nonumber\\
-                 &=& \frac{\mathcal{N}(e|\mu_k, \Sigma_k)p(z = k)}{\sum_{l \in \{c,w\}}{\mathcal{N}(e|\mu_l, \Sigma_l)p(z=l)}}
-    \label{eq:dev}
-\end{eqnarray}
-%
-As we do not have a priori knowledge on the user intended meaning, we assume that it is equiprobable $p(z = c) = p(z = w)$. 
-}
+As we do not have a priori knowledge on the user intended meaning, we assume all labels are equiprobable, i.e. $\forall k,~p(l = l_k) = \frac{1}{L}$.
 
 \subsection{Task Achievement}
 
