@@ -48,7 +48,7 @@ As we are in a continuous domain we can not compute the full uncertainty for eac
 
 We present results from 75 runs of our experiment, where for each run we randomly choose a task to teach from the set of hypothesis as well as the initial state of the agent. The simulated teacher was making 10 percent of teaching mistake, i.e. sending an erroneuous signal 10 percent of the time. For each experiment, we compute the likelihoods every 15 steps and performs a total of 35 updates, for a total of 525 iterations. Figure~\ref{fig:continuousstateRmax} shows the average evolution of the taught task hypothesis likelihood.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\plotsize\columnwidth]{\imgpath/continuous_state/continuous}
   \caption{Taught hypothesis normalized likelihood evolution (mean + standard error) thought iteration using a Gaussian classifer. Comparaison of different exploration strategies. Uncertainty based exploration method, which plan on the long term, performs significantly better on average.}
@@ -61,7 +61,7 @@ Those results show that our algorithm can learn a task in a continuous world fro
 
 Figure~\ref{fig:continuousstateUncertaintyMap} shows the evolution of the estimated uncertainty map for one run of the experiment. For each uncertainty map, the agent plans its actions to reach a maximal uncertainty region. The maximum uncertainty value decreases as the agent is correctly estimating the task.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
       \begin{subfigure}[b]{0.35\columnwidth}
           \centering

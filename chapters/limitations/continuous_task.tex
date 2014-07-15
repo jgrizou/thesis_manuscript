@@ -25,7 +25,7 @@ We will present results using two different datasets made of finger movements pe
 
 Our first dataset shown in Figure~\ref{fig:fingerdatasetdirection} is build from a user generating directional trajectories starting from the center of the tablet and going toward the edges of the tablet. We considered four different movement, one toward each edges, representing the four cardinal directions that are the directions of north, east, south, and west. 
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\signalwidth\columnwidth]{\visualspdf/worlds_and_datasets/finger_signals_color.pdf}
 \caption{N}
@@ -34,7 +34,7 @@ Our first dataset shown in Figure~\ref{fig:fingerdatasetdirection} is build from
 
 Our second dataset shown in Figure~\ref{fig:fingerdatasetsigns} is build from a user drawing The cardinal letters (N, S, W, and E) in the middle of the tablet.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\columnwidth]{\visualspdf/worlds_and_datasets/finger_signals_color_signs.pdf}
 \caption{N}
@@ -100,7 +100,7 @@ Finally we compute the probability than one sample from that class as a value ab
 
 We illustrate this process in Figure~\ref{fig:normaldifferencedistribution}. 20 samples were generated randomly to simulate some estimates for two task hypothesis and model their respective distribution using normal distribution (see Figure~\ref{fig:normaldifferencedistribution:data}). Finally we compute the probability that a sample from the distribution with highest mean has higher value than a sample from the distribution with lowest mean. We use Equations~\ref{eq:meandiffgaussian}~and~\ref{eq:variancediffgaussian} to compute the mean and variance of the normal difference distribution between the two distributions, The area under curve from 0 to +Inf is our probability measure.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
     \begin{subfigure}[b]{\columnwidth}
         \centering
@@ -166,7 +166,7 @@ We first analyse the results using the directional finger movement dataset shown
 
 Only the combination of actively sampling new task and actively selecting new state based on their relative uncertainty as overall better performance than any other combination of our method. Those two method are complementary, to find a task hypothesis better than our previous best estimates, it is likely that it is close to the current best hypothesis. Our active task sampling method allow to explore close to our previous best estimates. However, now that we have some hypothesis located in a restricted area of the space, we need to sample state in very precise location to be able to differentiate them, which our uncertainty based state selection allow. This explain why using one of the two method alone do not reach the same performances as their combination.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.62\columnwidth]{\imgpath/continuous_task/distEvolution.eps}
 \includegraphics[width=0.37\columnwidth]{\imgpath/continuous_task/endDist.eps}
@@ -178,7 +178,7 @@ In Figure~\ref{fig:continuoustaskdistevolution} right, we compare the distributi
 
 The results presented above where obtained using the directional finger movement dataset shown in Figure~\ref{fig:fingerdatasetdirection}. We now demonstrated how the same algorithm could handle different preferences of user finger gesture for cardinal direction indication. To do so we repeat the experiment with the cardinal sign dataset of Figure~\ref{fig:fingerdatasetsigns}.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.62\columnwidth]{\imgpath/continuous_task/distEvo_signs.eps}
 \includegraphics[width=0.37\columnwidth]{\imgpath/continuous_task/endDist_signs.eps}
@@ -198,7 +198,7 @@ We briefly illustrate the difference between our two task sampling methods, name
 
 Figure~\ref{fig:continuoustasktasksampling} shows the task sampled (in blue) at steps 15, 50, and 150 following a random (Fig.~\ref{fig:continuoustaskrandomtask}) or an active (Fig.~\ref{fig:continuoustaskactivetask}) resampling step. The active resampling allows to focus the set of task around the goal state (in red), which increases the changes of finding a better estimates of the task.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
     \begin{subfigure}[b]{\columnwidth}
         \centering
@@ -222,7 +222,7 @@ We briefly illustrate the difference between our two state sampling methods, nam
 
 Figure~\ref{fig:continuoustaskstatesampling} shows the state visited (in blue) at after 200 steps  following a random (Fig.~\ref{fig:continuousstaterandomstates}) or an uncertainty based (Fig.~\ref{fig:continuousstateuncertaintystates}) next state selection method. The uncertainty based method allows to visit more states around the goal state (in red), which increases the changes of differentiates between the set of task hypothesis.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
     \begin{subfigure}[t]{0.49\columnwidth}
         \centering
@@ -242,7 +242,7 @@ Figure~\ref{fig:continuoustaskstatesampling} shows the state visited (in blue) a
 
 Figure~\ref{fig:continuoustasktasksamplingexampleslow} details the uncertainty based method for selecting next visited states. Figure~\ref{fig:continuoustaskexampleslowdist} present the goal state for this specific run (right) and the evolution of the distance to the goal of the best estimate (left). Figure~\ref{fig:continuoustaskexampleslowweights} shows the set of task hypothesis at steps 15, 50, and 150 (as for Figure~\ref{fig:continuoustasktasksampling}) where the colors associated to each point represent the estimated probability of each task (red is high, blue is low). To sample the following agent's state, we sample 1000 states randomly and estimates the uncertainty of each of those point using the method described in chapter~\ref{chapter:planning} by Equation~\ref{eq:planning}. Computing this uncertainty requires to have a set of hypothesis and their associated weights (shown in Figure~\ref{fig:continuoustaskexampleslowweights}), access to the interaction frame and a classifier for each hypothesis. The resulting maps for step 15, 50, and 150 are displayed in Figure~\ref{fig:continuoustaskexampleslowuncertainty} where the colors represent the uncertainty values (red is high, blue is low). The less the distribution of probably on task is flat, the more the uncertainty map is narrow and focused around the best estimate. The active task resampling step is beneficial to the uncertainty state selection step as it allows to specify the uncertainty in key areas.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
     \begin{subfigure}[b]{\columnwidth}
         \centering

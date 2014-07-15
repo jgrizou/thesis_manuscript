@@ -68,7 +68,7 @@ We present most of the results in terms of the quality of the dataset, measured 
 
 We compared the average number of steps (with maximum values of 400 steps) needed to identify the first task when learning from scratch with different planning methods.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=\columnwidth]{\imgpath/battacharyya/plot_planning_first.eps}
     \caption{Comparison of different exploration methods. Our proposed method, based on the uncertainty on the expected signal, allows to lead the system to regions that improve disambiguation among hypotheses in a faster way. For the greedy method, all values were 400 which indicates it never allowed to identify any task.}
@@ -81,7 +81,7 @@ Figure~\ref{fig:overlapcompplan} shows the results averaged across subjects, run
 
 After identifying the first task, and following our approach, we continued running the system and measured how many tasks were identified after 400 steps. Figure~\ref{fig:overlapbhatta} demonstrates the advantage of switching to a classification based method after identification of a first target instead of keeping the estimation given by the Bhattacharyya coefficient. On the one hand, Bhattacharyya coefficient works very well for small amounts of data because it directly compares model parameters. On the other hand, after identifying many task, all models share most of their signal-label pairs and it requires much more data to modify the models and detect overlaps. Therefore using a classifier allows for a faster identification since the classifier makes a much harder decision for each new EEG signal. This discussion is in line with the observation on the use of the power information made in chapter~\ref{chapter:bci:priorpower}.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
     \centering
         \includegraphics[width=\plotsize\columnwidth]{\imgpath/battacharyya/plot_bhattha_vs_bayes}
         \caption{Number of targets correctly identified in 400 iterations (the markers show the median values and the error bars the 2.5th and 97.5th percentiles). Comparison between switching to a Bayes filter method after identification of a first target instead of keeping the estimation given by the Bhattacharyya coefficient. The classification based method allows for a faster identification.}
@@ -94,7 +94,7 @@ Given these results, in the remaining of this section we only consider switching
 
 Figure~\ref{fig:overlapavg_sum_400} shows the number of tasks correctly and incorrectly identified in 400 iterations. For datasets of good qualities, we are able to identify more than 20 tasks in 400 iterations without the need for a calibration procedure (recap that previous works needed between 300 and 600 examples for the calibration phase \cite{chavarriaga2010learning,iturrate2010single}). The number of correctly identified tasks is strongly correlated to the quality of the dataset.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=\plotsize\columnwidth]{\imgpath/battacharyya/plot_first400_reach} 
     \caption{Number of targets correctly and incorrectly identified in 400 iterations (the markers show the median values and the error bars the 2.5th and 97.5th percentiles). For datasets of good qualities, we are able to identify more than 20 tasks in 400 iterations without the need for a calibration procedure.}
@@ -103,7 +103,7 @@ Figure~\ref{fig:overlapavg_sum_400} shows the number of tasks correctly and inco
 
 The quality of our unsupervised method can be measured according to the percentage of labels correctly assigned (according to the ground truth label), see Figure~\ref{fig:overlappercentageLabels}. In general, having dataset with classification accuracies higher than 75$\%$ guaranteed that more than 90$\%$ of the labels were correctly assigned. This result shows that our algorithm can also be used to collect training data for calibrating any other state-of-the-art error-related potentials classifier, but has the important advantage of controlling the device at the same time.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
     \centering
         \includegraphics[width=\plotsize\columnwidth]{\imgpath/battacharyya/plot_percent_label}
         \caption{Percentage of labels correctly assigned according to the ground truth label (the markers show the median values and the error bars the 2.5th and 97.5th percentiles). In general, having dataset with classification accuracies higher than 75$\%$ guaranteed that more than 90$\%$ of the labels were correctly assigned.}
@@ -116,7 +116,7 @@ The experiments were conducted with four subjects (aged between 25 and 28). Each
 
 The algorithm was able to identify the correct target for all runs of all the subjects, see Figure~\ref{fig:overlaponlineresults}. There are strong variations among subjects but we note that our system identified each task in less iterations than a normal calibration phase requires (between 300 and 600 examples depending on the user performance \cite{chavarriaga2010learning,iturrate2010single}).
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=\plotsize\columnwidth]{\imgpath/battacharyya/plot_realevolution}    
     \caption{Results from the online experiments: Evolution of the probability of the correct task for each subject and run. The algorithm was able to identify the correct target for each subjects and runs in less than 200 iterations.}
@@ -127,7 +127,7 @@ Table~\ref{tab:overlaponline} shows for each subject and run the number of itera
 
 On average, the number of iterations needed to identify the target was of 85 $\pm$ 32.
 
-\begin{table}[!ht]
+\begin{table}[!htbp]
 \centering
 \rowcolors{2}{gray!25}{white}
 \begin{footnotesize}

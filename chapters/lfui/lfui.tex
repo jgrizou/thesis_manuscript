@@ -28,7 +28,7 @@ We start by exemplifying this problem in a simple 7 states and 4 actions discret
 
 We present a simplified example that will follow us all along the remaining of this thesis. In this example, as depicted in Figure~\ref{fig:Tworld} , an agent lives in a discrete 7 state T world and can perform 4 different action (go left, right, up ,and down).
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/worlds_and_datasets/Tworld_with_state_number_and_action.pdf}
   \caption{The T world and the available actions.}
@@ -37,7 +37,7 @@ We present a simplified example that will follow us all along the remaining of t
 
 A simulated teacher wants the robot to reach the left edge of the T world. To this end, he will provide feedback information to the robot. Feedback signals are represented as two dimensional feature vectors and can have two different meanings: ``correct'' or ``incorrect''. In our example, as depicted in Figure~\ref{fig:feedbacksignals} those signals are randomly generate by two multivariate normal distribution, one for each meaning. When the teacher wants to send a feedback of meaning ``correct'', he will send a signals on the right part of the feature space. Respectively, for a feedback meaning ``incorrect'' the signal will be on the left side of the feature space. Those signals could represent any modality the teacher uses to communicate with the robot, such as speech, gestures, facial expression, or event brain signals. 
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\signalwidth\columnwidth]{\visualspdf/worlds_and_datasets/feedback_signals_color.pdf}
   \caption{The feedback signals used by our simulated teacher in our visual examples. A signal of meaning ``correct'' will be at the right side of the feature space, and a signal of meaning ``incorrect'' will be on the left side. Importantly, the agent will never have access to the label information.}
@@ -48,7 +48,7 @@ The interaction between the agent and the teacher follow a turn-taking social be
 
 For example, as depicted in Figure~\ref{fig:TworldOneStepUnlabeled}, the agent starts in state 3, performs action left, and ends-up in state 2. The teacher wants the agent to go to G1, therefore he sends a signal meaning that the previous action was ``correct'' with respect to the goal.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_unlabeled_one_action.pdf}
   \caption{The user provide a feedback signal after each action of the agent. The agent starts in state 3, performs action left, and ends-up in state 2. The teacher wants the agent to go to G1, therefore he sends a signal meaning that the previous action was ``correct'' with respect to the goal. Note that the signal is on the right side of the space as described in Figure~\ref{fig:feedbacksignals}. However the agent does not have access to the label associated to this signal and it only observes a point in a two dimensional space.}
@@ -57,7 +57,7 @@ For example, as depicted in Figure~\ref{fig:TworldOneStepUnlabeled}, the agent s
 
 This sequence of interaction is repeated for several iteration until the agent agent finds out what the user wants it to do. After performing many actions, the robot ends-up with a lot of observations associating a state, an action and a feedback signal. As depicted in Figure~\ref{fig:TworldManyStepUnlabeled}, we can observe that two clusters has emerged in the feature space, this property will be exploited in the coming sections.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_unlabeled.pdf}
   \caption{After performing many actions, the robot ends-up with a lot of observations associating a state, an action and a feedback signal. The robot do not have access to the label associated to the teaching signals. However it can observe the distribution of signal in the feature space. We can observe that two clusters has emerged in the feature space, this property will be exploited in the coming sections.}
@@ -121,7 +121,7 @@ Following the above explanation, for a particular hypothesis (G1 or G2), the rob
 
 We exemplify this process using the same example as in Figure~\ref{fig:TworldOneStepUnlabeled} and according to our two task hypothesis which are reaching either of the two edges marked as G1 or G2. The robot is aware of the optimal policies (see Figure~\ref{fig:Twolrdpolicies}) for each task which it can use to interpret the human signals.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/tuto_feedback/Tworld_hypothesis.pdf}
   \caption{Optimal policies associated to the two task hypothesis G1 and G2 in the T world. Such policies are known by both the human and the agent, and allow the agent to interpret a human signal with respect to a given task.}
@@ -130,7 +130,7 @@ We exemplify this process using the same example as in Figure~\ref{fig:TworldOne
 
 The agent starts in state 3, performs action left, and ends-up in state 2. The teacher wants the agent to go to G1, therefore he sends a signal meaning that the previous action was ``correct'' with respect to the goal. However the agent does not have access to the label associated to this signal and it only observes a point in a two dimensional space. The agent will therefore generate interpretation hypothesis according to G1 and G2. With respect to the G1, the action was ``correct'' (Figure~\ref{fig:TworldLabelG1}) while with respect to G2 the action was ``incorrect'' (Figure~\ref{fig:TworldLabelG1}).
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
     \centering
     \begin{subfigure}[b]{\tworldsize\columnwidth}
         \centering
@@ -155,7 +155,7 @@ The agent starts in state 3, performs action left, and ends-up in state 2. The t
 
 By repeating this process for several iteration steps with the agent exploring all possible state-action pair, the system end-up with a set of possible interpretation of the human teaching signals. But as the user have only one objective in mind, here G1, only the correct interpretation will exhibit a coherence between the signals and their associated meanings. Note that when the agent moves in the trunk of the T, the interpretation hypothesis with respect to G1 an G2 give the same labels. Details about this interaction will be given in chapter~\ref{chapter:planning} to explain the problem of planning, here we assume the robot explores all state-action.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
     \centering
     \begin{subfigure}[t]{\tworldsize\columnwidth}
         \centering
@@ -182,7 +182,7 @@ We will give several visual example of the guidance frame in the following of th
 
 % , we simply illustrate here the signal that will be associated to the different action. As depicted in Figure~\ref{fig:guidancesignals}, we used an easy to remember way of presenting the data, the cluster at the top of the feature space represents the ``up'' action, the one at the bottom the ``down'' action, the one at the right the ``right'' action, and the one at the left the ``left'' action.
 
-% \begin{figure}[!ht]
+% \begin{figure}[!htbp]
 %   \centering
 %   \includegraphics[width=\signalwidth\columnwidth]{\visualspdf/worlds_and_dataset/guidance_4_signals_color.pdf}
 %   \caption{The guidance signals used by our simulated teacher in our visual examples.}
@@ -255,7 +255,7 @@ For those case where two hypothesis end up with opposite interpretation that are
 
 We present the line word in Figure~\ref{fig:lineworld} which contains only the top T bar of the T world. This world is very well suited to describe the symmetry problem. 
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/worlds_and_datasets/lineworld_with_state_number_and_2action.pdf}
   \caption{The line world and the available actions.}
@@ -264,7 +264,7 @@ We present the line word in Figure~\ref{fig:lineworld} which contains only the t
 
 The interaction follows the same protocol as in previous examples, and following the feedback frame. As depicted in Figure~\ref{fig:lineworldfeedback2action}, after several interaction steps, the interpretation hypothesis for G1 and G2 display symmetric properties. Indeed, even if in the end the interpretation of the signals differ between the hypothesis, the two interpretation match well with the data. As the optimal policies to reach each of the two goal states are symmetric in every state, the actions that trigger ``correct'' feedback with respect to G1 trigger ``incorrect'' feedback for G2 and vice versa. It is therefore impossible to know the true associated meaning of the signals without further information.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/lineworld_symmetries/feedback_2actions.pdf}
   \caption{Interpretation hypothesis for an agent receive feedback on its action in the line word and where hypothetic task are G1 or G2. The agent can only perform right or left action which results in symmetric interpretation hypothesis of the feedback signals.}
@@ -273,7 +273,7 @@ The interaction follows the same protocol as in previous examples, and following
 
 It is theoretically impossible to differentiate symmetric task hypothesis, therefore we will not consider environments holding this symmetric properties. One way to solve this problem is to add a ``no move'' action that is valid only at the goal state, as depicted in Figure~\ref{fig:lineworld3action}.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/worlds_and_datasets/lineworld_with_state_number_and_action.pdf}
   \caption{The line world and the new available actions, including a ``no move'' action.}
@@ -282,7 +282,7 @@ It is theoretically impossible to differentiate symmetric task hypothesis, there
 
 When taking this action the agent to not change position on the grid. This action brakes the symmetry in the above example, as its interpretation will be the same for all states that are not an hypothetic goal state. In other words, in state 3, if agent performs action ``no move'', then the user will produce a signal meaning ``incorrect'', because the agent is neither in G1 nor in G2. And the signal will be interpreted as an ``incorrect'' by the two interpretation hypothesis, breaking the symmetry problem. The interpretation results after several iteration steps and using the new ``no move'' action are depicted in Figure~\ref{fig:lineworldfeedback3action}.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/lineworld_symmetries/feedback_3actions.pdf}
   \caption{Interpretation hypothesis for an agent receive feedback on its action in the line word and where hypothetic task are G1 or G2. The agent can perform right, left, or a ``no move'' action. As opposed to Figure~\ref{lineworldfeedback2action}, the ``no move'' action allow to break the symmetry of interpretation between G1 and G2.}
@@ -291,14 +291,14 @@ When taking this action the agent to not change position on the grid. This actio
 
 This problem of symmetries holds for the guidance frame too. Indeed if the agent can only produce ``left'' and ``right'' commands, the interpretation hypothesis for G1 will be symmetric as the one for G2. If the user wants the robot to reach G1, it will only produce ``left'' guidance signals, which is represented by one cluster in the the feature space. And the ``right'' commands should never be used. The situation is symmetric for G2. The resulting interpretation hypothesis are shown in Figure~\ref{fig:lineworldguidance2action}.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\signalwidth\columnwidth]{\visualspdf/worlds_and_datasets/guidance_2_signals_color.pdf}
   \caption{The guidance signals used by our simulated teacher in our line world visual examples with two actions.}
   \label{fig:lineworldguidance2signals}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/lineworld_symmetries/guidance_2actions.pdf}
   \caption{Interpretation hypothesis for an agent receive guidance on its action in the line word and where hypothetic task are G1 or G2. The agent can only perform right or left action which results in symmetric interpretation hypothesis of the guidance signals.}
@@ -307,14 +307,14 @@ This problem of symmetries holds for the guidance frame too. Indeed if the agent
 
 When introducing the ``goal reached'' action, the user now can produce three different kind of meanings, which is represented by three different clusters in the feature space. However, here again, one of the meaning won't be used by the teacher. However the ``goal reached'' signal will be used only at the goal space, which is not the same for the two hypothesis, which break the symmetry. The resulting interpretation hypothesis are shown in Figure~\ref{fig:lineworldguidance3action}.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\signalwidth\columnwidth]{\visualspdf/worlds_and_datasets/guidance_3_signals_color.pdf}
   \caption{The guidance signals used by our simulated teacher in our line world visual examples with three actions.}
   \label{fig:lineworldguidance3signals}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/lineworld_symmetries/guidance_3actions.pdf}
   \caption{Interpretation hypothesis for an agent receive feedback on its action in the line word and where hypothetic task are G1 or G2. The agent can perform right, left, or a ``no move'' action. As opposed to Figure~\ref{lineworldguidance2action}, the ``no move'' action allow to break the symmetry of interpretation between G1 and G2.}
@@ -356,7 +356,7 @@ A good measure of coherence can be computed by training the classifier on each o
 
 By assuming the signals generated by the teacher can be separated by a quadratic curve, and following our example of Figure~\ref{fig:TworldLabelinterpretation}, for each task, we can use the  quadratic discriminant analysis (QDA) \cite{lachenbruch1975discriminant} approach to fit a classifier on the data. For the case of two classes, this classifiers can be represented by two multivariate normal distributions, by  computing the maximum likelihood for the mean and covariance matrix associated to each labels. The results of this process is shown in Figure~\ref{fig:TworldLabelGaussian}.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_labeled_all_actions_with_gaussians.pdf}
     \caption{Interpretation hypothesis made by the agent according to G1 and G2 after many interaction steps with their associated Gaussian distribution (approximated by hand). The teacher's task is to have the agent reach G1. The agent is exploring all the state space randomly. The labels associated to the task G1 are more coherent with the spacial organization of signals in the feature space. This is measured by expected difference in prediction performance made by the each Gaussian classifier.}
@@ -507,7 +507,7 @@ Going back to our previous example: \begin{inparaenum}[a)] \item for only two hy
 \subsection{From task to task}
 \label{chapter:lfui:tasttotask}
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/reuse/Tworld_feedback_propagate_labels.pdf}
   \caption{Once a task is identified with confidence, we propagate the label of the best hypothesis to all the other hypothesis.}
@@ -517,7 +517,7 @@ Going back to our previous example: \begin{inparaenum}[a)] \item for only two hy
 Once a task is identified with confidence, the robot executes that task and should prepare to receive new instructions from the user to execute a new task. Assuming the user starts teaching a new task using the same kind of signals, we now have much more information about the signal model. Indeed, we are confident that the user was providing instructions related to the previously identified task; therefore we can infer the true labels of the past signals. We can now  assign such labels to all hypothesis (see Figure~\ref{fig:TworldPropagate}) and by using the same algorithm we can start learning the new task faster as all hypothesis now share a common set of signal-label pairs. As described in Figure~\ref{fig:TworldReuse}, the signal to meaning models for each hypothesis are still updated step after step until the new task is identified and labels reassigned.
 
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/reuse/Tworld_feedback_teaching_again.pdf}
   \caption{When teaching a second task, all hypothesis starts with the same signal-label pairs. After a few new interaction step, some differences in labeling occurs which are easy to detect as they do not comform with the a priori model and allow to discard quickly the second hypothesis G2. But this process also impacts on the trained classifiers which either keep the same quality level or start getting of lower quality for the wrong hypothesis. This is clearly visible after many steps in the new interaction session.}
@@ -581,7 +581,7 @@ We construct a small size pick-and-place task with a real robot. This robot is g
 
 The interaction between the robot and the human is a turn taking social behavior, where the robot performs an action and waits for a feedback, or guidance, instruction to continue. This allows to synchronize a speech wave with its corresponding pair of state and action. The experimental protocol is summarized in figure \ref{fig:lfui:bloc}.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.6\columnwidth]{\imgpath/bloc.png}
   \caption{Experimental protocol showing the interaction between the teacher and the learning agent. The agent has to learn a task and the meaning of the instructions signals provided by the user, here recorded speech. The teacher can use guidance or feedback signals, and may also have access to buttons of known meanings for the robot.}
@@ -592,7 +592,7 @@ The interaction between the robot and the human is a turn taking social behavior
 
 We consider a six d.o.f. robotic arm and gripper that is able to grasp, transport and release cubes in four positions. We used a total of three cubes that can form towers of at most two cubes.  The robot has 4 actions available: \textit{rotate left}, \textit{rotate right}, \textit{grasp cube} and \textit{release cube}. The state space is discrete and defined as the location of each object, including being on top of another or in the robot's gripper. For a set of 3 objects we have 624 different states. Figure~\ref{fig:lfui:setup} shows the robot grasping the orange cube. 
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.5\columnwidth]{\imgpath/setup.png}
   \caption{Robotic System. A six d.o.f robotic arm and gripper learning to performing a pick-and-place task with three cubes.}
@@ -690,7 +690,7 @@ In this experiment we assume that the robot does not know the words being spoken
 
 The results comparing the different classification methods are shown in Figure~\ref{fig:FeedbackOneWord}. It shows the evolution of the probability associated to the task the teacher has in mind. We can track this information because we known, as experimenter, the true task taught, however remember that the robot do not have direct access to this information and should make its decision based on the difference of likelihoods with the other task. Note that after $200$ iterations all three methods identified the correct task as the most likely, i.e. the normalized goal likelihood values for this task are greater than $0.5$, meaning that the sum of all the others is inferior to $0.5$. Logistic regression provides the worse results in terms of convergence rate and variance.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.7\columnwidth]{\imgpath/classifiers}
   \caption{Taught hypothesis normalized likelihood evolution (mean + standard error) thought iteration using different kinds of classifiers. The teacher is providing feedback using one word per meaning and the agent is performing action according to $\epsilon$-greedy strategy.}
@@ -699,7 +699,7 @@ The results comparing the different classification methods are shown in Figure~\
 
 As soon as the classifier can captures it, the user is not restricted to the use of only one word per meaning. Table~\ref{tab:1} compares the goal normalized likelihood value after $100$ iterations for feedback signals composed of one, three and six spoken words per meaning. SVM has better performance when using one word per meaning but the Gaussian classifier has overall better results with less variance, see Table~\ref{tab:1}. 
 
-\begin{table}[!ht]
+\begin{table}[!htbp]
 \centering
 \begin{tabular}{|l|c|c|c|}
 \hline
@@ -718,7 +718,7 @@ Interestingly the Gaussian classifier learns better after $100$ iterations than 
 
 In Figure~\ref{fig:Guidance}, we compare the performance of learning from unknown feedback or unknown guidance signals. Between feedback and guidance method, the number of meanings is increased from two (correct/incorrect) to four (left/right/grasp/release). As with feedback, the robot is able to identify the task based on guidance signals but need more iterations to reach a perfect knowledge. This may seem counter intuitive as for the guidance case the robot receives more informative signals. However it now needs to classify instructions in four meanings which requires more samples to identify the clusters. 
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.7\columnwidth]{\imgpath/feedback_vs_guidance}
   \caption{Taught hypothesis normalized likelihood evolution (mean + standard error) thought iteration using Gaussian classifier. Comparison of feedback (green) and guidance (blue) instructions using one word per meaning. The robot is able to learn the task based on both feedback and guidance signals but needs more iterations to reach a perfect knowledge for the guidance case.}
@@ -732,7 +732,7 @@ In the results presented until now, we made the assumption that the teacher is p
 
 We show that the EM approach is improving robustness to teaching mistakes as it allows to find the true underlying structure more efficiently. Referring to our previous discussion in section~\ref{chapter:lfui:whynotEM}, note that we initialized the EM algorithm with the ML estimates for each Gaussian and tracked which Gaussian belongs to which meaning. In addition the representation use for the spoken words makes them well separated in the feature space and it is unlikely that the EM algorithm fails at finding the two clusters given the data properties.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.49\columnwidth]{\imgpath/noise_no_EM}
   \includegraphics[width=0.49\columnwidth]{\imgpath/noise_with_EM}
@@ -747,7 +747,7 @@ Learning purely from unknown teaching signals is challenging for the researcher 
 
 In this study, the teacher still provides initially unknown spoken words feedback but can also use the red and green button as described in figure~\ref{fig:lfui:bloc}. However, and in order to avoid the possibility of direct button to signal association, it can never use both modalities at the same time and use them alternatively with equal probability. Therefore, in average, after 250 iterations the robot has received 125 known feedback and 125 unknown speech signals. In most systems half of the information would be ignored but our method enable learning from the unknown signals. We study three learning methods: in the first case, the robot is learning only via the known feedback, i.e. the buttons; in the second it uses only the vocal unknown signal; and in the third one, it uses both. Figure~\ref{fig:button} shows result from this setting. 
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.7\columnwidth]{\imgpath/mix_button}
   \caption{Taught hypothesis normalized likelihood evolution (mean + standard error) thought iteration using Gaussian classifier. Comparison of using known button, unknown signals and both.}
@@ -764,7 +764,7 @@ Once the run is terminated we keep in memory the classifier corresponding to the
 
 Figure~\ref{fig:Real} shows results from this setting. In the first run it takes about $100$ iterations for the robot to learn the task. Whereas in the second run, when reusing knowledge from the first one, the robot is able to learn a new task faster, in about $30$ iterations, meaning that it has well found the two clusters in our $\mathbb{R}^{20}$ dimensional space as well as the mapping to their corresponding meaning. I was the user for this studies and was aware of the task representation used by the robot, i.e. a MDP with four discrete actions. As explained in chapter~\ref{chapter:related:humanintheloop} an important challenge is to deal with non-expert humans whose teaching styles can vary considerably. However this challenge is not part of the current study and we observed that different non-informed users teaching the robot had different understanding of the robot behaviors which led to unsuccessful interactions.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.7\columnwidth]{\imgpath/real}
   \caption{Taught hypothesis normalized likelihood evolution thought iteration using Gaussian classifier.  Feedback using one word per action. $\epsilon$-greedy action selection. A first run of $100$ iterations is performed where the robot learns a task from unknown feedback. Then by freezing the classifier corresponding to the best task estimate, the user teaches the robot a new task.}
@@ -779,7 +779,7 @@ Finally we compare the impact of using different action selection methods, we co
 
 Figure~\ref{fig:selectionMethod} left and right compares respectively the action selection method for the case of feedback and guidance interaction frames. The $\epsilon$-greedy method results in a faster learning with less variance. This method, at each step, leads the robot in the direction of the most probable goal. In this way it will receive more diverse feedback and will visit more relevant states than what a random exploration would do.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.49\columnwidth]{\imgpath/feedback}
   \includegraphics[width=0.49\columnwidth]{\imgpath/guidance}

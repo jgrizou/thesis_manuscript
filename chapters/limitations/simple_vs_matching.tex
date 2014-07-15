@@ -11,7 +11,7 @@ We consider the same setting as for the experiments described in chapter~\ref{ch
 
 \paragraph{Time to first task} Figure~\ref{fig:timefirst_simplevsmatching} compares the number of iterations needed to identify the first time with confidence between our two methods. We call the method using equation Equation~\ref{eq:matchingfilter} ``simple matching'' and we call ``matching'' the method using Equation~\ref{eq:matchingfiltercrossvalidation} which correct the classifier prediction. There is strong differences between our method especially for low quality dataset. For extremely overlapping data (50/60\% accuracy), the ``matching'' method is never confident about a task while the ``simple matching'' method show huge variability and sometime outputs confidence after very few time steps. 
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/simplevsmatching/timefirst.eps}
 \caption{Number of steps to complete first task with high quality 2D dataset. Comparison between Equation~\ref{eq:matchingfilter} (simple matching) and Equation~\ref{eq:matchingfiltercrossvalidation} (matching), where the latter correct the prediction of the classifier given the estimation of its confusion matrix.}
@@ -20,7 +20,7 @@ We consider the same setting as for the experiments described in chapter~\ref{ch
 
 This over confidence of the ``simple matching'' method reflects in the number of first task that were erroneously identified. As shown in Table~\ref{tab:errorTaskRatiosimplevsmatching}, the lower the quality of the data, the higher the percentage of erroneously identified first task. For extremely overlapping data (50/60\% accuracy), this percentage go up to 20 percent. While the ``matching'' method may seems too conservative, it is particularly important to not make mistakes when estimating the first task. Indeed once a first task is identified, its associated labels are taken as ground truth, and a false estimation will falsify the signal-label pairs for the remaining of the interaction.
 
-\begin{table}[!ht]
+\begin{table}[!htbp]
 \centering
 \rowcolors{2}{gray!25}{white}
 \begin{tabular}{c c c c}
@@ -39,7 +39,7 @@ This over confidence of the ``simple matching'' method reflects in the number of
 
 We compare the number of task correctly (Figure~\ref{fig:nCorrect_simplevsmatching}) and incorrectly (Figure~\ref{fig:nWrongEEG_simplevsmatching}) reached in 500 steps between our two methods. While the ``simple matching'' allow to reach more target correctly is also makes mistakes for low quality datasets. The ``matching'' method is more conservative and do not make mistake for all classifier qualities, at the cost of reaching less targets.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/simplevsmatching/correct.eps}
 \caption{Number of task correctly achieved in 500 steps with 2 dimensional artificial data. Comparison between Equation~\ref{eq:matchingfilter} (simple matching) and Equation~\ref{eq:matchingfiltercrossvalidation} (matching), where the latter correct the prediction of the classifier given the estimation of its confusion matrix. The ``simple matching'' method allow to reach more task correctly in 500 steps for all dataset quality.
@@ -47,7 +47,7 @@ We compare the number of task correctly (Figure~\ref{fig:nCorrect_simplevsmatchi
 \label{fig:nCorrect_simplevsmatching}
 \end{figure} 
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/simplevsmatching/error.eps}
 \caption{Number of task incorrectly achieved in 500 steps with 2 dimensional artificial data. Comparison between Equation~\ref{eq:matchingfilter} (simple matching) and Equation~\ref{eq:matchingfiltercrossvalidation} (matching), where the latter correct the prediction of the classifier given the estimation of its confusion matrix. The ``simple matching'' method start making errors for dataset with accuracies lower than 80 percent classification rate. However, the ``matching'' method is more conservative and do not make mistakes.}
@@ -64,7 +64,7 @@ We consider now the same setting as for the previous subsection but use our EEG 
 
 \paragraph{Time to first task} Figure~\ref{fig:timefirst_simplevsmatchingEEG} compares the number of iterations needed to identify the first time with confidence between our two methods. There is strong differences between our method especially for low quality dataset. The ``simple matching'' method performances are not correlated with the classifier qualities, which reflect the overconfidence of this method.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/simplevsmatching/timefirstEEG.eps}
 \caption{Number of steps to complete first task with our pre-recorded EEG data. Comparison between Equation~\ref{eq:matchingfilter} (simple matching) and Equation~\ref{eq:matchingfiltercrossvalidation} (matching), where the latter correct the prediction of the classifier given the estimation of its confusion matrix. The ``simple matching'' method performances are not correlated with the classifier qualities, which is not a good property. Indeed as reported in Table~\ref{tab:errorTaskRatiosimplevsmatchingEEG} the ``simple matching'' method is estimating more than 50 percent fo the time the first task erroneously.}
@@ -73,7 +73,7 @@ We consider now the same setting as for the previous subsection but use our EEG 
 
 This over confidence of the ``simple matching'' method reflects in the number of first task that were erroneously identified. As shown in Table~\ref{tab:errorTaskRatiosimplevsmatchingEEG}, the lower the quality of the data, the higher the percentage of erroneously identified first task. In all cases, this percentage was above 50 percent which make the use of the ``simple matching'' method impossible in practical experiment. On the contrary, the ``matching'' method do not make any mistake when estimating the first task.
 
-\begin{table}[!ht]
+\begin{table}[!htbp]
 \centering
 \rowcolors{2}{gray!25}{white}
 \begin{tabular}{c c c c}
@@ -92,14 +92,14 @@ This over confidence of the ``simple matching'' method reflects in the number of
 
 We compare the number of task correctly (Figure~\ref{fig:nCorrect_simplevsmatchingEEG}) and incorrectly (Figure~\ref{fig:nWrongEEG_simplevsmatchingEEG}) reached in 500 steps between our two methods. While the two methods allow to reach a similar number of targets correctly. The ``simple matching'' method also makes a huge amount of mistakes for all datasets. The ``matching'' method makes very few mistakes for all classifier qualities.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/simplevsmatching/correctEEG.eps}
 \caption{Number of task correctly achieved in 500 steps with our pre-recorded EEG data. Comparison between Equation~\ref{eq:matchingfilter} (simple matching) and Equation~\ref{eq:matchingfiltercrossvalidation} (matching), where the latter correct the prediction of the classifier given the estimation of its confusion matrix. Both method reach a similar number of targets correctly when using an EEG datset. The ``simple matching''  method shows more variability.}
 \label{fig:nCorrect_simplevsmatchingEEG}
 \end{figure} 
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/simplevsmatching/errorEEG.eps}
 \caption{Number of task incorrectly achieved in 500 steps with our pre-recorded EEG data. Comparison between Equation~\ref{eq:matchingfilter} (simple matching) and Equation~\ref{eq:matchingfiltercrossvalidation} (matching), where the latter correct the prediction of the classifier given the estimation of its confusion matrix. The ``simple matching'' is not reliable for EEG data.}

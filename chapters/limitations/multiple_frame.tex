@@ -13,7 +13,7 @@ We will use a very simple example to illustrate the problem and show computation
 
 The result of the labeling process is shown in Figure~\ref{fig:multipleframeexplainedfeedback} for a teacher providing feedback instruction according the task G1 (of course the agent do not have access to this information). The hypothesis that labels the signals according to the task G1 and the feedback frame is the one whose signal-labels pair match better with he underlying structure of the data. Indeed for the guidance case, the labeling process for hypothesis G1 is always giving a ``left'' label whether or not the agent is moving away or closer to the target which allow to differentiate between feedback and guidance case. To differentiate between G1 and G2, the same principle than the one described in chapter~\ref{chapter:lfui::symmetries} applies.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/multiple_frame/multiple_frame_feedback.pdf}
 \caption{Illustration of the labelling porcess on both task and interaction frame hypothesis. The agent can perform right, left, or a ``no move'' action. The agent receive feedback on its action in the line word according to G1 . The agent do not known which task (G1 or G2) neither which interaction scheme the teacher is following (feedback or guidance). The result of the labeling process allow to identify the hypothesis on task G1 and feedback frame as the more likely.}
@@ -22,7 +22,7 @@ The result of the labeling process is shown in Figure~\ref{fig:multipleframeexpl
 
 Considering now that the teacher is providing guidance instruction according the task G1, the results of the labeling process can be seen in Figure~\ref{fig:multipleframeexplainedguidance}. The same explanation than for Figure~\ref{fig:multipleframeexplainedfeedback} applies. 
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/multiple_frame/multiple_frame_guidance.pdf}
 \caption{Illustration of the labelling porcess on both task and interaction frame hypothesis. The agent can perform right, left, or a ``no move'' action. The agent receive guidance instruction on its action in the line word according to G1 . The agent do not known which task (G1 or G2) neither which interaction scheme the teacher is following (feedback or guidance). The result of the labeling process allow to identify the hypothesis on task G1 and guidance frame as the more likely.}
@@ -35,7 +35,7 @@ We now verify that the algorithm works in practice. We consider the same line wo
 
 Figure~\ref{fig:multipleframeall} shows the evolution of our probability measure of the correct combination of task and interaction frame, which is adapted from Equation~\ref{eq:probapairwise} in chapter~\ref{chapter:lfui:confidence} (minimum of pairwise normalized likelihood) where each hypothesis is a combination of task and interaction frame. After 200 steps, all our experiments identified with probability 1 the correct combination of task and interaction frame. In practice, in our previous experiments, we used a confidence threshold of 0.9, under this condition most of our experiments would have identified the task in slighlty more than 50 steps.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/multiple_frame/multiple_frame_all_teacher.eps}
 \caption{Evolution of the minimum of pairwise normalized likelihood for the correct hypothesis. After 200 steps, all our experiments identified with probability 1 the correct combination of task and interaction frame. Most of the experiments would have identified the task slighlty more than 50 steps with a confidence threshold of 0.9.}
@@ -44,7 +44,7 @@ Figure~\ref{fig:multipleframeall} shows the evolution of our probability measure
 
 We analyses in Figure~\ref{fig:multipleframefeedbackvsguidance} independently the case where the teacher was using the feedback (left) and guidance frame (right). We note that the behavior are the same for bot condition. only the guidance case took a bit longer for all hypothesis to converge to the correct task.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.49\columnwidth]{\imgpath/multiple_frame/multiple_frame_feedback_teacher.eps}
 \includegraphics[width=0.49\columnwidth]{\imgpath/multiple_frame/multiple_frame_guidance_teacher.eps}

@@ -13,7 +13,7 @@ For our feedback and guidance frame, as soon as the policies associated to each 
 
 The policy of Figure~\ref{fig:gridwolrdgenericframesaround} consist of following the external wall of the grid world in a clockwise direction. This policy can not be derived from a state based reward function. Similarly in Figure~\ref{fig:gridwolrdgenericframesaround}, the policy consist of a endless looping trajectory, which can not be described by a reward function on our 9 states space. This kind of policies are rather easy to define by hand or by randomly generating them on a computer. 
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
     \begin{subfigure}[b]{0.49\columnwidth}
         \centering
@@ -39,7 +39,7 @@ We provide an example of interaction frame where the agent do not need to know t
 
 We illustrate this frame in Figure~\ref{fig:cardinalframe}. The choice of the cardinal direction to send to the agent is modeled by a probabilistic models, where the probability of one cardinal direction is proportional to the angle between the target-agent direction and the cardinal direction considered.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.8\columnwidth]{\visualspdf/frame/cardinal_frame.pdf}
     \caption{Example of the cardinal frame. The signal from the teacher indicates in which cardinal direction (N,S,W,E) the goal position or the object to reach is. There is a probabilistic model that describe the user behavior, such that the probability of generating a signal of meaning ``West'' is proportional to the angle between the agent position and the target position. This frame does not requires the agent to know how to reach the target position, but only its own position with respect to that goal.}

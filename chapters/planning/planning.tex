@@ -77,7 +77,7 @@ In order to exemplify the specificity of our problem in terms of planning we wil
 
 Starting form the explanation in previous section, if the agent knew how to interpret the teaching signals, i.e. which signal corresponds to correct or incorrect feedback, the optimal action to differentiate between the two hypothesis (G1 and G2) would be to perform right and left actions in the top part of the T. However as the classifier is not given, the agent builds a different model for each hypothesis and ends-up in with symmetric interpretation of the signals which are both as valid (see Figure~\ref{fig:planningrightleft}) and do not allow to differentiate between hypothesis.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\twotworldsize\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_labeled_right_left_with_gaussian.pdf}
   \caption{Results of the labeling process if the agent only performs right and left actions in the top of the T world. This is the symmetry problem encountered in previous chapter~\ref{chapter:lfui:symmetries}. The resulting signal-label pairs for G1 and G2, while opposite, are both as likely to correspond to the data.}
@@ -86,7 +86,7 @@ Starting form the explanation in previous section, if the agent knew how to inte
 
 Considering that the agent does not know the signal to meaning classifier, a sensitive option is to select actions that allow to unequivocally identify the model. In our scenario taking only up and down actions in the trunk of the T leads to identical interpretation for each hypothesis (see Figure~\ref{fig:planningupdown}). However this method do not allow to disambiguate between hypothesis and in most settings, such as the grid world we consider later, there is no state-action pair leading to unequivocal interpretations.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\twotworldsize\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_labeled_up_down_with_gaussian.pdf}
   \caption{Results of the labeling process if the agent only performs up and down actions in the trunk of the T. The interpretation of the signal for both hypothesis are the same, this method allow to build a good model.}
@@ -133,7 +133,7 @@ As detailed in section~\ref{chapter:planning:where}, our uncertainty measure sho
 
 We start by considering the situation in Figure~\ref{fig:planningrightleft} where the two hypothesis have symmetric signal models. As depicted in Figure~\ref{fig:uncertaintysignalrightleftagree}, when selecting action left, both hypothesis agree that they will receive a signal in the right part of the feature space even if they disagree on its meaning. Therefore taking action left in state 3 has low uncertainty on the expected signal.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/planning/planning_right_left_agree.pdf}
   \caption{Expected signal for both hypothesis if agent performs action left in state 3 and given they currently have a symmetric interpretation of signals from Figure~\ref{fig:planningrightleft}. Both hypothesis expect the same signal, therefore there is no uncertainty associated to this state-action pair and the agent should not select this action in order to disambiguate between hypothesis.}
@@ -142,7 +142,7 @@ We start by considering the situation in Figure~\ref{fig:planningrightleft} wher
 
 However for action down, both hypothesis agree they should receive a signal of meaning ``incorrect'' but disagree on the expected location of such signal in the feature space (see Figure~\ref{fig:uncertaintysignalrightleftdisagree}).Therefore taking action down in state 3 has high uncertainty on the expected signal.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/planning/planning_right_left_disagree.pdf}
   \caption{Expected signal for both hypothesis if agent performs action down in state 3 and given they currently have a symmetric interpretation of signals from Figure~\ref{fig:planningrightleft}. The two hypothesis expect two different signals, therefore there is high uncertainty associated to this state-action pair and the agent should better perform this action in order to disambiguate between hypothesis.}
@@ -152,7 +152,7 @@ However for action down, both hypothesis agree they should receive a signal of m
 
 We now consider the situation in Figure~\ref{fig:planningupdown} where the two hypothesis have the same signal model. As depicted in Figure~\ref{fig:uncertaintysignalupdownagree}, when going down both hypothesis agree they will receive a signal in the left part of the feature space and agree on its meaning. Therefore taking action down in state 3 has low uncertainty on the expected signal.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_agree.pdf}
   \caption{Expected signal for both hypothesis if agent performs action down in state 3 and given they currently have a similar interpretation of signals from Figure~\ref{fig:planningupdown}. Both hypothesis expect the same signal, therefore there is no uncertainty associated to this state-action pair and the agent should not select this action in order to disambiguate between hypothesis.}
@@ -161,7 +161,7 @@ We now consider the situation in Figure~\ref{fig:planningupdown} where the two h
 
 However for action left, both hypothesis disagree about the meaning of the signal they should receive and as both share the same signal model they expect a signal in different locations of the feature space (see Figure~\ref{fig:uncertaintysignalupdowndisagree}). Therefore taking action left in state 3 has high uncertainty on the expected signal.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_disagree.pdf}
   \caption{Expected signal for both hypothesis if agent performs action left in state 3 and given they currently have a similar interpretation of signals from Figure~\ref{fig:planningupdown}. The two hypothesis expect two different signals, therefore there is high uncertainty associated to this state-action pair and the agent should better perform this action in order to disambiguate between hypothesis.}
@@ -188,7 +188,7 @@ Estimating uncertainty in the signal space as presented in the previous subsecti
 
 We start by considering the situation in Figure~\ref{fig:planningrightleft} where the two hypothesis have symmetric signal models. As depicted in Figure~\ref{fig:uncertaintymeaningrightleftexpectedleft}, when selecting action left in state 3 and if the user sends a signal in the right part of the feature space, both hypothesis agree that this particular signal is expected given this state-action pair. Hypothesis 1 expects a signal of meaning ``correct'', and the teacher signal is classified as being of class ``correct''. Hypothesis 2 expects a signal of meaning ``incorrect'' and the teacher signal is classified as being of class ``incorrect''. Therefore receiving this particular signal after taking action left in state 3 has low uncertainty.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_right_left_expected_matched.pdf}
   \caption{Matching between expected labels and the prediction of a teaching signal sample on the right side of the feature space for the two hypothesis if the agent performs action left in state 3 and the two hypothesis currently have a symmetric interpretation of signals from Figure~\ref{fig:planningrightleft}. Both hypothesis agree that the label associated to a signal on the right side of the feature space match with the label predicted given the frame and the state-action pair considered. Therefore there is no uncertainty associated to this state-action pair and the agent should not select action left in order to disambiguate between hypothesis.}
@@ -197,7 +197,7 @@ We start by considering the situation in Figure~\ref{fig:planningrightleft} wher
 
 This same process can be executed for any teaching signal. For example, as depicted in Figure~\ref{fig:uncertaintymeaningrightleftexpectedright}, considering a teaching signal on the left side of the feature space, if the agent performs action left in state 3, both hypothesis agree that this particular signal is not expected. Hypothesis 1 expects a signal of meaning ``correct'', and the teacher signal is classified as being of class ``incorrect''. Hypothesis 2 expects a signal of meaning ``incorrect'' and the teacher signal is classified as being of class ``correct''. Therefore receiving this particular signal after taking action left in state 3 has low uncertainty.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_right_left_expected_unmatched.pdf}
   \caption{Matching between expected labels and the prediction of a teaching signal sample on the left side of the feature space for the two hypothesis if the agent performs action left in state 3 and the two hypothesis currently have a symmetric interpretation of signals from Figure~\ref{fig:planningrightleft}. Both hypothesis agree that the label associated to a signal on the left side of the feature space does not match with the label predicted given the frame and the state-action pair considered. Therefore there is no uncertainty associated to this state-action pair and the agent should not select action left in order to disambiguate between hypothesis.}
@@ -207,7 +207,7 @@ This same process can be executed for any teaching signal. For example, as depic
 
 However for action down, the two hypothesis disagree on whether such signals are expected or not given the state-action pair considered. As depicted in Figure~\ref{fig:uncertaintymeaningrightleftunexpectedright}, when selecting action down in state 3 and if the user sends a signal in the right part of the feature space, hypothesis 1 expects a signal of meaning ``incorrect'', and the teacher signal is classified as being of class ``correct''. And hypothesis 2 expects a signal of meaning ``incorrect'' and the teacher signal is classified as being of class ``incorrect''. Therefore receiving this particular signal after taking action down in state 3 is not expected for hypothesis 1 but expected for hypothesis 2, there is high uncertainty.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_right_left_unexpected_right_signal.pdf}
   \caption{Matching between expected labels and the prediction of a teaching signal sample on the right side of the feature space for the two hypothesis if the agent performs action down in state 3 and the two hypothesis currently have a symmetric interpretation of signals from Figure~\ref{fig:planningrightleft}. Hypothesis 1 says a signal on the right side of the feature space means ``correct'' which was not expected given the interaction frame, while hypothesis 2 expected a signal meaning ``incorrect'' and classify the signal as ``incorrect'' which is what was expected. Therefore there is high uncertainty associated to this state-action pair and the agent should better perform action down in order to disambiguate between hypothesis.}
@@ -216,7 +216,7 @@ However for action down, the two hypothesis disagree on whether such signals are
 
 Similarly, as depicted in Figure~\ref{fig:uncertaintymeaningrightleftunexpectedleft}, considering a teaching signal on the left side of the feature space, if the agent performs action down in state 3, hypothesis 1 expects a signal of meaning ``incorrect'', and the teacher signal is classified as being of class ``incorrect''. And hypothesis 2 expects a signal of meaning ``incorrect'' and the teacher signal is classified as being of class ``correct''. Therefore receiving this particular signal after taking action down in state 3 is expected for hypothesis 1 but not expected for hypothesis 2, there is high uncertainty.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_right_left_unexpected_left_signal.pdf}
   \caption{Matching between expected labels and the prediction of a teaching signal sample on the left side of the feature space for the two hypothesis if the agent performs action down in state 3 and the two hypothesis currently have a symmetric interpretation of signals from Figure~\ref{fig:planningrightleft}. Hypothesis 1 says a signal on the left side of the feature space means ``incorrect'' which was expected given the interaction frame, while hypothesis 2 expected a signal meaning ``incorrect'' but classify the signal as ``correct'' which was not expected. Therefore there is high uncertainty associated to this state-action pair and the agent should better perform action down in order to disambiguate between hypothesis.}
@@ -265,14 +265,14 @@ Obviously this is not always that easy, for example if we add a third hypothesis
 
 In all the experiment presented in this thesis, there is no scenario where a state-action pair results in an unequivocal interpretation of the teaching signal. 
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\threetworldsize\columnwidth]{\visualspdf/planning/Tworld_feedback_3hyp_right_left.pdf}
   \caption{Interpretation hypothesis made by the agent according to G1 (left), G2 (right), and G3 (middle). The agent performs only left and right actions. The labels associated to G1 and G2 are symmetric while for G3 the labels are highly mixed. Right and left actions to not allow to have a unequivocal interpretation of signal considering those three hypothesis. However right and left actions allow to discard hypothesis G3.}
   \label{fig:planning3hyprightleft}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\threetworldsize\columnwidth]{\visualspdf/planning/Tworld_feedback_3hyp_up_down_no_bump.pdf}
   \caption{Interpretation hypothesis made by the agent according to G1 (left), G2 (right), and G3 (middle). The agent performs only up and down actions. The labels associated to G1 and G2 are similar but he labels associated to G3 are symmetric. Up and down actions to not allow to have a unequivocal interpretation of signal considering those three hypothesis. Moreover u and down actions do not allow to discard any of the hypothesis.}
@@ -323,7 +323,7 @@ A task is considered completed when the confidence level $\beta$ as been reached
 
 We analyze our algorithm using artificial datasets. The goal of this evaluation was to analyze the feasibility of learning a task from scratch in a 5x5 grid world. The artificial dataset was composed of two classes, with 1000 examples per class. Each example was generated by sampling from a normal distribution with a covariance matrix of diagonal 1 and mean selected randomly. The datasets were generated while varying two factors: (i) the dimensionality of the data, where 2, 5, 10 and 30 features were tested; and (ii) the quality of the dataset, measured in terms of the ten-fold accuracy the classifier would obtain. Some two dimensional classifier of different quality are shown in Figure~\ref{fig:datasetsquality}.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
       \includegraphics[width=\columnwidth]{\visualspdf/worlds_and_datasets/dataset_qualities.pdf}
       \caption{Artificial dataset generated generated by sampling from a normal distribution with a covariance matrix of diagonal 1 and mean selected randomly. From left to right, we show dataset of increasing quality as measured by a 10 fold cross-validation train-test procedure using a Gaussian classifier.}
@@ -357,7 +357,7 @@ The first objective is to study the impact of the exploration approach proposed 
 
 Figure~\ref{fig:artificialplanning} compares the number of steps (with maximum values of 500 steps) needed to identify the first task when learning from scratch with different planning methods. Following the most probable task (i.e. going greedy) does not allow the system to explore sufficiently. On the contrary, our proposed planning method leads the system towards regions that maximize disambiguation among hypotheses. Furthermore, it also performs better than assessing uncertainty on the meaning space only. Given these results, the remainder of this section will only consider our planning method.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
       \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_artificial_planning.eps}
       \caption{Number of steps to complete first task, comparison of different exploration methods with 30 dimensional artificial data. When learning from scratch, planning upon both the task and the signal to meaning mapping uncertainty performs better than relying only on the uncertainty about the task. Greedy action selection rarely disambiguates between hypothesis.}
@@ -374,7 +374,7 @@ Also, we note that all planning methods were switched to pure exploitation (gree
 
 Figure~\ref{fig:firstArtificial} compares the number of steps (with maximum values of 500 steps) needed to identify the first task when learning from scratch with different dimensionality of datasets. The convergence speed is only slightly affected by the features dimensionality. On the other hand, the dataset quality (measured in terms of its associated ten-fold accuracy) is the main cause of performances decay. Furthermore, for those datasets with accuracies between $50\%$ and $60\%$, the system is not able to identify a task with confidence after 500 steps. This is the expected behavior as for such dataset (see Figure~\ref{fig:datasetsquality} left), none of the hypothesis is able to find a classifier of good enough accuracy and should therefore not take any decision.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
   \centering
       \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_artificial_firstconf.eps}
       \caption{Number of steps to complete first task using artificial data. Under 60 percent accuracy, the confidence threshold cannot be reached in 500 steps. The dataset qualities, more than their dimensionality, impact the learning time.}
@@ -385,7 +385,7 @@ Figure~\ref{fig:firstArtificial} compares the number of steps (with maximum valu
 
 Once the first task is completed, a new one is selected randomly. Figure~\ref{fig:nCorrectArtificial} compares the number of tasks that can be achieved in 500 steps. As expected, the lower the quality of the data, the less number of task can be completed. With dataset accuracies higher than $90\%$ we can achieve more than 30 tasks on average.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_artificial_nCorrect.eps}
     \caption{Number of tasks correctly achieved in 500 steps, artificial data. Quality of dataset impacts the number of task identified in 500 steps as more evidence should be collected to reach the confidence threshold.}

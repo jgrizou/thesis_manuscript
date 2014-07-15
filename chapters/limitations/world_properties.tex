@@ -32,7 +32,7 @@ We simulated 50 runs for each planning method and each world considered. There w
 
 In this subsection, we will analyze the Figure~\ref{fig:wordlpropertiestimefirst} which displays the number of iterations needed for our agent to reach a first task depending on the planning method and the worlds. We will first consider the difference between the 5x5 grid world and the 25x25 grid world, and then compare the grid world and the pick and place scenario.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\legendsidesize\columnwidth]{\imgpath/world_properties/firstreach.eps}
 \caption{Number of steps to reach first target state with confidence. Comparing different action selection methods and different worlds. As soon as the dimensionality increase, selecting action randomly can not identify any task in 100 iterations. Our signal uncertainty based method, is the most efficient at reaching the first task in the grid world but seems outperformed by a simple greedy approach in our pick and place scenario.}
@@ -43,7 +43,7 @@ Before analyzing the results, there is several aspects that are important have i
 
 Also, when a method was not able to reach a task with confidence in 100 steps we considered a value of 100 for our plots. This is very optimistic for the corresponding methods, for example the random method is likely to need more than 100 steps in our larger worlds. We report the number of runs than reached a first target in less than 100 iterations in Table~\ref{tab:wordlpropertiesnreach}, which indicates that only our uncertainty based method was able to identify a task in less than 100 steps for every run. 
 
-\begin{table}[!ht]
+\begin{table}[!htbp]
 \centering
 \rowcolors{2}{gray!25}{white}
 \begin{tabular}{c c c c}
@@ -77,7 +77,7 @@ The time to reach a target with confidence is in the end what will matter for th
 
 Therefore it may be more relevant to look at the time needed to reach the confidence level for the first task, which is displayed in Figure~\ref{fig:wordlpropertiesconfidencefirst}. We note that our uncertainty method is in act faster at identifying the task that the greedy method seems to find more far away from the goal at that time.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\legendsidesize\columnwidth]{\imgpath/world_properties/firstconfident.eps}
 \caption{Number of steps to reach confidence level for the first target.}
@@ -86,7 +86,7 @@ Therefore it may be more relevant to look at the time needed to reach the confid
 
 Figure~\ref{fig:wordlpropertiestargetdist} shows the number of action needed for the agent to reach the goal state once the task is identified with confidence. This plot only considers the runs where a target was reached (see Table~\ref{tab:wordlpropertiesnreach}). For the grid world, all planning methods identify the task less than 5 steps away from its associated goal state. However for the pick and place problem, by following our uncertainty based planning method the agent is on average 10 steps away from the goal state when it identifies a task with confidence.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/world_properties/difftargetconfidence.eps}
 \caption{Number of action needed to reach the first target when the agent reach confidence level for this target. This plot only consider the runs where a target was reached in less than 100 steps (see Table~\ref{tab:wordlpropertiesnreach}). Random method for the 25x25 grid world is not represented as it never reached any, and random for the pick and place only considers one run.}

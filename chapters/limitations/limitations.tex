@@ -36,15 +36,15 @@ Finally in section~\ref{chapter:limitations:discussion}, we discuss a number of 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \input{\chapterpath/simple_vs_matching.tex}
-% \input{\chapterpath/world_properties.tex}
-% \input{\chapterpath/model_overlap.tex}
-% \input{\chapterpath/frame.tex}
-% \input{\chapterpath/continuous_state.tex}
-% \input{\chapterpath/continuous_task.tex}
-% \input{\chapterpath/multiple_frame.tex}
-% \input{\chapterpath/user_studies.tex}
-% \input{\chapterpath/proof.tex}
+\input{\chapterpath/simple_vs_matching.tex}
+\input{\chapterpath/world_properties.tex}
+\input{\chapterpath/model_overlap.tex}
+\input{\chapterpath/frame.tex}
+\input{\chapterpath/continuous_state.tex}
+\input{\chapterpath/continuous_task.tex}
+\input{\chapterpath/multiple_frame.tex}
+\input{\chapterpath/user_studies.tex}
+\input{\chapterpath/proof.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -54,13 +54,6 @@ Finally in section~\ref{chapter:limitations:discussion}, we discuss a number of 
 \section{Discussion}
 \label{chapter:limitations:discussion}
 
-We reviewed an extrensive number of limitations, that leaded to several possible extensions of this work.
+We reviewed an extensive number of limitations and proposed a number of possible extensions addressing them. The main extensions address the problems of continuous state space, continuous task hypothesis space and unspecified interaction frames. Our initial results make us envision the use of our algorithm in more complex scenarios and in real world situations with real users.
 
-
-
-
-
-
-Similarly, the system assumed a pre-defined repertoire of possible meanings to be associated with continuous instruction signals. Extending the system towards the creation of novel meanings is an important question. Another approach, for both extending task and meaning repertoires dynamically, would be to allow the user to teach the robot new macro-actions, associated to new macro-instructions, or macro-state, for example based on the options framework \cite{sutton1999between}.
-
-last limitations section: how to learn the interaction hypothesis and interaction frame is a big problem, refer to thomas thesis. (model of the world, strong restriction on the possible task, information about the interaction protocol, how to interpret a signal with respect to a task, and even how to measure its confidence.)
+However, to fully address the stated problem of fluid interactive learning, a number of open challenges still remain to be investigated. For example, extending the system towards the creation of novel meanings is an important question, as well as the problem of detecting, and understanding new interaction frames that may allow the user to progressively provide more higher level instructions to the robot. A key challenge towards life long learning also lies in dynamic and hierarchical learning architecture, such as for example learning new macro-states and new macro-actions, associated to new macro-instructions.

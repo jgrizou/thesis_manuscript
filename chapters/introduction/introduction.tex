@@ -23,7 +23,7 @@ At home, workplaces or schools, an increasing amount of intelligent robotic syst
 
 Most of the autonomous intelligent systems are developed with the aim to improve users quality of life and should therefore comply to the preferences of each users. My autonomous car should come take me at work at 6 p.m. and bring me back home. My vacuum cleaner should vacuum only the rooms I want at the time of the day I decided. My smart watch or smart glass should display the information that matters to me. My surveillance robot should patrol around my house following the specific pattern I envision.
 
-\begin{figure}[!h]
+\begin{figure}[!htbp]
     \centering
     \includegraphics[height=0.2\columnwidth]{\imgpath/roomba.jpg}
     \includegraphics[height=0.2\columnwidth]{\imgpath/google_self_driving_car.jpg}
@@ -275,158 +275,158 @@ The categorization of learning paradigms above in three categories does not refl
 As we noticed, in most of the above presented work, the human and the robot had no direct interaction with the robot, or few well controlled interactions. For example, the human demonstrations are provided in a batch perspective where data acquisition is done
 before the learning phase. The properties of teaching interactions with a human in the loop was not yet considered in depth, and this issues have began to be addressed in a subfield called \emph{interactive learning}  which combine ideas of social learning with extrinsic and intrinsic motivated learning. Where the robot acquires a form of autonomy with respect to how to deal with the human in the loop. This separation between this section and interactive learning is a bit arbitrary, we mainly want to highlight the fundamental difference between system that learn from pre-recordeed, open-loop, and  well controlled interactions from those which tries to close the interaction loop and allow more flexibility in the interaction process..
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Interactive Learning}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Interactive Learning}
 
 
-However non-expert users might have very
-different preferences and predefined instructions might not be
-well accepted. lies at the interaction of those domains + autonomy
+% However non-expert users might have very
+% different preferences and predefined instructions might not be
+% well accepted. lies at the interaction of those domains + autonomy
 
-bootstrapping further intrinsically motivated learning \cite{nguyen2011bootstrapping}
-not a passive absorber of knowledge
-
-
-A typical example, that I heard from Thomas Cederborg, is the case of a cleaning robot that could
-
-demonstration, human generated reward
-
-Underlying all IRL works is the assumption of a consistent reward function. When demonstrations are provided by multiple experts, this assumes that all experts optimize the same objectives. This is constraining and does not exploit the variability of ways in which humans may solve the same task. Recent IRL works consider multiple experts and identify multiple different reward functions (Choi and Kim 2012; Tanwani and Billard 2013). This allows the robots to learn multiple (albeit suboptimal) ways to perform the same task. The hope is that this multiplicity of policies will make the controller more robust, offering alternative ways to complete the task, when the context no longer allows the robot to perform the task in the optimal way. 
-
-. LfD-PbD techniques assume that all the demonstrations are good demonstrations and researchers generally discard data that are poor proxy of what would be deemed as a good behavior. Recent work has begun to investigate the possibility that demonstrations corresponding to failed attempts at performing the task may be useful for learning (Grollman and Billard, 2011; Ray et al. 2013).
-
-Perceptual learning and task learning can both benefit from user interaction in many different ways. On the one hand, if the interaction protocol and context, is well defined it is possible to acquired grounded perceptual data. On the other hand, if the human and the machine understand each others, the human can explain or guide the machine, which may reduce learning time or even enable the machine to learn task difficult to write down as an objective or reward function.
-
-This leaded to interesting results concerning the behavior of human in such situation.
-
-People will not always respect predefined conventions. Several studies discuss the different behaviors naive teachers use when instructing robots \cite{thomaz2008teachable,Cakmak2010optimality}. An important aspect is that the feedback is frequently ambiguous and deviates from the mathematical interpretation of a reward or a sample from a policy. For instance, in the work of \cite{thomaz2008teachable} the teachers frequently gave a positive reward for exploratory actions even if the signal was used by the learner as a standard reward. Also, even if we can define an optimal teaching sequence, humans do not necessarily behave according to those strategies \cite{Cakmak2010optimality}. For more studies on how humans teach robots see \cite{thomaz2009learning,kaochar2011towards,knox2012humans}. These studies show that even when using well defined protocols, it is important to consider how different instructions can be used for learning. 
-
-Nevertheless the real problem is somewhat even more complicated. Figure shows this complexity. When observing the robot behavior the user will provide some instructions, using vocal commands for instance. If their meanings are known and the speech recognition system works then they can be directly translated into learning data for the task learning algorithms. But in general, it is important to consider that there can be errors in the recognition system, even systematic when taking into account accents, and that people might be more comfortable to use different, not predefined, words. The problem now becomes that the meaning of these new instructions can not be easily recovered if the task that is being learned is not known.
-
-However most of those systems have not considered in depth the properties of teaching interactions with a human in the loop. The demonstrations are provided in a batch perspective where data acquisition is done before the learning phase. Those issues have began to be addressed in works studying \textit{interactive learning} \cite{kaplan2002robotic,nicolescu2003natural,Breazeal2004,thomaz2008teachable}, which combines the ideas of learning from demonstration, learning by exploration and tutor feedback. Under this approach, the teacher interacts with the robot and provides extra feedback or guidance. In addition, the robot can act to improve its learning efficiency. Recent developments have considered: extra reinforcement signals \cite{thomaz2008teachable}, action requests \cite{macl09airl}, disambiguation among actions \cite{chernova09jair}, preferences among states \cite{Mason2011}, iterations between practice and user feedback sessions \cite{judah2010reinforcement} and choosing actions that maximize the user feedback \cite{knox2009interactively}.
-
-Interactive learning \cite{nicolescu2003natural,breazeal2004tutelage} aims at developing systems that can learn by practical interaction with the user and finds applications in a wide range of fields such as human-robot interaction, tutoring systems or human-machine interfaces.
-This type of learning combines ideas of learning from demonstration \cite{argall09survey}, learning by exploration \cite{thrun1992efficient} and tutor feedback \cite{kaplan2002robotic}. Under this approach the human teacher interacts with the machine and provides extra feedback or guidance. 
-
-In addition, the device can act to improve its learning efficiency.
-Approaches have considered: extra reinforcement signals \cite{thomaz2008teachable}, action requests \cite{lopes2009active}, disambiguation among actions \cite{chernova09jair}, preferences among states \cite{Mason2011}, iterations between practice and user feedback sessions \cite{judah2010reinforcement}, and choosing actions that maximize the user feedback \cite{knox2009interactively}. 
-
-\subsection{Online interactive learning}
-
-\cite{akgun12hri}
-
-learning by reading instruction books
+% bootstrapping further intrinsically motivated learning \cite{nguyen2011bootstrapping}
+% not a passive absorber of knowledge
 
 
-\subsection{How people teach robots}
+% A typical example, that I heard from Thomas Cederborg, is the case of a cleaning robot that could
 
-\subsection{User modeling and ambiguous protocols}
+% demonstration, human generated reward
 
-\cite{macl11simul}
+% Underlying all IRL works is the assumption of a consistent reward function. When demonstrations are provided by multiple experts, this assumes that all experts optimize the same objectives. This is constraining and does not exploit the variability of ways in which humans may solve the same task. Recent IRL works consider multiple experts and identify multiple different reward functions (Choi and Kim 2012; Tanwani and Billard 2013). This allows the robots to learn multiple (albeit suboptimal) ways to perform the same task. The hope is that this multiplicity of policies will make the controller more robust, offering alternative ways to complete the task, when the context no longer allows the robot to perform the task in the optimal way. 
 
-\subsection{Ambiguous signals}
+% . LfD-PbD techniques assume that all the demonstrations are good demonstrations and researchers generally discard data that are poor proxy of what would be deemed as a good behavior. Recent work has begun to investigate the possibility that demonstrations corresponding to failed attempts at performing the task may be useful for learning (Grollman and Billard, 2011; Ray et al. 2013).
 
-\subsection{Active learner}
+% Perceptual learning and task learning can both benefit from user interaction in many different ways. On the one hand, if the interaction protocol and context, is well defined it is possible to acquired grounded perceptual data. On the other hand, if the human and the machine understand each others, the human can explain or guide the machine, which may reduce learning time or even enable the machine to learn task difficult to write down as an objective or reward function.
 
-\subsection{Active teacher}
+% This leaded to interesting results concerning the behavior of human in such situation.
 
+% People will not always respect predefined conventions. Several studies discuss the different behaviors naive teachers use when instructing robots \cite{thomaz2008teachable,Cakmak2010optimality}. An important aspect is that the feedback is frequently ambiguous and deviates from the mathematical interpretation of a reward or a sample from a policy. For instance, in the work of \cite{thomaz2008teachable} the teachers frequently gave a positive reward for exploratory actions even if the signal was used by the learner as a standard reward. Also, even if we can define an optimal teaching sequence, humans do not necessarily behave according to those strategies \cite{Cakmak2010optimality}. For more studies on how humans teach robots see \cite{thomaz2009learning,kaochar2011towards,knox2012humans}. These studies show that even when using well defined protocols, it is important to consider how different instructions can be used for learning. 
 
-find some framework and cite thomas \cite{cederborg2013language}
+% Nevertheless the real problem is somewhat even more complicated. Figure shows this complexity. When observing the robot behavior the user will provide some instructions, using vocal commands for instance. If their meanings are known and the speech recognition system works then they can be directly translated into learning data for the task learning algorithms. But in general, it is important to consider that there can be errors in the recognition system, even systematic when taking into account accents, and that people might be more comfortable to use different, not predefined, words. The problem now becomes that the meaning of these new instructions can not be easily recovered if the task that is being learned is not known.
 
-Perceptual learning and task learning can both benefit from user interaction in many different ways. On the one hand, if the interaction protocol and context, is well defined it is possible to acquired grounded perceptual data. On the other hand, if the human and the machine understand each others, the human can explain or guide the machine, which may reduce learning time or even enable the machine to learn task difficult to write down as an objective or reward function.
+% However most of those systems have not considered in depth the properties of teaching interactions with a human in the loop. The demonstrations are provided in a batch perspective where data acquisition is done before the learning phase. Those issues have began to be addressed in works studying \textit{interactive learning} \cite{kaplan2002robotic,nicolescu2003natural,Breazeal2004,thomaz2008teachable}, which combines the ideas of learning from demonstration, learning by exploration and tutor feedback. Under this approach, the teacher interacts with the robot and provides extra feedback or guidance. In addition, the robot can act to improve its learning efficiency. Recent developments have considered: extra reinforcement signals \cite{thomaz2008teachable}, action requests \cite{macl09airl}, disambiguation among actions \cite{chernova09jair}, preferences among states \cite{Mason2011}, iterations between practice and user feedback sessions \cite{judah2010reinforcement} and choosing actions that maximize the user feedback \cite{knox2009interactively}.
 
+% Interactive learning \cite{nicolescu2003natural,breazeal2004tutelage} aims at developing systems that can learn by practical interaction with the user and finds applications in a wide range of fields such as human-robot interaction, tutoring systems or human-machine interfaces.
+% This type of learning combines ideas of learning from demonstration \cite{argall09survey}, learning by exploration \cite{thrun1992efficient} and tutor feedback \cite{kaplan2002robotic}. Under this approach the human teacher interacts with the machine and provides extra feedback or guidance. 
 
+% In addition, the device can act to improve its learning efficiency.
+% Approaches have considered: extra reinforcement signals \cite{thomaz2008teachable}, action requests \cite{lopes2009active}, disambiguation among actions \cite{chernova09jair}, preferences among states \cite{Mason2011}, iterations between practice and user feedback sessions \cite{judah2010reinforcement}, and choosing actions that maximize the user feedback \cite{knox2009interactively}. 
 
+% \subsection{Online interactive learning}
 
-This thesis lies around those challenges. We identified one important assumtion made in all those experiments. The facts that the human and the robot are assuemd to be able to undertasn each others on one level or an other before the interaction can begin. Whether the meaning of the social signals are known and the robot should infer the task, or the task is known and the robot should infer some characteristic of its human partners, wheter the mapping between some communicative signals and their meaning, or the frequeccy to which it tends to use some words.
+% \cite{akgun12hri}
 
-
-A usual assumption in such
-systems is that the learner and the teacher share a mutual
-understanding of the meaning of each others' signals, and in
-particular the robot is usually assumed to know how to interpret
-teaching instructions from the human. In practice, the range
-of accepted instructions is limited to the one predifined by the
-system developer.
-
- We believe that robots should themselves be
-able to adapt progressively to every user's particular teaching
-behaviors at the same time as they learn new skills
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{The challenge of fluid interactive learning}
+% learning by reading instruction books
 
 
-in all the previous work demonstrated the interactino in done ont he basis that people know what the other person is saying, doing, stuffing. The interaction, while behing sometime interactive as strong known component respective to the meaning to communicative signals. we aim at removing that.
+% \subsection{How people teach robots}
+
+% \subsection{User modeling and ambiguous protocols}
+
+% \cite{macl11simul}
+
+% \subsection{Ambiguous signals}
+
+% \subsection{Active learner}
+
+% \subsection{Active teacher}
 
 
-How can a robot learn to interpret our different modes of communication? 
+% find some framework and cite thomas \cite{cederborg2013language}
 
-Interactive learning combines the ideas of learning from demonstration, learning by exploration and tutor feedback. Two widely explored subfields are:
-\begin{itemize}
-\item \textbf{Interactive perceptual learning} in which the system learns to discriminate between perceptual events via the help of a human partner. If the interaction protocol and context is well defined it is possible to acquired grounded perceptual data. It implies \textbf{the machine is aware of the communicative goal of the human}.
-\item \textbf{Interactive task learning} in which the system learn to increase its performance with respect to an objective or a reward function via the help of a human partner. If the human and the machine understand each others, the human can explain or guide the system, which may reduce learning time or even enable the machine to learn task difficult to write down as an objective or reward function. Therefore a usual assumption is that \textbf{the machine understands the meanings of human' s  communicative signals}.
-\end{itemize}
-
-Their respective assumptions makes those two lines of research incompatible. On the one hand, working on perceptual learning, i.e. learning the signal-to-meaning mapping, requires the machine to know the task. On the other hand, teaching a new task to a machine requires to already know the signal-to-meaning mapping. Consequently it is impossible for a user to instruct --- from scratch --- a machine using his own preferred teaching signals, the user must comply to the use of predefined ones or go through a calibration procedure.
-
-Unknown signals, unknown tasks
-
-A usual assumption in such systems is that the learner and the teacher share a mutual understanding of the meaning of each others' signals, and in particular the learning agent is usually assumed to know how to interpret teaching instructions from the human. In practice, this problem can be solved due to two simplifications. On one hand, the range of accepted instructions is limited to those predefined by the system developer. This approach, commonly used in human-robot interaction, lacks flexibility and adaptation to user specificities and, consequently, may not be well accepted by non-experts users with different preferences. 
-%
-On the other hand, sometimes it is not enough to predefine the instruction sets and it is necessary to perform a calibration phase to map raw signals such as speech or brain activity to the meaning. This is usually done using an ad-hoc protocol to collect labeled samples of the user communicative signals. This process must be well controlled to ensure signals are associated to the true intended meaning of the user.
-
-The previous engineering solution is needed due to the chicken egg nature of the problem. In order to teach a system a new skill, it needs to understand the human instructions. And, in order to understand this feedback, the system must have some interaction with the human (e.g. through a controlled task as done in the calibration process) to learn what the instructions mean. 
-
-Few works have studied and developed interactive learning systems that can learn both the meaning of symbols and the task simultaneously. In human-robot interaction Griffiths et al. \cite{griffiths2012bottom} conducted an experiment with humans learning the meaning of unknown symbolic teaching signals. Lopes et al. \cite{macl11simul} presented sequential task experiments considering symbolic teaching signals and requiring a bootstrap with known signals. Grizou et al. \cite{grizou2013robot} extended their system for non-symbolic teaching signals while removing the need for bootstrapping with known signals. Non-invasive brain-computer interfaces (BCIs) have also looked at this problem, since they usually require user-dependent calibration and have to deal with the EEG brain signals non-stationarities. These facts, together with the poor signal-to-noise ratio of the EEG, make the EEG self-calibration one of the most challenging ones. Specifically, for P300 spellers, Kindermans et al. have shown that it is possible to exploit the repetition of signals together with prior information  \cite{Kindermans2012a,Kindermans2012b} to calibrate the system while using the speller.
+% Perceptual learning and task learning can both benefit from user interaction in many different ways. On the one hand, if the interaction protocol and context, is well defined it is possible to acquired grounded perceptual data. On the other hand, if the human and the machine understand each others, the human can explain or guide the machine, which may reduce learning time or even enable the machine to learn task difficult to write down as an objective or reward function.
 
 
-While research on robot learning from human interaction has flourished in the last ten years, most work has focused on how to extract statistical \textit{task models} from human teachers following a fixed pre-defined teaching protocol (e.g. using a pre-defined button for ``good'' or ``bad'' feedback or using ad-hoc words for guidance with a trained speech recognition and dialog system). Thus, a usual assumption is that the learner and the teacher share a mutual understanding of the meaning of each others' instructions, and in particular the robot is usually assumed to know how to interpret instructions from the user. In practice, the range of accepted signals is limited to the one predefined by the system developer. Also, it is often assumed that instructions are noiseless and can be directly used as a feedback signal for a learning algorithm. The question of how a robot can learn to interpret personalized and potentially noisy teaching signals, i.e. learn \textit{instruction models}, has been much less explored.
-
-We can now define a general scientific challenge: \textit{Can a robot learn a new task if the task is unknown and the user is providing unknown instructions? Which are the constraints and mechanisms that could provide this flexibility in interactive task learning?} There are two important dimensions in such questions: 1) which are the computational machine learning algorithms and formalisms that are needed for this goal? 2) how to integrate them within real-world meaningful human-robot interaction such that usability and acceptability can be evaluated in user studies. Given the complexity and novelty of these issues, this article focuses on the first dimension, elaborating a formalism as well as algorithms that have good properties to address the broader challenge. While we present an exepriment with a real robot and discuss the second dimension in the discussion section, more thorough real-world user studies will be achieved in future work. Yet, we believe the theoretical work presented in this article can constitute an important first step towards flexible personalized teaching interfaces, and thus towards what we may call \textbf{fluid interaction learning}, a key for the future of personal robotics.
-
-In the following, we present a system able to learn the meaning of instruction signals provided by a user using unlabeled speech while learning a task using inverse reinforcement learning. Our contributions are:
-\begin{itemize}
-    \item a learning algorithm that learns how unknown sub-symbolic instructions signals can be translated in a meaningful teaching signal (among a repertoire of possible ones) that can be used for learning a task (within a space of possible tasks);
-    \item a learning algorithm that simultaneously learns the meaning of the instructions and a new task;
-    \item an extension of uncertainty based planning in the context of IRL;
-    \item tests with robotic systems using voice commands provided by a user using different representations: a finite MDP and an MDP with continuous state representation.
-\end{itemize}
-
-After detailing the related work in Section, we provide in Sectiondetails on the algorithm for learning tasks from unknown instructions. Section describes a set of experiments, where we will evaluate the algorithm in different settings. Section introduces an uncertainty based planning algorithm for efficient learning and we show the corresponding results in Section. Finally, we will discuss the main limitations of this work and suggest some future lines of research in Section. 
 
 
-Our approach is based on a discretization of the possible tasks into a finite number. Each task assigns different expected meanings to the instruction provided by the user. The machine solves the most likely task according to a pseudo-likelihood function computed using the corresponding task labels. The experimental results, both synthetic and based on real EEG data, show that in order to simultaneously recover the meanings and solve the task it is of paramount importance to take into account the uncertainty on both task and signal space.
+% This thesis lies around those challenges. We identified one important assumtion made in all those experiments. The facts that the human and the robot are assuemd to be able to undertasn each others on one level or an other before the interaction can begin. Whether the meaning of the social signals are known and the robot should infer the task, or the task is known and the robot should infer some characteristic of its human partners, wheter the mapping between some communicative signals and their meaning, or the frequeccy to which it tends to use some words.
 
-In the following section, we present the set of assumptions and algorithmic details of our system. Then we introduce the specificity of the uncertainty inherent to our problem using an intuitive example and present the details of our action selection method. Finally we present a set of simulated experiment showing that 
-\begin{inparaenum}[a)]
-\item our action selection method is reliable and improved over other methods
-\item our algorithm scale to the use of high dimensional signals coming from previously recorded brain signals
-\item by being operational from the first step, as opposed to calibration procedure, we can estimate the correct task as soon as sufficient evidence has been collected.
-\end{inparaenum}
 
-This work is particularly relevant for system requiring an individual adaptation to the user. For instance brain-computer interfaces (BCIs) are systems capable of decoding neural activity in real time, thereby allowing a machine to be directly controlled by thought. Such interfaces must be highly customized to adapt to each user brain signals. It often requires a fastidious calibration procedure, where the user is asked to repeat hundreds of time the same thought process in order to collect labeled data used to train a decoder, also called classifier.
+% A usual assumption in such
+% systems is that the learner and the teacher share a mutual
+% understanding of the meaning of each others' signals, and in
+% particular the robot is usually assumed to know how to interpret
+% teaching instructions from the human. In practice, the range
+% of accepted instructions is limited to the one predifined by the
+% system developer.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Thesis Statement}
+%  We believe that robots should themselves be
+% able to adapt progressively to every user's particular teaching
+% behaviors at the same time as they learn new skills
 
-In this dissertation, I will advance the following thesis:
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{The challenge of fluid interactive learning}
 
-\begin{quote}
-Under specific conditions, it is possible to start interacting with a device without pre-coordinating on the signals used for communicating specific meanings neither on what the device should aim for.
-\end{quote}
+
+% in all the previous work demonstrated the interactino in done ont he basis that people know what the other person is saying, doing, stuffing. The interaction, while behing sometime interactive as strong known component respective to the meaning to communicative signals. we aim at removing that.
+
+
+% How can a robot learn to interpret our different modes of communication? 
+
+% Interactive learning combines the ideas of learning from demonstration, learning by exploration and tutor feedback. Two widely explored subfields are:
+% \begin{itemize}
+% \item \textbf{Interactive perceptual learning} in which the system learns to discriminate between perceptual events via the help of a human partner. If the interaction protocol and context is well defined it is possible to acquired grounded perceptual data. It implies \textbf{the machine is aware of the communicative goal of the human}.
+% \item \textbf{Interactive task learning} in which the system learn to increase its performance with respect to an objective or a reward function via the help of a human partner. If the human and the machine understand each others, the human can explain or guide the system, which may reduce learning time or even enable the machine to learn task difficult to write down as an objective or reward function. Therefore a usual assumption is that \textbf{the machine understands the meanings of human' s  communicative signals}.
+% \end{itemize}
+
+% Their respective assumptions makes those two lines of research incompatible. On the one hand, working on perceptual learning, i.e. learning the signal-to-meaning mapping, requires the machine to know the task. On the other hand, teaching a new task to a machine requires to already know the signal-to-meaning mapping. Consequently it is impossible for a user to instruct --- from scratch --- a machine using his own preferred teaching signals, the user must comply to the use of predefined ones or go through a calibration procedure.
+
+% Unknown signals, unknown tasks
+
+% A usual assumption in such systems is that the learner and the teacher share a mutual understanding of the meaning of each others' signals, and in particular the learning agent is usually assumed to know how to interpret teaching instructions from the human. In practice, this problem can be solved due to two simplifications. On one hand, the range of accepted instructions is limited to those predefined by the system developer. This approach, commonly used in human-robot interaction, lacks flexibility and adaptation to user specificities and, consequently, may not be well accepted by non-experts users with different preferences. 
+% %
+% On the other hand, sometimes it is not enough to predefine the instruction sets and it is necessary to perform a calibration phase to map raw signals such as speech or brain activity to the meaning. This is usually done using an ad-hoc protocol to collect labeled samples of the user communicative signals. This process must be well controlled to ensure signals are associated to the true intended meaning of the user.
+
+% The previous engineering solution is needed due to the chicken egg nature of the problem. In order to teach a system a new skill, it needs to understand the human instructions. And, in order to understand this feedback, the system must have some interaction with the human (e.g. through a controlled task as done in the calibration process) to learn what the instructions mean. 
+
+% Few works have studied and developed interactive learning systems that can learn both the meaning of symbols and the task simultaneously. In human-robot interaction Griffiths et al. \cite{griffiths2012bottom} conducted an experiment with humans learning the meaning of unknown symbolic teaching signals. Lopes et al. \cite{macl11simul} presented sequential task experiments considering symbolic teaching signals and requiring a bootstrap with known signals. Grizou et al. \cite{grizou2013robot} extended their system for non-symbolic teaching signals while removing the need for bootstrapping with known signals. Non-invasive brain-computer interfaces (BCIs) have also looked at this problem, since they usually require user-dependent calibration and have to deal with the EEG brain signals non-stationarities. These facts, together with the poor signal-to-noise ratio of the EEG, make the EEG self-calibration one of the most challenging ones. Specifically, for P300 spellers, Kindermans et al. have shown that it is possible to exploit the repetition of signals together with prior information  \cite{Kindermans2012a,Kindermans2012b} to calibrate the system while using the speller.
+
+
+% While research on robot learning from human interaction has flourished in the last ten years, most work has focused on how to extract statistical \textit{task models} from human teachers following a fixed pre-defined teaching protocol (e.g. using a pre-defined button for ``good'' or ``bad'' feedback or using ad-hoc words for guidance with a trained speech recognition and dialog system). Thus, a usual assumption is that the learner and the teacher share a mutual understanding of the meaning of each others' instructions, and in particular the robot is usually assumed to know how to interpret instructions from the user. In practice, the range of accepted signals is limited to the one predefined by the system developer. Also, it is often assumed that instructions are noiseless and can be directly used as a feedback signal for a learning algorithm. The question of how a robot can learn to interpret personalized and potentially noisy teaching signals, i.e. learn \textit{instruction models}, has been much less explored.
+
+% We can now define a general scientific challenge: \textit{Can a robot learn a new task if the task is unknown and the user is providing unknown instructions? Which are the constraints and mechanisms that could provide this flexibility in interactive task learning?} There are two important dimensions in such questions: 1) which are the computational machine learning algorithms and formalisms that are needed for this goal? 2) how to integrate them within real-world meaningful human-robot interaction such that usability and acceptability can be evaluated in user studies. Given the complexity and novelty of these issues, this article focuses on the first dimension, elaborating a formalism as well as algorithms that have good properties to address the broader challenge. While we present an exepriment with a real robot and discuss the second dimension in the discussion section, more thorough real-world user studies will be achieved in future work. Yet, we believe the theoretical work presented in this article can constitute an important first step towards flexible personalized teaching interfaces, and thus towards what we may call \textbf{fluid interaction learning}, a key for the future of personal robotics.
+
+% In the following, we present a system able to learn the meaning of instruction signals provided by a user using unlabeled speech while learning a task using inverse reinforcement learning. Our contributions are:
+% \begin{itemize}
+%     \item a learning algorithm that learns how unknown sub-symbolic instructions signals can be translated in a meaningful teaching signal (among a repertoire of possible ones) that can be used for learning a task (within a space of possible tasks);
+%     \item a learning algorithm that simultaneously learns the meaning of the instructions and a new task;
+%     \item an extension of uncertainty based planning in the context of IRL;
+%     \item tests with robotic systems using voice commands provided by a user using different representations: a finite MDP and an MDP with continuous state representation.
+% \end{itemize}
+
+% After detailing the related work in Section, we provide in Sectiondetails on the algorithm for learning tasks from unknown instructions. Section describes a set of experiments, where we will evaluate the algorithm in different settings. Section introduces an uncertainty based planning algorithm for efficient learning and we show the corresponding results in Section. Finally, we will discuss the main limitations of this work and suggest some future lines of research in Section. 
+
+
+% Our approach is based on a discretization of the possible tasks into a finite number. Each task assigns different expected meanings to the instruction provided by the user. The machine solves the most likely task according to a pseudo-likelihood function computed using the corresponding task labels. The experimental results, both synthetic and based on real EEG data, show that in order to simultaneously recover the meanings and solve the task it is of paramount importance to take into account the uncertainty on both task and signal space.
+
+% In the following section, we present the set of assumptions and algorithmic details of our system. Then we introduce the specificity of the uncertainty inherent to our problem using an intuitive example and present the details of our action selection method. Finally we present a set of simulated experiment showing that 
+% \begin{inparaenum}[a)]
+% \item our action selection method is reliable and improved over other methods
+% \item our algorithm scale to the use of high dimensional signals coming from previously recorded brain signals
+% \item by being operational from the first step, as opposed to calibration procedure, we can estimate the correct task as soon as sufficient evidence has been collected.
+% \end{inparaenum}
+
+% This work is particularly relevant for system requiring an individual adaptation to the user. For instance brain-computer interfaces (BCIs) are systems capable of decoding neural activity in real time, thereby allowing a machine to be directly controlled by thought. Such interfaces must be highly customized to adapt to each user brain signals. It often requires a fastidious calibration procedure, where the user is asked to repeat hundreds of time the same thought process in order to collect labeled data used to train a decoder, also called classifier.
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Thesis Statement}
+
+% In this dissertation, I will advance the following thesis:
+
+% \begin{quote}
+% Under specific conditions, it is possible to start interacting with a device without pre-coordinating on the signals used for communicating specific meanings neither on what the device should aim for.
+% \end{quote}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

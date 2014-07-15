@@ -1,6 +1,6 @@
 %!TEX root = ../../thesis.tex
 
-\section{Proof and formalism}
+\section{A minimalist proof}
 \label{chapter:limitations:proof}
 
 It is of paramount importance to understand the properties of our algorithm, and to be able to have some certitude about its convergence and accuracy properties. The work presented in this thesis neglected this aspect and relied only on empirical evaluation. The next step for a motivated person it to work on a formalism of our problem and to derive some useful proof about some properties of the algorithm. In the following of this section we present a minimalist proof of the principle of our algorithm under extremely narrow condition.
@@ -13,7 +13,7 @@ This simplified setting, where the signals provided by the user, is certainly th
 
 As for all our scenario, we assume that the user is coherent and uses one button for one meaning, and always the same button for the same meaning. Therefore, as exemplified in Figure~\ref{fig:proofmapping} the mapping between symbolic signals and their meaning can only be of two forms. 
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\columnwidth]{\visualspdf/proof/mappings.pdf}
 \caption{The two possibles button to meaning mapping.}
@@ -34,7 +34,7 @@ Before describing our simple proof, it is important to have an intuition on the 
 
 Figure~\ref{fig:proofsymbolic} shows all possible button presses sequence expected from the teacher in different condition. On top are the state-action pair considered (a). (b) and (c) lines represent the expected meanings for each of the state-action pairs and according to the hypothesis G1 (b) or G2 (c). (d) and (e) lines represent the possible button presses sequence of the teacher when teaching hypothesis G1 and considering the two possible mappings. Respectively (f) and (g) for hypothesis G2.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\columnwidth]{\visualspdf/proof/symbolic_feedback.pdf}
 \caption{Illustration of the teacher's button presses for several state-action pairs. On top are the state-action pair considered (a). (b) and (c) lines represent the expected meanings for each of the state-action pairs and according to the hypothesis G1 (b) or G2 (c). (d) and (e) lines represent the possible button presses sequence of the teacher when teaching hypothesis G1 and considering the two possible mappings. Respectively (f) and (g) for hypothesis G2.}
@@ -77,7 +77,7 @@ Therefore, we can evaluate the possible mapping models based on the difference i
 
 Given our previously defined assumption, and assuming the agent visited all state-action pairs once, if the user uses the blue button to mean ``correct'', then the blue signal model will be $[\Upsilon_{\xi_t},1-\Upsilon_{\xi_t}]_{B,\xi_t}$. Which implies the orange button mapping is $[1-\Upsilon_{\xi_t},\Upsilon_{\xi_t}]_{O,\xi_t}$. Respectively, if the user uses the blue button to mean ``incorrect'', then the blue signal model will be $[1-\Upsilon_{\xi_t},\Upsilon_{\xi_t}]_{B,\xi_t}$. Which implies the orange button mapping is $[\Upsilon_{\xi_t},1-\Upsilon_{\xi_t}]_{O,\xi_t}$. 
 
-As there is the same number of ``correct'' and ``incorrect'' expected labels, we can factorize the likelihood equation as follow (see appendix~\ref{appendix:proof}):
+As there is the same number of ``correct'' and ``incorrect'' expected labels, we can factorize the likelihood equation as follows (see appendix~\ref{appendix:proof}):
 %
 \begin{eqnarray}
 \L(\xi_t) &=& \Upsilon_{\xi_t}^{nSA.\Upsilon_{\xi_t}} \times (1-\Upsilon_{\xi_t})^{nSA.(1-\Upsilon_{\xi_t})}
@@ -92,7 +92,7 @@ Figure~\ref{fig:prooflikelihoodone} shows the likelihood function for $nSA = 1$.
 
 Therefore, given all the assumptions considered, if the agent is provided with a set of task hypothesis, that included the correct task $\hat{\xi}$ but does not include any symmetric hypothesis --- which means all tasks hold the following property $\Upsilon_{\xi_t} > 0$ ---, we can guarantee that if the teacher visits all state-action pairs once, the user intended task $\hat{\xi}$ --- which hold the property $\Upsilon_{\xi_t} = 1$ --- will have the greater likelihood. In other words: $\L(\hat{\xi}) > \L(\xi_t)$ if $\Upsilon_{\xi_t} \in~]0,1[$.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/proof/likelihoodOne}
 \caption{The likelihood function of Equation~\ref{eq:likelihoodproof} for $nSA =1$.}
@@ -101,7 +101,7 @@ Therefore, given all the assumptions considered, if the agent is provided with a
 
 We now discuss the problem of estimating our confidence that one task is a better candidate than an other one. Of course, in this setting, given the strong assumption that the user is never making mistakes, such confidence mechanism is not needed. However, we have seen in previous chapter that deciding when to stop is a critical part of the algorithm. The simplest method consist of normalizing the likelihood for each task defining a probability threshold above which a task is considered as the correct one. If we consider for example 10 task hypothesis with different values of $\Upsilon$, normalizing the likelihood when $nSA = 1$ won't produce a very sharp probability distribution on task. All task will roughly share the same probability. However, when visiting more and more states, the likelihood function becomes more and more sharp and only normalizing likelihoods will split the hypothesis apart. In the limit, when $nSA \rightarrow +Inf$, only the hypothesis with a better value of $\Upsilon$ (i.e. closer to 0 or 1) will reach a probability of 1.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/proof/likelihoodMany}
 \caption{The likelihood function of Equation~\ref{eq:likelihoodproof} for $nSA =1,2,5,10,100$. The more we have collected evidence, the more the difference is sharp between task hypothesis.}
@@ -112,7 +112,7 @@ This model allows to understand in more conceptual terms some properties of our 
 
 Finally, for illustration purpose, we present a world holding all our assumption properties, we named it the clock world (see Figure~\ref{fig:clockworld}). This world has 12 states, which we represent as the hours on a clock. The agent has two actions available: turning clockwise or counter-clockwise. The user wants the agent to reach one of 12 states. This world is the extension of the line word but where the line loops on itself.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.3\columnwidth]{\visualspdf/proof/clockworld.pdf}
 \caption{Illustration of the clock world. The agent has two actions available: turning clockwise or counter-clockwise. The user wants the agent to reach one of 12 states.}
@@ -134,7 +134,7 @@ H_{\mathrm b}(p) = -p\log_2(p) - (1-p)\log_2(1-p)
 
 The binary entropy function is shown in Figure~\ref{fig:prooflikelihoodentropy}. As one would expect the shape of the entropy function holds similar properties than our likelihood Equation~\ref{eq:likelihoodproof}.
     
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/proof/entropy}
 \caption{The binary entropy function.}
@@ -149,4 +149,4 @@ Therefore, this method alone is not enough to estimate which task is the correct
 
 While it is always interesting and useful to formulate proof of algorithm, the restricted assumption used in this section makes it impossible to use this results in practical scenario. But we note that our experimental results shows that our algorithm can work with fairly good performance on different scenarios using continuous signals as noisy as EEG signals.
 
-I personally have very few experience in making proof for such kind of problems and it may be useful to pursue in that direction by releasing some of the assumption steps after steps. Starting with the assumption that all hypothesis have half of their state-action pair optimal and half non-optimal, and progressively accounting for some teaching mistakes. Reaching that level of proof would already offer some guarantees for simple scenario using discrete state, discrete action, and symbolic signals but under more realistic teaching condition.
+I personally have very few experience in making proof for such kind of problems and it may be useful to pursue in that direction by releasing some of the assumptions steps after steps. Starting with the assumption that all hypothesis have half of their state-action pair optimal and half non-optimal, and progressively accounting for some teaching mistakes. Reaching that level of proof would already offer some guarantees for simple scenarios using discrete state, discrete action, and symbolic signals, but under more realistic teaching conditions.
