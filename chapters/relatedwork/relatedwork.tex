@@ -6,13 +6,7 @@
 \label{chapter:relatedwork}
 \minitoc
 
-In this section we detail the challenges
-
-interactively teaching robots to do what we want them to do. 
-
-We first describe the main social learning paradigms, which we organized in three main groups: learning from human demonstrations, learning from human reinforcement, and learning from human instructions. From this, we will details more the work that take the human in the loop at learning time, we call this subfield interactive learning which combine ideas of social learning with extrinsic and intrinsic motivated learning. Finally we broaden the scope of this work and links it with the computational modeling of language, some aspect of multimodal learning learning, and the work on ad-hoc team whose state challenge is to enable cooperation without coordination between robotic agents. Finally, we present related work that as emerged in the BCI community.
-
-
+In this section we first describe the work that take the human component into the loop at learning time, we call this subfield interactive learning which combine ideas of social learning with extrinsic and intrinsic motivated learning. We then broaden the scope of this work by linking it with the computational modeling of language, some aspect of various unsupervised learning methods, and some specific work on ad-hoc team whose stated challenge is to enable cooperation without coordination between robotic agents. Finally, we present related work in the BCI community.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -31,9 +25,7 @@ Some other works have focused on learning semantic parsers, either from natural 
 
 \cite{grollman2007dogged} combined learning form demonstration and mixed initiative control to enable life long learning for unknown task. mixed initiative control is when the control can transition smoothly form the robot control to the demonstrator control. allow to modify the task online while learning. Used successfully to teach different behavior to a robot, such as mirroring the head position with the tail position, or to seek for a red ball using the same algorithm.
 
-\cite{pilarski2012between} between instruction and reward to balance human effort with communication efficiency.
-
-assistive technology, it is rare that you can control all aspect of the technology at once, for example, many active hand prosthesis have several modes of operation, two finger grip or full hand grip for example, where then fine control should be apply within that mode. Learning the preference of the user in terms of switching time based the past experience on the interaction. If what the system is not good, then the user can manually change it back. Close to manuel work on preference \cite{Mason2011}. Quite closed to confidence base autonomy isn't it? \cite{chernova09jair} yes, but the agent in pilarski do not actively seek for situation to be disambiguated but as less restrained signal and task space.
+\cite{pilarski2012between} between instruction and reward to balance human effort with communication efficiency. Assistive technology, it is rare that you can control all aspect of the technology at once, for example, many active hand prosthesis have several modes of operation, two finger grip or full hand grip for example, where then fine control should be apply within that mode. Learning the preference of the user in terms of switching time based the past experience on the interaction. If what the system is not good, then the user can manually change it back. Close to manuel work on preference \cite{Mason2011}. Quite closed to confidence base autonomy isn't it? \cite{chernova09jair} yes, but the agent in pilarski do not actively seek for situation to be disambiguated but as less restrained signal and task space.
 
 \cite{akrour2014programming} programming by feedback. The agent it doing the full demonstration and the human ranks the demonstration. With an active selection of the demonstration by the agent. Approximating user utility function, taking noise and errors into account. Looks like IRL but I don't understand how it differ.
 \cite{akrour2011preference} Preference-based Policy Learning, iterates a four-step process: the robot demonstrates a candidate policy; the expert ranks this policy comparatively to other ones according to her preferences; these preferences are used to learn a policy return estimate; the robot uses the policy return estimate to build new candidate policies.
@@ -43,8 +35,7 @@ limited external information might be sufficient to enable reinforcement learnin
 
 \cite{knox2009interactively} the idea is that the human as a bird eyes view on the system and the reward is not immediate but include the long terms consequences of the agent's actions. and this indication is given in a short time windows after the correct or erroneous action. The problem of credit assignment disappear.
 Two steps, modeling the trainer reinforcement function H is a supervised learning problem, where for each state-action pair a value should be associated given a set of value-state-action triple. This function however is a moving target. Then act greedy on that H function.
-\textbf{The shaping problem:} how to shape the policy of an agent to match the one the user as in mind. 
-TAMER has been extended to continuous state and action by Vien et al. \cite{vien2013learning}.
+\textbf{The shaping problem:} how to shape the policy of an agent to match the one the user as in mind. TAMER has been extended to continuous state and action by Vien et al. \cite{vien2013learning}.
 
 
 \cite{torrey2013teaching} Teaching on a budget
@@ -53,7 +44,39 @@ important states. Advice can have greater impact when it is spent on mistakes. W
 can spend their advice budget more effectively.
 \cite{taylor2011integrating} Human-Agent Transfer algorithm that combines transfer learning, learning from demonstration and reinforcement learning
 
+\cite{branavan2011learning} This paper presents a novel approach for leveraging automatically extracted textual knowledge to improve the performance of control applications such as games. Our ultimate goal is to enrich a stochastic player with high- level guidance expressed in text. Our model jointly learns to identify text that is relevant to a given game state in addition to learn- ing game strategies guided by the selected text. Our method operates in the Monte-Carlo search framework, and learns both text anal- ysis and game strategies based only on envi- ronment feedback. We apply our approach to the complex strategy game Civilization II using the official game manual as the text guide. Our results show that a linguistically-informed game-playing agent significantly outperforms its language-unaware counterpart
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The human in the loop}
+\label{chapter:related:humanintheloop}
+
+As mentioned before, an important challenge for such interactive systems is to deal with non-expert humans whose teaching styles can vary considerably. Users may have various expectations and preferences when interacting with a robot and predefined protocols or instructions may bother the user and dramatically decrease the performance of the learning system \cite{rouanet2013impact}. 
+
+Although learning from completely generic feedback types is very hard, we follow the approach from \cite{griffiths2012bottom}, which explores a human to human interaction in a categorization task where instruction can only be provided via six unlabeled symbols (thus the meaning of teaching signals are unknown to the learner). This study shows that tutors seem to spontaneously use three main types of instruction in order to help the learner: positive feedback, negative feedback, and concrete instructions (e.g. name of next optimal action). Yet, to our knowledge, nobody has investigated this problem with artificial agent in the context of human-robot interaction.
+
+
+Yet, this capability is crucial in infant social development and learning, as well as in adult mutual adaptation of social cues. This has been the subject of experiments in experimental semiotics \cite{galantucci2009experimental}, such as in the work of Griffiths et al. \cite{griffiths2012bottom} who conducted an experiment with human learners learning the meaning of unknown symbolic teaching signals. The experimental setup we present here in the context of human-robot interaction is a variant of theirs, where teaching signals are sub-symbolic and not from a pre-determined set.
+
+idea of transparency: the teacher should undertand what is undersood or not by the machine. What are its intention when acting ...
+\cite{chao2010transparent} active learning imporve the accuracy and efficiency of the teaching process but may illicit undesirable effect of acceptabiliy reagridng the balance of the interaction. the balance of leader follower is not always maintained.
+
+\cite{cakmak2012designing} using human-human experiment to find out which question are more often used. featue queries (explicit test on certain aspect of a task, can I do that?) are the most common in HRI and are perceived the smartest when used in robot. 
+
+People will not always respect predefined conventions. Several studies discuss the different behaviors naive teachers use when instructing robots \cite{thomaz2008teachable,Cakmak2010optimality}. An important aspect is that the feedback is frequently ambiguous and deviates from the mathematical interpretation of a reward or a sample from a policy. For instance, in the work of \cite{thomaz2008teachable} the teachers frequently gave a positive reward for exploratory actions even if the signal was used by the learner as a standard reward. Also, even if we can define an optimal teaching sequence, humans do not necessarily behave according to those strategies \cite{Cakmak2010optimality}. are users optimal when teaching robots? not all al apspect even if asked to do so.
+
+For more studies on how humans teach robots see \cite{thomaz2009learning,kaochar2011towards,knox2012humans}. These studies show that even when using well defined protocols, it is important to consider how different instructions can be used for learning. 
+
+derived principle: \cite{thomaz2008teachable} 
+transparency, balance of control leder follower
+\cite{cakmak2010designing} led to conlusion about balance of autonomy and control. a question every step is boring,  and asking sometime is unpredictible. Letting the user send feedback when he wanted was prefered but less efficient.
+\cite{knox2009design} human reinforcemnt function is a moving target. human reinforce almost always state action pairs and not state only. human trainers reinforce expected action (if the robot trun right in the direction of the goal, people reinforce, people see intentionality in the action) as well as recent actions. about to do or has just done. how to divide credits between future or past actions is not obvious yet.
+\cite{kaochar2011towards} the ability for the teacher to test what is undertsood by the learner is important.
+
+\cite{akgun12hri} kinesthetic teaching, demonstration by keyframe marking. the robot just have to find the keyframes to connect the keyframes.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -64,6 +87,11 @@ can spend their advice budget more effectively.
 \section{Language Acquisition}
 \label{chapter:related:language}
 
+
+stated in the language acquisition but really the closest work form ours.
+\cite{cederborg2011imitating} probablyt he closest work to this work, there is several trajectory, and several referential. by making hypothesis that each trajectory refer to each of the referential, we can find out which on belong to which referential and find which trajectories belong together. can reproduce a gesture wrt. an other combination of movement object. 
+difference: the association related to the referential, the frame is direct reasoning in the agent head, the robot do not know how to act in the first place, learnthe gesture and generalize reproduction in other coordinate systems.
+
 While this is not the main target of this article, this work is also relevant with regards to the computational modeling of language acquisition. The general question of how certain sub-symbolic communication signals can be associated to their meanings through interaction has been largely studied in the literature so far. But the specific question of how teaching signals (speech words here) can be mapped to teaching meanings and how they can be used for learning new tasks has, to our knowledge, not been modeled computationally so far. 
 
 As argued in the previous section, the work we present has also some relevance with regards to the computational modeling of language acquisition. The literature on computational modeling of language acquisition by machines and robots is large and diverse, and focused on many aspects of language learning \cite{steels2012grounding,steels2002aibos, cangelosi2010integration, kaplan2008computational, steels2003evolving, brent1997computational, yu2007unified}. An important line of work investigated the Gavagai problem \cite{quine1964word}, i.e. the problem of how to guess the meaning of a new word when many hypothesis can be formed (out of a pointing gesture for example) and it is not possible to read the mind of the language teacher. Various approaches were used, such as constructivist and discriminative approaches based on social alignment \cite{steels06spatialLanguage, steels2008can}, pure statistical approaches through cross-situational learning \cite{xu2007word, smith2008infants} or more constrained statistical approaches \cite{roy2005semiotic, yu2007unified}. In all these existing models, meanings were expressed in terms of perceptual categories (e.g. in terms of shape, color, position, etc) \cite{steels06spatialLanguage, steels2008can,yu2007unified}, or in terms of motor actions \cite{steels2008robot, Massera2010,sugita05a}. This applies to models implemented in robots, such as in \cite{heckmann2009teaching}, where  the robot ASIMO is taught to associate new spoken signals to visual object properties, both in noisy conditions and without the need for bootstrapping. 
@@ -72,15 +100,6 @@ Only very few models so far have explored how other categories of word meanings 
 The work we present in this article shows mechanisms allowing a learner to acquire word meaning associated to teaching and guidance in the context of social interaction. Furthermore, while in most models of lexicon  acquisition no tasks are learned (only word-meaning associations are learned), we show mechanisms allowing the learner to leverage learned word meanings to learn novel tasks from a human.
 
 Finally, the work of Steels and colleagues \cite{steels2012grounding,steels2002aibos} have extensively shown the importance language games, instantiating various families of pre-programmed interaction protocols specifically designed to allow robots to learn speech sounds\cite{de2000self,oudeyer2006self}, lexicons \cite{steels2002aibos} or grammatical structures \cite{steels06spatialLanguage, steels2008can}. Other works used similar interactional frames to allow a structured interaction between humans and robots so that new elements of language could be identified and learnt by the robot learner \cite{roy02a,lyon2012interactive,cangelosi06b,yu2004multimodal,cangelosi2010integration,sugita05a,dominey2005learning,cederborg2011imitating}. In particular, it was shown that these interaction protocols fostered efficient language learning by implementing joint attention and joint intentional understanding between the robot and the human \cite{kaplan2006challenges,yu2005role,yu2007unified}, for example leveraging the synchronies and contingencies between the speech and the action flow \cite{rohlfing2006can,schillingmann2011acoustic}. Yet, to our knowledge, in all these existing works the interaction protocols have always been pre-programmed (that is the robot knows how to use and understand them innately, e.g. he knows how the teacher expresses ``good'' or ``bad'' feedback), as well as used by the robot learner to strictly identify new (form,meaning) pairs in the sensorimotor flow. The methods we present here form a basis on which such flexible and adaptive teaching protocols could be learnt.
-
-
-Active Learning for Teaching a Robot Grounded Relational Symbols
-Johannes Kulick and Marc Toussaint and
-Tobias Lang
-and
-Manuel Lopes
-
-
 
 \cite{spranger2013evolutionary} landmarks have an important function in spactial language. it can represent aocmmon ground, easier to refer to for each partners involved in the language game. it allow to evolve spatial relation. better with landmark than without. effect on success in communication and their impact on the
 formation of spatial relations.
@@ -93,13 +112,6 @@ lingodroid \cite{schulz2010robots} : use iRats, have shared attention, when they
 
 difference with language games and our work: the realtion is direct, it applies to where we are now, the time is it now
 
-\section{interactive and language}
-
-\cite{branavan2011learning} This paper presents a novel approach for lever- aging automatically extracted textual knowl- edge to improve the performance of control applications such as games. Our ultimate goal is to enrich a stochastic player with high- level guidance expressed in text. Our model jointly learns to identify text that is relevant to a given game state in addition to learn- ing game strategies guided by the selected text. Our method operates in the Monte-Carlo search framework, and learns both text anal- ysis and game strategies based only on envi- ronment feedback. We apply our approach to the complex strategy game Civilization II using the official game manual as the text guide. Our results show that a linguistically-informed game-playing agent significantly outperforms its language-unaware counterpart
-
-\cite{cederborg2011imitating} probablyt he closest work to this work, there is several trajectory, and several referential. by making hypothesis that each trajectory refer to each of the referential, we can find out which on belong to which referential and find which trajectories belong together. can reproduce a gesture wrt. an other combination of movement object. 
-difference: the association related to the referential, the frame is direct reasoning in the agent head, the robot do not know how to act in the first place, learnthe gesture and generalize reproduction in other coordinate systems.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -108,9 +120,22 @@ difference: the association related to the referential, the frame is direct reas
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Unsupervised learning}
 
+Unsupervised learning is the problem of finding hidden structure in unlabeled data. Even if there is no explicit error or reward to evaluate a potential solution, there is still predefined metrics which define what the terms \emph{structure} means. Finding an hidden structure is more looking from known patterns in unlabeled data.
 
-\subsection{Multimodal learning}
+It mostly applies in clustering task where a dataset is divided into subgroups of data which share common characteristic, such as a close proximity in the feature space. Among others, clustering algorithm include k-means and its generalized form the expectation maximization for Gaussian mixture \cite{dempster1977maximum}. Clustering method are widely used in recommender systems, especially in nowadays social networking service to identify group of users from a huge pool of user profile \cite{sarwar2002recommender}.
 
+It also applies in feature extraction and dimensionality reduction problems where the algorithm should find a better, usually more compact, representation of the data without losing some of their properties. Among others algorithm, we can refer to principal component analysis (PCA) which linearly project a dataset into a subspace where dimension are minimally correlated \cite{jolliffe2005principal}. The new dimensions are called principal components. Linear projections are not always well suited for reducing dimensionality of some datasets which may lie on a non-linear manifold. Among others, non-linear dimensionality reduction algorithms include self-organizing map (SOM) \cite{kohonen2001self} which can be considered as the non-linear generalization of PCA.
+
+\subsection{Unsupervised multimodal learning}
+
+
+\cite{mangin2012learning,mangin2013learning,mangin2014thesis}
+
+ An important feature of perceptual systems is that they often include sensors from several modalities. However, existing robots do not yet sufficiently discover patterns that are spread over the flow of multimodal data they receive. Not only do we believe that being able to learn by integrating sensory information from several modalities is a crucial capability for robots, but we also think it is a major feature of infants development.
+
+A particular instance of multimodal learning is the learning of language where the learner has to relate perception of an object to the sound of its name. This problem is commonly referred to as the symbol grounding problem. In our work we shown how it is possible to learn the link between symbolic labels and gestures that compose choreographies.
+
+Outside the simpler case where one wants to learn concepts grounded in one modality and relate them to observed symbols (basic or structured classification), the interaction between the emergence of language symbols and classes of perceptual objects is actually more complex. For instance, while words often describe concepts that could directly emerge from perception and of interaction with the world, the learning of worlds to describe concepts often shapes the concepts themselves (as explained on this page). Learning the semantic concepts resulting from this interaction is thus better expressed in terms of learning directly from several sub-symbolic modalities. 
 
 \subsection{SLAM}
 
@@ -142,44 +167,7 @@ As robots are moving into the real world, they will increasingly need to group t
 
 This challenge of collaboration without pre-coordination has been first identified in the LARG group with the work on Ad Hoc Autonomous Agent Teams \cite{stone2010ad} where agents should learn to collaborate without defining pre-coordination scheme or knowing what the other agent will be capable of. Samuel Barrett, a last year PhD student, has been the main investigator of this line of research in the LARG group. He notably investigated complex teamwork domain such as the pursuit domain \cite{barrett2011empirical}, which is the domain we will use for our common project. The first development of the Ad Hoc Team project did not consider direct communication between agent \cite{stone2010ad} \cite{barrett2011adhoc} and the collaboration were effective only through the understanding of the behavior of the other agent \cite{barrett2011empirical} \cite{barrett2013team}. More recently, Samuel Barrett et al. introduced a minimal domain with communication and proved that ad hoc team agents can successfully cooperate with unknown teammates \cite{barrett2013communicating}. This latter work considers an abstract task using an armed bandit setting. Our joint collaboration aims at extending this work to the pursuit domain. Especially we would like to investigate a domain where communication between agents is mandatory to succeed in the task. 
 
-]. And in the LARG Group, the focus was more on multiagent scenarios where robot must be prepared to cooperate with many types of teammates, which may not share the same capabilities or communicative means. The first phase of the Ad Hoc Team project considered indirect communication \cite{stone2010ad} \cite{barrett2011empirical} \cite{barrett2011adhoc} \cite{barrett2013team} and direct communication has been explored recently in an armed bandit scenario \cite{barrett2013communicating}.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{The human in the loop}
-\label{chapter:related:humanintheloop}
-
-
-As mentioned before, an important challenge for such interactive systems is to deal with non-expert humans whose teaching styles can vary considerably. Users may have various expectations and preferences when interacting with a robot and predefined protocols or instructions may bother the user and dramatically decrease the performance of the learning system \cite{rouanet2013impact}. 
-
-Although learning from completely generic feedback types is very hard, we follow the approach from \cite{griffiths2012bottom}, which explores a human to human interaction in a categorization task where instruction can only be provided via six unlabeled symbols (thus the meaning of teaching signals are unknown to the learner). This study shows that tutors seem to spontaneously use three main types of instruction in order to help the learner: positive feedback, negative feedback, and concrete instructions (e.g. name of next optimal action). Yet, to our knowledge, nobody has investigated this problem with artificial agent in the context of human-robot interaction.
-
-
-Yet, this capability is crucial in infant social development and learning, as well as in adult mutual adaptation of social cues. This has been the subject of experiments in experimental semiotics \cite{galantucci2009experimental}, such as in the work of Griffiths et al. \cite{griffiths2012bottom} who conducted an experiment with human learners learning the meaning of unknown symbolic teaching signals. The experimental setup we present here in the context of human-robot interaction is a variant of theirs, where teaching signals are sub-symbolic and not from a pre-determined set.
-
-idea of transparency: the teacher should undertand what is undersood or not by the machine. What are its intention when acting ...
-\cite{chao2010transparent} active learning imporve the accuracy and efficiency of the teaching process but may illicit undesirable effect of acceptabiliy reagridng the balance of the interaction. the balance of leader follower is not always maintained.
-
-\cite{cakmak2012designing} using human-human experiment to find out which question are more often used. featue queries (explicit test on certain aspect of a task, can I do that?) are the most common in HRI and are perceived the smartest when used in robot. 
-
-People will not always respect predefined conventions. Several studies discuss the different behaviors naive teachers use when instructing robots \cite{thomaz2008teachable,Cakmak2010optimality}. An important aspect is that the feedback is frequently ambiguous and deviates from the mathematical interpretation of a reward or a sample from a policy. For instance, in the work of \cite{thomaz2008teachable} the teachers frequently gave a positive reward for exploratory actions even if the signal was used by the learner as a standard reward. Also, even if we can define an optimal teaching sequence, humans do not necessarily behave according to those strategies \cite{Cakmak2010optimality}. are users optimal when teaching robots? not all al apspect even if asked to do so.
-
-For more studies on how humans teach robots see \cite{thomaz2009learning,kaochar2011towards,knox2012humans}. These studies show that even when using well defined protocols, it is important to consider how different instructions can be used for learning. 
-
-
-
-derived principle: \cite{thomaz2008teachable} 
-transparency, balance of control leder follower
-\cite{cakmak2010designing} led to conlusion about balance of autonomy and control. a question every step is boring,  and asking sometime is unpredictible. Letting the user send feedback when he wanted was prefered but less efficient.
-\cite{knox2009design} human reinforcemnt function is a moving target. human reinforce almost always state action pairs and not state only. human trainers reinforce expected action (if the robot trun right in the direction of the goal, people reinforce, people see intentionality in the action) as well as recent actions. about to do or has just done. how to divide credits between future or past actions is not obvious yet.
-\cite{kaochar2011towards} the ability for the teacher to test what is undertsood by the learner is important.
-
-
-
-\cite{akgun12hri} kinesthetic teaching, demonstration by keyframe marking. the robot just have to find the keyframes to connect the keyframes.
+And in the LARG Group, the focus was more on multiagent scenarios where robot must be prepared to cooperate with many types of teammates, which may not share the same capabilities or communicative means. The first phase of the Ad Hoc Team project considered indirect communication \cite{stone2010ad} \cite{barrett2011empirical} \cite{barrett2011adhoc} \cite{barrett2013team} and direct communication has been explored recently in an armed bandit scenario \cite{barrett2013communicating}.
 
 \section{BCI}
 

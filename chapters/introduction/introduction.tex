@@ -36,10 +36,9 @@ It is often easier to acquire a new skill if someone that already acquired that 
 
 We can identify three main social learning paradigms used in robotics today: \begin{inparaenum}[(a)] \item learning from human demonstration, where the robot learns by imitating the human actions, \item learning from human reinforcement, where the robot learn from assessments on its own actions provided by the user, and \item learning from human instructions, where the robot learns from concrete instructions about what do to next provided by the user. \end{inparaenum}
 
-Each of those paradigms requires to solve two main challenges: \begin{inparaenum}[(1)] \item the robot should be able to identify which parts of the interaction, and of the environment, are relevant to the acquisition of the new skill, and \item the robot should be able to infer, from the identified relevant informations, the new skill or task the human wants the robot to achieve. \end{inparaenum}
+Each of those paradigms requires to solve two main challenges: \begin{inparaenum}[(1)] \item the robot should be able to identify which parts of the interaction, and of the environment, are relevant to the acquisition of the new skill, and \item the robot should be able to infer, from the relevant informations extracted from the interaction, the new skill or task the human wants the robot to achieve. \end{inparaenum}
 
-
-
+As we will see in the following subsections, most of the work in robot social learning considered those two latter challenges separately and most of the efforts focused on the second challenge of designing better learning algorithm.
 
 % This approach contrast with the usual methods used to endow a robot with a new skill, such as directly programming the robot or defining a mathematical fitness function for that skill. 
 % Social interaction, by being the most intuitive way for humans to communicate,   are the most intuitive way human communicative between each others and if robot are able
@@ -50,7 +49,10 @@ Each of those paradigms requires to solve two main challenges: \begin{inparaenum
 
 \subsection{Learning from human demonstrations}
 
-Learning from human demonstrations, also called programming by demonstration or learning by imitation, is the process of learning from practical examples of how to perform a specific skill \cite{schaal1999imitation,argall09survey,lopes10imitationchapter}. Demonstrating a task to a robot is easier for the user than directly programming a behavior by writing lines of code. But creating a robot that learn from example requires to solves two main problems: \begin{inparaenum}[(1)] \item creating algorithm capable of inferring the user desired behavior from its demonstrations, but also \item allowing the robot to identify what part of the environment and of the human behavior are relevant to the task, i.e. to extract the information related to a demonstration from the interaction. \end{inparaenum}
+Learning from human demonstrations, also called programming by demonstration or learning by imitation, is the process of learning from practical examples of how to perform a specific skill \cite{schaal1999imitation,argall09survey,lopes10imitationchapter}. 
+
+
+% Demonstrating a task to a robot is easier for the user than directly programming a behavior by writing lines of code. But creating a robot that learn from example requires to solves two main problems: \begin{inparaenum}[(1)] \item creating algorithm capable of inferring the user desired behavior from its demonstrations, but also \item allowing the robot to identify what part of the environment and of the human behavior are relevant to the task, i.e. to extract the information related to a demonstration from the interaction. \end{inparaenum}
 
 Four central questions were defined as who, when, what, and how to imitate \cite{nehaniv2000hummingbirds}:
 \begin{itemize}
@@ -112,21 +114,93 @@ before the learning phase. The properties of teaching interactions with a human 
 
 \section{Usual Assumptions}
 
+As we have seen, in most of the work in social learning there is a strong decoupling between the process of extracting useful information from the interaction and the process of learning and generalizing a new skill or task from those useful information.
+
+On the one hand, if the goal of the robot is to learn a new task, the robot will be fed with the relevant interaction data formatted exactly in the format need by the learning algorithm. For example, if a user should teach a robot to navigate in a maze, the protocol of interaction between the human and the robot will be ticked to match the need of the algorithm. The interaction will be turn by turn such as it is easy to associate user's instructions to robot's states. But the user will also be asked to comply to the specific signals the robot understand, such as using the word ``right'' and ``left'' to mean respectively ``right'' and ``left''.
+
+On the other hand, when we want to learn some part of the user behavior, the task the users wants to achieved is assumed to be known. This allows to interpret the behavior of the user in the light of the known objective he is pursuing. This process is usually called a calibration phase and it is necessary to provide the robot with the ability to translate human communicative signals, such as speech or gestures, in a symbolic meaningful representation. For example, if we want our robot to learn which word the user uses to mean ``right'' and ``left'', we will ask the user to guide the robot in a maze following a specific path. The robot, knowing the path intended by the human, could identify that the human uses the word ``right'' and ``left'' or ``droite'' and ``gauche'' to mean respectively ``right'' and ``left''. 
+
+Therefore interacting with a robot present a chicken an egg problem. To teach a robot a new task, the robot must be able to understand the behavior of the human. But to come up with an understanding of the behavior of the human the robot must known what is the user overall objective. In this thesis, we presents method to overcome this chicken and egg problem in some specific cases. Before entering into more details, we should introduce a number of concept that we will use in the following of this thesis.
+
 \subsection{Interaction frames}
+
+Interaction frames are 
+
+
+The interaction frame is often implicitly assumed in robot learning experiments. It is important to make the interaction frames explicit because it can help us design machines more flexible to undefined or multiple interaction frames, or even machine that can learn the frames themselves.
+
+The concept of interaction frame is a subclass of the more general concept of frame applied to the specific case of interaction scenarios. Frames are a concept that emerges simultaneously in social theory \cite{goffman1974frame} and artificial intelligence \cite{minsky1974framework}. They represents a stereotyped situations, a schema of interpretation given a particular situation or event. It is answering the question: \emph{what is going on here ?}, in order to reduce ambiguity of intangible topics by contextualizing the information. It creates a common ground about the purpose of the interaction \cite{tomasello2009cultural,rohlfing2013learning} and include ``predictable, recurrent interactive structures'' (\cite{ninio1996pragmatic}, p. 171). Frames thus provide interactants with guidelines about how to behave (a protocol for interaction) and also help interactants to understand the communicative intentions of their interaction partner.
+
+In human-robot interaction, a simple interaction frame would be a human providing discrete action advice to a robot in the context of a reaching task. Being aware of this frame, the robot knows the utterances of the user correspond to action it should perform to achieve the user intended goal. A simple interaction frame would be a human presenting an object to a robot at the same time as saying the name of the object. Being aware of this frame, the robot knows the utterance corresponds to the name of the object (and not its shape or its color). In this case, the label corresponding to the speech signal is given.
+
+2.5.2: give concrete examples
+p. 44: define precisely the meaning of the terms "feedback", "guidance", "instructions" (you can even have a definition highlighted like in a math book)
+
+In this work, we remove only one specific information from the frame, the ability to translate raw signals form the users to a meaningful representation for the robot. We study how our robot can learn to cope with this lack of information. 
+
+A more formal description of a frame and a extended reflexion on how to leverage from more aspect of an interaction frame is presented in the thesis work of Thomas Cederborg. \todo{cite Thomas C.}
+
+\subsection{Interaction frames}
+
+In previous chapter~\ref{chapter:humanexperiment:frames}, we defined the terms of interaction frames which represents a stereotyped situations, a schema of interpretation given a particular situation or event. Such frame is often assumed to be known by both the human and the robot in addition to the signal-to-meaning classifier that translate the actual human signals into meaningful symbols. By comparing what the frame predicts and what the human actually said the robot can change our understanding of the situation.
+
+Learning from unlabeled interaction frames correspond to the problem where the signal-to-meaning classifier is not given, and therefore the robot can not rely on a direct comparison between the prediction from the interaction frame and the observation from the human teacher.
+
+What remains is the frame. It is at the core of our approach, it is assumed to be known by both the human and the robot. It includes both the constraints related to the task, e.g. teaching a robot which state to reach among a finite set of states, and the protocol used by the teacher to communicate to the robot, e.g. the teacher is assessing the robot's actions. Therefore, the meanings of the unlabeled signals is not explicitly given but is known to belong to a finite set of possible meanings.
+
+We define a generic frame function that, given a context of interaction and a task, returns the meaning intended by the teacher:
+%
+\begin{eqnarray}
+Meaning = Frame(Context, Task)
+\end{eqnarray}
+%
+Following our previous example, stating that if the robot moves from state 3 to state 4 (context), and that the human wants it to go in G1 (task), then the signals received from the human means ``incorrect'' (meaning), we can exemplify the use of the frame:
+%
+\begin{eqnarray}
+``incorrect" = Frame((s3 \rightarrow s4), G1)
+\end{eqnarray}
+
+\transition
+
+The idea of unlabeled interaction frame summarizes the problem of interaction we tackle in this work. However it is a quite general concept, and in order to understand the underlying principles of our algorithm, in the following sections we will restrict our analysis to simple frames and simple worlds. We will also explicit a number of assumptions related to this work.
+
+The first assumption is that the robot and the human are aware of the frame in which the interaction take place. This frame regulates the interaction between the two partners, it includes:
+
+\begin{itemize}
+
+\item \textbf{The set of possible meanings the human can refer to.} As depicted before, the set of meaning includes ``correct'' and ``incorrect'' for thoses cases where the user is assessong te robot's actions. It could also be the set of action names for those case where the user provides guidance on what to do next.
+
+\item \textbf{Details and timing of the interaction:} it corresponds to when and how the user will provide instruction signals. For example, the human sends a signal to the robot after each action the robot performs. An other example may be the human providing a feedback signal between 0.2 and 2 seconds after the robot's action he is referring to, like in \cite{knox2009interactively}.
+
+\item \textbf{Constraints on the possible tasks:} For example the robot is aware that the human wants to have it grasp one object on the table. And not reach for an object in a different room. This limits the number of hypothesis the robot can create.
+
+\end{itemize}
+
+By combining those three aspects of an interaction frame, the robot can create a set of interpretation hypothesis for the received teaching signals. For one possible task, and given a specific context (e.g. state and action performed in the environment), the robot can infer the meaning intended by the human user. By doing so for each possible task, it creates a set of interpretation hypothesis, which we rely on to fond the task taught by the user, as well as the signal to meaning mapping.
+
+ 
 
 \section{Thesis Contributions}
 
-\cite{vollmer2014studying}
+The main contribution of the thesis is a method allowing a user to start teaching a robot a new task using its own preferred teaching signals. For example, a user provides, using for example speech commands, instructions to a robot about what action to perform next. With our method, the user is not restricted to a pre-defined set of words and can rather its preferred words. The system will learn which words are associated to which meaning as well as identifying the task the user wants to solve. The user could therefore use words in english, french or spanish, but also interjections or even hand clapping.
 
+In more details, we can highlight four important contributions of this thesis:
 
-\cite{grizou2014interactive}
-\cite{grizou2014calibration}
-\cite{grizou2013robot}
+\begin{itemize}
 
+\item We propose a new experimental setup to study the co-construction of interaction protocols in collaborative tasks with humans \cite{vollmer2014studying} (Chapter~\ref{chapter:humanexperiment}). In this setup, an architect and a builder must
+communicate using a restricted n-bit channel in order to achieve the joint activity of constructing a structure using simple building blocks. We report experiments with human subjects which indicates that the kinds of meanings the participants coordinate on is limited some specific subsets such as feedback (``yes'', ``no''), guidance (``left'', ``right'', ``assemble''), feature based (``red'', ``small''), or global (``end'', ``reset'') instructions. Especially most of the user seems to concentrate on the ``yes'' and ``no'' kind of instruction. Finally we report that humans solve the problem by projecting the interaction into different common frames of
+interaction, which is the basic principle used in the algorithms presented in this thesis.
 
-\cite{grizou2014robot}
-\cite{grizou2013zero}
-\cite{grizou2013interactive}
+\item  We present an algorithm that allow to simultaneously learn a new task from human instructions as well as the mapping between human instruction signals and their meanings \cite{grizou2013robot,grizou2014calibration,grizou2014interactive} (Chapter~\ref{chapter:lfui}). In practice, it allows a user to start teaching a new task to a robot using his preferred teaching signals and without going through the usual calibration phase.  
+
+Our method consists of generating interpretation hypothesis of the teaching signals with respect to a set of possible task. We will see that the correct task is the one that explains better the history of interaction. We demonstrate the efficiency of our method in a pick and place scenario where a user use spoken words to instruct the robot to build a specific construction. We show that our method works if the teacher provide feedback (``correct'' or ``incorrect''), or guidance (``left'', ``right'', \ldots) instructions to our robot. Finally we show that our system can reuse the knowledge acquired about the signals of the users during the learning of a first to learn a second task faster.
+
+\item We propose a measure of uncertainty on the joint task-signal space that takes into account the specificity of our problem \cite{grizou2014calibration,grizou2014interactive} (Chapter~\ref{chapter:planning}). This uncertainty measure allows to improve the action selection of our agent which improves significantly the learning time. This uncertainty measure takes into count both the uncertainty inherent to the task, which is unknown and remains to be estimated, as well as the uncertainty about the signal to meaning mapping, which is also unknown and remains to be estimated.
+
+\item We apply our algorithm to brain computer interfaces (BCI) \cite{grizou2013zero,grizou2014calibration} (Chapter~\ref{chapter:bci}). We present experiment where several subjects control an agent from scratch by mentally assessing the agent's actions and without requiring a calibration phase to train a decoder of the user's brain signals. In all experiments, our algorithm was able to identify a first task in less iterations that a usual calibration procedure requires.
+
+\end{itemize}
 
 
 \section{Thesis Outline}
@@ -135,7 +209,7 @@ The first aim of this manuscript is to explain the problem of learning from unla
 
 In chapter~\ref{chapter:relatedwork}, we present an overview of the related work which span from language acquisition to brain computer interfaces.
 
-In chapter~\ref{chapter:humanexperiment}, we introduce a new experimental setup to study the co-construction of interaction protocols in asymmetric collaborative tasks with humans. By presenting preliminary results based on this setup, we derive interesting lessons for our problem. This work on human experiment is a joint collaboration with Anna-Lisa Vollmer and Katharina J. Rohlfing. 
+In chapter~\ref{chapter:humanexperiment}, we introduce a new experimental setup to study the co-construction of interaction protocols in asymmetric collaborative tasks with humans. By presenting preliminary results based on this setup, we derive interesting lessons for our problem. This work on human experiment is a joint collaboration with Anna-Lisa Vollmer and Katharina J. Rohlfing.
 
 In chapter~\ref{chapter:lfui}, we introduce in more specific terms the problem and provide a visual intuition on what properties we will exploit. We continue by formalizing the problem in a probabilistic framework, describe how each subcomponent of our algorithm are implemented and present results from a robotic pick and place scenario.
 
@@ -143,4 +217,4 @@ In chapter~\ref{chapter:planning}, we introduce the planning specificities relat
 
 In chapter~\ref{chapter:bci}, we present an application of the algorithm to a BCI scenario where a subject control an agent on a grid. We report online experiment showing that our algorithm allows untrained subjects to start controlling a device without any calibration procedure and by mentally assessing the device's actions. This work on BCI is a joint collaboration with I{\~n}aki Iturrate and Luis Montesano.
 
-In chapter~\ref{chapter:limitations}, we discuss the limitations of the work and exemplify, using simulated experiments, direction which could be pursue to overcome them.
+In chapter~\ref{chapter:limitations}, we discuss a number of limitations and propose several methods to overcome them. The limitations include the use of a discrete state space, a finite set of task hypothesis and the fact that the interaction frame is defined in advance. We further propose a minimalist proof for our algorithm.
