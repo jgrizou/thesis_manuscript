@@ -105,12 +105,12 @@ As for other method, the robot should be able to infer to which part of the envi
 
 As for learning from demonstration or learning from human reinforcement, learning from instructions could also be considered as an inverse reinforcement learning problem. One way is to consider instructions as demonstration and use learning from demonstration technics , another way is to formulate the problem such that the robot's goal is to find the hidden reward function that explains the instruction of the human teacher.
 
-\transition
+\subsection{Discussion}
 
 The categorization of learning paradigms above in three categories does not reflect the many subfamilies that exist between these categories, including those that are shared among categories. It is meant to situate the social learning problem in a more global picture, providing some interesting pointers for the interested readers. 
 
 As we noticed, in most of the above presented work, the human and the robot had no direct interaction with the robot, or few well controlled interactions. For example, the human demonstrations are provided in a batch perspective where data acquisition is done
-before the learning phase. The properties of teaching interactions with a human in the loop was not yet considered in depth, and this issues have began to be addressed in a subfield called \emph{interactive learning}  which combine ideas of social learning with extrinsic and intrinsic motivated learning. Where the robot acquires a form of autonomy with respect to how to deal with the human in the loop. This separation between this section and interactive learning is a bit arbitrary, we mainly want to highlight the fundamental difference between system that learn from pre-recordeed, open-loop, and  well controlled interactions from those which tries to close the interaction loop and allow more flexibility in the interaction process..
+before the learning phase. In the following section, we try to investigate what are the usual assumptions in human robot interaction scenarios.
 
 \section{Usual Assumptions}
 
@@ -235,7 +235,7 @@ interaction, which is the basic principle used in the algorithms presented in th
 
 Our method consists of generating interpretation hypothesis of the teaching signals with respect to a set of possible task. We will see that the correct task is the one that explains better the history of interaction. We demonstrate the efficiency of our method in a pick and place scenario where a user use spoken words to instruct the robot to build a specific construction. We show that our method works if the teacher provide feedback (``correct'' or ``incorrect''), or guidance (``left'', ``right'', \ldots) instructions to our robot. Finally we show that our system can reuse the knowledge acquired about the signals of the users during the learning of a first to learn a second task faster.
 
-\item We propose a measure of uncertainty on the joint task-signal space that takes into account the specificity of our problem \cite{grizou2014calibration,grizou2014interactive} (chapter~\ref{chapter:planning}). This uncertainty measure takes into count both the uncertainty inherent to the task, which is unknown and remains to be estimated, as well as the uncertainty about the signal to meaning mapping, which is also unknown and remains to be estimated.Measuring uncertainty allows to optimize the action selection of our agent which improves significantly the learning time. 
+\item We propose a measure of uncertainty on the joint task-signal space that takes into account both the uncertainty inherent to the task, which is unknown and remains to be estimated, as well as the uncertainty about the signal to meaning mapping, which is also unknown and remains to be estimated \cite{grizou2014calibration,grizou2014interactive} (chapter~\ref{chapter:planning}). Measuring uncertainty allows to optimize the action selection of our agent which improves significantly the learning time.
 
 \item We apply our algorithm to brain computer interfaces (BCI) \cite{grizou2013zero,grizou2014calibration} (chapter~\ref{chapter:bci}). We present experiment where several subjects control an agent from scratch by mentally assessing the agent's actions and without requiring a calibration phase to train a decoder of the user's brain signals. In all experiments, our algorithm was able to identify a first task in less iterations that a usual calibration procedure requires.
 
@@ -255,4 +255,4 @@ In chapter~\ref{chapter:planning}, we introduce the planning specificities relat
 
 In chapter~\ref{chapter:bci}, we present an application of the algorithm to a BCI scenario where a subject control an agent on a grid. We report online experiment showing that our algorithm allows untrained subjects to start controlling a device without any calibration procedure and by mentally assessing the device's actions. This work on BCI is a joint collaboration with I{\~n}aki Iturrate and Luis Montesano.
 
-In chapter~\ref{chapter:limitations}, we discuss a number of limitations and propose several methods to overcome them. The limitations include the use of a discrete state space, a finite set of task hypothesis and the fact that the interaction frame is defined in advance. We further propose a minimalist proof for our algorithm.
+In chapter~\ref{chapter:limitations}, we discuss a number of limitations and propose several methods to overcome them. The limitations include the use of a discrete state space, the need for a finite set of task hypothesis and the fact that the interaction frame is uniquely defined in advance. We further propose a proof for our algorithm in restricted conditions.

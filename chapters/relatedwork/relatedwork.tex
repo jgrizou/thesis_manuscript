@@ -6,7 +6,12 @@
 \label{chapter:relatedwork}
 \minitoc
 
-In this section we first describe the work that take the human component into the loop at learning time, we call this subfield interactive learning which combine ideas of social learning with extrinsic and intrinsic motivated learning. We then broaden the scope of this work by linking it with the computational modeling of language, some aspect of various unsupervised learning methods, and some specific work on ad-hoc team whose stated challenge is to enable cooperation without coordination between robotic agents. Finally, we present related work in the BCI community.
+
+As we noticed, in most of the work presented in the introduction, the human and the robot had no direct interaction with the robot, or few well controlled interactions. There were a strong decoupling between the process of extracting useful information from the interaction and the process of learning and generalizing a new skill or task from those useful information. For example, the human demonstrations were provided in a batch perspective where data acquisition is done before the learning phase. The properties of teaching interactions with a human in the loop was not yet considered in depth. 
+
+In this chapter we want to highlight the fundamental difference between system that learn from pre-recordeed, open-loop, and well controlled interactions from those trying to close the interaction loop and allow more flexibility in the interaction process.
+
+This issues have began to be addressed in a subfield called \emph{interactive learning}  which combine ideas of social learning with extrinsic and intrinsic motivated learning. With  this approach, the robot acquires a form of autonomy with respect to how to deal with the human in the loop. After presenting the related work in interactive learning, we broaden the scope of this work by linking with the computational modeling of language, some aspects of unsupervised learning methods, and specific works on ad-hoc team whose stated challenge is to enable cooperation without coordination in multi-agent scenarios. Finally, we present related work in the BCI community.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -15,7 +20,6 @@ In this section we first describe the work that take the human component into th
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Interactive Learning}
 
-
 In this section, we present a number of work that consider the human component into the learning loop. We call this area of research \emph{Interactive Learning} \cite{nicolescu2003natural,breazeal2004tutelage} which aims at developing systems that can learn by practical interaction with the user. \textit{interactive learning} combines ideas of social learning with extrinsic and intrinsic motivated learning. We make the difference between this approach and the work presented in the introduction in the sense that the human and the robot are both simultaneously involved in the learning process.
 
 Most of the systems presented in the previous section have not considered in depth the properties of teaching interactions with a human in the loop. The demonstrations are provided in a batch perspective where data acquisition is done before the learning phase. Those issues have began to be addressed in works studying \textit{interactive learning} \cite{kaplan2002robotic,nicolescu2003natural,Breazeal2004,thomaz2008teachable}. Under this approach, the teacher interacts with the robot and provides extra feedback or guidance. But in addition, the robot can act to improve its learning efficiency or elicit specific response from the teacher. Recent developments have considered: extra reinforcement signals \cite{thomaz2008teachable}, action requests \cite{macl09airl}, disambiguation among actions \cite{chernova09jair}, preferences among states \cite{Mason2011}, iterations between practice and user feedback sessions \cite{judah2010reinforcement} and choosing actions that maximize the user feedback \cite{knox2009interactively}.
@@ -23,9 +27,6 @@ Most of the systems presented in the previous section have not considered in dep
 % Interactive learning \cite{nicolescu2003natural,breazeal2004tutelage} aims at developing systems that can learn by practical interaction with the user and finds applications in a wide range of fields such as human-robot interaction, tutoring systems or human-machine interfaces.
 % This type of learning combines ideas of learning from demonstration \cite{argall09survey}, learning by exploration \cite{thrun1992efficient} and tutor feedback \cite{kaplan2002robotic}. Under this approach the human teacher interacts with the machine and provides extra feedback or guidance. 
 % In addition, the device can act to improve its learning efficiency. Approaches have considered: extra reinforcement signals \cite{thomaz2008teachable}, action requests \cite{lopes2009active}, disambiguation among actions \cite{chernova09jair}, preferences among states \cite{Mason2011}, iterations between practice and user feedback sessions \cite{judah2010reinforcement}, and choosing actions that maximize the user feedback \cite{knox2009interactively}. 
-
-
-
 
 \subsection{Online interactive learning}
 
@@ -127,8 +128,7 @@ A usual assumption in such systems is that the learner and the teacher share a m
 \section{Language Acquisition}
 \label{chapter:related:language}
 
-stated in the language acquisition but really the closest work form ours.
-\cite{cederborg2011imitating} probablyt he closest work to this work, there is several trajectory, and several referential. by making hypothesis that each trajectory refer to each of the referential, we can find out which on belong to which referential and find which trajectories belong together. can reproduce a gesture wrt. an other combination of movement object. 
+stated in the language acquisition but really the closest work form ours. \cite{cederborg2011imitating} probablyt he closest work to this work, there is several trajectory, and several referential. by making hypothesis that each trajectory refer to each of the referential, we can find out which on belong to which referential and find which trajectories belong together. can reproduce a gesture wrt. an other combination of movement object. 
 difference: the association related to the referential, the frame is direct reasoning in the agent head, the robot do not know how to act in the first place, learnthe gesture and generalize reproduction in other coordinate systems.
 
 
@@ -233,3 +233,31 @@ There are few BCI applications that are able to calibrate themselves during oper
 
 \cite{schettini2014self} they call themselves self-calibration but it isn't in the sense we are using it. It is actually continuous adaptation of the classifier model. They have a first session using a calibration procedure, and on latter run, the system re-calibrate itself continuously.
 
+\section{Discussion}
+
+Still most the work, while releasing some important aspect of the interaction have access to a direct relation between signals and meaning at some point. To our knowledge, only two works are tackling the same porblem as the one presented in this thesis.
+
+ 
+\cite{cederborg2011imitating}
+it is not about a sequetial task. the robot can reporduce a trajectory, do not need planning skills
+
+and
+
+\cite{Kindermans2012a,Kindermans2012b,kindermans2014integrating} not sequetial, use an additonal source of information, the higher number of 
+
+In the following of this thesis we present methods that imporve over the following work, by
+
+sequential task
+
+work without reauiring a specific ratio of signals
+
+based on the coherence between the organization fo signal in the feature space and the labels. explain again the method in few lines
+
+planning
+
+extendtion in continuous states space, continuous task space (finite number of letter, finite number of object), release the need to known the interaction frame, i.e. feedback or guidance, unknown in advance.
+
+proof
+
+
+\todo{resue all this in the conlsusion}
