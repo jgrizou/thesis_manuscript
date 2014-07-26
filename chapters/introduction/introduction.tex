@@ -116,7 +116,7 @@ before the learning phase. In the following section, we try to investigate what 
 
 As we have seen, in most of the work in social learning there is a strong decoupling between the process of extracting useful information from the interaction and the process of learning and generalizing a new skill or task from those useful information.
 
-On the one hand, if the goal of the robot is to learn a new task, the robot will be fed with the relevant interaction data formatted exactly in the format need by the learning algorithm. For example, if a user should teach a robot to navigate in a maze, the protocol of interaction between the human and the robot will be ticked to match the need of the algorithm. The interaction will be turn by turn such as it is easy to associate user's instructions to robot's states. But the user will also be asked to comply to the specific signals the robot understand, such as using the word ``right'' and ``left'' to mean respectively ``right'' and ``left''.
+On the one hand, if the goal of the robot is to learn a new task, the robot will be fed with the relevant interaction data formatted exactly in the format needed by the learning algorithm. For example, if a user should teach a robot to navigate in a maze, the protocol of interaction between the human and the robot will be ticked to match the need of the algorithm. The interaction will be turn by turn such as it is easy to associate user's instructions to robot's states. But the user will also be asked to comply to the specific signals the robot understand, such as using the word ``right'' and ``left'' to mean respectively ``right'' and ``left''.
 
 On the other hand, when we want to learn some part of the user behavior, the task the users wants to achieved is assumed to be known. This allows to interpret the behavior of the user in the light of the known objective he is pursuing. This process is usually called a calibration phase and it is necessary to provide the robot with the ability to translate human communicative signals, such as speech or gestures, in a symbolic meaningful representation. For example, if we want our robot to learn which word the user uses to mean ``right'' and ``left'', we will ask the user to guide the robot in a maze following a specific path. The robot, knowing the path intended by the human, could identify that the human uses the word ``right'' and ``left'' or ``droite'' and ``gauche'' to mean respectively ``right'' and ``left''.
 
@@ -124,38 +124,39 @@ Therefore interacting with a robot present a chicken an egg problem. To teach a 
 
 \subsection{Interaction frames}
 
-Interaction frames regroup all the aspect of the interaction that are pre-defined by the system designer and assumed to be followed by the human durning the interaction. The interaction frame is often implicitly assumed in robot learning experiments. 
+We start be defining the concept of interaction frame. An interaction frame is a strucutre that define all the aspects of the interaction that are pre-defined by the system designer and assumed to be followed by the human and the robot during the interaction.
 
 The concept of interaction frame is a subclass of the more general concept of frame applied to the specific case of interaction scenarios. Frames are a concept that emerges simultaneously in social theory \cite{goffman1974frame} and artificial intelligence \cite{minsky1974framework}. They represents a stereotyped situations, a schema of interpretation given a particular situation or event. It is answering the question: \emph{what is going on here ?}, in order to reduce ambiguity of intangible topics by contextualizing the information. It creates a common ground about the purpose of the interaction \cite{tomasello2009cultural,rohlfing2013learning} and include ``predictable, recurrent interactive structures'' (\cite{ninio1996pragmatic}, p. 171). Frames thus provide interactants with guidelines about how to behave (a protocol for interaction) and also help interactants to understand the communicative intentions of their interaction partner.
 
-We start by examplifying a few number of interaction frames and then provide a more formal description.
-
-In human-robot interaction, a simple interaction frame would be a human providing discrete action advice to a robot in the context of a reaching task. Being aware of this frame, the robot knows the utterances of the user correspond to action it should perform to achieve the user intended goal. A simple interaction frame would be a human presenting an object to a robot at the same time as saying the name of the object. Being aware of this frame, the robot knows the utterance corresponds to the name of the object (and not its shape or its color). In this case, the label corresponding to the speech signal is given.
-
-2.5.2: give concrete examples
-p. 44: define precisely the meaning of the terms "feedback", "guidance", "instructions" (you can even have a definition highlighted like in a math book)
+The interaction frame is often implicitly assumed in robot learning experiments. We start by examplifying a few number of interaction frames and then provide a more formal description of an interaction frame.
 
 
+One example of an interaction frame would be a human presenting an object to a robot at the same time as saying the name of the object. Being aware of this frame, the robot knows the utterance corresponds to the name of the object (and not its shape or its color). In this case, the label corresponding to the speech signal is given.
 
-In our above examples, we have seen that an interaction frame regulates the interaction between the human and the robot. It includes both the constraints related to the task, e.g. teaching a robot which state to reach among a finite set of states, and the protocol used by the teacher to communicate to the robot, e.g. the teacher is assessing the robot's actions. In the context of this work, we sperate the interaction frame definition in three categories:
+\paragraph{Feedback frame}
+An other scenario is that of a human supervising the work of a builder robot. This builder robot is able to stack several blocks in order to form complex structures. The human wants the robot to build a specific construction but can not directly communicate the high level description of the structure to the robot. The robot only accept information about the quality of its last action. For example, if the robot took a blue cube and put it on top of a green cube, the human can assess this action and inform the robot that this particular stacking action was ``correct'' or ``incorrect'' according the human final structure wishes. After many interactions the robot is able to build the correct structure. We call this specific interaction scenario a feedback frame, where a feedback signals is defined as providing an information about the optimality of the action the robot just performed. A feedback signal can only take two values either ``correct'' or ``incorrect''.
+
+\paragraph{Guidance frame} An other example is that of a human providing discrete action advice to a robot in the context of a reaching task. Concretely, if the human wants its robot to reach a specific room in the house, he will explicit tell the robot which direction to go in order to reach that room. For example asking the robot to go ``right'', ``left'', ``forward'', or ``backward''. The robot knows the signals of the user correspond to action it should perform to achieve the user intended goal. However the robot is not teleoperate and remains the one that select which action to perform given the advice of the teacher. For example, once the robot understood which room the user has in mind, it can go there directly without waiting for further guidance signals. We call this specific interaction scenario a guidance frame, where a guidance signals is defined as giving an information about what action to perform next.
+
+The two latter feedback and guidance frame will be central to the future development of our work. For convenience we will refer to both feedback and guidance signals as instructions signals, in the sense that a teacher is instructing the robot using signals that may includes both feedback or a guidance instructions towards a final goal.
+
+In our above examples, we have seen that an interaction frame regulates the interaction between the human and the robot. It includes both the constraints related to the task, e.g. teaching a robot which state to reach among a finite set of states, and the protocol used by the teacher to communicate to the robot, e.g. the teacher is assessing the robot's actions. In the context of this work, we separate the interaction frame definition in three categories:
 
 \begin{itemize}
 
-\item \textbf{The set of possible meanings the human can refer to.} As depicted before, the set of meaning includes ``correct'' and ``incorrect'' for thoses cases where the user is assessong te robot's actions. It could also be the set of action names for those case where the user provides guidance on what to do next.
+\item \textbf{The set of possible meanings the human can refer to.} As depicted before, a set of meaning may include ``correct'' and ``incorrect'' for those cases where the user is assessing the robot's actions. It could also be the set of action names for those case where the user provides guidances on what to do next.
 
-\item \textbf{Details and timing of the interaction:} it corresponds to when and how the user will provide instruction signals. For example, the human sends a signal to the robot after each action the robot performs. An other example may be the human providing a feedback signal between 0.2 and 2 seconds after the robot's action he is referring to, like in \cite{knox2009interactively}.
+\item \textbf{Details and timing of the interaction:} it corresponds to when and how the user will provide instruction signals. For example, the human sends a signal to the robot after every robot's actions. An other example is a human providing a feedback signal between 0.2 and 2 seconds after the robot's action he is referring to, like in \cite{knox2009interactively}.
 
-\item \textbf{Constraints on the possible tasks:} For example the robot is aware that the human wants to have it grasp one object on the table. And not reach for an object in a different room. This limits the number of hypothesis the robot can create.
+\item \textbf{Constraints on the possible tasks:} The general context of the teaching process is known by the both the human and the robot. For example the robot is aware that the human wants it to reach a specific room in the house. And not to take an object in the fridge for example. This limits the number of hypothesis the robot can create about what the user has in mind.
 
 \end{itemize}
 
-In additon, the robot is assumed to be able to translate the communicative signals from the human into their respective meanings.
+In addition, the robot is assumed to be able to translate the communicative signals from the human into their respective meanings. For example if the human communicates to the robot using speech, then it is assumed a speech to text system is implemented and allow to convert the raw speech data into a symbolic representation.
 
+\todo{too early}
 
-
-
-
-We define a generic frame function that, given a context of interaction and a task, returns the meaning intended by the teacher:
+In light of our observations, we define a generic frame function that, given a context of interaction and a task, returns the meaning intended by the teacher:
 %
 \begin{eqnarray}
 Meaning = Frame(Context, Task)
@@ -169,7 +170,9 @@ Following our previous example, stating that if the robot moves from state 3 to 
 
 
 
-By making the interaction frames explicit, we can revise our understanding of the challenges associated to social learning. This might help us design machines more flexible to loosly defined interaction frames, or even machine that can learn the frames themselves.
+
+
+By making the interaction frames explicit, we can revise our understanding of the challenges associated to social learning. This might help us design machines more flexible to loosely defined interaction frames, or even machine that can learn the frames themselves.
 
 A more formal description of a frame and a extended reflexion on how to leverage from more aspect of an interaction frame is presented in the thesis work of Thomas Cederborg. \todo{cite Thomas C.}
 
