@@ -83,11 +83,12 @@ The first approach resumes in approximating the policy function observed form th
 
 \item \textbf{Classification} methods are well suited for mapping discrete or continuous state to discrete actions. An example would be a robot learning to play a video game from demonstration, depending on the current state of the agent in the world, the robot should learn to press the appropriate buttons.
 
-based on mixture models that allow to generalize trajectories from examples \cite{calinon07}.
-
+A large variety of classification algorithm has been used in learning form demonstration scenario. Among others, Support Vector Machines for a robot learning how to sort balls \cite{chernova2008teaching}, Hidden Markov Models have been used for an assembly task \cite{hovland1996skill}, Gaussian mixture models in a simulated driving domain \cite{chernova09jair}, but also neural networks \cite{mataric2000sensory}, beta regression \cite{montesano2009learning} or k-Nearest Neighbors \cite{saunders2006teaching}.
 
 \item \textbf{Regression} method are well suited for for mapping discrete or continuous state to continuous actions. An example would be an autonomous car learning to steer the wheels from demonstration, given information about the surrounding environment the car should turn the driving wheel appropriately.
 
+A large variety of classification algorithm has been used in learning form demonstration scenario, they mainly applied for learning trajectories from noisy demonstrations. Among others, Gaussian Mixture Regression for generalizing trajectories from examples in different applications \cite{calinon07}, Locally Weighted Regression for learning to produce rhythmic movement using central pattern generators \cite{schaal1998programmable,ijspeert2002learning}, Neural Networks for learning autonomous driving \cite{pomerleau1991efficient}, or Incremental Local Online Gaussian Mixture Regression for imitation learning for learning incrementally
+and online new motor tasks from demonstration \cite{cederborg2010incremental}.
 
 \end{itemize}
 
