@@ -47,45 +47,99 @@ As we will see in the following subsections, most of the work in robot social le
 
 % In the following of this section we present three main social learning paradigms: \begin{inparaenum}[(a)] \item learning from human demonstration, where the robot learns by imitating the human actions, \item learning from human reinforcement, where the robot learn from assessments on its own actions provided by the user, and \item learning from human instructions, where the robot learns from concrete instructions about what do to next provided by the user. \end{inparaenum}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Learning from human demonstrations}
 
-Learning from human demonstrations, also called programming by demonstration or learning by imitation, is the process of learning from practical examples of how to perform a specific skill \cite{schaal1999imitation,argall09survey,lopes10imitationchapter}. 
+Learning from human demonstrations, also called programming by demonstration or learning by imitation, is the process of learning a new skill from practical examples of how to perform a this skill \cite{schaal1999imitation,calinon2008robot,argall09survey,lopes10imitationchapter}. More formally, the robot should infer a policy which is a mapping between world states and actions by observing only a  some examples of state to action mapping, i.e. some demonstrations, which may be noisy and incomplete.
 
+Following the survey of Brenna D. Argall \cite{argall09survey}, we will segment our presentation of learning from human demonstration in three parts, first we will present the different method used to collect training data, i..e to gather the demonstration, then we will present several methods allowing to derive a policy from demonstration, and finally we highlight some limitations of the method.
 
 % Demonstrating a task to a robot is easier for the user than directly programming a behavior by writing lines of code. But creating a robot that learn from example requires to solves two main problems: \begin{inparaenum}[(1)] \item creating algorithm capable of inferring the user desired behavior from its demonstrations, but also \item allowing the robot to identify what part of the environment and of the human behavior are relevant to the task, i.e. to extract the information related to a demonstration from the interaction. \end{inparaenum}
 
-Four central questions were defined as who, when, what, and how to imitate \cite{nehaniv2000hummingbirds}:
+\subsubsection*{Collecting demonstrations}
+
+Collecting demonstration is probably the most important part in the learning process. Demonstration of good qualities will results in an easier learning while bad quality demonstrations are likely to impact the quality of the learned behavior.
+
+We group the demonstration recording methods in two categories: \begin{inparaenum} \item teleoperation where the human demonstrate the skill by directly control the robot, and \item external observation where the robot is observing the human providing demonstration. \end{inparaenum} More formally, learning from data collected by a direct control of the robot by the human is called learning from demonstration, while learning from data collected by observing the human demonstrating the skill is called learning from imitation. We will see that this latter approach leverage some embodiment issues.
+
+During teleoperation, the robot is directly operated by the teacher and therefore record the demonstration using it own sensors, i.e. the robot directly observe a sequence of state-action pairs in his own referential. It is the most direct and most efficient method to provide demonstration. However this method does not always apply well to all robots, for example, robot with many degrees of freedom can not be teleoperated efficiently by one person, but also robots that should maintain equilibrium are sometimes impossible to manipulate directly, such as demonstrating a walking behavior by teleoperating the legs of a humanoid robot.
+
+Teleoperation has been used in a variety of robotic applications, including learning of aerobatic helicopter flight \cite{abbeel2007application}, object displacement with environmental constrained (e.g. obstacle avoidance) \cite{guenter2007reinforcement,calinon2007teacher}, object stacking \cite{calinon2007teacher}, or ball grasping on the Aibo robot \cite{grollman2007learning}.
+
+When learning by imitation, the robot observe a human teacher demonstrating the skill. The fundamental difference with the teleoperation approach is the difference of embodiment between the human and the robot. This issue is referred as the correspondence problem \cite{nehaniv2002correspondence}, which the problem of mapping between the demonstrator actions (i.e. the human) and the imitator actions (i.e. the robot). For example, when demonstrating a gesture to a humanoid robot, the robot can not directly transpose the human movement to its own body as the human and the robot do not share the same body characteristic. If we consider a humanoid robot imitating the posture of a human demonstrator, the problem is better defined as reproducing the human posture as closely as possible while maintaining balance \cite{hyon2007full,yamane2009simultaneous}, where some additional constraint are provided to the robot by the system designer.
+
+Recording the human demonstration can be done using a variety of sensors, either by adding sensors directly on the users (wearable sensors), either by using only the sensors non directly connected to the demonstrator body or relevant object. For example, using a motion capture device or using only a pair of video cameras situated in the robot's head.
+
+Learning from imitation has been investigated in a variety of robotic application, including executing a tennis forehand swing \cite{ijspeert2002movement}, imitating arm movement \cite{billard2001learning} and hand posture \cite{chella2004posture}, object grasping \cite{lopes2005visual,tegin2009demonstration}, and also demonstration including a force component such as the fingertip force for grasping and manipulating objects \cite{lin2012learning}. Others works focused on learning by imitation a sequential task, which required to combine a sequence of multiple action to fulfill the task \cite{pardowitz2005learning,natarajan2011imitation}.
+
+\subsubsection*{Inferring a policy}
+
+Given a dataset of demonstration collected using one of the methods presented above, the robot should infer what action it should take in any given state to correctly fulfill the task demonstrated by the human. Learning can be as straightforward as reproducing the demonstrated behavior exactly, but most often, as the demonstration may be noisy or incomplete, the robot need to generalize from the example. We will differentiate between two approaches: \begin{inparaenum}[(a)] \item directly deriving a mapping between states and actions, i.e. a policy, from the observed data with the aim or reproducing the teacher policy, and \item the second one consist of inferring the human objective and, by using some planning method, reproducing the desired outcome without necessarily using the same actions as the demonstrator. \end{inparaenum} Roughly, the first approach is more suited for imitation while the second is more suited for emulation. 
+
+The first approach resumes in approximating the policy function observed form the user behavior. Depending on the properties of the problem, the algorithms for learning the policy are either classification or regression techniques. 
+
 \begin{itemize}
 
-\item \textbf{Who} to imitate refers for example to the problem of identifying that a person is currently providing demonstration. But it may also the problem of finding which person in a group is more suited to provide correct demonstrations. This question has not been throughly investigated in the literature so far.
+\item \textbf{Classification} methods are well suited for mapping discrete or continuous state to discrete actions. An example would be a robot learning to play a video game from demonstration, depending on the current state of the agent in the world, the robot should learn to press the appropriate buttons.
 
-One of the few work tackling this problem consider a finite set of teacher and select the most appropriate one using intrinsic motivation processes based on the learning progress metric \cite{Nguyen2012PJBR}, which allow the robot learner to take advantage of the different levels of skills each teacher provide.
+based on mixture models that allow to generalize trajectories from examples \cite{calinon07}.
 
-\item \textbf{When} to imitate refers for example to problems of social coordination between two partners, such as the turn-taking ability. For example, this aspect has been investigated in human-robot drumming activities where turn-taking and role switching are important component of a successful interaction \cite{weinberg2006robot,kose2008emergent}. The when question also applies for cases where the robot should decide whether to try to imitate its human partner or to explore the environment by itself. The work presented in previous paragraph \cite{Nguyen2012PJBR} makes also use of curiosity to select whether to self-explore, mimic or emulate using a curiosity based selection method.
 
-\item \textbf{What} to imitate refers to the dilemma between imitation at the action level or emulation at the effect level. It is the problem of identifying the important aspect of the demonstrations. At the action level, the aim of the robot would be to reproduce the demonstrator action in the same way and in the same order. At the effect level, the robot should understand the underlying purpose associated to the action of the human. Such as when fixing a shelf on a wall using nails, the important aspect could be to have the shelf fixed but nails could be replaced by screw, or when poring water into a glass, to specific position of the arm may or may not be an important aspect of the demonstration, e.g. in hostelry it would matter while at home it may not be relevant. 
+\item \textbf{Regression} method are well suited for for mapping discrete or continuous state to continuous actions. An example would be an autonomous car learning to steer the wheels from demonstration, given information about the surrounding environment the car should turn the driving wheel appropriately.
 
-The latter problem of identifying the effect level of imitation depends on the context in which the interaction takes place. In particular the concept of affordances \cite{gibson1986ecological} --- which encode the relation between actions, objects and, effects --- is of primordial importance for the robot to be able to reproduce demonstration at the effect level. Several works have consider affordances for human-robot learning, among others they have been used to recognize demonstrations, decompose them in a sequence of subgoals and finally reproduce them \cite{macl07affimit}. Affordances have also been learn, in \cite{montesano2008learning}, Montesano et al. present a robot that, by interacting with several objects, is able to extract relation betweens its actions, the objects, and the effects it produces using Bayesian inference methods.
-
-Other sources of information have been used to infer which parts of a demonstration are more relevant, such as the temporal differences of demonstration parts. Pauses during interaction have been shown to be linked to important key points in a task demonstration, and allow to extract subgoals or determine when a task is completed \cite{theofilis2013temporal}.
-
-\item \textbf{How} to imitate refers to the problem of determining how the robot will actually perform the behavior so as to conform with the metric identified when answering the what to imitate question. When the demonstration is only relevant at the effect level, the robot can solve the task by its own mean as soon as the end result, e.g. the end configuration of objects, is correct. However when the imitation is important at the action level, differences between robot and human morphology and capabilities makes solving the how question not straightforward.
-
-This latter issue is referred as the correspondence problem \cite{nehaniv2002correspondence}, which the problem of mapping between the demonstrator and the imitator. This problem is obvious between a human and a robot which do not share the same body characteristic, but it also apply between two human being that do not share the exact same morphology (size, strength) but also the same sensing abilities as our individual sensory experience are certainly not experienced the same way.
-
-At the motor level, some work have addressed this question by for example having a robot imitating the body posture of a human demonstrator. To do so the robot can not reproduce the angle between each articulation as the resulting posture is likely to be different but more importantly the robot is likely to lose its balance and fall. The problem is therefore for the robot to copy the human posture as closely as possible while maintaining its balance \cite{hyon2007full,yamane2009simultaneous}. 
-
-At the sensory level, a typical example is for two agent to agree on the name of specific colors. Considering two robots with different cameras, how can they communicate and agree on they respective perception. Several theoretical work have addressed this issue \cite{cangelosi2001adaptive,steels2005coordinating} that are closely related to language acquisition problems which we will discuss in chapter \ref{sec:related:language}.
 
 \end{itemize}
 
-Those four questions remains widely open challenges and are solved in practice by constraining the interaction between the human and the robot and by defining in advance what is relevant in the demonstration. In many cases the demonstration are collected beforehand and sent to the learning algorithm in a batch way.
+The second approach consists of inferring the goal of the human from demonstration. By expressing this goal as an optimization problem or as a reward function, the robot can learn to reproduce the human goal by its own means.
 
-Among others, algorithms for learning by demonstration include regression methods based on mixture models that allow to generalize trajectories from examples \cite{calinon07}. Inverse reinforcement learning \cite{Abbeel04icml} is an other popular method that is looking for the hidden reward function the demonstrator is trying to optimize based on the provided demonstration.
+\textbf{Inverse reinforcement learning} \cite{ng2000algorithms,Abbeel04icml} is a popular method that is inferring the hidden reward function the demonstrator is trying to optimize based on its demonstrations. In addition, the demonstrations can be used to learn a model of the environment in state unreachable to robot by mere self-exploration. Once the reward function has been evaluated form the demonstration, and given the dynamic of the environment, the robot can generate a plan to fulfill the task using his own ability. This method is especially interesting when the human and the robot do not have the same abilities. As an example, a robot may be able to execute a skill faster that a human, be mere reproduce of the human gesture the robot would not reach the same level of performance than by inferring the underlying goal of the human.
 
-One of the most impressive achievement of the past decade used inverse reinforcement learning methods for the learning of aerobatic helicopter flight. Demonstration were provided by an expert pilot teleoperating, i.e. flying, the helicopter to help finding its dynamics and the fitness function corresponding to different maneuvers such as flip, roll, tail-in and nose-in funnel \cite{abbeel2007application}.
+One of the most impressive achievement of the past decade used inverse reinforcement learning methods for the learning of aerobatic helicopter flight \cite{abbeel2007application}. Demonstration were provided by an expert pilot teleoperating, i.e. flying, the helicopter to help finding its dynamics and the fitness function corresponding to different maneuvers such as flip, roll, tail-in and nose-in funnel.
 
+\subsubsection*{Limitations and assumptions}
+
+The performance of the learning system is obviously linked with the quality of the information provided by the demonstration. Among others aspect, if some important state-action pairs have not been demonstrated or if the demonstration were of poor quality, i.e. including a lot of noise or being suboptimal or ambiguous in certain areas, the learner will be unable to generalize properly from the data. 
+
+Unfortunately, in many cases, the demonstration are collected beforehand and sent to the learning algorithm in a batch way which do not allow the robot to have access to better demonstration. A potential solution is to ask the teacher for new demonstrations in those state where demonstration are missing or uncertain \cite{chernova2008multi,chernova09jair}, we will details more this approaches in the next chapter.
+
+An other problem that of identifying what the human is really demonstrating. For example, if a human is demonstrating how to fish to a robot, is the human demonstrating the precise movement of the fishing rod or demonstrating where to place the float stopper in order to catch more fish. In other words, should the robot imitates the movement of the rod fishing movement or should it emulates the position float stopper. Where imitation is the act of reproduce the human demonstration in all details, and emulation is the act of fulfill the same goal than the human demonstrated. 
+
+This problem is currently unsolved in the robot social learning literature and in practice the robot is explicitly told whether to imitate or emulate the demonstration. The problem of understanding what to do from the interaction with human is usually solved at design time, where the system design apply a multitude of constrain the the interaction with the robot such that no uncertainty or ambiguity remains on the demonstration. For example, the demonstrated movement and provided in isolation and contains only information about the task to be learned, similarly, the robot is explicitly ``told'' that the demonstration refer to such and such object and that it is for example a grasping task. Of course saying that the robot is ``told'' about the interaction is misleading, it is rather the all system that is constrained to optimize only a specific objective.
+
+In the context of learning from human demonstration, four central questions are often predefined at design time: who, when, what, and how to imitate \cite{nehaniv2000hummingbirds}:
+
+The \textbf{who} question refers to the problem of identifying who to imitate, It may refer to finding which person is currently providing demonstration, but also which person is better at providing accurate demonstrations of the task. This question has not been throughly investigated in the literature so far. One of the few work tackling this problem consider a finite set of teacher and select the most appropriate one based on the robot current learning rate \cite{Nguyen2012PJBR}. This method allows the robot learner to take advantage of the different levels of skills each teacher provide.
+
+The \textbf{when} question refers to the problems of social coordination between the two partners, such as the turn-taking ability. For example, this aspect has been investigated in human-robot drumming activities where turn-taking and role switching are important component of a successful interaction \cite{weinberg2006robot,kose2008emergent}. The when question also applies for cases where the robot should decide whether to try to imitate its human partner or to explore the environment by itself \cite{chernova09jair,Nguyen2012PJBR}. 
+
+The \textbf{what} question refers to the problem of identifying the important aspect of the demonstrations. It refers for example to the dilemma between imitation at the action level or emulation at the effect level. At the action level, the aim of the robot would be to reproduce the demonstrator action in the same way and in the same order. At the effect level, the robot should understand the underlying purpose associated to the action of the human. 
+
+The latter problem of identifying the effect level of imitation depends on the context in which the interaction takes place. In particular the concept of affordances \cite{gibson1986ecological} --- which encode the relation between actions, objects and, effects --- is of primordial importance for the robot to be able to reproduce demonstration at the effect level. Several works have consider affordances for human-robot learning, among others they have been used to recognize demonstrations, decompose them in a sequence of subgoals and finally reproduce them \cite{macl07affimit}. Montesano et al. presented a method to learn affordances by interacting with several objects \cite{montesano2008learning}. The robot was able to extract relation betweens its actions, the objects, and the effects it produces using Bayesian inference methods.
+
+While most of the time the interaction protocol is well constrained such that there is no ambiguity about which aspect of the demonstration should be imitated, some social cues can be used to infer which parts of a demonstration are relevant, such as the temporal differences of demonstration parts. Pauses during interaction have been shown to be linked to important key points in a task demonstration, and allow to extract subgoals or determine when a demonstration is completed \cite{theofilis2013temporal}.
+
+The \textbf{how} question refers to the problem of determining how the robot will actually perform the behavior so as to conform with the metric identified when answering the what question. When the demonstration is only relevant at the effect level (emulation) the robot can solve the task by its own mean as soon as the objective is identified. However when the imitation is important at the action level (imitation), differences between robot and human morphology and capabilities makes solving the how question not straightforward. This latter issue has been discussed previously and is referred to as the correspondence problem \cite{nehaniv2002correspondence}, which the problem of mapping between the demonstrator and the imitator.
+
+\transition
+
+As stated before, the who, when, what, and how questions are usually skipped over in practical application and the data are provided already pre-formatted for the robot.
+
+In the next subsection we present an other paradigm for social learning in robotics, the \emph{learning from human reinforcement} approach. In this paradigm, the human never demonstrates the task to the robot but rather observe the behavior of the robot and reinforce or punish some of its actions in order to shape its final behavior.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Learning from human reinforcement}
+
+
+An other potential solution is to  Learning from experience
+
+An altogether different approach to dealing with poor quality data has the student to learn from experience. If the learner is provided with feedback that evaluates its performance, this may be used to update its policy. This evaluation is generally provided via teacher feedback, or through a reward as in RL.
+
+
+
+no direct control on the robot action
+
 
 An other way to help a robot improves its performance on a specific skill is to provide some feedback on its actions. This social learning paradigm has share many aspects with reinforcement learning problems, however the interactive component create more ambiguous situation. 
 
@@ -95,7 +149,14 @@ Therefore, while reinforcement learning algorithm as been initial used for robot
 
 As for learning from demonstration, most of the current works consider predefined and restricted interaction so as to be able to map easily the human reinforcement with the robot's actions.
 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Learning from human instructions}
+
+no direct control on the robot action
 
 Providing feedback to the robot becomes restrictive as the space of possibles grows. If the robot has to try out all possible actions before finding the ones that elicit a positive feedback, the interaction is doomed to fail; especially for sequential problems such as chess or video games. For such cases it would be better if the human teacher could provide instruction directly to the robot \cite{breazeal2004tutelage}.
 
@@ -109,9 +170,18 @@ As for learning from demonstration or learning from human reinforcement, learnin
 
 The categorization of learning paradigms above in three categories does not reflect the many subfamilies that exist between these categories, including those that are shared among categories. It is meant to situate the social learning problem in a more global picture, providing some interesting pointers for the interested readers. 
 
+highly constrained interactions
+
 As we noticed, in most of the above presented work, the human and the robot had no direct interaction with the robot, or few well controlled interactions. For example, the human demonstrations are provided in a batch perspective where data acquisition is done
 before the learning phase. In the following section, we try to investigate what are the usual assumptions in human robot interaction scenarios.
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Usual Assumptions}
 
 As we have seen, in most of the work in social learning there is a strong decoupling between the process of extracting useful information from the interaction and the process of learning and generalizing a new skill or task from those useful information.
@@ -240,7 +310,7 @@ Our method consists of generating interpretation hypothesis of the teaching sign
 
 \item We propose a measure of uncertainty on the joint task-signal space that takes into account both the uncertainty inherent to the task, which is unknown and remains to be estimated, as well as the uncertainty about the signal to meaning mapping, which is also unknown and remains to be estimated \cite{grizou2014calibration,grizou2014interactive} (chapter~\ref{chapter:planning}). Measuring uncertainty allows to optimize the action selection of our agent which improves significantly the learning time.
 
-\item We apply our algorithm to brain computer interfaces (BCI) \cite{grizou2013zero,grizou2014calibration} (chapter~\ref{chapter:bci}). We present experiment where several subjects control an agent from scratch by mentally assessing the agent's actions and without requiring a calibration phase to train a decoder of the user's brain signals. In all experiments, our algorithm was able to identify a first task in less iterations that a usual calibration procedure requires.
+\item We apply our algorithm to brain computer interfaces (BCI) \cite{grizou2013zero,grizou2014calibration} (chapter~\ref{chapter:bci}). We present experiments where several subjects control an agent from scratch by mentally assessing the agent's actions and without requiring a calibration phase to train a decoder of the user's brain signals. In all experiments, our algorithm was able to identify a first task in less iterations that a usual calibration procedure requires.
 
 \end{itemize}
 
