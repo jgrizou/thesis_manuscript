@@ -126,40 +126,44 @@ The \textbf{how} question refers to the problem of determining how the robot wil
 
 As stated before, the who, when, what, and how questions are usually skipped over in practical application and the data are provided already pre-formatted for the robot.
 
-In the next subsection we present an other paradigm for social learning in robotics, the \emph{learning from human reinforcement} approach. In this paradigm, the human never demonstrates the task to the robot but rather observe the behavior of the robot and reinforce or punish some of its actions in order to shape its final behavior.
+In the next subsection we present an other paradigm for social learning in robotics, the \emph{learning from human reinforcement} approach. In this paradigm, the human never demonstrates the task to the robot but rather observe the behavior of the robot and reinforce or punish some of its actions in order to shape its final behavior. We also call this approach learning from human feedback, where feedback implies a positive or a negative assessment of the robot's actions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Learning from human reinforcement}
 
+Learning from human reinforcement, also called shaping, is the process of learning a new skill by receiving assessment over our actions In this paradigm, the human never demonstrates the task to the robot but rather observe the behavior of the robot and reinforce or punish some of its actions in order to shape its final behavior. We also call this approach learning from human feedback, where feedback implies a positive or a negative assessment of the robot's actions. Clicker training is a subclass of this problem that consider the human can only send positive reinforcement.
 
-An other potential solution is to  Learning from experience
+Pioneers works in this domain include the work of Blumberg et al. \cite{blumberg2002integrated} which trained a virtual dog to learn several sequential tasks and associate them with
+verbal cues using clicker training method. Kaplan et al. \cite{kaplan2002robotic} applied similar method to teach an AIBO robot dog. An other pionners work considered a software agent, named Cobot, that resides interact with human agents in an online chat community called LambdaMOO. Cobot adapts its behavior from various source of feedback (reward or punishment) provided by human engaged in the chat community \cite{isbell2001social}.
 
-An altogether different approach to dealing with poor quality data has the student to learn from experience. If the learner is provided with feedback that evaluates its performance, this may be used to update its policy. This evaluation is generally provided via teacher feedback, or through a reward as in RL.
+This social learning paradigm has share many aspects with reinforcement learning \cite{sutton1998reinforcement}. In reinforcement the agent goal is take actions so as to maximize the cumulative reward. We make a difference between reinforcement learning algorithm and learning from human reinforcement in the sense that the nature of the reward information can not be treated the same way when it is provided by a human. For example, reward signals from human are frequently ambiguous and deviates from the strict mathematical interpretation of a reward used in reinforcement learning \cite{thomaz2008teachable,Cakmak2010optimality}. We will provide more details about human teaching behaviors in the next chapter but we note that this problem requires to develop new algorithms to monitor and handle the teaching style of each user.
 
+Therefore recent works started to investigate how to additionally learn the way the human are providing feedback at the same time as the robot learn the skill \cite{knox2009interactively}. 
 
+However, as for learning from human demonstration, the robot should be able to infer to which actions the human feedback relates to. It may also need to differentiate between different levels of feedback as some actions may be mandatory to complete the task while others may just be preferences from the users. In addition the user could make mistakes in its assessment or may not perceive the problem as it is modeled by the robot, therefore making inconsistent feedback. And as for most learning from demonstration, most of the works presented above consider predefined and restricted interaction so as to be able to map easily the human reinforcement with the robot's actions. Similarly, if the human is providing feedback using speech commands, there exist a system that translate speech utterances into a meaningful feedback information, e.g. mapping the word ``good'' to a positive reward.
 
-no direct control on the robot action
+\transition
 
+As stated above, the who, when, what, and how questions are also applicable to learning from human reinforcement problem. This question are usually skipped over in practical application and the data are provided already pre-formatted for the robot.
 
-An other way to help a robot improves its performance on a specific skill is to provide some feedback on its actions. This social learning paradigm has share many aspects with reinforcement learning problems, however the interactive component create more ambiguous situation. 
-
-As for learning from demonstration, the robot should be able to infer to which part of its past actions the human feedback relates to, but may also need to differentiate between different levels of feedback as some actions may be mandatory to complete the task while others may just be preferences from the users. In addition the user could make mistakes in its assessment or may not perceive the problem as it is modeled by the robot, therefore making inconsistent feedback. As an example, it has been shown that feedback signals from human is frequently ambiguous and deviates from the strict mathematical interpretation of a reward used in reinforcement learning \cite{thomaz2008teachable,Cakmak2010optimality}.
-
-Therefore, while reinforcement learning algorithm as been initial used for robot learning from human generated rewards \cite{thomaz2008teachable}, more recent works started to investigate how to additionally learn the way the human are providing feedback \cite{knox2009interactively}. I would actually argue that learning from human reinforcement is more related to inverse reinforcement learning than to reinforcement learning. Indeed, the goal of the robot should better be to find the hidden reward function that explains the assessment of the human teacher than to maximize the rewards, or positive assessments, given by the user. We will enters those issues into more details in the next chapter.
-
-As for learning from demonstration, most of the current works consider predefined and restricted interaction so as to be able to map easily the human reinforcement with the robot's actions.
-
-
-
+Providing only reinforcement signals to a robot can be limiting, especially when the state space is large which increase the learning time and results in a laboring interaction between the human and the robot. In the next subsection we present an other paradigm for social learning in robotics, the \emph{learning from human instructions} approach. In this paradigm, the human never demonstrates the task to the robot but rather observe the the behavior of the robot and provide clues, which we will call guidance, about what action to perform next.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Learning from human instructions}
 
-no direct control on the robot action
+
+Learning from human instructions, also called learning from advice, is the process of learning a new skill by receiving explicit instruction about what to do next. In this paradigm, the human never demonstrates the task to the robot but rather observe the behavior of the robot and provide clues accordingly to shape the robot final behavior. We also call this approach learning from human guidance, where guidance implies the user explicitly indicate to the robot what action to perform next.
+
 
 Providing feedback to the robot becomes restrictive as the space of possibles grows. If the robot has to try out all possible actions before finding the ones that elicit a positive feedback, the interaction is doomed to fail; especially for sequential problems such as chess or video games. For such cases it would be better if the human teacher could provide instruction directly to the robot \cite{breazeal2004tutelage}.
+
+Theoretically, it is known that supervision can improve an RL process. Prior works have shown this by allowing a trainer to influence action selection with domain-specific advice \cite{clouse1992teaching}  \cite{maclin2005giving}
+
+ or by directly controlling the agent's actions
+during training \cite{smart2002effective}
+
 
 Due to the high-level nature of concrete instruction, learning from instruction is often applied with robots that are already equipped with planning skills. But were a fitness function is hard to define, or when the search space is too big to be explored efficiently. For example, in \cite{lockerd2004tutelage}, the robot Leo already knowns how to press a button before the interaction starts. The robot learns the task of swithing buttons on from human instructions, and when a new button is introduced the robot autonomously generalizes from the instruction and presses all buttons, instead of pressing only the one it was instructed to in the first place. 
 
@@ -171,12 +175,8 @@ As for learning from demonstration or learning from human reinforcement, learnin
 
 The categorization of learning paradigms above in three categories does not reflect the many subfamilies that exist between these categories, including those that are shared among categories. It is meant to situate the social learning problem in a more global picture, providing some interesting pointers for the interested readers. 
 
-highly constrained interactions
-
-As we noticed, in most of the above presented work, the human and the robot had no direct interaction with the robot, or few well controlled interactions. For example, the human demonstrations are provided in a batch perspective where data acquisition is done
-before the learning phase. In the following section, we try to investigate what are the usual assumptions in human robot interaction scenarios.
-
-
+As we noticed, in most of the above presented work, the human and the robot had either no direct interaction with the robot, either few  highly constrained interactions. For example, the human demonstrations are provided in a batch perspective where data acquisition is done
+before the learning phase. In the following section, we detail the usual assumptions made in most human robot interaction scenarios.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
