@@ -236,7 +236,7 @@ For example, in a discrete word, if the robot moves from the living room to the 
 \begin{eqnarray}
 ``correct" = Frame((living~room \rightarrow kitchen), Go To Kitchen) \nonumber
 \end{eqnarray}
-
+%
 This definition of an interaction frame fully define the interaction. In the following subsection we study how this interaction frame function is used in practice. For example, when we want to teach a robot a new task, the task variable is unknown.
 
 \subsection{Using interaction frames}
@@ -251,7 +251,7 @@ As identified earlier, the problem of calibration requires the robot to be able 
     Meaning = Decoder(Signal) \nonumber
 \end{eqnarray}
 %
-Using our frame definition, to train this decoder the robot must know the task. Following our previous examples, if the robot moves from the living room to the kitchen and receives a feedback signal ``A'', to get the meaning associated to this signal the user should know the task. If the robot know the task is to go to the kitchen, it can infer that the meaning of the signal ``A'' is ``correct''. By collecting many such examples, the robot can learn which meaning correspond to each signal. As a results, the robot understand more the signals provided by the human. Given a new signal ``A'' it can deduce:
+Using our frame definition, to train this decoder the robot must know the task. Following our previous examples, if the robot moves from the living room to the kitchen and receives a feedback signal ``A'', to find the meaning associated to this signal the robot should know the task. If the task is to go to the kitchen, the robot can infer the meaning of the signal ``A'' is ``correct''. By collecting many of such examples, the robot can learn which meaning correspond to each signal. As a results, the robot understand more the signals provided by the human. Given a new signal ``A'' it can deduce:
 %
 \begin{eqnarray}
     ``correct" = Decoder(``A") \nonumber
@@ -259,24 +259,38 @@ Using our frame definition, to train this decoder the robot must know the task. 
 
 \paragraph{Learning: inferring the task}
 
-Now that the decoder is learned, the robot can be taught a new task.
+As identified earlier, the problem of learning the task requires the robot to know how to interpret user's signals. The interaction frame provide the context of the interaction, which include some constraint about the task. In our example, our robot may know that there is only two rooms in the house. 
 
-In addition, the robot is assumed to be able to translate the communicative signals from the human into their respective meanings. For example if the human communicates to the robot using speech, then it is assumed a speech to text system is implemented and allow to convert the raw speech data into a symbolic representation.
+Given a specific context, $e.g. (living~room \rightarrow kitchen)$, the robot receive a signal from the user, e.g. ``A''. And given a decoder trained following the above method the robot knowns that the meaning of ``A'' is ``correct''.
 
+The robot can compare the meaning received from the user with the one expected from the frame given the two possible tasks:
+%
+\begin{eqnarray}
+``correct" = Frame((living~room \rightarrow kitchen), Go To Kitchen) \nonumber
+\end{eqnarray}
+\begin{eqnarray}
+``incorrect" = Frame((living~room \rightarrow kitchen), Go To Living Room) \nonumber
+\end{eqnarray}
+%
+Following this method, the robot can infer the user wants it to go to the kitchen.
+
+\transition
+
+Using this simple example highlight the chicken and egg nature of the problem of interacting with machines. To learn the decoder we need to know the task and to learn the task we need to know the decoder. In this work we tackle the problem of learning both the task and the decoder at the same time.
 
 \subsection{Discussion}
 
-By making the interaction frames explicit, we can revise our understanding of the challenges associated to social learning. This might help us design machines more flexible to loosely defined interaction frames, or even machine that can learn the frames themselves.
+By making the interaction frame explicit, we can revise our understanding of the challenges associated to social learning. There is a multitude of challenges that lies between the problem of learning human social behaviors and the problem of learning a new task. Identifying and solving these challenges might help us design machines more flexible to loosely defined interaction frames, or even machine that can learn the frames themselves.
 
-A more formal description of a frame and a extended reflexion on how to leverage from more aspect of an interaction frame is presented in the thesis work of Thomas Cederborg. \todo{cite Thomas C.}
-
-
-find some framework and cite thomas \cite{cederborg2013language}
+Among others, Thomas Cederborg presented an extended reflexion on this problem in his PhD thesis \todo{cite Thomas C. thesis }  . He presents a detailed framework to describe robot social learning mechanism \cite{cederborg2013language} and propose an extended reflexion on how to relax a number of assumptions in interaction frames. 
 
 \todo{make a list of many qestion that can be asked in that scope and refer to the question asked and studied in the thesis pf thomas C.}
 
+% While research on robot learning from human interaction has flourished in the last ten years, most work has focused on how to extract statistical \textit{task models} from human teachers following a fixed pre-defined teaching protocol (e.g. using a pre-defined button for ``correct'' or ``incorrect'' feedback or using ad-hoc words for guidance with a trained speech recognition and dialog system). Thus, a usual assumption is that the learner and the teacher share a mutual understanding of the meaning of each others' instructions, and in particular the robot is usually assumed to know how to interpret instructions from the user. The question of how a robot can learn to interpret personalized and potentially noisy teaching signals during the teaching process has been much less explored.
 
-In this work we consider the task learning problem but remove the ability of the robot to translate raw signals from the user to its meaning. We call this kind of frame \emph{Unlabeled interaction frames} and we study how a robot can learn to cope with this lack of information. 
+We can now define a general scientific challenge: \textbf{\textit{Can a robot learn a new task if the task is unknown and the user is providing unknown instructions? Which are the constraints and mechanisms that could provide this flexibility in interactive task learning?}} There are two important dimensions in such questions: 1) which are the computational machine learning algorithms and formalisms that are needed for this goal? 2) how to integrate them within real-world meaningful human-robot interaction such that usability and acceptability can be evaluated in user studies. While we will present an experiment with real subjects and discuss the second dimension in chapter~\ref{chapter:conclusion}, given the complexity and novelty of these issues, we focus most of our attention on the first dimension, elaborating a formalism as well as algorithms that have good properties to address the broader challenge.
+
+In this work we consider only one specific the task learning problem but remove the ability of the robot to translate raw signals from the user to its meaning. We call this kind of frame \emph{Unlabeled interaction frames} and we study how a robot can learn to cope with this lack of information.
 
 \section{Learning from Unlabeled interaction frames}
 
@@ -314,7 +328,6 @@ The first assumption is that the robot and the human are aware of the frame in w
 
 By combining those three aspects of an interaction frame, the robot can create a set of interpretation hypothesis for the received teaching signals. For one possible task, and given a specific context (e.g. state and action performed in the environment), the robot can infer the meaning intended by the human user. By doing so for each possible task, it creates a set of interpretation hypothesis, which we rely on to found the task taught by the user, as well as the signal to meaning mapping.
 
-
 \section{Thesis Contributions}
 
 The main contribution of the thesis is a method allowing a robot to learn from unlabeled interaction frame. In practice, it allow a user to start teaching a robot a new task using its own preferred teaching signals. For example, a user provides, using for example speech commands, instructions to a robot about what action to perform next, with our method, the user is not restricted to a pre-defined set of words and can rather use its preferred words. The system will learn which words are associated to which meaning as well as identifying the task the user wants to solve. The user could therefore use words in english, french or spanish, but also interjections or even hand clapping.
@@ -335,6 +348,8 @@ Our method consists of generating interpretation hypothesis of the teaching sign
 \item We apply our algorithm to brain computer interfaces (BCI) \cite{grizou2013zero,grizou2014calibration} (chapter~\ref{chapter:bci}). We present experiments where several subjects control an agent from scratch by mentally assessing the agent's actions and without requiring a calibration phase to train a decoder of the user's brain signals. In all experiments, our algorithm was able to identify a first task in less iterations that a usual calibration procedure requires.
 
 \end{itemize}
+
+\paragrah{} We believe the theoretical work presented in this thesis can constitute an important first step towards flexible personalized teaching interfaces, a key for the future of personal robotics.
 
 \section{Thesis Outline}
 
