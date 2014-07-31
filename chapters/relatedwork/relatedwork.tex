@@ -7,11 +7,11 @@
 \minitoc
 
 
-As we noticed, in most of the work presented in the introduction, the human and the robot had no direct interaction with the robot, or few well controlled interactions. There were a strong decoupling between the process of extracting useful information from the interaction and the process of learning and generalizing a new skill or task from those useful information. For example, the human demonstrations were provided in a batch perspective where data acquisition is done before the learning phase. The properties of teaching interactions with a human in the loop was not yet considered in depth. 
+In most robot social learning experiments today, there is a strong decoupling between the process of extracting useful informations from the interaction and the process of learning a new skill from these informations. For example, the human demonstrations were provided in a batch perspective where data acquisition is done before the learning phase. The properties of teaching interactions with a human in the loop was not yet considered in depth.
 
-In this chapter we want to highlight the fundamental difference between system that learn from pre-recordeed, open-loop, and well controlled interactions from those trying to close the interaction loop and allow more flexibility in the interaction process.
+In this chapter we highlight the difference between systems learning from well controlled interactions and systems trying to close the interaction loop allowing more flexibility in the interaction process. These issues have began to be addressed in a subfield called \emph{interactive learning}  which combine ideas of social learning with extrinsic and intrinsic motivated learning. With this approach, the robot acquires a form of autonomy with respect to how to deal with the human in the loop. 
 
-This issues have began to be addressed in a subfield called \emph{interactive learning}  which combine ideas of social learning with extrinsic and intrinsic motivated learning. With  this approach, the robot acquires a form of autonomy with respect to how to deal with the human in the loop. After presenting the related work in interactive learning, we broaden the scope of this work by linking with the computational modeling of language, some aspects of unsupervised learning methods, and specific works on ad-hoc team whose stated challenge is to enable cooperation without coordination in multi-agent scenarios. Finally, we present related work in the BCI community.
+After presenting the related work in interactive learning, we broaden the scope of this work by linking with the computational modeling of language, some aspects of unsupervised learning, and specific works on ad-hoc team whose stated challenge is to enable cooperation without coordination in multi-agent scenarios. Finally, we present related work in the brain computer interaction community.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -20,9 +20,13 @@ This issues have began to be addressed in a subfield called \emph{interactive le
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Interactive Learning}
 
-In this section, we present a number of work that consider the human component into the learning loop. We call this area of research \emph{Interactive Learning} \cite{nicolescu2003natural,breazeal2004tutelage} which aims at developing systems that can learn by practical interaction with the user. \textit{interactive learning} combines ideas of social learning with extrinsic and intrinsic motivated learning. We make the difference between this approach and the work presented in the introduction in the sense that the human and the robot are both simultaneously involved in the learning process.
+In this section, we present a number of works considering the human component into the learning loop. We call this area of research \emph{interactive Learning} \cite{nicolescu2003natural,breazeal2004tutelage} which aims at developing systems that can learn by practical interaction with the user. 
 
-Most of the systems presented in the previous section have not considered in depth the properties of teaching interactions with a human in the loop. The demonstrations are provided in a batch perspective where data acquisition is done before the learning phase. Those issues have began to be addressed in works studying \textit{interactive learning} \cite{kaplan2002robotic,nicolescu2003natural,Breazeal2004,thomaz2008teachable}. Under this approach, the teacher interacts with the robot and provides extra feedback or guidance. But in addition, the robot can act to improve its learning efficiency or elicit specific response from the teacher. Recent developments have considered: extra reinforcement signals \cite{thomaz2008teachable}, action requests \cite{macl09airl}, disambiguation among actions \cite{chernova09jair}, preferences among states \cite{Mason2011}, iterations between practice and user feedback sessions \cite{judah2010reinforcement} and choosing actions that maximize the user feedback \cite{knox2009interactively}.
+% Most of the systems presented in the previous section have not considered in depth the properties of teaching interactions with a human in the loop. The demonstrations are provided in a batch perspective where data acquisition is done before the learning phase.
+
+\emph{Interactive learning} combines ideas of social learning with extrinsic and intrinsic motivated learning. It differs from the works presented in introduction in the sense that both the human and the robot are simultaneously involved in the learning process \cite{kaplan2002robotic,nicolescu2003natural,breazeal2004tutelage,thomaz2008teachable}. Under this approach, the teacher interacts with the robot and provides extra feedback or guidance. But in addition, the robot can act to improve its learning efficiency or elicit specific responses from the teacher. Recent developments have considered: extra reinforcement signals \cite{thomaz2008teachable}, action requests \cite{macl09airl}, disambiguation among actions \cite{chernova09jair}, preferences among states \cite{Mason2011}, iterations between practice and user feedback sessions \cite{judah2010reinforcement} and choosing actions that maximize the user feedback \cite{knox2009interactively}.
+
+We decided to split this related work in four categories. Firstly, we present works combining multiple source of information, such combining demonstration and feedback. Secondly, we present some studies about the behavior of human teaching robots. Thirdly, we present work that try to model some aspects of the user behavior or of the protocol. Fourthly, we present some work were the robot is active, trying to learn faster from or about the interaction. Finally, we discuss and situate our work in this scope.
 
 % Interactive learning \cite{nicolescu2003natural,breazeal2004tutelage} aims at developing systems that can learn by practical interaction with the user and finds applications in a wide range of fields such as human-robot interaction, tutoring systems or human-machine interfaces.
 % This type of learning combines ideas of learning from demonstration \cite{argall09survey}, learning by exploration \cite{thrun1992efficient} and tutor feedback \cite{kaplan2002robotic}. Under this approach the human teacher interacts with the machine and provides extra feedback or guidance. 
@@ -30,30 +34,37 @@ Most of the systems presented in the previous section have not considered in dep
 
 \subsection{Combining multiple learning source}
 
+Researchers in the domain have considered mixing different types of paradigms in order to improve the quality of the interaction and of the learning process. They considered:
 
-combination of environmental and human reward \cite{knox2010combining}, \cite{griffith2013policy}, \cite{grave2013learning}
+\begin{itemize}
+
+\item Mixing environmental rewards with human rewards \cite{knox2010combining,griffith2013policy,grave2013learning}.
+
+\item Iterations between practice and user feedback sessions \cite{judah2010reinforcement}. 
+
+\item Giving some demonstrations first, and having the robot practicing the skill under human supervision (feedback or guidance) \cite{nicolescu2003natural,pardowitz2007incremental}.
+
+\item Mixing instructions and rewards to balance human efforts with communication efficiency \cite{pilarski2012between}.
+% between instruction and reward to balance human effort with communication efficiency. Assistive technology, it is rare that you can control all aspect of the technology at once, for example, many active hand prosthesis have several modes of operation, two finger grip or full hand grip for example, where then fine control should be apply within that mode. Learning the preference of the user in terms of switching time based the past experience on the interaction. If what the system is not good, then the user can manually change it back. 
+
+\item Combining learning from demonstration and mixed initiative control \cite{grollman2007dogged}. Mixed initiative control is when the control can transition smoothly from the demonstrator control to the robot control. In \cite{grollman2007dogged} the authors used this method to teach different behaviors to a robot, such as mirroring the head position with the tail position, or to seek for a red ball using the same algorithm.
+
+\end{itemize}
+
+But researcher also create new learning paradigms, such as learning from users' preferences \cite{Mason2011,akrour2011preference}. In this new paradigm, the system learns the preferences of the human and will pro-actively generalize and apply them autonomously. 
+
+In \cite{Mason2011}, the user starts by teleoperating the robot and can mark some states as good or bad. From this data, the robot can create a user profile. Next the robot can select its own goal without the need for human teleoperation. Once desirable state of the world has been reached, the human as a possibility to classify the state as good or bad again. The robot can update its user profile, and the process iterates.
+
+% We have developed a robotic system that interacts with the user, and through repeated interactions, adapts to the user so that the system becomes semiautonomous and acts proactively. In this work we show how to design a system to meet a user’s preferences, show how robot pro-activity can be learned and provide an integrated system using verbal instructions. All these behaviors are implemented in a real platform that achieves all these behaviors and is evaluated in terms of user acceptability and efficiency of interaction
+
+In \cite{akrour2011preference,akrour2012april,akrour2014programming,wilson2012bayesian}, the robot demonstrates some candidate policies and ask the human to rank them by preferences. Based on this ranking the algorithm learns a policy scoring function, which is later used to generate new policies. These new policies are ranked again by the user, and the process iterates. This method differs from the learning from human reinforcement paradigms as the user evaluates full demonstrations. It differs from inverse reinforcement learning because the robot is it-self generating the demonstrations. But more importantly, demonstrations are ranked between them, which differs from the usual assumptions that all demonstrations given to the learning algorithm are equally correct but noisy.
 
 
-\cite{pardowitz2007incremental} demonstration, past experience and vocal commands
+% \cite{akrour2014programming} programming by feedback. The agent it doing the full demonstration and the human ranks the demonstration. With an active selection of the demonstration by the agent. Approximating user utility function, taking noise and errors into account. Looks like IRL but I don't understand how it differ. \cite{akrour2011preference} Preference-based Policy Learning, iterates a four-step process: the robot demonstrates a candidate policy; the expert ranks this policy comparatively to other ones according to her preferences; these preferences are used to learn a policy return estimate; the robot uses the policy return estimate to build new candidate policies. \cite{akrour2012april} Iteratively, the agent selects a new candidate policy and demonstrates it; the expert ranks the new demonstration comparatively to the previous best one; the expert's ranking feedback enables the agent to refine the approximate policy return, and the process is iterated. the lesson learned from the experimental validation of April is that a very limited external information might be sufficient to enable reinforcement learning: while mainstream RL requires a numerical reward to be associated to each state, while inverse reinforcement learning [1,18] requires the expert to demonstrate a sufficiently good policy, April requires a couple dozen bits of information (this trajectory improves / does not improve on the former best one) to reach state of the art results. In most problem some delays is always present between an action and its effective reward. How it compares with eligibility traces \cite{sutton1998reinforcement} in RL? which can significantly speed learning. to handle delayed reward. each time a state is visited, it initiates a short -term memory process, a trace, with then decays gradually over time. This trace marks the state as eligible for learning. Compared to Knox, the reward is at the end not during the exp, make it more difficult to identify which part is correct. \cite{wilson2012bayesian} similar but with active learning as well. use small bits of demonstration. Active request.
 
-\cite{nicolescu2003natural} demonstration, generalization and practice, similar to iterations between practice and user feedback sessions \cite{judah2010reinforcement}
-
-
-\cite{pilarski2012between} between instruction and reward to balance human effort with communication efficiency. Assistive technology, it is rare that you can control all aspect of the technology at once, for example, many active hand prosthesis have several modes of operation, two finger grip or full hand grip for example, where then fine control should be apply within that mode. Learning the preference of the user in terms of switching time based the past experience on the interaction. If what the system is not good, then the user can manually change it back. Close to manuel work on preference \cite{Mason2011}. Quite closed to confidence base autonomy isn't it? \cite{chernova09jair} yes, but the agent in pilarski do not actively seek for situation to be disambiguated but as less restrained signal and task space.
-
-\cite{grollman2007dogged} combined learning form demonstration and mixed initiative control to enable life long learning for unknown task. mixed initiative control is when the control can transition smoothly form the robot control to the demonstrator control. allow to modify the task online while learning. Used successfully to teach different behavior to a robot, such as mirroring the head position with the tail position, or to seek for a red ball using the same algorithm.
+We consider the problem of learning control policies via trajectory preference queries to an expert. In particular, the learning agent can present an expert with short runs of a pair of policies originating from the same state and the expert then indicates the preferred trajectory. The agent's goal is to elicit a latent target policy from the expert with as few queries as possible. To tackle this problem we propose a novel Bayesian model of the querying process and introduce two methods that exploit this model to actively select expert queries. Experimental results on four benchmark problems indicate that our model can effectively learn policies from trajectory preference queries and that active query selection can be substantially more efficient than random selection.
 
 
-\cite{akrour2014programming} programming by feedback. The agent it doing the full demonstration and the human ranks the demonstration. With an active selection of the demonstration by the agent. Approximating user utility function, taking noise and errors into account. Looks like IRL but I don't understand how it differ. 
-\cite{akrour2011preference} Preference-based Policy Learning, iterates a four-step process: the robot demonstrates a candidate policy; the expert ranks this policy comparatively to other ones according to her preferences; these preferences are used to learn a policy return estimate; the robot uses the policy return estimate to build new candidate policies.
-\cite{akrour2012april} Iteratively, the agent selects a new candidate policy and demonstrates it; the expert ranks the new demonstration comparatively to the previous best one; the expert's ranking feedback enables the agent to refine the approximate policy return, and the process is iterated. the lesson learned from the experimental validation of April is that a very
-limited external information might be sufficient to enable reinforcement learning: while mainstream RL requires a numerical reward to be associated to each state, while inverse reinforcement learning [1,18] requires the expert to demonstrate a sufficiently good policy, April requires a couple dozen bits of information (this trajectory improves / does not improve on the former best one) to reach state of the art results. In most problem some delays is always present between an action and its effective reward. How it compares with eligibility traces \cite{sutton1998reinforcement} in RL? which can significantly speed learning. to handle delayed reward. each time a state is visited, it initiates a short -term memory process, a trace, with then decays gradually over time. This trace marks the state as eligible for learning. Compared to Knox, the reward is at the end not during the exp, make it more difficult to identify which part is correct. \cite{wilson2012bayesian} similar but with active learning as well. use small bits of demonstration. Active request.
-
-
-\cite{torrey2013teaching} Teaching on a budget
-a teacher agent instructs a student agent by suggesting actions the student should take as it learns. However, the teacher may only give such advice a limited number of times.  Advice can have greater impact when it is spent on more
-important states. Advice can have greater impact when it is spent on mistakes. When teachers can successfully predict student mistakes, they
-can spend their advice budget more effectively.
 \cite{taylor2011integrating} Human-Agent Transfer algorithm that combines transfer learning, learning from demonstration and reinforcement learning
 
 Sometime it is not necessary to demonstrate the full trajectory to a robot, but only some keyframe position along the line of the trajectory. The robot can then autonomously generate a smooth trajectory going through each keyframe position. This method has been shown to be really efficient to \todo{detail a bit what type of task they do} \cite{akgun12hri}. \todo{use that as the link to following subsection}
@@ -80,19 +91,23 @@ transparency, balance of control leader follower
 \cite{knox2009design} human reinforcement function is a moving target. human reinforce almost always state action pairs and not state only. human trainers reinforce expected action (if the robot turn right in the direction of the goal, people reinforce, people see intentionality in the action) as well as recent actions. about to do or has just done. how to divide credits between future or past actions is not obvious yet.
 \cite{kaochar2011towards} the ability for the teacher to test what is understood by the learner is important.
 
+\cite{loftinlearning} We report the results of a series of user studies that indicate human trainers use a variety of approaches to providing feedback in practice, which we describe as different training strategies. For example, users may not always give explicit feedback in response to an action, and may be more likely to provide explicit reward than explicit punishment, or vice versa . If the trainer is consistent in their strategy, then it may be possible to infer knowledge about the desired behavior from cases where no explicit feedback is provided. We discuss a probabilistic model of human-provided feedback that can be used to classify these different training strategies based on when the trainer chooses to provide explicit reward and or explicit punishment, and when they choose to provide no feedback
+
 \subsection{User modeling, ambiguous protocols or signals}
 
 \cite{macl11simul}, which presented a preliminary approach to this problem considering an abstract symbolic space of teaching signals in simulation and requiring to bootstrap the system with known symbols.
 
 \cite{knox2009interactively} the idea is that the human as a bird eyes view on the system and the reward is not immediate but include the long terms consequences of the agent's actions. and this indication is given in a short time windows after the correct or erroneous action. The problem of credit assignment disappear.
 Two steps, modeling the trainer reinforcement function H is a supervised learning problem, where for each state-action pair a value should be associated given a set of value-state-action triple. This function however is a moving target. Then act greedy on that H function.
-\textbf{The shaping problem:} how to shape the policy of an agent to match the one the user as in mind. TAMER has been extended to continuous state and action by Vien et al. \cite{vien2013learning}.
+\textbf{The shaping problem:} how to shape the policy of an agent to match the one the user as in mind. 
+
+TAMER has been extended to continuous state and action by Vien et al. \cite{vien2013learning}.
 
 \cite{branavan2011learning} This paper presents a novel approach for leveraging automatically extracted textual knowledge to improve the performance of control applications such as games. Our ultimate goal is to enrich a stochastic player with high-level guidance expressed in text. Our model jointly learns to identify text that is relevant to a given game state in addition to learn- ing game strategies guided by the selected text. Our method operates in the Monte-Carlo search framework, and learns both text analysis and game strategies based only on environment feedback. We apply our approach to the complex strategy game Civilization II using the official game manual as the text guide. Our results show that a linguistically-informed game-playing agent significantly outperforms its language-unaware counterpart
 
 Some other works have focused on learning semantic parsers, either from natural language as text \cite{branavan2011learning,kim2012unsupervised} or real speech \cite{doshi2008spoken}. Semantic parsers allow for a more natural human-robot interaction where more advanced set of instructions can be used. While in \cite{kim2012unsupervised} the algorithm can produce, with some limitation, previously unseen meaning representation, those works assume the agent has access to a known and constrained source of information at one stage. Either a direct access to its performances \cite{branavan2011learning}; to a reward from a teacher \cite{doshi2008spoken} or to a tuple (text instruction sentence, state, action sequence) where the instruction describes at a higher level the observed action sequence \cite{kim2012unsupervised}.
 
-\subsection{Active learners}
+\subsection{Active learners and teachers}
 
 \cite{lopes2012strategic} strategic student metaphor: a student has to learn a number of topics (or tasks) to maximize its mean score, and has to choose strategically how to allocate its time among the topics and/or which learning method to use for a given topic. maximize learning gain is optimal. 
 
@@ -100,17 +115,27 @@ Some other works have focused on learning semantic parsers, either from natural 
 
 \cite{chernova09jair} the robot ask for demonstration is state it is unsure about what to do. otherwise it act when confidence but the user can correct the robot action at any time.
 
+\cite{judah2012active} In this paper, we
+consider active imitation learning with the
+goal of reducing this effort by querying the
+expert about the desired action at individual
+states, which are selected based on answers
+to past queries and the learner's interactions
+with an environment simulator. 
 
-\subsection{Active teachers}
 
 \cite{cakmak2012algorithmic} studying how a teahcer can slects best exemple for the learner. finding the smallest sequence of example that allow the learne to identify a target concept, very close tot the active learning litterature. This has application in several doamin, especially in the educational domain, where giving indivual advise for each student given their proviciency may imporve the collective learning gain of the class. 
-\cite{clement2014online} We present an approach to Intelligent Tutoring Systems which adaptivelypersonalizes sequences of learning activities to maximize skills acquired by each student, taking into account limited time and motivational resources. At a given point in time, the system tries to propose to the student the activity which makes him progress best.
 
+\cite{clement2014online} We present an approach to Intelligent Tutoring Systems which adaptively personalizes sequences of learning activities to maximize skills acquired by each student, taking into account limited time and motivational resources. At a given point in time, the system tries to propose to the student the activity which makes him progress best.
 
+\cite{torrey2013teaching} Teaching on a budget
+a teacher agent instructs a student agent by suggesting actions the student should take as it learns. However, the teacher may only give such advice a limited number of times.  Advice can have greater impact when it is spent on more
+important states. Advice can have greater impact when it is spent on mistakes. When teachers can successfully predict student mistakes, they
+can spend their advice budget more effectively.
 
 \subsection{Discussion}
 
-This thesis lies around those challenges. We identified one important assumtion made in all those experiments. The facts that the human and the robot are assuemd to be able to undertasn each others on one level or an other before the interaction can begin. Whether the meaning of the social signals are known and the robot should infer the task, or the task is known and the robot should infer some characteristic of its human partners, whether the mapping between some communicative signals and their meaning, or the frequency to which it tends to use some words.
+This thesis lies around those challenges. We identified one important assumption made in all those experiments. The facts that the human and the robot are assumed to be able to undertaker each others on one level or an other before the interaction can begin. Whether the meaning of the social signals are known and the robot should infer the task, or the task is known and the robot should infer some characteristic of its human partners, whether the mapping between some communicative signals and their meaning, or the frequency to which it tends to use some words.
 
 
 A usual assumption in such systems is that the learner and the teacher share a mutual understanding of the meaning of each others' signals, and in particular the robot is usually assumed to know how to interpret teaching instructions from the human. In practice, the range of accepted instructions is limited to the one  predifined by the system developer.
@@ -152,6 +177,39 @@ lingodroid \cite{schulz2010robots} : use iRats, have shared attention, when they
 
 difference with language games and our work: the realtion is direct, it applies to where we are now, the time is it now
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Multi-agent interaction without pre-coordination: Ad-hoc teams}
+
+This workshop focuses on models and algorithms for multiagent interaction without prior coordination (MIPC). Interaction between agents is the defining attribute of multiagent systems, encompassing problems of planning in a decentralized setting, learning other agent models, composing teams with high task performance, and selected resource-bounded communication and coordination. There is significant variety in methodologies used to solve such problems, including symbolic reasoning about negotiation and argumentation, distributed optimization methods, machine learning methods such as multiagent reinforcement learning, etc. The majority of these well studied methods depends on some form of prior coordination. Often, the coordination is at the level of problem definition. For example, learning algorithms may assume that all agents share a common learning method or prior beliefs, distributed optimization methods may assume specific structural constraints regarding the partition of state space or cost/rewards, and symbolic methods often make strong assumptions regarding norms and protocols. In realistic problems, these assumptions are easily violated calling for new models and algorithms that specifically address the case of ad hoc interactions. Similar issues are also becoming increasingly more pertinent in human-machine interactions, where there is a need for intelligent adaptive behaviour and assumptions regarding prior knowledge and communication are problematic.
+
+Effective MIPC is most likely to be achieved as we bring together work from many different areas, including work on intelligent agents, machine learning, game theory, and operations research. For instance, game theorists have considered what happens to equilibria when common knowledge assumptions must be violated, agent designers are faced with mixed teams of humans and agents in open environments and developing variations on planning methods in response to this, etc. The goal of this workshop is to bring together these diverse viewpoints in an attempt to consolidate the common ground and identify new lines of attack.
+
+As robots are moving into the real world, they will increasingly need to group together for cooperative activities with previously unknown teammates. In such ad hoc team settings, team strategies cannot be developed a priori. Rather, each robot must be prepared to cooperate with many types of teammates, which may not share the same capabilities or communicative means. 
+
+This challenge of collaboration without pre-coordination has been first identified in the LARG group with the work on Ad Hoc Autonomous Agent Teams \cite{stone2010ad} where agents should learn to collaborate without defining pre-coordination scheme or knowing what the other agent will be capable of. Samuel Barrett, a last year PhD student, has been the main investigator of this line of research in the LARG group. He notably investigated complex teamwork domain such as the pursuit domain \cite{barrett2011empirical}, which is the domain we will use for our common project. The first development of the Ad Hoc Team project did not consider direct communication between agent \cite{stone2010ad} \cite{barrett2011adhoc} and the collaboration were effective only through the understanding of the behavior of the other agent \cite{barrett2011empirical} \cite{barrett2013team}. More recently, Samuel Barrett et al. introduced a minimal domain with communication and proved that ad hoc team agents can successfully cooperate with unknown teammates \cite{barrett2013communicating}. This latter work considers an abstract task using an armed bandit setting. Our joint collaboration aims at extending this work to the pursuit domain. Especially we would like to investigate a domain where communication between agents is mandatory to succeed in the task. 
+
+And in the LARG Group, the focus was more on multi-agent scenarios where robot must be prepared to cooperate with many types of teammates, which may not share the same capabilities or communicative means. The first phase of the Ad Hoc Team project considered indirect communication \cite{stone2010ad} \cite{barrett2011empirical} \cite{barrett2011adhoc} \cite{barrett2013team} and direct communication has been explored recently in an armed bandit scenario \cite{barrett2013communicating}. 
+
+cite work of IAJ stone
+
+
+
+ stefano work on proof.. \cite{albrecht2014uai}
+On Convergence and Optimality of Best-Response Learning with Policy Types in Multiagent Systems
+One method to make this problem feasible is to assume that the other agents draw their latent policy (or type) from a specific set, and that a domain expert could provide a specification of this set, albeit only a partially correct one. We analyse convergence properties of two existing posterior formulations and propose a new posterior which can learn correlated distributions. Secondly, since the types are provided by an expert, they may be inaccurate in the sense that they do not predict the agents' observed actions. We provide a novel characterization of optimality which allows experts to use efficient model checking algorithms to verify optimality of types
+
+
+
+
+
+
+Recent works that address ad hoc coordination include (\cite{bowling2005coordination} \cite{gil2006dynamically} \cite{stone2010ad}). However, the assumptions made by the solutions pro- posed therein imply that they only address certain aspects of the larger problem. For example, in  \cite{bowling2005coordination} \cite{gil2006dynamically} it is assumed that all agents follow complex prespecified plans which define roles and synchronised action sequences for each role, and in (\cite{stone2010teach} \cite{stone2013teaching}) it is assumed that the other agents' behaviors are a priori known and fixed (i.e. they do not learn), and that all agents, including the ad hoc agent, have common payoffs. Furthermore, the problem descriptions in these works are of a procedural nature, associated with the specific tasks considered therein. Thus, there is a need for a formal model of the ad hoc coordination problem.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -166,11 +224,7 @@ It mostly applies in clustering task where a dataset is divided into subgroups o
 
 It also applies in feature extraction and dimensionality reduction problems where the algorithm should find a better, usually more compact, representation of the data without losing some of their properties. Among others algorithm, we can refer to principal component analysis (PCA) which linearly project a dataset into a subspace where dimension are minimally correlated \cite{jolliffe2005principal}. The new dimensions are called principal components. Linear projections are not always well suited for reducing dimensionality of some datasets which may lie on a non-linear manifold. Among others, non-linear dimensionality reduction algorithms include self-organizing map (SOM) \cite{kohonen2001self} which can be considered as the non-linear generalization of PCA.
 
-
-
-
-\subsection{Unsupervised multimodal learning}
-
+\paragraph{Unsupervised multimodal learning}
 
 \cite{mohammad2009unsupervised} learning to segment gesture command of the users and actions from a continuous stream of data , as well as they association. The gestures and actions are continuous and the authors rely on a motif discovery algorithm identify recurrent  and cooccurrent patterns in the gesture and action flows of data \cite{mohammad2009constrained}. However, while being unsupervised, the stream of data where synchronized and collected using a wizard of Oz setup, meaning that the association between the gesture and the action was provided. In \cite{mohammad2010learning} the same authors extended their approach to allow the system to actually derive controllers for the robot and not just finding recurrent patterns, as well as a method to accumulate the knowledge learned for different partners.
 
@@ -183,7 +237,7 @@ A particular instance of multimodal learning is the learning of language where t
 
 Outside the simpler case where one wants to learn concepts grounded in one modality and relate them to observed symbols (basic or structured classification), the interaction between the emergence of language symbols and classes of perceptual objects is actually more complex. For instance, while words often describe concepts that could directly emerge from perception and of interaction with the world, the learning of worlds to describe concepts often shapes the concepts themselves (as explained on this page). Learning the semantic concepts resulting from this interaction is thus better expressed in terms of learning directly from several sub-symbolic modalities. 
 
-\subsection{SLAM}
+\paragraph{SLAM}
 
 \cite{smith1990estimating} 
 \cite{dissanayake2001solution}
@@ -200,20 +254,13 @@ It is a complex task to estimate the robot's current location without a map or w
 
 However note that that the uncertainty is more controlled, 
 
-There is no uncertainty on what the data receive ar erelated to . in slam a the map exsit, it is assumed to not change overtime and the data received are alwaus relative to the robot position + some noise. However a first the robot do not know where it is in this map. which make the process similar.
+There is no uncertainty on what the data receive ar erelated to . in slam a the map exsit, it is assumed to not change overtime and the data received are always relative to the robot position + some noise. However a first the robot do not know where it is in this map. which make the process similar.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Ad hoc team}
 
-As robots are moving into the real world, they will increasingly need to group together for cooperative activities with previously unknown teammates. In such ad hoc team settings, team strategies cannot be developed a priori. Rather, each robot must be prepared to cooperate with many types of teammates, which may not share the same capabilities or communicative means. 
+refers to noisy information about your position in the world, your position is your position
 
-This challenge of collaboration without pre-coordination has been first identified in the LARG group with the work on Ad Hoc Autonomous Agent Teams \cite{stone2010ad} where agents should learn to collaborate without defining pre-coordination scheme or knowing what the other agent will be capable of. Samuel Barrett, a last year PhD student, has been the main investigator of this line of research in the LARG group. He notably investigated complex teamwork domain such as the pursuit domain \cite{barrett2011empirical}, which is the domain we will use for our common project. The first development of the Ad Hoc Team project did not consider direct communication between agent \cite{stone2010ad} \cite{barrett2011adhoc} and the collaboration were effective only through the understanding of the behavior of the other agent \cite{barrett2011empirical} \cite{barrett2013team}. More recently, Samuel Barrett et al. introduced a minimal domain with communication and proved that ad hoc team agents can successfully cooperate with unknown teammates \cite{barrett2013communicating}. This latter work considers an abstract task using an armed bandit setting. Our joint collaboration aims at extending this work to the pursuit domain. Especially we would like to investigate a domain where communication between agents is mandatory to succeed in the task. 
 
-And in the LARG Group, the focus was more on multi-agent scenarios where robot must be prepared to cooperate with many types of teammates, which may not share the same capabilities or communicative means. The first phase of the Ad Hoc Team project considered indirect communication \cite{stone2010ad} \cite{barrett2011empirical} \cite{barrett2011adhoc} \cite{barrett2013team} and direct communication has been explored recently in an armed bandit scenario \cite{barrett2013communicating}.
+
 
 \section{Brain computer interfaces}
 
