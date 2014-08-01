@@ -11,7 +11,7 @@ In most robot social learning experiments today, there is a strong decoupling be
 
 In this chapter we highlight the difference between systems learning from well controlled interactions and systems trying to close the interaction loop allowing more flexibility in the interaction process. These issues have began to be addressed in a subfield called \emph{interactive learning}  which combine ideas of social learning with extrinsic and intrinsic motivated learning. With this approach, the robot acquires a form of autonomy with respect to how to deal with the human in the loop. 
 
-After presenting the related work in interactive learning, we broaden the scope of this work by linking with the computational modeling of language, some aspects of unsupervised learning, and specific works on ad-hoc team whose stated challenge is to enable cooperation without coordination in multi-agent scenarios. Finally, we present related work in the brain computer interaction community.
+After presenting the related work in interactive learning, we broaden the scope of this work by linking with the computational modeling of language, some aspects of unsupervised learning, and specific works on ad-hoc team whose stated challenge is to enable cooperation without coordination in multi-agent scenarios. Finally, we present related works from the brain computer interfaces (BCI) community.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -218,49 +218,25 @@ Recent works that address ad hoc coordination include (\cite{bowling2005coordina
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Unsupervised learning}
 
-Unsupervised learning is the problem of finding hidden structure in unlabeled data. Even if there is no explicit error or reward to evaluate a potential solution, there is still predefined metrics which define what the terms \emph{structure} means. Finding an hidden structure is more looking from known patterns in unlabeled data.
+Unsupervised learning is the problem of finding hidden structure in unlabeled data. It mostly applies in clustering task where a dataset is divided into subgroups of data sharing similar characteristics, such as a close proximity in the feature space. 
 
-It mostly applies in clustering task where a dataset is divided into subgroups of data which share common characteristic, such as a close proximity in the feature space. Among others, clustering algorithm include k-means and its generalized form the expectation maximization for Gaussian mixture \cite{dempster1977maximum}. Clustering method are widely used in recommender systems, especially in nowadays social networking service to identify group of users from a huge pool of user profile \cite{sarwar2002recommender}.
+% Even if there is no explicit error or reward to evaluate a potential solution, there is still predefined metrics which define what the terms \emph{structure} means. Finding an hidden structure is more looking from known patterns in unlabeled data.
 
-It also applies in feature extraction and dimensionality reduction problems where the algorithm should find a better, usually more compact, representation of the data without losing some of their properties. Among others algorithm, we can refer to principal component analysis (PCA) which linearly project a dataset into a subspace where dimension are minimally correlated \cite{jolliffe2005principal}. The new dimensions are called principal components. Linear projections are not always well suited for reducing dimensionality of some datasets which may lie on a non-linear manifold. Among others, non-linear dimensionality reduction algorithms include self-organizing map (SOM) \cite{kohonen2001self} which can be considered as the non-linear generalization of PCA.
+\paragraph{Unsupervised multimodal learning} For example, in unsupervised multimodal learning, the system has access to synchronized raw information from multiple modalities. A particular instance of multimodal learning is the learning of language where the learner has to relate perception of an object to the sound of its name, or of a sound to a gesture such as in \cite{mangin2013learning}. The learner receives continuously a visual and an audio stream and should learn to associate parts of the visual information with their associated audio stimulus. But the visual and audio informations are already synchronized such that the relevant information from the visual stream is perceived simultaneously with its associated audio stimuli.
 
-\paragraph{Unsupervised multimodal learning}
+In a robotic application, Yasser Mohammad et al. used multimodal learning to segment and associated gesture commands from a user to actions of a robot \cite{mohammad2009unsupervised}. The gestures and actions were observed from a continuous stream extracted from a Wizard of Oz experiment (where the robot is secretly controlled by a human). They relied on a motif discovery algorithm to identify recurrent and co-occurrent patterns in the gesture and action flow \cite{mohammad2009constrained}. However, while being unsupervised, the stream of data where synchronized and collected using a Wizard of Oz setup, meaning that the association between the gestures and the robot's actions was provided. In \cite{mohammad2010learning} the same authors extended their approach to allow the system to actually derive controllers for the robot and not just finding recurrent patterns, as well as a methods to accumulate the knowledge learned for different partners.
 
-\cite{mohammad2009unsupervised} learning to segment gesture command of the users and actions from a continuous stream of data , as well as they association. The gestures and actions are continuous and the authors rely on a motif discovery algorithm identify recurrent  and cooccurrent patterns in the gesture and action flows of data \cite{mohammad2009constrained}. However, while being unsupervised, the stream of data where synchronized and collected using a wizard of Oz setup, meaning that the association between the gesture and the action was provided. In \cite{mohammad2010learning} the same authors extended their approach to allow the system to actually derive controllers for the robot and not just finding recurrent patterns, as well as a method to accumulate the knowledge learned for different partners.
+\paragraph{Simultaneous localization and mapping}
 
+Simultaneous localization and mapping (SLAM) \cite{smith1990estimating,dissanayake2001solution} is  the problem of constructing a map of an unknown environment while simultaneously keeping track of the robot's location in that environment. 
 
-\cite{mangin2012learning,mangin2013learning,mangin2014thesis}
+SLAM seems to include a chicken and egg problem. To build the map, the robot needs to know its location on the map such as to be able to include its current measurements to the map. And to know its location on the map, the robot needs to know the map such as to infer its position from its measurement. In practice, the answers to the two questions cannot be delivered independently of each other.
 
- An important feature of perceptual systems is that they often include sensors from several modalities. However, existing robots do not yet sufficiently discover patterns that are spread over the flow of multimodal data they receive. Not only do we believe that being able to learn by integrating sensory information from several modalities is a crucial capability for robots, but we also think it is a major feature of infants development.
+However the robot knowns that the data received from its sensors refers, for example, to noisy information about distances to obstacles. The robot also often knows the qualities of its sensors and motors, and roughly how it's actions influence its position. For example, by measuring changes in wheels rotary encoders, the robot can approximate its position shift after small control commands. Accessing to an approximation on its position shift, the robot can now update the map given its new sensory information. Using only this source of information is limiting, especially because every error accumulates over time. There is several others sources of information the robot can rely on. For example, the environment is often assume to be fixed. Hence the robot can track its relative position to some landmarks, and incrementally update the robot position in the map while detecting some other landmarks and incrementally building the map.
 
-A particular instance of multimodal learning is the learning of language where the learner has to relate perception of an object to the sound of its name. This problem is commonly referred to as the symbol grounding problem. In our work we shown how it is possible to learn the link between symbolic labels and gestures that compose choreographies.
+\transition
 
-Outside the simpler case where one wants to learn concepts grounded in one modality and relate them to observed symbols (basic or structured classification), the interaction between the emergence of language symbols and classes of perceptual objects is actually more complex. For instance, while words often describe concepts that could directly emerge from perception and of interaction with the world, the learning of worlds to describe concepts often shapes the concepts themselves (as explained on this page). Learning the semantic concepts resulting from this interaction is thus better expressed in terms of learning directly from several sub-symbolic modalities. 
-
-\paragraph{SLAM}
-
-\cite{smith1990estimating} 
-\cite{dissanayake2001solution}
-
-Simultaneous localization and mapping (SLAM) is a technique used by digital machines to construct a map of an unknown environment (or to update a map within a known environment) while simultaneously keeping track of the machine's location in the physical environment. Put differently, SLAM is the process of building up a map of an unfamiliar building as you are navigating through it and also keeping track of where you are within it.
-
-SLAM is therefore defined as the problem of building a model leading to a new map, or repetitively improving an existing map, while at the same time localizing the robot within that map. In practice, the answers to the two characteristic questions cannot be delivered independently of each other.
-
-SLAM consists of multiple parts; Landmark extraction, data association, state estimation, state update and landmark update. There are many ways to solve each of the smaller parts.
-
-Before a robot can contribute to answering the question of what the environment looks like, given a set of observations, it needs to know e.g.: the robot's own kinematics, which qualities the autonomous acquisition of information has, and, from which sources additional supporting observations have been made.
-
-It is a complex task to estimate the robot's current location without a map or without a directional reference. Location may refer to simply the position of the robot or might also include its orientation.
-
-However note that that the uncertainty is more controlled, 
-
-There is no uncertainty on what the data receive ar erelated to . in slam a the map exsit, it is assumed to not change overtime and the data received are always relative to the robot position + some noise. However a first the robot do not know where it is in this map. which make the process similar.
-
-
-refers to noisy information about your position in the world, your position is your position
-
-
-
+Unsupervised learning also deals with unknown data. But contrary to our problem, unsupervised learning only identifies direct relation between observation. To learn from unlabeled interaction frames the system must also identify a task, unknown at start, from the incoming unlabeled data. This adds another layer to our problem.
 
 \section{Brain computer interfaces}
 
