@@ -191,11 +191,18 @@ To summarize, in order to teach a robot a new task, the robot must be able to un
 
 \subsection{Interaction frames}
 
-An interaction frame is a structure that defines all the aspects of the interaction that are pre-defined by the system designer. This interaction schema is assumed to be followed by the human and known by the robot.
+An interaction frame \cite{rovatsos2001interaction} is a structure that defines all the aspects of the interaction that are pre-defined by the system designer. This interaction schema is assumed to be followed by the human and known by the robot.
 
-The concept of interaction frame is a subclass of the more general concept of frame. Frames are a concept that emerges simultaneously in social theory \cite{goffman1974frame} and artificial intelligence \cite{minsky1974framework}. They represent a schema of interpretation given a particular situation or event. It is answering the question: \emph{what is going on here ?}, in order to reduce ambiguity of intangible topics by contextualizing the information. It creates a common ground about the purpose of the interaction \cite{tomasello2009cultural,rohlfing2013learning} and include ``predictable, recurrent interactive structures'' (\cite{ninio1996pragmatic}, p. 171). An interaction frame thus provides interactants with guidelines about how to behave (a protocol for interaction). It also allows interactants to understand the communicative intentions of their interaction partner.
+The concept of interaction frame is a subclass of the more general concept of frame. Frames are a concept that emerges simultaneously in social theory \cite{goffman1974frame} and artificial intelligence \cite{minsky1974framework}. They represent a schema of interpretation given a particular situation or event. It is answering the question: \emph{what is going on here ?}, in order to reduce ambiguity of intangible topics by contextualizing the information. It creates a common ground about the purpose of the interaction \cite{tomasello2009cultural,rohlfing2013learning} and include ``predictable, recurrent interactive structures'' (\cite{ninio1996pragmatic}, p. 171). 
 
-The interaction frame is often implicitly known in robot learning experiments. We start by exemplifying a few interaction frames and then provide a more precise description of an interaction frame.
+In \cite{rovatsos2001interaction}, Michael Rovatsos presents an extended definition of an interaction frame for artificial agents. While his defintion can be transposed to human-robot interaction scenarios, its decription and formalisation of interaction frames is too much detailled for our forthcoming devellopment. 
+
+% http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=A759893171006521071056D6531DAABC?doi=10.1.1.29.3610&rep=rep1&type=pdf
+
+\todo{present here an highlight}
+We try to simplify this definition 
+
+To summarize, an interaction frame provides interactants with guidelines about how to behave (a protocol for interaction). It also allows interactants to understand the communicative intentions of their interaction partner. The interaction frame is often implicitly known in robot learning experiments. We now exemplify a few interaction frames and then provide our simple description of an interaction frame.
 
 One example is a human presenting an object to a robot at the same time as saying the name of the object. Being aware of this frame, the robot knows that speech of the human corresponds to the name of the object (and not its shape or its color). In addition the interaction is usually well controlled. The human will first hand the object in front of the robot. The robot will then ask always the same question such as \emph{``tell me the name of this object?''}. Once the robot is ready to accept the human speech utterance, it emits a small noise.  Finally the human speaks for one second. Following this sequence, the association between objects and names is guaranteed to be unambiguous.
 
