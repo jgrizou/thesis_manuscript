@@ -51,11 +51,11 @@ Researchers in the domain have considered mixing different types of paradigms in
 
 \item Combining transfer learning, learning from demonstration and reinforcement learning \cite{taylor2011integrating}.
 
-\item Considering demonstration of not entire trajectories. In \cite{akgun12hri}, the users only demonstrate some keyframe position along the line of the trajectory. The robot can then autonomously infer a trajectory that math with each keyframe position.
+\item Considering demonstrations of parts of trajectories only. In \cite{akgun12hri}, the users only demonstrate some keyframe position along the line of the trajectory. The robot can then autonomously infer a trajectory that math with each keyframe position.
 
 \end{itemize}
 
-But researchers also create new learning paradigms, such as learning from users' preferences \cite{Mason2011,akrour2011preference}. In this new paradigm, the system learns the preferences of the human and will pro-actively generalize and apply them autonomously. 
+But researchers also created new learning paradigms, such as learning from users' preferences \cite{Mason2011,akrour2011preference}. In this new paradigm, the system learns the preferences of the human and will pro-actively generalize and apply them autonomously. 
 
 In \cite{Mason2011}, the user starts by teleoperating the robot and can mark some states as good or bad. From this data, the robot can create a user profile. Next the robot can select its own goal without the need for human teleoperation. Once desirable state of the world has been reached, the human as a possibility to classify the state as good or bad again. The robot can update its user profile, and the process iterates.
 
@@ -66,7 +66,7 @@ In \cite{akrour2011preference,akrour2012april,akrour2014programming,wilson2012ba
 
 % \cite{akrour2014programming} programming by feedback. The agent it doing the full demonstration and the human ranks the demonstration. With an active selection of the demonstration by the agent. Approximating user utility function, taking noise and errors into account. Looks like IRL but I don't understand how it differ. \cite{akrour2011preference} Preference-based Policy Learning, iterates a four-step process: the robot demonstrates a candidate policy; the expert ranks this policy comparatively to other ones according to her preferences; these preferences are used to learn a policy return estimate; the robot uses the policy return estimate to build new candidate policies. \cite{akrour2012april} Iteratively, the agent selects a new candidate policy and demonstrates it; the expert ranks the new demonstration comparatively to the previous best one; the expert's ranking feedback enables the agent to refine the approximate policy return, and the process is iterated. the lesson learned from the experimental validation of April is that a very limited external information might be sufficient to enable reinforcement learning: while mainstream RL requires a numerical reward to be associated to each state, while inverse reinforcement learning [1,18] requires the expert to demonstrate a sufficiently good policy, April requires a couple dozen bits of information (this trajectory improves / does not improve on the former best one) to reach state of the art results. In most problem some delays is always present between an action and its effective reward. How it compares with eligibility traces \cite{sutton1998reinforcement} in RL? which can significantly speed learning. to handle delayed reward. each time a state is visited, it initiates a short -term memory process, a trace, with then decays gradually over time. This trace marks the state as eligible for learning. Compared to Knox, the reward is at the end not during the exp, make it more difficult to identify which part is correct. \cite{wilson2012bayesian} similar but with active learning as well. use small bits of demonstration. Active request. We consider the problem of learning control policies via trajectory preference queries to an expert. In particular, the learning agent can present an expert with short runs of a pair of policies originating from the same state and the expert then indicates the preferred trajectory. The agent's goal is to elicit a latent target policy from the expert with as few queries as possible. To tackle this problem we propose a novel Bayesian model of the querying process and introduce two methods that exploit this model to actively select expert queries. Experimental results on four benchmark problems indicate that our model can effectively learn policies from trajectory preference queries and that active query selection can be substantially more efficient than random selection.
 
-Some of the methods above consider the users are somehow optimal or at least predictable in their teaching behavior. However this is not always the case, in next subsection we review studies about the behaviors of humans when teaching robots.
+Some of the methods above consider the users are somehow optimal or at least predictable in their teaching behaviors. However this is not always the case, in next subsection we review studies about the behaviors of humans when teaching robots.
 
 \subsection{How people teach robots}
 
@@ -95,49 +95,49 @@ To summarize, all teachers are different and most of the time they are not optim
 
 \subsection{User modeling, ambiguous protocols or signals}
 
+% We only focus our attention on the modeling of human users by a robot and during a teaching interaction. 
+
+Modeling the user as the interaction goes by is primordial to adapt to an a priori unknown human. Some works investigate how to learn the user teaching behavior online \cite{knox2009interactively}, how to learn the meaning of new human signals starting from a set of known signals \cite{macl11simul,loftinlearning}, or to directly learn the meaning of unknown signals but when the agent has access to a direct measure of its performance \cite{branavan2011learning,kim2012unsupervised,doshi2008spoken}.
+
+In \cite{knox2009interactively}, an artificial agent learns from human reinforcement but the human signals are not treated as a reward in a reinforcement learning problem. Instead the the agent models the trainer reinforcement function, and considers it as a moving target. The idea is that the human reinforcement already includes the long terms consequences of the agent's action, whereas in reinforcement learning the reward act just locally. Therefore Having modeled the user reinforcement function, the agent can act greedily on this function to achieve the desired task. Their approach has been extended to continuous states and actions \cite{vien2013learning}.
+
+In \cite{macl11simul}, the learning agent receives signals of both known and unknown meaning. The agent learns a task using the known information and is then able to infer the meaning of the a priori unknown signals. Similarly in \cite{loftinlearning} the agent learns the meaning of non-explicit signals, e.g. when the user do not press any button, but knowing the meaning of all explicit signals. Our problem differs because we do not have access to a set of signals of known meaning beforehand.
+
+In \cite{branavan2011learning}, the learning agent automatically extract information from a text manual to improve its performance on a task. The agent learns how to play the strategy game Civilization II, and it has access to a direct measure of its performance. But the agent also have access to the game manual which give some explanation about the game's strategy. However the agent do not know how to read and interpret this manual beforehand. The agent then autonomously learns to analyses the text in the manual and to use the information contained in the manual to to improve its strategy. In other words, the agent learns the ``language'' of the game manual. While the agent could learn to play the game alone, their results show that ``a linguistically-informed game-playing agent significantly outperforms its language-unaware counterpart''. Our problem differs because our agent do not have access to a measure of its performance on the task, and can only rely on the unlabeled signals received from the teacher. However we will process much simpler signals without syntactic structure.
+
+Some other works have focused on learning semantic parsers, either from natural language as text \cite{branavan2011learning,kim2012unsupervised} or real speech \cite{doshi2008spoken}. Semantic parsers allow for a more natural human-robot interaction where more advanced set of instructions can be used. While in \cite{kim2012unsupervised} the algorithm can produce, with some limitation, previously unseen meaning representation. However these works assume the agent has access to a known and constrained source of information about the task. Either a direct access to its performances \cite{branavan2011learning}, to a reward from a teacher \cite{doshi2008spoken}, or to a tuple (text instruction sentence, state, action sequence) where the instruction describes at a higher level the observed action sequence \cite{kim2012unsupervised}.
+
+\transition
 
 
-\cite{macl11simul}, which presented a preliminary approach to this problem considering an abstract symbolic space of teaching signals in simulation and requiring to bootstrap the system with known symbols.
-
-\cite{knox2009interactively} the idea is that the human as a bird eyes view on the system and the reward is not immediate but include the long terms consequences of the agent's actions. and this indication is given in a short time windows after the correct or erroneous action. The problem of credit assignment disappear.
-Two steps, modeling the trainer reinforcement function H is a supervised learning problem, where for each state-action pair a value should be associated given a set of value-state-action triple. This function however is a moving target. Then act greedy on that H function.
-\textbf{The shaping problem:} how to shape the policy of an agent to match the one the user as in mind. 
-
-TAMER has been extended to continuous state and action by Vien et al. \cite{vien2013learning}.
-
-Finally, in \cite{loftinlearning}, the authors studied the role of non explicit feedback. Sometimes the user do not press the 
-
-We report the results of a series of user studies that indicate human trainers use a variety of approaches to providing feedback in practice, which we describe as different training strategies. For example, users may not always give explicit feedback in response to an action, and may be more likely to provide explicit reward than explicit punishment, or vice versa . If the trainer is consistent in their strategy, then it may be possible to infer knowledge about the desired behavior from cases where no explicit feedback is provided. We discuss a probabilistic model of human-provided feedback that can be used to classify these different training strategies based on when the trainer chooses to provide explicit reward and or explicit punishment, and when they choose to provide no feedback
-
-\cite{branavan2011learning} This paper presents a novel approach for leveraging automatically extracted textual knowledge to improve the performance of control applications such as games. Our ultimate goal is to enrich a stochastic player with high-level guidance expressed in text. Our model jointly learns to identify text that is relevant to a given game state in addition to learn- ing game strategies guided by the selected text. Our method operates in the Monte-Carlo search framework, and learns both text analysis and game strategies based only on environment feedback. We apply our approach to the complex strategy game Civilization II using the official game manual as the text guide. Our results show that a linguistically-informed game-playing agent significantly outperforms its language-unaware counterpart
-
-Some other works have focused on learning semantic parsers, either from natural language as text \cite{branavan2011learning,kim2012unsupervised} or real speech \cite{doshi2008spoken}. Semantic parsers allow for a more natural human-robot interaction where more advanced set of instructions can be used. While in \cite{kim2012unsupervised} the algorithm can produce, with some limitation, previously unseen meaning representation, those works assume the agent has access to a known and constrained source of information at one stage. Either a direct access to its performances \cite{branavan2011learning}; to a reward from a teacher \cite{doshi2008spoken} or to a tuple (text instruction sentence, state, action sequence) where the instruction describes at a higher level the observed action sequence \cite{kim2012unsupervised}.
+Modeling parts of the user behavior allows an interactive learning agent to adapt to a variety of teaching behaviors. The work presented in this thesis follows along the same lines. We learn the signal to meaning mapping of the user's signals. And contrary to the works presented above, we simultaneously estimates the desired task, and do not have access to a measure of our performance or to others known signals. It allows a user to teach a machine a new task using teaching signals unspecified in advance. As a consequence, if using speech as the modality of interaction, our system should handle different languages or even interjections or hand clapping.
 
 \subsection{Active learners and teachers}
 
-\cite{lopes2012strategic} strategic student metaphor: a student has to learn a number of topics (or tasks) to maximize its mean score, and has to choose strategically how to allocate its time among the topics and/or which learning method to use for a given topic. maximize learning gain is optimal. 
+Finally an other crucial aspect for an efficient interaction is to have both a learner and a teacher that seek to maximize the learning gain of the learner. We usually call this types of agent active learners or active teachers. An active learner will seek for situation in which it feels uncertain about what to do, that are situation where more information is needed. An active teacher will try to provide the most useful demonstrations or instructions to the learning agent. Ideally an active teacher considers the learning capabilities of the learner to adapt its teaching behavior. 
 
-\cite{lopes2014active} review of active learning. Active Learning for Autonomous Intelligent Agents: Exploration, Curiosity, and Interaction
+\paragraph{Active learners} 
 
-\cite{chernova09jair} the robot ask for demonstration is state it is unsure about what to do. otherwise it act when confidence but the user can correct the robot action at any time.
+The interested reader can refers to \cite{lopes2014active} for a review of active learning for autonomous intelligent agent. In the following paragraphs, we only focus on active learning agent in social interactive learning conditions. The notion of uncertainty is often used in active learning agents. Uncertainty refers to situation where the agent do not know how to behave in order to fulfill the task. By collecting more information about that situation, the agent should reduce uncertainty and increase its performance on the task.
 
-\cite{judah2012active} In this paper, we
-consider active imitation learning with the
-goal of reducing this effort by querying the
-expert about the desired action at individual
-states, which are selected based on answers
-to past queries and the learner's interactions
-with an environment simulator. 
+A number of previously presented work already includes an active component to their agents. For example, in \cite{macl11simul}, the agent is shown to be more efficient at learning both the task and the meaning of new signals when seeking for uncertain state-action pairs. In \cite{judah2012active}, the authors considers active imitation learning. Instead of passively collecting demonstration from the user, the learning agent query the expert about the desired action at specific states. In \cite{chernova09jair}, the authors propose to balance autonomy and demonstration request using a measure of confidence. The robot asks for demonstration only in states it is unsure about what to do. Otherwise the robot acts autonomously but can still be corrected by the user at any time.
+
+\todo{add info from the review of manuel, + follow some links}
+
+% \cite{lopes2012strategic} strategic student metaphor: a student has to learn a number of topics (or tasks) to maximize its mean score, and has to choose strategically how to allocate its time among the topics and/or which learning method to use for a given topic. maximize learning gain is optimal. 
 
 
-\cite{cakmak2012algorithmic} studying how a teahcer can slects best exemple for the learner. finding the smallest sequence of example that allow the learne to identify a target concept, very close tot the active learning litterature. This has application in several doamin, especially in the educational domain, where giving indivual advise for each student given their proviciency may imporve the collective learning gain of the class. 
+\paragraph{Active teachers}
 
-\cite{clement2014online} We present an approach to Intelligent Tutoring Systems which adaptively personalizes sequences of learning activities to maximize skills acquired by each student, taking into account limited time and motivational resources. At a given point in time, the system tries to propose to the student the activity which makes him progress best.
+An active teachers try to provide demonstrations or instructions that will make the learning process more efficient for the learning agent. 
 
-\cite{torrey2013teaching} Teaching on a budget
-a teacher agent instructs a student agent by suggesting actions the student should take as it learns. However, the teacher may only give such advice a limited number of times.  Advice can have greater impact when it is spent on more
-important states. Advice can have greater impact when it is spent on mistakes. When teachers can successfully predict student mistakes, they
-can spend their advice budget more effectively.
+In \cite{cakmak2012algorithmic}, the authors study how a teacher can optimally provide demonstrations for a sequential problem. Concretely, the teacher should find the smallest sequence of examples that allow the learner to identify the task. They found that \todo{what they show + follow some links}. Similarly in \cite{torrey2013teaching}, the teacher as a limited number of advises to give and the authors study how to best use this advise credits to improve the learning gain of the learning agent. They showed that advices can have greater impact when it is spent on important states, or to correct agent's mistakes.
+
+Active teaching finds applications in several domains, especially in the educational one, where giving individual advises for each student and given their individual proficiency may improve the collective learning gain of a classroom. For example, in \cite{clement2014online} the authors presents an \emph{intelligent tutoring systems} which ``adaptively personalizes sequences of learning activities to maximize skills acquired by each student''. They take into account constraint about the limited time and motivation resources of each student. Their approach seek at optimizing the learning gain of each student, their algorithm selects the exercise that should make the student progress best.
+
+\transition
+
+We will also consider an active learner, differ in that both the task and the signal to meaning mapping is unknown. We will see that this reauired to devellop a new uncertainty measur specific to our problem
 
 \subsection{Discussion}
 
@@ -162,6 +162,8 @@ difference: the association related to the referential, the frame is direct reas
 Although learning from completely generic feedback types is very hard, we follow the approach from \cite{griffiths2012bottom}, which explores a human to human interaction in a categorization task where instruction can only be provided via six unlabeled symbols (thus the meaning of teaching signals are unknown to the learner). This study shows that tutors seem to spontaneously use three main types of instruction in order to help the learner: positive feedback, negative feedback, and concrete instructions (e.g. name of next optimal action). Yet, to our knowledge, nobody has investigated this problem with artificial agent in the context of human-robot interaction.
 
 Yet, this capability is crucial in infant social development and learning, as well as in adult mutual adaptation of social cues. This has been the subject of experiments in experimental semiotics \cite{galantucci2009experimental}, such as in the work of Griffiths et al. \cite{griffiths2012bottom} who conducted an experiment with human learners learning the meaning of unknown symbolic teaching signals. The experimental setup we present here in the context of human-robot interaction is a variant of theirs, where teaching signals are sub-symbolic and not from a pre-determined set.
+
+
 
 While this is not the main target of this article, this work is also relevant with regards to the computational modeling of language acquisition. The general question of how certain sub-symbolic communication signals can be associated to their meanings through interaction has been largely studied in the literature so far. But the specific question of how teaching signals (speech words here) can be mapped to teaching meanings and how they can be used for learning new tasks has, to our knowledge, not been modeled computationally so far. 
 
@@ -188,7 +190,9 @@ difference with language games and our work: the realtion is direct, it applies 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Multi-agent interaction without pre-coordination: Ad-hoc teams}
+\section{Multi-agent interaction without pre-coordination}
+
+Ad-hoc teams
 
 This workshop focuses on models and algorithms for multiagent interaction without prior coordination (MIPC). Interaction between agents is the defining attribute of multiagent systems, encompassing problems of planning in a decentralized setting, learning other agent models, composing teams with high task performance, and selected resource-bounded communication and coordination. There is significant variety in methodologies used to solve such problems, including symbolic reasoning about negotiation and argumentation, distributed optimization methods, machine learning methods such as multiagent reinforcement learning, etc. The majority of these well studied methods depends on some form of prior coordination. Often, the coordination is at the level of problem definition. For example, learning algorithms may assume that all agents share a common learning method or prior beliefs, distributed optimization methods may assume specific structural constraints regarding the partition of state space or cost/rewards, and symbolic methods often make strong assumptions regarding norms and protocols. In realistic problems, these assumptions are easily violated calling for new models and algorithms that specifically address the case of ad hoc interactions. Similar issues are also becoming increasingly more pertinent in human-machine interactions, where there is a need for intelligent adaptive behaviour and assumptions regarding prior knowledge and communication are problematic.
 
