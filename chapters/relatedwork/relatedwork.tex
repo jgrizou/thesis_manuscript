@@ -230,13 +230,13 @@ Some aspects of MIPC are closely related to our problem of learning from unlabel
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Unsupervised learning}
 
-Unsupervised learning is the problem of finding hidden structure in unlabeled data. It mostly applies in clustering task where a dataset is divided into subgroups of data sharing similar characteristics, such as a close proximity in the feature space. In the following, we present two unsupervised learning problem that share some similarities with our problem of learning from unlabeled interaction frames.
+Unsupervised learning is the problem of finding hidden structure in unlabeled data. It mostly applies in clustering task where a dataset is divided into subgroups of data sharing similar characteristics, such as a close proximity in the feature space. In the following, we present two unsupervised learning problems that share some similarities with our problem of learning from unlabeled interaction frames.
 
 % Even if there is no explicit error or reward to evaluate a potential solution, there is still predefined metrics which define what the terms \emph{structure} means. Finding an hidden structure is more looking from known patterns in unlabeled data.
 
 \paragraph{Unsupervised multimodal learning} In unsupervised multimodal learning, the system has access to synchronized raw information from multiple modalities. A particular instance of multimodal learning is the learning of language where the learner has to relate perception of an object to the sound of its name, or of a sound to a gesture such as in \cite{mangin2013learning}. The learner receives continuously a visual and an audio stream and should learn to associate parts of the visual information with their associated audio stimulus. But the visual and audio informations are already synchronized such that the relevant information from the visual stream is perceived simultaneously with its associated audio stimuli.
 
-In a robotic application, Yasser Mohammad et al. used multimodal learning to segment and associated gesture commands from a user to actions of a robot \cite{mohammad2009unsupervised}. The gestures and actions were observed from a continuous stream extracted from a Wizard of Oz experiment (where the robot is secretly controlled by a human). They relied on a motif discovery algorithm to identify recurrent and co-occurrent patterns in the gesture and action flow \cite{mohammad2009constrained}. In \cite{mohammad2010learning} the same authors extended their approach to allow the system to actually derive controllers for the robot and not just finding recurrent patterns, as well as a methods to accumulate the acquired knowledge for long term operation.
+In a robotic application, Yasser Mohammad et al. used multimodal learning to segment and associated gesture commands from a user to actions of a robot \cite{mohammad2009unsupervised}. The gestures and actions were observed from a continuous stream extracted from a Wizard of Oz experiment (where the robot is secretly controlled by a human). They relied on a motif discovery algorithm to identify recurrent and co-occurrent patterns in the gesture and action flow \cite{mohammad2009constrained}. In \cite{mohammad2010learning} the same authors extended their approach to allow their system to actually derive controllers for the robot and not just finding recurrent patterns, as well as a methods to accumulate the acquired knowledge for long term operation.
 
 However, while being unsupervised, the stream of data where synchronized and collected using a Wizard of Oz setup, meaning that the association between the gestures and the robot's actions was provided. And importantly, the relation between the gesture commands from the user and the actions of the robot is direct. Contrary to our problem of learning form unlabeled interaction frame, there is no intermediate steps of analysis required to infer the meaning of the human gestures.
 
@@ -254,20 +254,41 @@ Unsupervised learning also deals with unlabeled data. But contrary to our proble
 
 \section{Brain computer interfaces}
 
-Interestingly, non-invasive brain-computer interfaces (BCIs) have also looked at this problem. EEG-based BCIs have been used successfully to control different devices, such as robotic arms and simulated agents, using self-generated (e.g. motor imagery) and event-related potentials signals (see \cite{chavarriaga2014errare} and \cite{millan10} for a review). 
-%
-Error-related potential is one event-related potential that appears when the user's expectation diverges from the actual outcome. They have been recently used as reward to teach devices a policy that solves a user's intended task \cite{chavarriaga2010learning,iturrate2010robot}.
+EEG-based brain-computer interfaces (BCIs) have been used successfully to control different devices, such as robotic arms and simulated agents, using self-generated (e.g. motor imagery) and event-related potentials signals (see \cite{millan10} for a review). Error-related potentials (ErrPs) are one kind of event-related potential appearing when the user's expectation diverges from the actual outcome \cite{Falkenstein00,chavarriaga2014errare}. Recently, they have been used as feedback instructions for devices to solve a user's intended task \cite{chavarriaga2010learning,iturrate13}.
 
-As in most BCI applications, it is necessary to perform a calibration phase to learn a decoder (e.g. a classifier) that detects this error-related potential in a single trial. This calibration is required mainly due to various characteristics of the EEG signals: the non-stationary nature \cite{vidaurre11}; the large intra- and inter-subject variability \cite{Polich1997}, and the variations induced by the task \cite{iturrate2013task}. This phase hinders the deployments of BCI applications out of the lab and calibration free methods have been identified as an important step to apply this technology in real applications \cite{millan10}. 
+As in most BCI applications, ErrP-based BCI requires a calibration phase to learn a decoder (e.g. a classifier) that translates raw EEG signals from the brain of each user into meaningful instructions. This calibration is required due to specific characteristics of the EEG signals: non-stationary nature \cite{vidaurre11}, large intra- and inter-subject variability \cite{Polich1997}, and variations induced by the task \cite{IturrateErrP13}. The presence of an explicit calibration phase, whose length and frequency is hard to tune and is often tedious and impractical for users, hinders the deployments of BCI applications out of the lab. 
 
-There are few BCI applications that are able to calibrate themselves during operation.  For long term operation using motor rhythms, it is possible to adapt the decoder online \cite{vidaurre2010towards}. For P300 spellers, Kindermans et al. proposed a method to autocalibrate the P300 detector by exploiting multiple stimulations and prior information \cite{Kindermans2012a,Kindermans2012b}. However, Kindermans et al, due to the specific interface used (P300Speller) can guarantee that 1 signal out of 6 has a specific meaning. In our work, and in a majority of sequential problems, it is impossible to define a sequence of actions that guarantee a specific ratio of meanings in the received signals.
+Thus, calibration free methods are an important step to apply this technology in real applications \cite{millan10}. But despite the importance of calibration-free BCI, there are few BCI applications that are able to calibrate themselves during operation.
 
-\cite{schettini2014self} they call themselves self-calibration but it isn't in the sense we are using it. It is actually continuous adaptation of the classifier model. They have a first session using a calibration procedure, and on latter run, the system re-calibrate itself continuously.
+Some work considers online adaption of a classifiers. In invasive BCI, Orsborn et al. proposed a method to learn from scratch and in closed loop a decoder for known targets using pre-defined policies to each target \cite{Orsborn2012}
+. However, the approach requires to provide a seed to the decoder, i.e. to start with a prior, and a warm-up period of around 15 minutes. In \cite{vidaurre2010towards} the authors show that it is possible to adapt the decoder online for long term operation using sensory-motor rhythms. Similarly in \cite{schettini2014self}, even if the authors untitled their work as a self-calibration method, it is actually continuous adaptation of the classifier. They perform a first short calibration procedure which is used as a prior for later runs where the system re-calibrate itself continuously.
+
+\todo{add one or two online adaptive classifiers BCI}
+
+While the above methods allow a more flexible and online adaptation to each user specificity, they are not strictly calibration-free methods. Indeed, they require a relative good prior on the decoder of brain signals beforehand.
+
+To our knowledge, only one group of researchers achieved true calibration-free interaction using BCIs technologies \cite{kindermans2014true}. We detail their work in the following subsection.
 
 \subsection{Work of Pieter-Jan Kindermans}
 
+For P300 spellers, Kindermans et al. proposed a method to auto-calibrate the decoder by exploiting multiple stimulations and prior information \cite{Kindermans2012a,Kindermans2012b,tangermann2013zero}. They exploit the particular fact that only one event out of six encodes a P300 potential in the speller paradigm.
+
+
+For P300 spellers, Kindermans et al. proposed a method to autocalibrate the P300 detector by exploiting multiple stimulations and prior information \cite{Kindermans2012a,Kindermans2012b}. However, Kindermans et al, due to the specific interface used (P300Speller) can guarantee that 1 signal out of 6 has a specific meaning. In our work, and in a majority of sequential problems, it is impossible to define a sequence of actions that guarantee a specific ratio of meanings in the received signals.
+
 \cite{kindermans2014integrating} they merge most of the method they have been developing. Dynamic stopping, where the system stop when it reaches a confidence threshold. Language model as a prior probability on next letter. Transfer learning where a model of previous subjects is used to ``regularizes the subject-specific solution towards the general model.''. Unsupervised learning (that is the EM approach we refer to when citing their work)
 
+Our work differs by
+
+\transition
+
+In chapter~\ref{chapter:bci}, we will test our algorithm in a BCI application. 
+
+target reaching task
+
+We will use a different type of error related potential signals which will encode a ``correct'' or ``incorrect'' feedback for the agent. Such signals are of similar type that the P300 signals use by Kindermans et al., i.e. they encode a binary event. However they are slower to elicit and are known to be harder to detect \todo{cite smthg}.
+
+we believe our approach is more general
 
 \section{Discussion}
 
@@ -275,7 +296,7 @@ Still most the work, while releasing some important aspect of the interaction ha
 
  
 \cite{cederborg2011imitating}
-it is not about a sequetial task. the robot can reporduce a trajectory, do not need planning skills
+it is not about a sequetial task. the robot can reproduce a trajectory, do not need planning skills
 
 and
 
@@ -301,3 +322,8 @@ However we note that in the core work of this thesis, we will consider optimal t
 we will consider teacer are optimal but a bit noisy. this might not be an accruate assumtion givent he work present in sectino about human teaching behavior. However our method is not restricted to the use of optimal teacher, the only requirement is to have access to a human model or several human model as we will se in chapter , among which one is good enough to represent the actual hunan teaching bheavior.
 
 \todo{resue all this in the conlsusion}
+
+
+generic to any sequential task problem, with any type of interaction frames
+
+
