@@ -1,5 +1,5 @@
 %!TEX root = ../../thesis.tex
-\define{\chapterpath}{relatedwork}
+\define{\chapterpath}{\allchapterspath/relatedwork}
 \define{\imgpath}{\chapterpath/img}
 
 \chapter{Related Work}
@@ -254,9 +254,9 @@ Unsupervised learning also deals with unlabeled data. But contrary to our proble
 
 \section{Brain computer interfaces}
 
-EEG-based brain-computer interfaces (BCIs) have been used successfully to control different devices, such as robotic arms and simulated agents, using self-generated (e.g. motor imagery) and event-related potentials signals (see \cite{millan10} for a review). Error-related potentials (ErrPs) are one kind of event-related potential appearing when the user's expectation diverges from the actual outcome \cite{Falkenstein00,chavarriaga2014errare}. Recently, they have been used as feedback instructions for devices to solve a user's intended task \cite{chavarriaga2010learning,iturrate13}.
+EEG-based brain-computer interfaces (BCIs) have been used successfully to control different devices, such as robotic arms and simulated agents, using self-generated (e.g. motor imagery) and event-related potentials signals (see \cite{millan10} for a review). Error-related potentials (ERPs) are one kind of event-related potential appearing when the user's expectation diverges from the actual outcome \cite{Falkenstein00,chavarriaga2014errare}. Recently, they have been used as feedback instructions for devices to solve a user's intended task \cite{chavarriaga2010learning,iturrate13}.
 
-As in most BCI applications, ErrP-based BCI requires a calibration phase to learn a decoder (e.g. a classifier) that translates raw EEG signals from the brain of each user into meaningful instructions. This calibration is required due to specific characteristics of the EEG signals: non-stationary nature \cite{vidaurre11}, large intra- and inter-subject variability \cite{Polich1997}, and variations induced by the task \cite{IturrateErrP13}. The presence of an explicit calibration phase, whose length and frequency is hard to tune and is often tedious and impractical for users, hinders the deployments of BCI applications out of the lab. 
+As in most BCI applications, ERP-based BCI requires a calibration phase to learn a decoder (e.g. a classifier) that translates raw EEG signals from the brain of each user into meaningful instructions. This calibration is required due to specific characteristics of the EEG signals: non-stationary nature \cite{vidaurre11}, large intra- and inter-subject variability \cite{Polich1997}, and variations induced by the task \cite{IturrateErrP13}. The presence of an explicit calibration phase, whose length and frequency is hard to tune and is often tedious and impractical for users, hinders the deployments of BCI applications out of the lab. 
 
 Thus, calibration free methods are an important step to apply this technology in real applications \cite{millan10}. We note that the problem of \emph{learning from unlabeled interaction frames}, which is central to this thesis, is the same problem as removing the calibration procedure for interactive systems, whose BCI is a good example. Despite the importance of calibration-free BCI, there are few BCI applications that are able to calibrate themselves during operation.
 
@@ -270,26 +270,34 @@ In invasive BCI, Orsborn et al. proposed a method to learn from scratch and in c
 
 \subsection{Work of Pieter-Jan Kindermans}
 
-Kindermans et al. considers the problem of P300 spellers. 
+Kindermans et al. considers the problem of P300 spellers. A P300 signal is an event related potential elicited in the process of decision making \cite{polich2003theoretical}. It is evoked by the reaction to a visual or auditory stimulus, and it is linked with the process of evaluation or categorization of stimulus by our brain. 
+
+A P300 speller exploits the properties of P300 ERP to build a communication tool allowing users to input texts or commands to a computer by thought. The speller interface consists of letters arranged in rows and columns (see Figure~\ref{fig:speller}). The user is asked to focus his sight on the letter he wants to write. Then the rows and columns of the matrix are successively and randomly highlighted. By detecting the P300 signals in the users brain activity, it is possible to decode which row and column are associated to the letter the user wants to write.As each rows an columns are flashed the same number of times, the P300 stimulus as a frequency of 1/N (where N is the number of rows or columns of the matrix).
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.3\columnwidth]{\imgpath/speller.png}
-  \caption{An speller interface.}
+  \caption{A speller interface with the third row highlighted.}
   \label{fig:speller}
 \end{figure}
 
-P300 speller is a communication tool with which one can input texts or commands to a computer by thought. The amplitude of the P300 evoked potential is inversely proportional to the probability of infrequent or task-related stimulus. In existing P300 spellers, rows and columns of a matrix are intensified successively and randomly, resulting in a stimulus frequency of 1/N (N is the number of rows or columns of the matrix)
+Kindermans et al. proposed a method to auto-calibrate the decoder of P300 signals by exploiting multiple source of information \cite{kindermans2014integrating}. As for most of the work presented above, they consider transfer learning where a model of previous subjects is used to ``regularizes the subject-specific solution towards the general model''. As it is a spelling task, they also make us of language models as a prior probability on the possible next letter. They also include a dynamic stopping criteria which is a measure of confidence on the next letter allowing the system stop when it reaches a confidence threshold. Finally, and of more interest for us, they make use of unsupervised learning using an EM algorithm to update the classifier as new data comes in. They exploit the particular fact among the multiple stimulations only one event out of six encodes a P300 potential in the speller paradigm.
 
-The P300 (P3) wave is an event related potential (ERP) component elicited in the process of decision making. \cite{polich2003theoretical} It is considered to be an endogenous potential, as its occurrence links not to the physical attributes of a stimulus, but to a person's reaction to it. More specifically, the P300 is thought to reflect processes involved in stimulus evaluation or categorization. It is usually elicited using the oddball paradigm, in which low-probability target items are mixed with high-probability non-target (or "standard") items.
+\cite{Kindermans2012a,Kindermans2012b,tangermann2013zero}.
+
+This latter method is the one we are interested as they have shown this sole source of information allow to start interacting with a speller without the need for calibration procedure. Due to the specificity of the P300 speller, they can guarantee that only 1 signal out of 6 encodes a positive P300 signals.
+
+What we want to argue here is that this type of information is of a very specific nature. Contrary to the other approach considered, it does not provide direct indication about the task (as a language model do), neither about how to decode the signals themselves (as transfer learning do). It rather provides an information that can only be observed for the correct task and by knowing how to differentiate the signals. 
+
+This type of information, that acts neither on the task, neither on the signal decoder, but rather on the combination of both is at the core of this thesis. As we have seen in section~\todo{thomas C. section}, Thomas Cederborg also make us of a similar source of information but reasoning about the consistency of some gestures with respect to different geographical references, e.g. object position. We will summarize those works in the conclusion of this chapter 
 
 
 
-For P300 spellers, Kindermans et al. proposed a method to auto-calibrate the decoder by exploiting multiple stimulations and prior information \cite{Kindermans2012a,Kindermans2012b,tangermann2013zero}. They exploit the particular fact that only one event out of six encodes a P300 potential in the speller paradigm.
 
-For P300 spellers, Kindermans et al. proposed a method to autocalibrate the P300 detector by exploiting multiple stimulations and prior information \cite{Kindermans2012a,Kindermans2012b}. However, Kindermans et al, due to the specific interface used (P300Speller) can guarantee that 1 signal out of 6 has a specific meaning. In our work, and in a majority of sequential problems, it is impossible to define a sequence of actions that guarantee a specific ratio of meanings in the received signals.
+We will propose a measure sharing similar properties than their approach in chapter
 
-\cite{kindermans2014integrating} they merge most of the method they have been developing. Dynamic stopping, where the system stop when it reaches a confidence threshold. Language model as a prior probability on next letter. Transfer learning where a model of previous subjects is used to ``regularizes the subject-specific solution towards the general model.''. Unsupervised learning (that is the EM approach we refer to when citing their work)
+However we will argue that our method is more generic and can be applied in majority of sequential problems. Indeed for most sequential task, it is impossible to define a sequence of actions that guarantee a specific ratio of meanings in the received signals. 
+
 
 Our work differs by
 
