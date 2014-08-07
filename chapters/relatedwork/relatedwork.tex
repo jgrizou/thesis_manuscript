@@ -258,21 +258,34 @@ EEG-based brain-computer interfaces (BCIs) have been used successfully to contro
 
 As in most BCI applications, ErrP-based BCI requires a calibration phase to learn a decoder (e.g. a classifier) that translates raw EEG signals from the brain of each user into meaningful instructions. This calibration is required due to specific characteristics of the EEG signals: non-stationary nature \cite{vidaurre11}, large intra- and inter-subject variability \cite{Polich1997}, and variations induced by the task \cite{IturrateErrP13}. The presence of an explicit calibration phase, whose length and frequency is hard to tune and is often tedious and impractical for users, hinders the deployments of BCI applications out of the lab. 
 
-Thus, calibration free methods are an important step to apply this technology in real applications \cite{millan10}. But despite the importance of calibration-free BCI, there are few BCI applications that are able to calibrate themselves during operation.
+Thus, calibration free methods are an important step to apply this technology in real applications \cite{millan10}. We note that the problem of \emph{learning from unlabeled interaction frames}, which is central to this thesis, is the same problem as removing the calibration procedure for interactive systems, whose BCI is a good example. Despite the importance of calibration-free BCI, there are few BCI applications that are able to calibrate themselves during operation.
 
-Some work considers online adaption of a classifiers. In invasive BCI, Orsborn et al. proposed a method to learn from scratch and in closed loop a decoder for known targets using pre-defined policies to each target \cite{Orsborn2012}
-. However, the approach requires to provide a seed to the decoder, i.e. to start with a prior, and a warm-up period of around 15 minutes. In \cite{vidaurre2010towards} the authors show that it is possible to adapt the decoder online for long term operation using sensory-motor rhythms. Similarly in \cite{schettini2014self}, even if the authors untitled their work as a self-calibration method, it is actually continuous adaptation of the classifier. They perform a first short calibration procedure which is used as a prior for later runs where the system re-calibrate itself continuously.
+Several works considers online adaption of a classifiers. In \cite{vidaurre2010towards} the authors show that it is possible to adapt the decoder online for long term operation using sensory-motor rhythms. Similarly for BCI based on
+event-related potentials or steady-state evoked potential (SSEP) many works have studied how to continuously adapt the brain decoder \cite{fazli2009subject,lu2009unsupervised,fazli2011l1,congedo2013new,schettini2014self}.
 
-\todo{add one or two online adaptive classifiers BCI}
+However, while the above methods allow a more flexible and online adaptation to each user specificity, they are not strictly calibration-free methods. They require a relatively smart prior on the decoder of brain signals beforehand. Such prior classifier is usually extracted from intersubject information \cite{fazli2009subject,lu2009unsupervised,vidaurre2010towards}. We found two other works that allow to start the adaptation process from a randomly seeded classifier. While still requiring a prior on the classifier, these methods have been shown to be robust to a large range of initialization.
 
-While the above methods allow a more flexible and online adaptation to each user specificity, they are not strictly calibration-free methods. Indeed, they require a relative good prior on the decoder of brain signals beforehand.
-
-To our knowledge, only one group of researchers achieved true calibration-free interaction using BCIs technologies \cite{kindermans2014true}. We detail their work in the following subsection.
+In invasive BCI, Orsborn et al. proposed a method to learn from scratch and in closed loop a decoder for known targets using pre-defined policies to each target \cite{Orsborn2012}
+. However, their method requires a warm-up period of around 15 minutes. Using non-invasive technologies (EEG based), to our knowledge only one group of researchers achieved calibration-free interaction \cite{kindermans2014true}. We detail their work in the following subsection.
 
 \subsection{Work of Pieter-Jan Kindermans}
 
-For P300 spellers, Kindermans et al. proposed a method to auto-calibrate the decoder by exploiting multiple stimulations and prior information \cite{Kindermans2012a,Kindermans2012b,tangermann2013zero}. They exploit the particular fact that only one event out of six encodes a P300 potential in the speller paradigm.
+Kindermans et al. considers the problem of P300 spellers. 
 
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.3\columnwidth]{\imgpath/speller.png}
+  \caption{An speller interface.}
+  \label{fig:speller}
+\end{figure}
+
+P300 speller is a communication tool with which one can input texts or commands to a computer by thought. The amplitude of the P300 evoked potential is inversely proportional to the probability of infrequent or task-related stimulus. In existing P300 spellers, rows and columns of a matrix are intensified successively and randomly, resulting in a stimulus frequency of 1/N (N is the number of rows or columns of the matrix)
+
+The P300 (P3) wave is an event related potential (ERP) component elicited in the process of decision making. \cite{polich2003theoretical} It is considered to be an endogenous potential, as its occurrence links not to the physical attributes of a stimulus, but to a person's reaction to it. More specifically, the P300 is thought to reflect processes involved in stimulus evaluation or categorization. It is usually elicited using the oddball paradigm, in which low-probability target items are mixed with high-probability non-target (or "standard") items.
+
+
+
+For P300 spellers, Kindermans et al. proposed a method to auto-calibrate the decoder by exploiting multiple stimulations and prior information \cite{Kindermans2012a,Kindermans2012b,tangermann2013zero}. They exploit the particular fact that only one event out of six encodes a P300 potential in the speller paradigm.
 
 For P300 spellers, Kindermans et al. proposed a method to autocalibrate the P300 detector by exploiting multiple stimulations and prior information \cite{Kindermans2012a,Kindermans2012b}. However, Kindermans et al, due to the specific interface used (P300Speller) can guarantee that 1 signal out of 6 has a specific meaning. In our work, and in a majority of sequential problems, it is impossible to define a sequence of actions that guarantee a specific ratio of meanings in the received signals.
 
@@ -280,7 +293,12 @@ For P300 spellers, Kindermans et al. proposed a method to autocalibrate the P300
 
 Our work differs by
 
+In fact kindermans also intialize with a randomly a classifier
+that is initialized randomly and updated during usage. Initially, the unsupervised classifier tends to make decoding mistakes, as the classifier might not have seen enough data to build a reliable model.
+
 \transition
+
+We believe our method differs to all the above mentioned approach as we do not start from a random classifier that by definition will produce wrong classification. Our method is also able to producue a confidenc measur eon it estimation 
 
 In chapter~\ref{chapter:bci}, we will test our algorithm in a BCI application. 
 
@@ -291,6 +309,8 @@ We will use a different type of error related potential signals which will encod
 we believe our approach is more general
 
 \section{Discussion}
+
+Surprisingly, it is in the BCI domain that the idea of adaptive interface seems to be highly developed. This may be explained by the specific nature of brain signals which are not used to deal with our daily life and therefore could not have any intuition on how to train universal decoder such as has been done for speech recogniztion. And no a priori on the shape of the signals
 
 Still most the work, while releasing some important aspect of the interaction have access to a direct relation between signals and meaning at some point. To our knowledge, only two works are tackling the same problem as the one presented in this thesis.
 
