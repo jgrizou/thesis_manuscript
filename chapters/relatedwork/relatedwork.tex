@@ -183,13 +183,14 @@ Yet, to our knowledge, in all these existing works the interaction protocols hav
 
 difference with language games and our work: the realtion is direct, it applies to where we are now, the time is it now
 
-The work we present in this thesis shows mechanisms allowing a learner to acquire meaning associated to teaching and guidance signals in the context of social interaction. Furthermore, while in most models of lexicon  acquisition no tasks are learned (only word-meaning associations are learned), we show mechanisms allowing the learner to leverage learned word meanings to learn novel tasks from a human.
+The work we present in this thesis shows mechanisms allowing a learner to acquire meaning associated to teaching and guidance signals in the context of social interaction. Furthermore, while in most models of lexicon acquisition no tasks are learned (only word-meaning associations are learned), we show mechanisms allowing the learner to leverage learned word meanings to learn novel tasks from a human.
 
 \subsection{Work of Thomas Cederborg}
+\label{chapter:related:language:thomas}
 
 Only very few models so far have explored how other categories of word meanings could be learned. \cite{cederborg2011imitating} presented a model where word meaning expressed the cognitive operation of attentional focus, 
-% and some models of grammar acquisition dealt with the acquisition of grammatical markers which meaning operates on the disambiguation of other words in a sentence \cite{steels2012fluid}. 
 
+and some models of grammar acquisition dealt with the acquisition of grammatical markers which meaning operates on the disambiguation of other words in a sentence \cite{steels2012fluid}. 
 
 stated in the language acquisition but really the closest work form ours. \cite{cederborg2011imitating} probablyt he closest work to this work, there is several trajectory, and several referential. by making hypothesis that each trajectory refer to each of the referential, we can find out which on belong to which referential and find which trajectories belong together. can reproduce a gesture wrt. an other combination of movement object. 
 difference: the association related to the referential, the frame is direct reasoning in the agent head, the robot do not know how to act in the first place, learnthe gesture and generalize reproduction in other coordinate systems.
@@ -200,6 +201,20 @@ difference: the association related to the referential, the frame is direct reas
 Although learning from completely generic feedback types is very hard, we follow the approach from \cite{griffiths2012bottom}, which explores a human to human interaction in a categorization task where instruction can only be provided via six unlabeled symbols (thus the meaning of teaching signals are unknown to the learner). This study shows that tutors seem to spontaneously use three main types of instruction in order to help the learner: positive feedback, negative feedback, and concrete instructions (e.g. name of next optimal action). Yet, to our knowledge, nobody has investigated this problem with artificial agent in the context of human-robot interaction.
 
 Yet, this capability is crucial in infant social development and learning, as well as in adult mutual adaptation of social cues. This has been the subject of experiments in experimental semiotics \cite{galantucci2009experimental}, such as in the work of Griffiths et al. \cite{griffiths2012bottom} who conducted an experiment with human learners learning the meaning of unknown symbolic teaching signals. The experimental setup we present here in the context of human-robot interaction is a variant of theirs, where teaching signals are sub-symbolic and not from a pre-determined set.
+
+In this section, we will briefly discuss the most relevant related work, which lie in the field of experimental semiotics, and highlight the novelty of our proposed experimental method.
+The field of experimental semiotics studies the emergence and evolution of communication systems \cite{galantucci2009experimental}. Here, instead of computer simulations as conducted by others (see \cite{cangelosi2002simulating,steels2012experiments}), controlled experiments in laboratory settings are designed to observe communication between participants who perform joint tasks. For instance, Galantucci et al. showed that pairs of participants performing a joint task could coordinate their behavior by agreeing on a symbol system \cite{galantucci2005experimental}.
+
+Most experimental semiotics studies developed to study joint action involve symmetric communication (cf. \cite{Galantucci2011experimental}).
+Two studies which do consider asymmetric communication are the studies conducted by de Ruiter et al. \cite{de2010exploring} and Griffiths et al. \cite{griffiths2012bottom}. 
+
+In their score- and round-based Tacit Communication Game, de Ruiter et al. investigated the cognitive processes responsible for the development and the recognition of new conventions by looking at reaction time. In a 3-by-3 grid world, two participants each manipulate a shape. For both of the shapes, the ``sender'' sees a target configuration. He/she first has to communicate the other player's target configuration to the other player, the ``receiver'', and second has to bring the own shape to his/her own respective target.
+De Ruiter et al. found that participants succeeded $83\%$ of the time and that the timing of movements is used to indicate a position. When comparing success rates for when the sender saw versus did not see the receiver's moves, the authors found that the game involves bidirectional communication and receiving information about the other player facilitates communication. The harder the communicative problem was, the more planning time was needed by both participants.
+
+The setup of the study conducted by Griffiths et al. \cite{griffiths2012bottom} is more directly related to our setup. 
+It is based on the alien world game setup by Morlino et al., in which in a square world shown on a computer screen, positions (left or right) and movements (shake horizontally or shake vertically) of 16 objects have to be explored via a mouse to maximize a score \cite{morlino2010developing}. It investigates the learning of categories, so the objects belonged to four categories which were defined by certain properties of the objects. Each category was associated with a target manipulation, i.e. shape and weight determined where an object should be positioned and how it should be moved. In the work by Griffiths et al. the learner could realize this task with the help of information given by a tutor who had prior knowledge about the categories the learner should explore. For this alteration, two players played the originally single player game simultaneously in separate rooms over a network connection. The computer screens in this setup additionally showed six buttons underneath the grid world. The tutor's communication to the learner consisted of the pressing and releasing of these six buttons using a keyboard. This was the only action the tutor could perform on the world.
+The authors found that tutors most commonly used yes, no and concrete instructions, such as place and shake, as signals to the learners. Negative feedback was given least often and its amount correlated with task failure. Learners who ignored less signals performed the task better.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -258,21 +273,22 @@ EEG-based brain-computer interfaces (BCIs) have been used successfully to contro
 
 As in most BCI applications, ERP-based BCI requires a calibration phase to learn a decoder (e.g. a classifier) that translates raw EEG signals from the brain of each user into meaningful instructions. This calibration is required due to specific characteristics of the EEG signals: non-stationary nature \cite{vidaurre11}, large intra- and inter-subject variability \cite{Polich1997}, and variations induced by the task \cite{IturrateErrP13}. The presence of an explicit calibration phase, whose length and frequency is hard to tune and is often tedious and impractical for users, hinders the deployments of BCI applications out of the lab. 
 
-Thus, calibration free methods are an important step to apply this technology in real applications \cite{millan10}. We note that the problem of \emph{learning from unlabeled interaction frames}, which is central to this thesis, is the same problem as removing the calibration procedure for interactive systems, whose BCI is a good example. Despite the importance of calibration-free BCI, there are few BCI applications that are able to calibrate themselves during operation.
+Thus, calibration free methods are an important step to apply this technology in real applications \cite{millan10}. We note that the problem of \emph{learning from unlabeled interaction frames}, which is central to this thesis, is the same problem as removing the calibration procedure for interactive systems, whose BCI is a good example. Despite the importance of calibration-free BCI, there are only few BCI applications that are able to calibrate themselves during operation.
 
 Several works considers online adaption of a classifiers. In \cite{vidaurre2010towards} the authors show that it is possible to adapt the decoder online for long term operation using sensory-motor rhythms. Similarly for BCI based on
 event-related potentials or steady-state evoked potential (SSEP) many works have studied how to continuously adapt the brain decoder \cite{fazli2009subject,lu2009unsupervised,fazli2011l1,congedo2013new,schettini2014self}.
 
-However, while the above methods allow a more flexible and online adaptation to each user specificity, they are not strictly calibration-free methods. They require a relatively smart prior on the decoder of brain signals beforehand. Such prior classifier is usually extracted from intersubject information \cite{fazli2009subject,lu2009unsupervised,vidaurre2010towards}. We found two other works that allow to start the adaptation process from a randomly seeded classifier. While still requiring a prior on the classifier, these methods have been shown to be robust to a large range of initialization.
+However, while the above methods allow a more flexible and online adaptation to each user specificity, they are not strictly calibration-free methods. They require a relatively smart prior on the decoder of brain signals beforehand. Such prior classifier is usually extracted from intersubject information \cite{fazli2009subject,lu2009unsupervised,vidaurre2010towards}. We identified two other works that allow to start the adaptation process from a randomly seeded classifier. While still requiring a prior on the classifier these methods have been shown to be robust to a large range of initialization.
 
 In invasive BCI, Orsborn et al. proposed a method to learn from scratch and in closed loop a decoder for known targets using pre-defined policies to each target \cite{Orsborn2012}
-. However, their method requires a warm-up period of around 15 minutes. Using non-invasive technologies (EEG based), to our knowledge only one group of researchers achieved calibration-free interaction \cite{kindermans2014true}. We detail their work in the following subsection.
+. However, their method requires a warm-up period of around 15 minutes. Using non-invasive technologies (EEG based), to our knowledge only one group of researchers achieved calibration-free interaction \cite{Kindermans2012a,kindermans2014true}. We detail their work in the following subsection.
 
 \subsection{Work of Pieter-Jan Kindermans}
+\label{chapter:related:bci:kindermans}
 
 Kindermans et al. considers the problem of P300 spellers. A P300 signal is an event related potential elicited in the process of decision making \cite{polich2003theoretical}. It is evoked by the reaction to a visual or auditory stimulus, and it is linked with the process of evaluation or categorization of stimulus by our brain. 
 
-A P300 speller exploits the properties of P300 ERP to build a communication tool allowing users to input texts or commands to a computer by thought. The speller interface consists of letters arranged in rows and columns (see Figure~\ref{fig:speller}). The user is asked to focus his sight on the letter he wants to write. Then the rows and columns of the matrix are successively and randomly highlighted. By detecting the P300 signals in the users brain activity, it is possible to decode which row and column are associated to the letter the user wants to write.As each rows an columns are flashed the same number of times, the P300 stimulus as a frequency of 1/N (where N is the number of rows or columns of the matrix).
+A P300 speller exploits the properties of P300 ERPs to build a communication tool allowing users to input texts or commands to a computer by thought. The speller interface consists of letters arranged in rows and columns (see Figure~\ref{fig:speller}). The user is asked to focus his sight on the letter he wants to write. Then the rows and columns of the matrix are successively and randomly highlighted. By detecting the P300 signals in the users brain activity, it is possible to decode which row and column are associated to the letter the user wants to write.As each rows an columns are flashed the same number of times, the P300 stimulus as a frequency of 1/N (where N is the number of rows or columns of the matrix).
 
 \begin{figure}[!htbp]
   \centering
@@ -281,32 +297,25 @@ A P300 speller exploits the properties of P300 ERP to build a communication tool
   \label{fig:speller}
 \end{figure}
 
-Kindermans et al. proposed a method to auto-calibrate the decoder of P300 signals by exploiting multiple source of information \cite{kindermans2014integrating}. As for most of the work presented above, they consider transfer learning where a model of previous subjects is used to ``regularizes the subject-specific solution towards the general model''. As it is a spelling task, they also make us of language models as a prior probability on the possible next letter. They also include a dynamic stopping criteria which is a measure of confidence on the next letter allowing the system stop when it reaches a confidence threshold. Finally, and of more interest for us, they make use of unsupervised learning using an EM algorithm to update the classifier as new data comes in. They exploit the particular fact among the multiple stimulations only one event out of six encodes a P300 potential in the speller paradigm.
+Kindermans et al. proposed a method to auto-calibrate the decoder of P300 signals by exploiting multiple source of information \cite{kindermans2012b,kindermans2014integrating}. As for most of the work presented above, they consider transfer learning where a model of previous subjects is used to ``regularizes the subject-specific solution towards the general model''. As it is a spelling task, they also make use of language models as a prior probability on the possible next letter. They also include a dynamic stopping criteria which is a measure of confidence on the next letter allowing the system to stop when it reaches a confidence threshold. Finally, and of more interest for us, they make use of unsupervised learning using an EM algorithm to update the classifier as new data comes in. They exploit the particular fact that among the multiple stimulations only one event out of six encodes a P300 potential in the speller paradigm.
 
-\cite{Kindermans2012a,Kindermans2012b,tangermann2013zero}.
+While still requiring to bootstrap the system with several random classifiers as well as a warm-up period, Kindermans et al. have shown their unsupervised learning method coupled with specific properties of the task allows to start interacting with a speller without the need for calibration procedure \cite{Kindermans2012a,kindermans2014true}. This achievement correspond to solving the problem of \emph{learning from unlabeled interaction frame} and is therefore of high interest for our work. We now explain what specific information was used to solve this problem and identify it as being of a very specific nature which differs from all other approaches.
 
-This latter method is the one we are interested as they have shown this sole source of information allow to start interacting with a speller without the need for calibration procedure. Due to the specificity of the P300 speller, they can guarantee that only 1 signal out of 6 encodes a positive P300 signals.
+As detailed earlier, the P300 speller problem offers some guarantee on the repartition of ``correct'' and ``incorrect'' P300 events. Only one row and one column should elicit a P300 response. In the case of a 6 rows speller, if each row are systematically scanned the same number of time, only one signal out of 6 will encode a positive P300 signals. And even more informative is the fact that, even if the wrong letter is identified in the end, at least 4 labels out of 6 will be correctly assigned. Indeed, if the correct letter is identified, then the ``correct'' label will be correctly assigned, as well as the five ``incorrect'' labels. If the wrong letter is identified, two labels will be swapped, resulting in two association errors, but still four ``incorrect'' labels will be correctly assigned. In the end, this is quite a lot of information which can offer good guarantees for their EM algorithm to identify properly the ``incorrect'' signal cluster; leaves the second cluster for the ``correct'' signals. As more data are collected, the EM algorithm will be better at identifying the underlying structure of the data and will be able to identify the cluster of ``correct'' from the one of ``incorrect'' given the constraints detailed above. As the process continues, identifying further letter is made easier, and importantly, by going back in the history of interaction, the system can correct those letters that were wrongly identified.
 
-What we want to argue here is that this type of information is of a very specific nature. Contrary to the other approach considered, it does not provide direct indication about the task (as a language model do), neither about how to decode the signals themselves (as transfer learning do). It rather provides an information that can only be observed for the correct task and by knowing how to differentiate the signals. 
-
-This type of information, that acts neither on the task, neither on the signal decoder, but rather on the combination of both is at the core of this thesis. As we have seen in section~\todo{thomas C. section}, Thomas Cederborg also make us of a similar source of information but reasoning about the consistency of some gestures with respect to different geographical references, e.g. object position. We will summarize those works in the conclusion of this chapter 
-
-
-
-
-We will propose a measure sharing similar properties than their approach in chapter
-
-However we will argue that our method is more generic and can be applied in majority of sequential problems. Indeed for most sequential task, it is impossible to define a sequence of actions that guarantee a specific ratio of meanings in the received signals. 
-
-
-Our work differs by
-
-In fact kindermans also intialize with a randomly a classifier
-that is initialized randomly and updated during usage. Initially, the unsupervised classifier tends to make decoding mistakes, as the classifier might not have seen enough data to build a reliable model.
+As we will discover in next chapters, our method to do requires to have access to such constraints and guarantees about the task, which makes our work easily generalizable to many types of problems. However, the work of Kindermans et al. already exploits information of a very specific nature to solve the problem of \emph{learning form unlabeled interaction frames}. Contrary to all the other approaches, their information source does not provide a direct knowledge about the task (as a language models do), neither about how to decode the signals themselves (as transfer learning methods do). It rather provides an information emerging for the joint combination of a task and of a signal decoder. That is for the correct task (i.e. the correct letter), only one signal should be classified as ``correct'' and all the others as ``incorrect''. 
 
 \transition
 
-We believe our method differs to all the above mentioned approach as we do not start from a random classifier that by definition will produce wrong classification. Our method is also able to producue a confidenc measur eon it estimation 
+This type of information, that acts neither on the task, neither on the signal decoder, but rather on the combination of both is at the core of the work we will present in forthcoming chapters. As we have seen in section~\ref{chapter:related:language:thomas}, Thomas Cederborg also make us of a similar source of information but reasoning about the consistency of some gestures with respect to different geographical references, e.g. object position. We will summarize those works in next section~\ref{chapter:related:discussion} and highlight the differences and improvements of our method.
+
+\section{Discussion}
+\label{chapter:related:discussion}
+
+
+This discussion section may be worth reading again once the reader has been through chapter~\ref{chapter:lfui}.
+
+We believe our method differs from all the above mentioned approach as we do not start from a random classifier that by definition will produce wrong classification. Our method is also able to produce a confidence measure on its estimation.
 
 In chapter~\ref{chapter:bci}, we will test our algorithm in a BCI application. 
 
@@ -316,9 +325,7 @@ We will use a different type of error related potential signals which will encod
 
 we believe our approach is more general
 
-\section{Discussion}
-
-Surprisingly, it is in the BCI domain that the idea of adaptive interface seems to be highly developed. This may be explained by the specific nature of brain signals which are not used to deal with our daily life and therefore could not have any intuition on how to train universal decoder such as has been done for speech recogniztion. And no a priori on the shape of the signals
+Surprisingly, it is in the BCI domain that the idea of adaptive interface seems to be highly developed. This may be explained by the specific nature of brain signals which are not used to deal with our daily life and therefore could not have any intuition on how to train universal decoder such as has been done for speech recognition. And no a priori on the shape of the signals
 
 Still most the work, while releasing some important aspect of the interaction have access to a direct relation between signals and meaning at some point. To our knowledge, only two works are tackling the same problem as the one presented in this thesis.
 
@@ -354,4 +361,14 @@ we will consider teacer are optimal but a bit noisy. this might not be an accrua
 
 generic to any sequential task problem, with any type of interaction frames
 
+
+We will propose a measure sharing similar properties than their approach in chapter
+
+However we will argue that our method is more generic and can be applied in majority of sequential problems. Indeed for most sequential task, it is impossible to define a sequence of actions that guarantee a specific ratio of meanings in the received signals. 
+
+
+Our work differs by
+
+In fact kindermans also intialize with a randomly a classifier
+that is initialized randomly and updated during usage. Initially, the unsupervised classifier tends to make decoding mistakes, as the classifier might not have seen enough data to build a reliable model.
 
