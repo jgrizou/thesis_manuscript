@@ -295,22 +295,20 @@ This type of information, that acts neither on the task, neither on the signal d
 
 We reviewed an extensive number of related work that ranges from computational modeling of language to more practical brain computer interaction problems. While releasing some important assumptions on the interaction, in most of those works the communicative signals had a direct relation to one element of the environment or to the task itself, such as being the name of a color, a shape, or a gesture type. In our work the signal to meaning relation will be more abstract such as whether an action was ``correct'' or ``incorrect'' with respect to an objective. Also, in most of these existing works the interaction between partners was pre-programmed and most of the time the robot knew how to use or understood communicative signals innately, e.g. how the teacher expresses ``correct'' or ``incorrect'' feedback. 
 
+However we note that in this thesis we only consider optimal teachers and simply introduce some percentage of teaching mistakes to account for the variability between users. This might not be an accurate assumption given the work presented in the beginning of this chapter about human teaching behavior. However our method is not restricted to the use of optimal teacher, the only requirement is to have access to a human model which is good enough to represent the actual human teaching behavior.
 
-However we note that in the core work of this thesis, we will consider optimal teachers and simply model some percentage of teaching mistakes to account for the variability between users.
+The work we present in this thesis shows mechanisms allowing a learner to simultaneously learn a new task and acquire the meaning associated to feedback and guidance signals in the context of social interaction. Furthermore, we show mechanisms allowing the learner to leverage learned signals' meanings to acquire novel tasks faster from a human. To our knowledge, only two works are tackling the same problem as the one presented in this thesis. And surprisingly, those two works are in language acquisition (work of Cederborg et al. in section~\ref{chapter:related:language:thomas}) and in the BCI domain (work of Kindermans et al. in section~\ref{chapter:related:bci:kindermans}). 
 
-
-we will consider teacer are optimal but a bit noisy. this might not be an accruate assumtion givent he work present in sectino about human teaching behavior. However our method is not restricted to the use of optimal teacher, the only requirement is to have access to a human model or several human model as we will se in chapter , among which one is good enough to represent the actual hunan teaching bheavior.
-
-The work we present in this thesis shows mechanisms allowing a learner to simultaneously learn a new task and acquire meaning associated to feedback and guidance signals in the context of social interaction. Furthermore, we show mechanisms allowing the learner to leverage learned signals' meanings to acquire novel tasks faster from a human. To our knowledge, only two works are tackling the same problem as the one presented in this thesis. And surprisingly, those two works are in language acquisition (work of Cederborg et al. in section~\ref{chapter:related:language:thomas}) and in the BCI domain (work of Kindermans et al. in section~\ref{chapter:related:bci:kindermans}). Especially, it is in the BCI domain that the idea of adaptive interface seems to be highly developed, with many method to continuously adapts brain decoder during operation. This may be explained by the specific nature of brain signals which are not a natural way for human to interact with machines. Therefore humans do not share common abilities in their generation and use of brain signals, and at design time we can not use or daily intuition on how to train universal decoders of brain signals. This differs much to work on speech or facial expression recognition where many a priori knowledge could be included into the system. This kind of consideration may explain why the problem of adaptive interfaces and our specific problem of \emph{learning form unlabeled interaction frame}  has only been considered recently in human-robot interaction scenarios.
+Especially, it is in the BCI domain that the idea of adaptive interface seems to be highly developed, with many method to continuously adapts brain decoder during operation. This may be explained by the specific nature of brain signals which are not a natural way for human to interact with machines. Therefore humans do not share common abilities in their generation and use of brain signals, and at design time we can not use or daily intuition on how to train universal decoders of brain signals. This differs much to work on speech or facial expression recognition where many a priori knowledge could be included into the system. This kind of consideration may explain why the problem of adaptive interfaces and our specific problem of \emph{learning form unlabeled interaction frame}  has only been considered recently in human-robot interaction scenarios.
 
 In the following of this discussion we summarize the main similarities and differences between our work and the work of Cederborg et al. and of Kindermans et al. as respectively discussed in  section~\ref{chapter:related:language:thomas} and section~\ref{chapter:related:bci:kindermans}. This discussion section may be worth reading again once the reader has been through the remaining of this thesis, especially through chapter~\ref{chapter:lfui}.
 
 
+both use a measure on the joint task - signal hypothesis space
+
 We believe our method differs from all the above mentioned approach as we do not start from a random classifier that by definition will produce wrong classification. Our method is also able to produce a confidence measure on its estimation.
 
-
-
-In the following of this thesis we present methods that imporve over the following work, by
+In the following of this thesis we present methods that improve over the following work, by
 
 However we will argue that our method is more generic and can be applied in majority of sequential problems. Indeed for most sequential task, it is impossible to define a sequence of actions that guarantee a specific ratio of meanings in the received signals. 
 
@@ -319,13 +317,13 @@ generic to any sequential task problem, with any type of interaction frames
 
 
 \cite{cederborg2011imitating}
-it is not about a sequetial task. the robot can reproduce a trajectory, do not need planning skills
+it is not about a sequential task. the robot can reproduce a trajectory, do not need planning skills
 
 and
 
 \cite{Kindermans2012a,kindermans2014integrating} not sequetial, use an additonal source of information (specific ratio of each label). Plus they have this eureaka moment, which is the system makes some mistake in the beginning but is abla to recover them after some time. This is manily due to the nature of the task, where to spell on letter only 15 flash for each letter is allowed....
 
-work without reauiring a specific ratio of signals
+work without requiring a specific ratio of signals
 
 In fact kindermans also intialize with a randomly a classifier
 that is initialized randomly and updated during usage. Initially, the unsupervised classifier tends to make decoding mistakes, as the classifier might not have seen enough data to build a reliable model.
@@ -335,11 +333,18 @@ diff with kindermans: warm up period for them where they make mistakes. We are a
 We will propose a measure sharing similar properties than their approach in chapter
 based on the coherence between the organization fo signal in the feature space and the labels. explain again the method in few lines
 
-planning
 
-extendtion in continuous states space, continuous task space (finite number of letter, finite number of object), release the need to known the interaction frame, i.e. feedback or guidance, unknown in advance.
+things that are really new:
 
-Aside from many empirical demonstrations in both simulated and real experiments, we also present in chapter~\ref{chapter:limitations:proof} a simple mathematical proof providing some guarantees on our method. To our knowledge, we provide the first proof showing that a system is able to learn simultaneously a task from human instructions as well as the signal to meaning mapping of the user's instruction signals.
+\begin{itemize}
+
+\item The ability of our agent to actively select its action in order to improve its performance.
+
+\ref{chapter:planning}
+
+\end{itemize}
+
+We also provide a number of extensions in chapter~\ref{chapter:limitations} to our algorithm, such as to cope for continuous states space, continuous task space, and we finally release the assumption that the interaction frame (either feedback or guidance) is known in advance. Moreover, aside from many empirical demonstrations in both simulated and real experiments, we also present in chapter~\ref{chapter:limitations:proof} a simple mathematical proof providing some guarantees on our method. To our knowledge, we provide the first proof showing that a system is able to learn simultaneously a task from human instructions as well as the signal to meaning mapping of the user's instruction signals.
 
 Finally in chapter~\ref{chapter:bci}, we will test our algorithm in a BCI application. Our experiment differs from the one of Kindermans et al. \cite{Kindermans2012a,kindermans2014integrating} because our task is a target reaching task where the agent decides on it own which action to take next. This task is a sequential task, meaning that several actions must be executed to reach the goal. In addition, we use a different kind of error related potential signals which will encode a ``correct'' or ``incorrect'' feedback for the agent. Our signal is of similar nature than the P300 signals used by Kindermans et al., i.e. they encode a binary event, however they are slower to elicit and are known to be harder to detect \todo{cite smthg}.
 
