@@ -313,27 +313,17 @@ We can list a number of differences between the work presented in this thesis an
 
 %%%%%%
 %%%%%%
-\item Compared to both Cederborg et al. and Kindermans et al. we believe our approach is more generic and can be applied directly to a variety of sequential problems which are common in the human-robot and human-computer interaction domains. In particular we highlight the chicken an egg problem inherent to interacting with machine. However, we note that this thesis focus on a very specific problem and more broad considerations are highlighted in the thesis of Thomas Cederborg \cite{cederborg2014thesis}.
+\item Compared to the work of Cederborg et al. \cite{cederborg2011imitating}, our robot is already equipped with sufficient skills to perform the task, i.e. if it knew the goal it could fulfill it by its own mean. In most of our experiment, the robot further knows that the task belong to a limited set of task. In \cite{cederborg2011imitating}, less constraints are applied on the task space, the robot only knows it will have to reproduce a continuous gesture of unknown type which is not restricted to belong to a limited set. However one of the teaching signals directly encodes the ``name'' associated to each gestures, in our work the relation between the teaching signals and the robot's actions is indirect and depend on the true unknown task.
 
 %%%%%%
 %%%%%%
-\item Compared to \cite{cederborg2011imitating} it is not about a sequential task. the robot can reproduce a trajectory, do not need planning skills
+\item Compared to the work of Kindermans et al. \cite{Kindermans2012a,kindermans2014integrating} our method does not require to bootstrap the system with random classifiers which will be updated step by step but unreliable at start. Our method rather identified the classifier from scratch. This difference is mainly due to the experimental setup used in our respective work. For example, in the P300 speller of Kindermans et al. a new letter must be identified every 15 flashes. Logically the system requires a warm up period which produces a high number of spelling errors in the beginning of each experiment. Such errors are however detected and corrected later on, after their so called ``eureka'' moment \cite{Kindermans2012a}, when their EM algorithm had access to enough data to identify the positive and negative clusters. To the contrary, by applying our method to the speller paradigm, the system would only pick a letter once it is confident that the letter is the correct one; therefore reducing dramatically the number of spelling errors but with a longer ``blank sheet'' period for the user in the beginning. However the computational cost of our method increases with the number of possible hypothesis, which is not the case for the work of Kindermans et al..
+
+\item Another difference between our work and the one of Kindermans et al. lies in the properties that their world should hold in order to ensure a proper functioning of their algorithm. In the work of Kindermans et al., the world should guarantee a specific ratio of ``correct'' and ``incorrect'' in the received signals. This ratio could be in favor of either one or an other label but is mandatory to be asymmetric, with more signals from one class than from the other. Indeed, their EM algorithm alone can identify two clusters in the feature space of the signal, but can not attribute labels to each cluster without having access to additional information (the ratio of positive and negative P300 signals in their case). Our method is more generic and can be applied in majority of sequential problems where it is impossible to define a sequence of actions that guarantee a specific ratio of meanings in the received signals. Our algorithm is able to identify the correct task while simultaneously assigning the correct labels to the received teaching signals.
 
 %%%%%%
 %%%%%%
-\item We believe our method differs from all the above mentioned approach as we do not start from a random classifier that by definition will produce wrong classification. Our method is also able to produce a confidence measure on its estimation.
-
-\cite{Kindermans2012a,kindermans2014integrating} not sequetial, use an additonal source of information (specific ratio of each label). Plus they have this eureaka moment, which is the system makes some mistake in the beginning but is abla to recover them after some time. This is manily due to the nature of the task, where to spell on letter only 15 flash for each letter is allowed....
-
-work without requiring a specific ratio of signals
-
-In fact kindermans also intialize with a randomly a classifier that is initialized randomly and updated during usage. Initially, the unsupervised classifier tends to make decoding mistakes, as the classifier might not have seen enough data to build a reliable model.
-
-diff with kindermans: warm up period for them where they make mistakes. We are able to know when we know. + we can apply it to any sequential task, does not requires a specific ratio
-
-nature of the problem, where each letter would be selected based on the confidence of users
-
-However we will argue that our method is more generic and can be applied in majority of sequential problems. Indeed for most sequential task, it is impossible to define a sequence of actions that guarantee a specific ratio of meanings in the received signals. 
+\item Compared to both Cederborg et al. and Kindermans et al. our approach is more generic and can be applied directly to a variety of sequential problems which are common in the human-robot and human-computer interaction domains. In particular we highlight the chicken an egg problem inherent to interacting with machine. However, we note that this thesis focus on a very specific problem and more broad considerations are highlighted in the thesis of Thomas Cederborg \cite{cederborg2014thesis}.
 
 %%%%%%
 %%%%%%
