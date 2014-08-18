@@ -269,7 +269,7 @@ In invasive BCI, Orsborn et al. proposed a method to learn from scratch and in c
 
 Kindermans et al. considers the problem of P300 spellers. A P300 signal is an event related potential elicited in the process of decision making \cite{polich2003theoretical}. It is evoked by the reaction to a visual or auditory stimulus, and it is linked with the process of evaluation or categorization of stimulus by our brain. 
 
-A P300 speller exploits the properties of P300 ERPs to build a communication tool allowing users to input texts or commands to a computer by thought. The speller interface consists of letters arranged in rows and columns (see Figure~\ref{fig:speller}). The user is asked to focus his sight on the letter he wants to write. Then the rows and columns of the matrix are successively and randomly highlighted. By detecting the P300 signals in the users brain activity, it is possible to decode which row and column are associated to the letter the user wants to write.As each rows an columns are flashed the same number of times, the P300 stimulus as a frequency of 1/N (where N is the number of rows or columns of the matrix).
+A P300 speller exploits the properties of P300 ERPs to build a communication tool allowing users to input texts or commands to a computer by thought. The speller interface consists of letters arranged in rows and columns (see Figure~\ref{fig:speller}). The user is asked to focus his sight on the letter he wants to write. Then the rows and columns of the matrix are successively and randomly highlighted. By detecting the P300 signals in the users brain activity, it is possible to decode which row and column are associated to the letter the user wants to write.As each rows an columns are flashed the same number of times, the P300 stimulus as a frequency of $\frac{1}{N}$ (where $N$ is the number of rows or columns of the matrix).
 
 \begin{figure}[!htbp]
   \centering
@@ -303,63 +303,63 @@ Especially, it is in the BCI domain that the idea of adaptive interface seems to
 
 In the following of this discussion we summarize the main similarities and differences between our work and the work of Cederborg et al. and of Kindermans et al. as respectively discussed in  section~\ref{chapter:related:language:thomas} and section~\ref{chapter:related:bci:kindermans}. This discussion section may be worth reading again once the reader has been through the remaining of this thesis, especially through chapter~\ref{chapter:lfui}.
 
+We can list a number of differences between the work presented in this thesis and the related work presented in this chapter:
 
+\begin{itemize}
 
+%%%%%%
+%%%%%%
+\item First, we explicitly define and provide some solutions to the problem of \emph{learning from unlabeled interaction frames}. This problem is still relatively new in the domain of human-machine interaction; it represents a new step towards creating machines able to flexibly adapts to each particular users by learning the way such users communicate specific meanings to the machine.
 
-We believe our method differs from all the above mentioned approach as we do not start from a random classifier that by definition will produce wrong classification. Our method is also able to produce a confidence measure on its estimation.
+%%%%%%
+%%%%%%
+\item Compared to both Cederborg et al. and Kindermans et al. we believe our approach is more generic and can be applied directly to a variety of sequential problems which are common in the human-robot and human-computer interaction domains. In particular we highlight the chicken an egg problem inherent to interacting with machine. However, we note that this thesis focus on a very specific problem and more broad considerations are highlighted in the thesis of Thomas Cederborg \cite{cederborg2014thesis}.
 
-In the following of this thesis we present methods that improve over the following work, by
+%%%%%%
+%%%%%%
+\item Compared to \cite{cederborg2011imitating} it is not about a sequential task. the robot can reproduce a trajectory, do not need planning skills
 
-However we will argue that our method is more generic and can be applied in majority of sequential problems. Indeed for most sequential task, it is impossible to define a sequence of actions that guarantee a specific ratio of meanings in the received signals. 
-
-we believe our approach is more general : sequential task
-generic to any sequential task problem, with any type of interaction frames
-
-
-\cite{cederborg2011imitating}
-it is not about a sequential task. the robot can reproduce a trajectory, do not need planning skills
-
-and
+%%%%%%
+%%%%%%
+\item We believe our method differs from all the above mentioned approach as we do not start from a random classifier that by definition will produce wrong classification. Our method is also able to produce a confidence measure on its estimation.
 
 \cite{Kindermans2012a,kindermans2014integrating} not sequetial, use an additonal source of information (specific ratio of each label). Plus they have this eureaka moment, which is the system makes some mistake in the beginning but is abla to recover them after some time. This is manily due to the nature of the task, where to spell on letter only 15 flash for each letter is allowed....
 
 work without requiring a specific ratio of signals
 
-In fact kindermans also intialize with a randomly a classifier
-that is initialized randomly and updated during usage. Initially, the unsupervised classifier tends to make decoding mistakes, as the classifier might not have seen enough data to build a reliable model.
+In fact kindermans also intialize with a randomly a classifier that is initialized randomly and updated during usage. Initially, the unsupervised classifier tends to make decoding mistakes, as the classifier might not have seen enough data to build a reliable model.
 
-diff with kindermans: warm up period for them where they make mistakes. We are able to know when we know. + we can apply it to any sequential task, does not requires a specifi ratio + we have planning
+diff with kindermans: warm up period for them where they make mistakes. We are able to know when we know. + we can apply it to any sequential task, does not requires a specific ratio
 
-We will propose a measure sharing similar properties than their approach in chapter
-based on the coherence between the organization fo signal in the feature space and the labels. explain again the method in few lines
+nature of the problem, where each letter would be selected based on the confidence of users
 
+However we will argue that our method is more generic and can be applied in majority of sequential problems. Indeed for most sequential task, it is impossible to define a sequence of actions that guarantee a specific ratio of meanings in the received signals. 
 
-things that are really new:
+%%%%%%
+%%%%%%
+\item We consider sequential task, which are tasks requiring the agent to perform a series of correct actions in order to fulfill the task correctly. Therefore there is a planning aspect involved which was not present in the work of Cederborg et al. where the robot passively observed interactant-demonstrator interactions, neither in the work of Kindermans et al. where the row and column flashes patterns were determined in advance. We note that the problem of P300 spellers used by Kindermans et al. could be represented as a sequential problem, where flashing a particular row or column represents the agent's available actions. However, if the sequence of actions is no more pre-defined, i.e. with the same number of flashes per row or column, the guarantees that only one signal out of $N$ encodes a positive ERPs would not be satisfied and their algorithm would be more likely to converge to a wrong classifier.
 
+%%%%%%
+%%%%%%
+\item Given the sequential nature of problem, we consider active learning which is the ability of our agent to actively selects its actions in order to improve its performance. As described in the previous item, this planning aspect was not considered in the work of Cederborg et al. and Kindermans et al.. We will show in chapter~\ref{chapter:planning} that planning when both the task and the signal to meaning mapping is unknown requires to develop a new measure of uncertainty. Our measure takes into account the uncertainty on both the task and the decoder; and is an important contribution of our work.
 
+%%%%%%
+%%%%%%
+\item We also provide a number of extensions in chapter~\ref{chapter:limitations} to our algorithm, such as to cope for continuous states space, continuous task space, and we finally release the assumption that the interaction frame (either feedback or guidance) is known in advance and assume it belongs to a pre-defined set of possible interaction frames.
 
+%%%%%%
+%%%%%%
+\item Moreover, aside from many empirical demonstrations in both simulated and real experiments, we also present in chapter~\ref{chapter:limitations:proof} a simple mathematical proof providing some guarantees on our method. To our knowledge, we provide the first proof showing that a system is able to learn simultaneously a task from human instructions as well as the signal to meaning mapping of the user's instruction signals.
 
-\begin{itemize}
-
-\item We consider sequential task, which are tasks requiring the agent to perform a series of correct action in order to fulfill the task correctly. Therefore there is a planning aspect involved which was not present in the work of Cederborg et al. where the robot passively observed interactant-demonstrator interactions, neither in the work of Kindermans et al. where the row and column flashes patterns were determined in advance. We note that the problem of P300 spellers used by Kindermans et al. could be represented as a sequential problem, where flashing a particular row or column represents the agent's available actions. However, if the sequence of actions is no more pre-defined with the same number of flashes per row or column, the guarantees that only one signal out of 6 encodes a positive ERPs would not be satisfied and their algorithm would be more likely to converge to a wrong classifier.
-
-\item Given the sequential nature of problem, we also consider active learning, which is the ability of our agent to actively selects its actions in order to improve its performance. As described in the previous item, this planning aspect was not considered in the work of Cederborg et al. and Kindermans et al.. We will show in chapter~\ref{chapter:planning} that planning when both the task and the signal to meaning mapping is unknown requires to develop a new measure of uncertainty. Our measure takes into account the uncertainty on both the task and the decoder; and is an important contribution of our work. 
-
-\item We also provide a number of extensions in chapter~\ref{chapter:limitations} to our algorithm, such as to cope for continuous states space, continuous task space, and we finally release the assumption that the interaction frame (either feedback or guidance) is known in advance. Moreover, aside from many empirical demonstrations in both simulated and real experiments, we also present in chapter~\ref{chapter:limitations:proof} a simple mathematical proof providing some guarantees on our method. To our knowledge, we provide the first proof showing that a system is able to learn simultaneously a task from human instructions as well as the signal to meaning mapping of the user's instruction signals.
-
-\item Finally in chapter~\ref{chapter:bci}, we will test our algorithm in a BCI application. Our experiment differs from the one of Kindermans et al. \cite{Kindermans2012a,kindermans2014integrating} because our task is a target reaching task where the agent decides on its own which action to take next. This task is sequential, meaning that several actions must be executed to reach the goal. In addition, we use a different kind of error related potential signals which will encode a ``correct'' or ``incorrect'' feedback for the agent. Our signal is of similar nature than the P300 signals used by Kindermans et al., i.e. they encode a binary event, however they are slower to elicit and are known to be harder to detect \todo{cite smthg}.
+%%%%%%
+%%%%%%
+\item Finally in chapter~\ref{chapter:bci}, we will test our algorithm in a BCI application. Our experiment differs from the one of Kindermans et al. \cite{Kindermans2012a,kindermans2014true} because our task is a target reaching task where the agent decides on its own which action to take next. This task is sequential, meaning that several actions must be executed to reach the goal. In addition, we use a different kind of error related potential signals which will encode a ``correct'' or ``incorrect'' feedback for the agent. Our signal is of similar nature than the P300 signals used by Kindermans et al., i.e. they encode a binary event, however they are slower to elicit and are known to be harder to detect \todo{cite smthg}.
 
 \end{itemize}
 
 Despite the differences between our work and the work of Cederborg et al. and Kindermans et al., there is similar fundamental properties of the problem that are exploited by our respective works. Especially the notion of interpretation hypothesis developed in Thomas Cederborg's thesis and the use of an information source that emerges only from a combination of constraints on the task and signal spaces. 
 
-both use a measure on the joint task - signal hypothesis space
-
-As we have seen in section~\ref{chapter:related:language:thomas}, Cederborg et al. reasoned about the consistency of some gestures with respect to different geographical references, e.g. object position.
-
-
-The correct task hypothesis is the one from which a more coherent, consistent, signal to meaning model emerges from the hypothetic labeling process. could not be identified otherwise, and the assumption of coherence between the user behavior and our user model is therefore a primordial prerequisite for our algorithm to work. 
-
+In \cite{cederborg2011imitating}, Cederborg et al. reasoned about the consistency of some gestures with respect to different geographical references, e.g. object position, knowing that the signals of the user could refer to only three possible coordinate systems and therefore relying on interpretation hypothesis. In \cite{Kindermans2012a,kindermans2014true}, Kindermans et al. reasoned about the ratio of positive and negative P300 ERPs signal that should be observed for the correct letter. In our work, we propose to capture the coherence between the organization of the teaching signals in their feature space and their associated labels. We make use of interpretation hypothesis to create one set of signal-label pairs for each task. The correct task hypothesis is the one from which a more coherent, consistent, signal to meaning model emerges from the hypothetic labeling process. That way both the task and the signal to meaning model can be identified. Hence the assumption of coherence between the user behavior and our user model is a primordial prerequisite for our algorithm to work. Interestingly, this measure is more general than the one used by Kindermans et al. as it does not requires a specific ratio of positive and negative P300 signals to work.
 
 As we will explore in the following chapters, this type of information, that acts neither on the task, nor on the signal decoder, but rather emerges from the combination of constraints on both spaces are fundamental properties we will exploit to solve the problem of \emph{learning from unlabeled interaction frames}.
 
