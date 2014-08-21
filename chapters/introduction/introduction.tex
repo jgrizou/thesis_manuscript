@@ -217,9 +217,9 @@ In light with our observations, we can list the information provided by the inte
 
 \begin{itemize}
 
-\item \textbf{The set of possible meanings the human can refer to.} As depicted before, the set of meaning may include ``correct'' and ``incorrect'' for those cases where the user is assessing the robot's actions. It could also be the set of action names when the user provides guidances on what to do next.
-
 \item \textbf{Details and timing of the interaction.} It corresponds to when and how the user will provide instruction signals. For example, the human sends a signal to the robot after every robot's actions. Another example is a human providing a feedback signal between 0.2 and 2 seconds after the robot's action \cite{knox2009interactively}.
+
+\item \textbf{The set of possible meanings the human can refer to.} As depicted before, the set of meaning may include ``correct'' and ``incorrect'' for those cases where the user is assessing the robot's actions. It could also be the set of action names when the user provides guidances on what to do next.
 
 \item \textbf{Constraints on the possible tasks.} The general context of the teaching process is known. For example the robot is aware that the human wants it to reach a specific room in the house, and not to take an object from the fridge. This limits the number of hypotheses the robot can create about what the user has in mind.
 
@@ -298,6 +298,7 @@ As we described before, in this thesis we remove another type of assumption, tha
 
 
 \section{Learning from unlabeled interaction frames}
+\label{chapter:introduction:lfui}
 
 Learning from unlabeled interaction frames corresponds to the problem of learning a task from human instructions signals but where the signal-to-meaning classifier is not given. Nonetheless we maintain important assumptions concerning the interaction protocol and the behavior of the human. We list those assumptions here:
 
