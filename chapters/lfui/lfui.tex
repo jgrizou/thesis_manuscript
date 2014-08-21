@@ -273,9 +273,11 @@ There is some cases where different hypothesis are not distinguishable. As the r
 
 Two problems could appear: \begin{inparaenum}[(a)] \item two hypothesis may share the same interpretation model and cannot be differentiated as they attribute the same meanings to the signals, and \item two hypothesis may end up with opposite interpretations that are both as valid. \end{inparaenum}.
 
-For those cases where two hypothesis share the same interpretation model, either the task are the same with respect the user, either some parts of the problem are hidden to the human, which can not provide appropriate instructions. We do not consider this problematic in this thesis and assume the world properties ensure that two hypothesis will never share the same interpretation model. Most of the hypothesis will share parts of the interpretation model but there will always exist one situation, i.e. one state-action pair, where two interpretation models differs.
+For those cases where two hypothesis share the same interpretation model, either the task are the same with respect the user, either some parts of the problem are hidden to the human, which can not provide appropriate instructions. These questions are the core of the theoretical analysis of Cederborg's thesis \cite{cederborg2014thesis,cederborg2014social}. We do not consider this problematic in this thesis and assume the world properties ensure that two hypothesis will never share the same interpretation model. Most of the hypothesis will share parts of the interpretation model but there will always exist one situation, i.e. one state-action pair, where two interpretation models differs.
 
-For those cases where two hypothesis end up with opposite interpretations that are both valid, we illustrate the problem using a visual example.
+For those cases where two hypothesis end up with opposite interpretations that are both valid, we illustrate the problem for the case of both feedback and guidance instructions using a visual example.
+
+\subsubsection*{Symmetries: the feedback case}
 
 We present the line word in Figure~\ref{fig:lineworld} which contains only the top T bar of the T world. This world is well suited to describe the symmetry problem. 
 
@@ -286,19 +288,16 @@ We present the line word in Figure~\ref{fig:lineworld} which contains only the t
   \label{fig:lineworld}
 \end{figure}
 
-The interaction follows the same protocol as in previous examples. As depicted in Figure~\ref{fig:lineworldfeedback2action}, after several interaction steps, the interpretation hypothesis for G1 and G2 display symmetric properties. Indeed, according to G1, signals on the left side of the feature space mean ``incorrect'', and signal on the right means ``correct''. 
-
-
-Even if the interpretations of the signals differ between each hypothesis, the two models are as likely to describe the data. As the optimal policies to reach each of the two goal states are symmetric in every state, the actions that trigger ``correct'' feedback with respect to G1 trigger ``incorrect'' feedback for G2 and vice versa. It is therefore impossible to know the true associated meaning of the signals without further information.
+The interaction follows the same protocol as in previous examples. As depicted in Figure~\ref{fig:lineworldfeedback2action}, after several interaction steps, the interpretation hypothesis for G1 and G2 display symmetric properties. Indeed, according to G1, signals on the left side of the feature space mean ``incorrect'', and signal on the right means ``correct''. Inversely, according G2, signals on the left side of the feature space mean ``correct'', and signal on the right means ``incorrect''. Therefore, even if the interpretation of the signals differ between each hypothesis, the two interpretations are equally coherent. As the optimal policies to reach each of the two goal states are opposite in every state, an action that triggers a ``correct'' feedback with respect to G1, triggers a ``incorrect'' feedback for G2 and vice versa. It is therefore impossible to know the true associated meaning of the signals without further information.
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/lineworld_symmetries/feedback_2actions.pdf}
-  \caption{Interpretation hypothesis for an agent receive feedback on its action in the line word and where hypothetic task are G1 or G2. The agent can only perform right or left action which results in symmetric interpretation hypothesis of the feedback signals.}
+  \caption{Interpretation hypotheses made by an agent receiving feedback on its action in the line word and where the hypothetic tasks are G1 or G2. The agent can only perform right or left actions which results in symmetric interpretation hypothesis of the feedback signals.}
   \label{fig:lineworldfeedback2action}
 \end{figure}
 
-It is theoretically impossible to differentiate symmetric task hypothesis, therefore we will not consider environments holding this symmetric properties. One way to solve this problem is to add a ``no move'' action that is valid only at the goal state, as depicted in Figure~\ref{fig:lineworld3action}.
+It is theoretically impossible to differentiate symmetric task hypotheses, therefore we will not consider environments holding this symmetric property. One way to bypass this problem is to add a ``no move'' action, as illustrated in Figure~\ref{fig:lineworld3action}, that is valid only at the goal state
 
 \begin{figure}[!htbp]
   \centering
@@ -307,16 +306,18 @@ It is theoretically impossible to differentiate symmetric task hypothesis, there
   \label{fig:lineworld3action}
 \end{figure}
 
-When taking this action the agent to not change position on the grid. This action brakes the symmetry in the above example, as its interpretation will be the same for all states that are not an hypothetic goal state. In other words, in state 3, if agent performs action ``no move'', then the user will produce a signal meaning ``incorrect'', because the agent is neither in G1 nor in G2. And the signal will be interpreted as an ``incorrect'' by the two interpretation hypothesis, breaking the symmetry problem. The interpretation results after several iteration steps and using the new ``no move'' action are depicted in Figure~\ref{fig:lineworldfeedback3action}.
+When taking the ``no move'' action the agent does not change position. This action allow to brake the symmetry effects, as its interpretation will be the same for all states that are not in the set of hypothetic goal state, i.e. all state but G1 and G2. In other words, if the agent performs action ``no move'' in state 3, the user will produce a signal of meaning ``incorrect'' because the agent is not progressing towards the goal state(G1 here). But the agent did not progress either towards the G2. Therefore the signal will be interpreted as ``incorrect'' by the two interpretation hypothesis, breaking the symmetry problem. The interpretation results after several iteration steps, and using the new ``no move'' action, are depicted in Figure~\ref{fig:lineworldfeedback3action}.
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/lineworld_symmetries/feedback_3actions.pdf}
-  \caption{Interpretation hypothesis for an agent receive feedback on its action in the line word and where hypothetic task are G1 or G2. The agent can perform right, left, or a ``no move'' action. As opposed to Figure~\ref{lineworldfeedback2action}, the ``no move'' action allow to break the symmetry of interpretation between G1 and G2.}
+  \caption{Interpretation hypotheses made by an agent receiving feedback on its action in the line word and where the hypothetic tasks are G1 or G2. The agent can perform right, left, or ``no move'' actions. As opposed to Figure~\ref{lineworldfeedback2action}, the ``no move'' action allows to break the symmetry of interpretation between G1 and G2.}
   \label{fig:lineworldfeedback3action}
 \end{figure}
 
-This problem of symmetries holds for the guidance frame too. Indeed if the agent can only produce ``left'' and ``right'' commands, the interpretation hypothesis for G1 will be symmetric as the one for G2. If the user wants the robot to reach G1, it will only produce ``left'' guidance signals, which is represented by one cluster in the the feature space. And the ``right'' commands should never be used. The situation is symmetric for G2. The resulting interpretation hypothesis are shown in Figure~\ref{fig:lineworldguidance2action}.
+\subsubsection*{Symmetries: the guidance case}
+
+This problem of symmetries also applies to the guidance frame. Under the guidance frame, the set of possible meaning includes the name of all possible actions. If the agent can only choose between the ``right'' and ``left'' actions, the teacher can only advise for ``left'' and ``right'' actions. We represent the guidance signals from the teacher in a two dimensional feature space as shown in Figure~\ref{fig:lineworldguidance2signals}.
 
 \begin{figure}[!htbp]
   \centering
@@ -325,14 +326,17 @@ This problem of symmetries holds for the guidance frame too. Indeed if the agent
   \label{fig:lineworldguidance2signals}
 \end{figure}
 
+
+We can easily understand that if the teacher can only advise for ``left'' and ``right'' actions, the interpretation hypothesis for G1 will be symmetric as the one for G2. As our user wants the robot to reach G1, it will only produce ``left'' guidance signals, i.e. signals in the left part of the feature space. And the ``right'' commands will never be used. However, these signals will be interpreted as meaning ``left'' according to G1, and ``right'' according to G2. Yet the two interpretation models are equally coherent. The resulting interpretation hypothesis are shown in Figure~\ref{fig:lineworldguidance2action}.
+
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/lineworld_symmetries/guidance_2actions.pdf}
-  \caption{Interpretation hypothesis for an agent receive guidance on its action in the line word and where hypothetic task are G1 or G2. The agent can only perform right or left action which results in symmetric interpretation hypothesis of the guidance signals.}
+  \caption{Interpretation hypotheses made by an agent receiving guidance on its actions in the line word and where the hypothetic tasks are G1 or G2. The agent can only perform right or left actions which results in symmetric interpretation hypothesis of the guidance signals.}
   \label{fig:lineworldguidance2action}
 \end{figure}
 
-When introducing the ``goal reached'' action, the user now can produce three different kind of meanings, which is represented by three different clusters in the feature space. However, here again, one of the meaning won't be used by the teacher. However the ``goal reached'' signal will be used only at the goal space, which is not the same for the two hypothesis, which break the symmetry. The resulting interpretation hypothesis are shown in Figure~\ref{fig:lineworldguidance3action}.
+As for the feedback case, introducing a ``no move action'' allow to break the symmetry. WWith the ``no move'' action available, the user can now produce three different kinds of meaning, which is represented by three different clusters of signals in the feature space (see Figure~\ref{fig:lineworldguidance3signals}). 
 
 \begin{figure}[!htbp]
   \centering
@@ -341,33 +345,40 @@ When introducing the ``goal reached'' action, the user now can produce three dif
   \label{fig:lineworldguidance3signals}
 \end{figure}
 
+The ``no move'' signal will be used only at the goal state. As this state is not the same for each hypothesis, the ``no move'' signals break the symmetry. The resulting interpretation hypothesis are shown in Figure~\ref{fig:lineworldguidance3action}.
+
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/lineworld_symmetries/guidance_3actions.pdf}
-  \caption{Interpretation hypothesis for an agent receive feedback on its action in the line word and where hypothetic task are G1 or G2. The agent can perform right, left, or a ``no move'' action. As opposed to Figure~\ref{lineworldguidance2action}, the ``no move'' action allow to break the symmetry of interpretation between G1 and G2.}
+  \caption{Interpretation hypotheses made by an agent receiving guidance on its actions in the line word and where the hypothetic tasks are G1 or G2. The agent can perform right, left, or ``no move'' actions. As opposed to Figure~\ref{lineworldguidance2action}, the ``no move'' action allows to break the symmetry of interpretation between G1 and G2.}
   \label{fig:lineworldguidance3action}
 \end{figure}
 
+\transition
+
+As it is theoretically impossible to differentiate symmetric task hypotheses, we will not consider environments holding this symmetric property.
+
 \subsection{Robot's abilities}
 
-We further assume the robot is able to plan its action in order to fulfill a specific task. In other words, if the robot knew what the user wants it to do, it will be able to do it. It implies the robot as full knowledge of the world dynamics and knows how to make a plan. This way the robot can understand the theoretical relation between one action, a specific task and the signal of the user; and therefore create interpretation hypothesis.
+We further assume the robot is able to plan its action in order to fulfill a specific task. In other words, if the robot knew what the user wants it to do, it will be able to do it. It implies the robot as full knowledge of the world dynamics and knows how to make a plan. This way the robot can understand the theoretical relation between one action, a specific task and a signal of the user; and therefore create interpretation hypothesis.
 
-However, this ability could have been learn from previous self-exploration session of the environment allowing the robot to learn the dynamics of the environment.
+% However, this ability could have been learn from previous self-exploration session of the environment allowing the robot to learn the dynamics of the environment.
 
 \transition
 
-All those constraints are usually present in the interactive learning literature. 
+The following of this chapter will consider the full set of assumptions defined above.
 
-Some aspects are often more constrained, especially either the signal to meaning mapping is known in advance and the agent infer the task based on the known instructions, either the task itself is known allowing the robot to assign meanings to the teaching signals allowing to it to learn the signal to meaning mapping. Our method generalize over those approach as we neither need to known the task, nor the signal-to-meaning mapping.
+Most of these constraints are typical from interactive learning experiments. Several aspects are often more constrained. Especially, either the signal to meaning mapping is known in advance, and the agent infer the task based on the known instructions \cite{kaplan2002robotic,chernova09jair,knox2009interactively}, either the task itself is known, allowing the robot to assign meanings to the teaching signals such that the signal to meaning mapping can be learned (e.g. the calibration phase for BCI systems). Our method generalize over these approaches as we neither need to know the task, nor the signal-to-meaning mapping.
 
-Some other constraints are not always applied such as the ability of the robot to plan its action, or the fact that a finite number of task is defined in advance. 
 
-The ability to plan is linked to the need for the robot to evaluate the signals of the user in different situations. To do so it need to be able to project itself in the future to judge of the ``long term'' effect of tis actions. We could considered an agent that has access to the frame but is not able to plan its action in order to fulfill the goal. In such cases, the robot could learn by self-exploration the dynamics of the environment and later use this dynamic to infer a plan for a given task.
 
-The finite set of task hypothesis is a practical constraint for the setup considered in the remaining of this thesis. If the set of task hypothesis was infinite, and considering our interpretation hypothesis approach, we would have to sample a finite number of hypothesis to test on; and given the results, we should re-sample some new hypothesis and test again until some stopping criterion. This process is less reliable than assuming the correct task belong to a finite set of task. It would add an other layer of complexity, hard to track and understand, which would increase the difficult to explain the problem.
+Other constraints are not always applied, such as the ability of the robot to plan its action, or the fact that a finite number of task is defined in advance.
 
-The following of this chapter will consider the set of assumptions defined above. In chapter~\ref{chapter:limitations}, we will release the above assumptions, propose solutions to the associated problems and present simple experiments.
+The ability to plan is linked to the need for the robot to interpret the signals of the user in different situations. To do so the robot needs to be able to project itself in the future to judge of the ``long term'' effects of its actions. 
 
+% It may be possible to considered an agent that is not able to plan its actions. In such cases, the robot should learn first by self-exploration the dynamic of the environment and  infer a plan for a given task.
+
+The finite set of task hypothesis is more of a practical constraint. Considering an infinite set of task hypothesis would add an other layer of complexity. Given our interpretation hypothesis mechanism, we would have to sample a finite number of hypothesis. Then given the results of our hypothesis based method on this finite set, we would have to re-sample some new hypothesis and test them again until some stopping criterion. This sampling process is logically less reliable than assuming the correct task belongs to a finite set. Therefore, in our main experiments, we only consider problems where a finite set of task hypothesis can be defined. It is only in chapter~\ref{chapter:limitations:continuoushypothesis} that this assumption is removed.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
