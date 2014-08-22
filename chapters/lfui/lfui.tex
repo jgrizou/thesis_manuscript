@@ -622,7 +622,7 @@ The key point is that each hypothesis is considered as if it was the true one. W
 
 % Our assumptions is that the hypothesis which show more coherence between expected label and predicted label.
 
-As we have detailed previously, once a task is correctly identified, we have access to the true intended labels of the user. Therefore we should be able to learn a second task faster. We now try to highlight the different processes acting during a full experiment of learning multiple tasks. We will refer to two phases: \begin{inparaenum}[a)] \item phase 1 is learning the first task from unlabeled instructions, and \item phase 2 is learning a second (or third, or \ldots) task based knowing we already inferred a first task. \end{inparaenum} Our algorithm is the same for the two phases but different properties are more or less active during phase 1 or phase 2.
+As we have detailed previously, once a task is correctly identified, we have access to the true intended labels of the user. Therefore we should be able to learn a second task faster. We now try to highlight the different processes acting during a full experiment of learning multiple tasks. We will refer to two phases: \begin{inparaenum}[a)] \item phase 1 is learning the first task from unlabeled instructions, and \item phase 2 is learning a second (or third, or \ldots) task knowing we already inferred a first task. \end{inparaenum} Our algorithm is the same for the two phases but different properties are more or less active during phase 1 or phase 2.
 
 Phase 1 is the main contribution of this work. It enables a system to be instructed a new task using signals whose associated meanings are initially unknown. As stated before, our method generates interpretation hypothesis over the possible tasks, infers the hypothetic labels associated to the signals, computes a classifier for each hypothetic set of signal-label pairs, and assumes the one of better quality corresponds to the one the user has in mind. What really have an important impact during phase 1 is not the raw predictions of each classifier, but our measure of uncertainty on their predictions. Indeed, with very few data available, most classifiers are unable to predict correctly unseen data. Even the classifier associated to the correct task might be initially of bad quality, because of the noise in the teaching signals. Therefore all classifiers are considered as unreliable, and our Equation makes only small updates each step. It is only once one classifier stand apart as being more reliable than the others that differences between likelihoods will emerges.
 
@@ -640,7 +640,7 @@ This detailed analysis of our algorithm should progressively become clearer in t
 
 \transition
 
-In next sections, we present results from our algorithm considering a pick and place robotic scenario where a human wants a robot to build a specific structure with cubes and provides instructions to the robot using vocal commands, whose meaning are unknown to the robot at start. We present results both in simulation and with a real robotic system where we test different aspects: \begin{inparaenum}[(a)] \item how our algorithm scale to a concrete scenario considering a feedback frame, \item how it behaves for the case of guidance words, \item the combining of unlabeled signals with signals of known meanings (buttons), \item the reuse of a learned signal-to-meaning mapping for the learning of a new task. \end{inparaenum}
+In next sections, we present results from our algorithm considering a pick and place robotic scenario where a human wants a robot to build a specific structure with cubes and provides instructions to the robot using vocal commands, whose meaning are unknown to the robot at start. We present results both in simulation and with a real robotic system where we test different aspects: \begin{inparaenum}[(a)] \item how our algorithm scale to a robotic scenario considering a feedback frame, \item how it behaves for the case of guidance words, \item the combining of unlabeled signals with signals of known meanings (buttons), \item the reuse of a learned signal-to-meaning mapping for the learning of a new task. \end{inparaenum}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -651,7 +651,7 @@ In next sections, we present results from our algorithm considering a pick and p
 
 We construct a small size pick-and-place task with a real robot. This robot is going to be programmed using a natural speech interface whose words have an unknown meaning and are \textbf{not} transformed into symbols via a voice recognizer. The robot has a prior knowledge about the distribution of possible tasks.
 
-The interaction between the robot and the human is a turn taking social behavior, where the robot performs an action and waits for a feedback, or guidance, instruction to continue. This allows to synchronize a speech wave with its corresponding pair of state and action. The experimental protocol is summarized in figure \ref{fig:lfui:bloc}.
+The interaction between the robot and the human is a turn taking, the robot performs an action and waits for a feedback, or guidance, instruction to continue. This allows to synchronize a speech wave with its corresponding pair of state and action. The experimental protocol is summarized in figure \ref{fig:lfui:bloc}.
 
 \begin{figure}[!htbp]
   \centering
@@ -662,12 +662,12 @@ The interaction between the robot and the human is a turn taking social behavior
 
 \subsection{Robotic System}
 
-We consider a six d.o.f. robotic arm and gripper that is able to grasp, transport and release cubes in four positions. We used a total of three cubes that can form towers of at most two cubes.  The robot has 4 actions available: \textit{rotate left}, \textit{rotate right}, \textit{grasp cube} and \textit{release cube}. The state space is discrete and defined as the location of each object, including being on top of another or in the robot's gripper. For a set of 3 objects we have 624 different states. Figure~\ref{fig:lfui:setup} shows the robot grasping the orange cube. 
+We consider a six d.o.f. robotic arm and gripper that is able to grasp, transport and release cubes in four positions. We used a total of three cubes that can form towers of at most two cubes.  The robot has 4 actions available: \textit{rotate left}, \textit{rotate right}, \textit{grasp cube} and \textit{release cube}. The state space is discrete and defined as the location of each object, including being on top of another object or in the robot's gripper. For a set of 3 objects we have 624 different states. Figure~\ref{fig:lfui:setup} shows the robot grasping the orange cube. 
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.5\columnwidth]{\imgpath/setup.png}
-  \caption{Robotic System. A six d.o.f robotic arm and gripper learning to performing a pick-and-place task with three cubes.}
+  \caption{The six d.o.f robotic arm and gripper learning to performing a pick-and-place task with three cubes.}
   \label{fig:lfui:setup}
 \end{figure}
 
@@ -675,7 +675,7 @@ We consider a six d.o.f. robotic arm and gripper that is able to grasp, transpor
 
 We assume that for a particular task $\xi$ we are able to compute a policy $\pi$ representing the optimal actions to perform in every state. One possibility is to use \textit{Markov Decision Processes} (MDP) to represent the problem \cite{sutton1998reinforcement}. From a given task $\xi$ represented as a reward function we can compute the corresponding policy using, for instance, Value Iteration \cite{sutton1998reinforcement}. In any case, our algorithm does not make any assumption about how tasks are represented.
 
-For this particular representation we assume that the reward function representing the task taught by the human teacher is sparse. In other words the task is to reach one, yet unknown, of the 624 states of the MDP. Therefore we can generate possible tasks by sampling sparse reward functions consisting of a unitary reward in one state and no reward in all the other. 
+For this particular representation, we assume that the reward function representing the task taught by the human teacher is sparse. In other words, the task is to reach one, yet unknown, of the 624 states of the MDP. Therefore we can generate possible tasks by sampling sparse reward functions consisting of a unitary reward in one state and no reward in all the other.
 
 \subsection{Feedback and Guidance Model}
 \label{chapter:lfui:framemodels}
@@ -695,50 +695,110 @@ From a given task $\xi$, we can compute the corresponding policy $\pi_{\xi}$. Th
 %
 with $\alpha$ modeling the expected error rate of the user and $p(l^f = wrong |s,a,\xi) = 1 - p(l^f = correct |s,a,\xi)$.
 
-\paragraph{} For the guidance case, the user instructions represent the next action the robot should perform, therefore it only depend on the current state of the robot and the task considered. In our scenario, there is 4 different possible actions ($nA = 4$) in each state. We define $p(l^f |s, \xi)$ for each action as:
+\paragraph{} For the guidance case, the user instructions represent the next action the robot should perform, therefore it only depends on the current state of the robot and the task considered. In our scenario, there is 4 different possible actions ($nA = 4$) in each state. We define $p(l^f |s, \xi)$ for each action as:
 %
 \begin{equation}
     p(l^f = a |s,\xi) = 
     \begin{cases}
         1-\alpha & if~a = \argmax_a \pi_{\xi}(s,a)\\
-        \frac{\alpha}{nA} & \text{otherwise}\\
+        \frac{\alpha}{nA-1} & \text{otherwise}\\
    \end{cases}
    \label{eq:guidanceframe}
 \end{equation}
 %
-with $\alpha$ modeling the expected error rate. As the agent can perform 4 different actions, we used the constant $\frac{\alpha}{3}$ in order to conserve the property $\sum_a p(l^f = a |s,\xi) = 1$. This assumes the distribution of errors from the teacher are uniform. For those cases where there is more than one optimal action, the probability is uniformly splitted among them. If all actions are optimal, they all share the same probability of $\frac{1}{nA}$.
+with $\alpha$ modeling the expected error rate and assuming only one action is optimal. As the agent can perform 4 different actions, we used the constant $\frac{\alpha}{3}$ for non-optimal actions in order to conserve the property that $\sum_a p(l^f = a |s,\xi) = 1$. For those cases where there is more than one optimal action, the probability is uniformly splitted among them. If all actions are optimal, they all share the same probability of $\frac{1}{nA}$.
 
-\paragraph{} It is important to remember that those frames, while capturing a realistic interaction protocol, are arbitrary and we will explicitly ask the user to conform to them. Here we assume the teacher is aware of the optimal policies to fulfill the task, and additionally shares the same representation of the problem than the robot. Especially for the scenario considered, the user should be aware that the robot can not move from position 1 to position 4 in one action. But it should rather pass thought all intermediate position $(1 \rightarrow 2 \rightarrow 3 \rightarrow 4)$. However as we known the user will probably not always provide the good signals, we added a noise term $\alpha$ that account for those unpredictable teaching mistakes. For all following experiments $\alpha$ was set to $0.1$.
-
-But a frame can be way more complex than the simple relation described above. For example, a frame could include the gaze of the user to change the probability that the user is making a mistake. Indeed if the user was looking away from the scene, he is less likely to provide correct feedback. A frame is also not always related to the actions of the agent, it can be that, when the user show an object to the robot, he also spell the name of that object. This frame allows the robot to learn the name of different objects, this frame is often used in language acquisition experiments (see chapter~\ref{chapter:related:language})
+\paragraph{} It is important to remember that these frames, while capturing a realistic interaction protocol, are arbitrary and we explicitly ask the users to conform to them. Here we assume that the teacher is aware of the optimal policies to fulfill the task, and additionally shares the same representation of the problem than the robot. Especially, for the scenario considered, the user should be aware that the robot can not move from position 1 to position 4 in one action. The robot should rather pass thought all intermediate positions $(1 \rightarrow 2 \rightarrow 3 \rightarrow 4)$. However as we known the user will sometime make teaching mistakes, we added a noise term $\alpha$ that account for unpredictable teaching mistakes. For all following experiments $\alpha$ was set to 0.1.
 
 \subsection{Speech Processing}
 \label{chapter:lfui:speechdata}
 
-We consider speech as the modality for interacting with the robot. After each action we record the teaching word pronounced by the user. This data is mapped into a $20$ dimensional feature space using the methodology described next.  
+We consider speech as the modality for interacting with the robot. After each action we record the teaching word pronounced by the user. This data is mapped into a 20 dimensional feature space using the methodology described next.  
 
-A classical method for representing sounds is the \textit{Mel-Frequency Cepstral Coefficients} (MFCC) \cite{zheng2001comparison}. It represents a sound as a time sequence of MFCC vectors of dimension $12$. Comparing sounds is done via \textit{Dynamic Time Warping} (DTW) between two sequences of feature vectors \cite{sakoe1978dynamic}. This distance is a measure of similarity that takes into account possible insertions and deletions in the feature sequence and is adapted for comparing sounds of different lengths. Each recorded vocal signal is represented as its DTW distance to a base of 20 pre-defined spoken words which are \textbf{not} part of words used by the teacher.
+A classical method for representing sounds is the \textit{Mel-Frequency Cepstral Coefficients} (MFCC) \cite{zheng2001comparison}. It represents a sound as a time sequence of MFCC vectors of dimension 12. Comparing sounds is done via \textit{Dynamic Time Warping} (DTW) between two sequences of feature vectors \cite{sakoe1978dynamic}. This distance is a measure of similarity that takes into account possible insertions and deletions in the feature sequence and is adapted for comparing sounds of different lengths. Each recorded vocal signal is represented as its DTW distance to a base of 20 pre-defined spoken words which are \textbf{not} part of words used by the teacher.
 
 By empirical tests on recorded speech samples, we estimate that a number of 20 bases words were sufficient and yet a relatively high number of dimensions to deal with a variety of people and speech. This base of 20 words has been randomly selected and is composed of the words:\emph{ \footnotesize{Error, Acquisition, Difficulties, Semantic, Track, Computer, Explored, Distribution, Century, Reinforcement, Almost, Language, Alone, Kinds, Humans, Axons, Primitives, Vision, Nature, Building}}.
 
-\subsection{Classification System for the Instruction Model}
+% \subsection{Classification System for the Instruction Model}
+\subsection{Classifiers}
 
-Any machine learning algorithm working for classification problems can be used in our system. This classifier should be able to generalize from the data and have appropriate underlying assumptions on the structure of those data. The rule to choose the classifier is that, if the label were known, the classifier should able to find a good mapping between the signals and their meanings. The only required characteristic is the ability to output a confidence on the class prediction, i.e. $p(l|e, \theta)$.
+Any machine learning algorithm working for classification problems can be used in our system. This classifier should be able to generalize from the data and should have appropriate underlying assumptions on the structure of those data. In other words, if the labels were known, the classifier should able to find a good mapping between the signals and their meanings. The only required characteristic is the ability to output a probability on the class prediction, i.e. $p(l|e, \theta)$.
 
 In this study we decided to compare three classifiers:
 \begin{itemize}
 \item Gaussian Bayesian Classifier (also called quadratic discriminant analysis (QDA)): Computing the weighted mean $\mu$ and covariance matrix $\Sigma$, the usual equations for Gaussian mixture hold.
 \item Support Vector Machine (SVM): Using a RBF kernel with $\sigma = 1000$ and $C = 0.1$. The parameter values have been estimated via a swap of parameters and by estimating performances via a cross validation procedure on the dataset. For SVM probabilistic prediction refer to \cite{platt1999probabilistic}.
-\item Linear Logistic Regression: The predictive output value ([0,1]) is used as a measure of confidence.
+\item Linear Logistic Regression: The predictive output value ($[0,1]$) is used as a probability measure.
 \end{itemize}
 
-Note that all three classifiers have accuracy close to 100 percent on our speech dataset. This is obviously a quite optimal scenario, we will see in next chapter~\ref{chapter:planning:results} how our algorithm behave with data of poorer quality.
+Our classifier are tested on our labeled speech dataset in order to verify their adequacy to model the signal to meaning mapping. All three classifiers obtain accuracy close to 100 percent. This is a rather optimal scenario, we will see in next chapter~\ref{chapter:planning:results} how our algorithm behaves with data of poorer quality.
 
-\subsection{Action selection}
+\subsection{Action selection methods}
 
-The selection of the robot's actions at runtime can be done in different ways. As different sampling methods can lead to different learning behaviors we will compare two different methods: random and  $\epsilon$-greedy. When following random action selection the robot does not use its current knowledge of the task and randomly select actions. Whereas with $\epsilon$-greedy method the robot performs actions according to the current belief of what the task is, i.e. following the policy corresponding to the most likely task hypothesis. The corresponding optimal action is chosen with $1-\epsilon$ probability, otherwise, a random one is selected. In our experiment we show only results with $\epsilon =  0.1$.
+% As different sampling methods can lead to different learning behaviors w
+
+The selection of the robot's actions at runtime can be done in different ways. We will compare two different methods: random and  $\epsilon$-greedy. When following random action selection the robot does not use its current knowledge of the task and randomly selects actions. Whereas with $\epsilon$-greedy method the robot performs actions according to its current belief on the tasks, i.e. it follows the policy corresponding to the most likely task hypothesis. The corresponding optimal action is chosen with $1-\epsilon$ probability, otherwise, a random action is selected. In our experiment, we only consider results with $\epsilon =  0.1$.
 
 It is only in the next chapter that we will investigate how the robot can actively selects its future actions in order to improve its performances.
+
+\transition
+
+Before presenting the results of our experiments, we illustrate in next section the pick and place scenario as well as the results of the labeling process for the feedback and guidance case.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Illustration of the pick and place scenario}
+\label{appendix:pickplace}
+
+We illustrate in Figure~\ref{fig:lfui:pickplaceworld} the pick and place world (where we used balls instead of cubes). There is three objects that can be moved in four different positions and stacked on two levels maximum. The robot's gripper can only grasp the object on top of the stack. An object is always released on top of a stack, except if the stack is full, in which case the release action produces no effect.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/pick_and_place/pick_and_place_world.pdf}
+  \caption{A schematic view of the pick and place problem. There is three objects that can be moved in four different positions and stacked on two levels maximum. The robot's gripper can only grasp the object on top of the stack. An object is always released on top of a stack, except if the stack is full, in which case the release action produces no effect.}
+  \label{fig:lfui:pickplaceworld}
+\end{figure}
+
+In order to complete a task, i.e. to reach a specific configuration of cubes, the robot must perform an ordered sequence of actions. For illustration purpose, we only consider 3 out of the 624 possible hypotheses. Figure~\ref{fig:lfui:pickplacesequence} shows a sequence of actions starting in our hypothesis 1 configuration and going to our hypothesis 3 configuration using the shortest possible number of actions. Hypothesis 2 is a state on this path. While hypothesis 1 and hypothesis 3 seems ``close'' in terms of position of the cubes, they are actually ``far'' one from the other in terms of the action sequence.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\columnwidth]{\visualspdf/pick_and_place/pick_and_place_sequence.pdf}
+  \caption{A pick and place sequence showing three hypotheses and the sequence of actions from hypothesis 1 to hypothesis 3 through hypothesis 2. While hypothesis 1 and hypothesis 3 seems ``close'' in terms of position of the cubes, they are actually ``far'' one from the other in terms of the action sequence.}
+  \label{fig:lfui:pickplacesequence}
+\end{figure}
+
+If the user is delivering feedback signals, the labeling process is presented in Figure~\ref{fig:lfui:pickplacefeedback} for a robot acting randomly in the environment. Note that hypothesis 1 and 2 are the most difficult to discriminate by acting randomly as they share most of their optimal policies.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\columnwidth]{\visualspdf/pick_and_place/pick_and_place_feedback.pdf}
+  \caption{Results of the labeling process for our three hypotheses and considering the feedback frame. The robot explores randomly the state space. The teacher provides feedback with respect to hypothesis 1. Only a few state-action pairs allowed to differentiate between hypothesis 1 and 2.}
+  \label{fig:lfui:pickplacefeedback}
+\end{figure}
+
+For the guidance case, the teacher uses the signals presented in Figure~\ref{fig:lfui:pickplaceguidancesignals} and the labeling process is presented in Figure~\ref{fig:lfui:pickplaceguidance} for a robot action randomly in the environment. Note that for some states there may be two optimal actions. For example, in Figure~\ref{fig:lfui:pickplacesequence}, for inverting two stacked cubes there is two different optimal policies, either the one presented in Figure~\ref{fig:lfui:pickplacesequence}, or putting the blue ball in position 2 and the green in position 3 during the exchange of position. These equally optimal options make the learning process more difficult, we can still visually find out that for hypothesis 1 all points in each cluster share one color, which is not the case for the other two hypotheses.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\signalwidth\columnwidth]{\visualspdf/pick_and_place/guidance_pick_and_place.pdf}
+  \caption{The guidance signals used for our visual example.}
+  \label{fig:lfui:pickplaceguidancesignals}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\columnwidth]{\visualspdf/pick_and_place/pick_and_place_guidance.pdf}
+  \caption{Results of the labeling process for our three hypotheses considering the guidance frame. The robot explores randomly the state space. The teacher provides guidance with respect to hypothesis 1. The labeled signals that contain two colors represent situations where the user could have given two different guidance signals, i.e. where two actions were optimal. It is only for hypothesis 1 that all signals in each cluster share one color. The case of guidance with multiple optimal actions in some states makes the learning process more ambiguous and may require some additional time compared to the feedback case.}
+  \label{fig:lfui:pickplaceguidance}
+\end{figure}
+
+\transition
+
+We have provided an example of the pick and place world with two dimensional signals and considering only three hypotheses. In next section, we consider real spoken words mapped to a 20 dimensional space and the full space of hypothesis which consists of 624 possible object configurations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -748,28 +808,29 @@ It is only in the next chapter that we will investigate how the robot can active
 \section{Results}
 \label{chapter:lfui:results}
 
-Experiments presented in this section follow the protocol described in figure~\ref{fig:lfui:bloc}, where each turn the agent performs one action and waits for the teaching signals from the teacher. We first present a set of simulated experiments using the same MDP as for the real world experiment. We start by assuming that the teacher provides feedback instructions without any mistakes, therefore only the variability in the signals remains. We compare first the different classifiers, and then the performances of $\epsilon$-greedy versus random action selection methods both for feedback and guidance modes. Later, we present an analysis of robustness to teacher mistakes. The last simulated experiment studies the case where the teacher has also access to buttons of known meaning. Finally, we show the result using a real robot where we study how signals knowledge learned in a first run can be used in a second one to learn more efficiently.
+The experiments presented in this section follow the protocol described in figure~\ref{fig:lfui:bloc}, where each turn the agent performs one action and waits for the teaching signals from the teacher. We first present a set of simulated experiments using the same MDP as for the real world experiment. We start by assuming that the teacher provides feedback instructions without any mistakes. % , therefore only the noise inherent to the spoken signals remains. 
+We compare first the different classifiers, and then the performances of $\epsilon$-greedy versus random action selection methods both for the feedback and guidance cases. Later, we present an empirical analysis of robustness to teaching mistakes. The last simulated experiment considers a teacher having also access to buttons of known meaning. Finally, we show a result using the real robot and a human user, where we study how signals knowledge learned in a first run can be used in a second one to learn more efficiently.
 
-In order to be able to compute statistically significant results for the learning algorithm, we created a database of speech signals that can be used in simulated experiments. All results report averages of $20$ executions of the algorithm with different start and goal states. 
+In order to be able to compute statistically significant results for the learning algorithm, we created a database of speech signals that can be used in simulated experiments. All results report averages of 20 executions of the algorithm with different start and goal states. 
 
-As we have $624$ hypothesis, we must update $624$ likelihoods at each step. Depending on the likelihood equation considered this may not be feasible on real time. As we would like to run it in real time and as the speech signal are very well separated int he feature space, we do will use the simplest version of our likelihood estimation method described in Equation~\ref{eq:matchingoverfitting}. To estimate the probability of each task we will normalize the likelihood estimates $\L_(\xi_1),\ldots,\L_(\xi_T)$ to 1.
+As there is 624 hypotheses, we must update 624 likelihoods at each step. Depending on the likelihood equation considered this may not be feasible in real time. As our aim is to run our system in real time, and as we know that the speech signals in our dataset are well separated in their feature space, we use the simplest version of our likelihood estimation methods described in Equation~\ref{eq:matchingoverfitting}. To estimate the probability of each task we normalize the likelihood estimates $\L_(\xi_1),\ldots,\L_(\xi_T)$ to 1.
 
-The interrested reader will find in appendix~\ref{appendix:pickplace} an illustration of the pick and place world as well as the results of the labeling process for the feedback and guidance case.
+% The interested reader will find in appendix~\ref{appendix:pickplace} an illustration of the pick and place world as well as the results of the labeling process for the feedback and guidance case.
 
 \subsection{Learning feedback signals}
 
-In this experiment we assume that the robot does not know the words being spoken by the teacher and he does not know the task either. The teacher is providing spoken spoken signals whose meanings are either \texttt{correct} or \texttt{wrong}. The robot will, simultaneously, learn the task and the mapping between the words that are recorded and the binary meanings. The action selection of the robot is done using the $\epsilon$-greedy method. The user uses only one word per meaning.
+In this experiment, the teacher is providing spoken signals whose meanings are either ``correct'' or ``incorrect''. The robot should simultaneously learn the task and the mapping between the spoken words and the binary meanings. The action selection of the robot is done using the $\epsilon$-greedy method. The user uses only one word per meaning.
 
-The results comparing the different classification methods are shown in Figure~\ref{fig:FeedbackOneWord}. It shows the evolution of the probability associated to the task the teacher has in mind. We can track this information because we known, as experimenter, the true task taught, however remember that the robot do not have direct access to this information and should make its decision based on the difference of likelihoods with the other task. Note that after $200$ iterations all three methods identified the correct task as the most likely, i.e. the normalized goal likelihood values for this task are greater than $0.5$, meaning that the sum of all the others is inferior to $0.5$. Logistic regression provides the worse results in terms of convergence rate and variance.
+The results comparing the different classification methods are shown in Figure~\ref{fig:FeedbackOneWord}. It shows the evolution of the probability associated to the task the teacher has in mind. We can track this information because we know, as experimenters, the true task taught by the teacher. Note that after 200 iterations all three classification methods identified the correct task as the most likely, i.e. the normalized likelihood values of the correct task are greater than 0.5, meaning that the sum of all the others is inferior to 0.5. Logistic regression provides the worse results in terms of convergence rate and variance.
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.7\columnwidth]{\imgpath/classifiers}
-  \caption{Taught hypothesis normalized likelihood evolution (mean + standard error) thought iteration using different kinds of classifiers. The teacher is providing feedback using one word per meaning and the agent is performing action according to $\epsilon$-greedy strategy.}
+  \caption{Taught hypothesis normalized likelihood evolution (mean + standard error) thought iterations using different kinds of classifiers. The teacher is providing feedback signals using one word per meaning and the agent is performing actions according to the $\epsilon$-greedy strategy.}
   \label{fig:FeedbackOneWord}
 \end{figure}
 
-As soon as the classifier can captures it, the user is not restricted to the use of only one word per meaning. Table~\ref{tab:1} compares the goal normalized likelihood value after $100$ iterations for feedback signals composed of one, three and six spoken words per meaning. SVM has better performance when using one word per meaning but the Gaussian classifier has overall better results with less variance, see Table~\ref{tab:1}. 
+The user is not restricted to the use of only one word per meaning. Table~\ref{tab:1} compares the taught task normalized likelihood value after 100 iterations for feedback signals composed of one, three and six spoken words per meaning. SVMs have better performances when using one word per meaning but the Gaussian classifier has overall better results with less variance, see Table~\ref{tab:1}.
 
 \begin{table}[!htbp]
 \centering
@@ -784,87 +845,113 @@ As soon as the classifier can captures it, the user is not restricted to the use
 \label{tab:1}
 \end{table}
 
-Interestingly the Gaussian classifier learns better after $100$ iterations than the other classifiers with many words per meaning. This counter intuitive result can be explain by the high dimensionality of the space where even one Gaussian can differentiate several groups of clusters. Linear logistic regression have lower performance presumably due to the linear decision boundary. For the SVM classifier, which is kernalized, as only 100 data points are distributed between each cluster, the more the number of cluster increase the less data point per cluster. The iterative fitting process of the SVM is therefore more likely to consider some data as noise, omitting some clusters. For the following experiments, we will only consider the Gaussian classifier, first because it has overall better performance but also because it is the faster to train and thus is the only one usable for real world and real time experiments. Indeed, in this setup, at each iteration the agent has to train $624$ classifiers.
+Interestingly the Gaussian classifier learns better after 100 iterations than the other classifiers with many words per meaning. This counter intuitive result can be explain by the high dimensionality of the space where even one Gaussian can differentiate several groups of clusters. Linear logistic regression have lower performance presumably due to the linear decision boundary. For the SVM classifier, which is kernalized, as only 100 data points are distributed between each cluster, the more the number of clusters increases the less data points belong to each cluster. The fitting process of the SVM is therefore more likely to consider some data as noise, omitting some clusters. For the following experiments, we will only consider the Gaussian classifier, first because it has overall better performance, but also because it is the faster to train and thus is the only one usable for online experiments. 
+
+% Indeed, in this setup, at each iteration the agent has to train 624 classifiers.
 
 \subsection{Learning guidance signals}
 
-In Figure~\ref{fig:Guidance}, we compare the performance of learning from unknown feedback or unknown guidance signals. Between feedback and guidance method, the number of meanings is increased from two (correct/incorrect) to four (left/right/grasp/release). As with feedback, the robot is able to identify the task based on guidance signals but need more iterations to reach a perfect knowledge. This may seem counter intuitive as for the guidance case the robot receives more informative signals. However it now needs to classify instructions in four meanings which requires more samples to identify the clusters. 
+In Figure~\ref{fig:Guidance}, we compare the performance between using feedback or guidance signals. From feedback to guidance the number of meanings is increased from two (correct/incorrect) to four (left/right/grasp/release). As depicted in Figure~\ref{fig:Guidance}, the robot is able to identify the task based on unlabeled guidance signals. However it requires more iterations to reach the same level of confidence. This may look counter intuitive because guidance signals are more informative. However the robot now needs to classify instructions in four different meanings, i.e. to identify four clusters of signals, which requires more samples. 
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.7\columnwidth]{\imgpath/feedback_vs_guidance}
-  \caption{Taught hypothesis normalized likelihood evolution (mean + standard error) thought iteration using Gaussian classifier. Comparison of feedback (green) and guidance (blue) instructions using one word per meaning. The robot is able to learn the task based on both feedback and guidance signals but needs more iterations to reach a perfect knowledge for the guidance case.}
+  \caption{Taught hypothesis normalized likelihood evolution (mean + standard error) thought iterations using Gaussian classifier. Comparison of feedback (green) and guidance (blue) instructions using one word per meaning. The robot is able to learn the task based on both feedback and guidance signals but needs more iterations for the guidance case.}
   \label{fig:Guidance}
 \end{figure}
 
 \subsection{Robustness to teaching mistakes}
 
-In the results presented until now, we made the assumption that the teacher is providing feedback or guidance signals without any mistake. But real world interactions are not perfect and people can fail in providing correct feedback. That is why we included the $alpha$ constant in our frame's equations (see section~\ref{chapter:lfui:framemodels}
-). An analysis of robustness is shown in figure~\ref{fig:Noise} using feedback signals, Gaussian classifier and one word per meaning. We compares two way of training the Gaussian classifiers: \begin{inparaenum}[a)] \item estimating the maximum likelihood (ML) of the Gaussian for each class, namely the mean and covariance, and \item using the expectation maximization (EM) algorithm to iteratively update the mean and covariance of each class in order to find the underlying structure of the data. \end{inparaenum} 
+Until now, we made the assumption that the teacher is providing feedback or guidance signals without any mistake. But in real world scenario, people can fail in providing optimal feedback. This is why we initially included the $alpha$ constant in our frame's equations (see section~\ref{chapter:lfui:framemodels}). An empirical analysis of robustness is shown in figure~\ref{fig:Noise} using feedback signals, Gaussian classifier, and one word per meaning. We compares two ways of training the Gaussian classifiers: \begin{inparaenum}[(1)] \item estimating the maximum likelihood (ML) of the Gaussian for each class, namely the mean and covariance, and \item using the expectation maximization (EM) algorithm \cite{dempster1977maximum} to iteratively update the mean and covariance of each class in order to find the underlying structure of the data. \end{inparaenum} 
 
-We show that the EM approach is improving robustness to teaching mistakes as it allows to find the true underlying structure more efficiently. Referring to our previous discussion in section~\ref{chapter:lfui:whynotEM}, note that we initialized the EM algorithm with the ML estimates for each Gaussian and tracked which Gaussian belongs to which meaning. In addition the representation use for the spoken words makes them well separated in the feature space and it is unlikely that the EM algorithm fails at finding the two clusters given the data properties.
+% It allows to find the true underlying structure more efficiently.
+
+We show that the EM approach is improving robustness to teaching mistakes. Referring to our previous discussion in section~\ref{chapter:lfui:whynotEM}, note that we initialized the EM algorithm with the ML estimates for each Gaussian, and we kept track which Gaussian belongs to which meaning. In addition, the representation used for the spoken words is of high quality and separates well the signals in the feature space. Therefore it is unlikely for the EM algorithm to fail at finding the two clusters given the data properties.
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.49\columnwidth]{\imgpath/noise_no_EM}
-  \includegraphics[width=0.49\columnwidth]{\imgpath/noise_with_EM}
-  \caption{Taught hypothesis normalized likelihood evolution thought iteration using Gaussian classifier. Comparison of the ML estimates (left) versus EM estimates (right). The teacher is providing feedback using one word per meaning with different percentage of mistakes. $\epsilon$-greedy action selection. Standard error has been omitted for readability reason.}
+  \begin{subfigure}[b]{0.49\columnwidth}
+    \centering
+    \includegraphics[width=\columnwidth]{\imgpath/noise_no_EM}
+    \caption{ML}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.49\columnwidth}
+    \centering
+    \includegraphics[width=\columnwidth]{\imgpath/noise_with_EM}
+    \caption{EM}
+  \end{subfigure}
+  \caption{Taught hypothesis normalized likelihood evolution thought iterations using Gaussian classifier. Comparison of the ML estimates (left) versus EM estimates (right). The teacher is providing feedback using one word per meaning with different percentage of mistakes. Actions are selected following the $\epsilon$-greedy method. Standard error has been omitted for readability reason.}
   \label{fig:Noise}
 \end{figure}
 
 \subsection{Including prior information}
 \label{sec:IncludingPriorInformation}
 
-Learning purely from unknown teaching signals is challenging for the researcher but could be restrictive for the teacher. Therefore sources of known feedback could be added, such as a green and a red button, where the green button has a predefined association with a ``correct'' feedback meaning, as red button with a ``incorrect'' meaning. Yet, we shall expect that even in this case, users will use more modalities than the predefined one.  
+Learning purely from unknown teaching signals is challenging for the researcher but could be restrictive for the teacher. Therefore additional sources of known feedback are consider, such as a green and a red button, where the green button has a predefined association with a ``correct'' meaning, as red button with a ``incorrect'' meaning. 
 
-In this study, the teacher still provides initially unknown spoken words feedback but can also use the red and green button as described in figure~\ref{fig:lfui:bloc}. However, and in order to avoid the possibility of direct button to signal association, it can never use both modalities at the same time and use them alternatively with equal probability. Therefore, in average, after 250 iterations the robot has received 125 known feedback and 125 unknown speech signals. In most systems half of the information would be ignored but our method enable learning from the unknown signals. We study three learning methods: in the first case, the robot is learning only via the known feedback, i.e. the buttons; in the second it uses only the vocal unknown signal; and in the third one, it uses both. Figure~\ref{fig:button} shows result from this setting. 
+% Yet, we shall expect that even in this case, users will use more modalities than the predefined one.
+
+In this study, the teacher still provides unlabeled spoken words but can also use the red and green button as described in figure~\ref{fig:lfui:bloc}. However, and in order to avoid the possibility of direct button to signal association, the user can never use both modalities at the same time and use them alternatively with equal probability. Therefore, in average, after 250 iterations the robot has received 125 labeled button presses and 125 unlabeled speech signals. In most systems, the speech signals would be ignored but our method enables learning from the unlabeled signals. We compare three learning methods: \begin{inparaenum}[(1)] \item the robot is learning only via the labeled button presses, \item it uses only the unlabeled speech signals, and \item it uses both labeled and unlabeled signals. \end{inparaenum} Figure~\ref{fig:button} shows results from this setting. 
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.7\columnwidth]{\imgpath/mix_button}
-  \caption{Taught hypothesis normalized likelihood evolution (mean + standard error) thought iteration using Gaussian classifier. Comparison of using known button, unknown signals and both.}
+  \caption{Taught hypothesis normalized likelihood evolution (mean + standard error) thought iterations using Gaussian classifier. Comparison of using known button presses, unknown spoken signals, and both.}
   \label{fig:button}
 \end{figure}
 
-As expected, learning from known feedback is faster than with unknown, however taking advantage of different sources of information, even a priori unknown, can led to slightly better performances than using only known information. Importantly, the signals to meaning knowledge of the robot is updated and could therefore be reused in further interaction.
+As expected, learning from labeled feedback is faster than with unlabeled signals. However taking advantage of different sources of information, even a priori unknown, can led to slightly better performances than using only known information. Importantly, the signals to meaning mapping of speech signals learned during a first task, could later be reused in further interactions.
 
 \subsubsection{Reuse using a real robot}
 
-Statistical simulations have shown that our algorithm allows an agent to learn a task from unknown feedback in a limited amount of interactions. To bridge the gap of simulation we tested our algorithm in real interaction conditions with our robotic arm. In this experiment, the teacher is facing the robot and chooses a specific goal to reach (i.e. a specific arrangement of cubes he wants the robot to build). He then decides one word to use as positive feedback and one as negative feedback and starts to teach the robot. For this experiment the word \textit{``yes''} and \textit{``no''} were respectively used for the meaning ``correct'' and ``incorrect''. 
+Statistical simulations have shown that our algorithm allows an agent to learn a task from unlabeled feedback in a limited amount of interactions. To bridge the gap of simulation we tested our algorithm in real interaction conditions with our robotic arm. In this experiment, the teacher is facing the robot and chooses a specific goal to reach (i.e. a specific arrangement of cubes he wants the robot to build). He then decides one word to use as positive feedback and one as negative feedback, and starts teaching the robot. For this experiment the word \textit{``yes''} and \textit{``no''} were respectively used for the meaning ``correct'' and ``incorrect''. 
 
-Once the run is terminated we keep in memory the classifier corresponding to the best task, i.e. having the higher likelihood value, and start a new experiment where the human teacher is going to use the same feedback signals to teach a new task. But this time the spoken words are first classified as ``correct'' or ``incorrect'' meaning according to the previously learnt classifier. Therefore we can use the same method are when learning from the buttons. We study here two things, first does our system bridges the reality gap and can we reuse information learnt from a previous experience? 
+Once the first task has been identified by the robot, we keep in corresponding classifier and start a new experiment where the human teacher is going to use the same feedback signals to teach a new task. However the second time, the spoken words are first classified as ``correct'' or ``incorrect'' meaning according to the previously learned classifier. We study here two things, first does our system bridges the reality gap and can we reuse information about the signal to meaning mapping learned from a previous interaction session?
 
-Figure~\ref{fig:Real} shows results from this setting. In the first run it takes about $100$ iterations for the robot to learn the task. Whereas in the second run, when reusing knowledge from the first one, the robot is able to learn a new task faster, in about $30$ iterations, meaning that it has well found the two clusters in our $\mathbb{R}^{20}$ dimensional space as well as the mapping to their corresponding meaning. I was the user for this studies and was aware of the task representation used by the robot, i.e. a MDP with four discrete actions. As explained in chapter~\ref{chapter:related:humanintheloop} an important challenge is to deal with non-expert humans whose teaching styles can vary considerably. However this challenge is not part of the current study and we observed that different non-informed users teaching the robot had different understanding of the robot behaviors which led to unsuccessful interactions.
+Figure~\ref{fig:Real} shows the result from this setting. In the first run it took about 100 iterations for the robot to identify the task. Whereas in the second run, when reusing knowledge from the first one, the robot is able to learn a new task faster, in about 30 iterations. The second run being faster that the first one indicates that our algorithm identified correctly the mapping between the user's speech signals and their corresponding meanings. 
+
+The author of this thesis was the user for this studies and was therefore aware of the task representation used by the robot, i.e. a MDP with four discrete actions. As explained in chapter~\ref{chapter:related:humanintheloop}, an important challenge is to deal with non-expert humans whose teaching styles can vary considerably. While this challenge is not part of the current study, we observed that non-informed users teaching our robot had various understanding of the robot behaviors. It most often led to unsuccessful interactions due to an important amount of teaching mistakes from non-informed users.
+
+% the two clusters in our $\mathbb{R}^{20}$ dimensional space as well as 
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.7\columnwidth]{\imgpath/real}
-  \caption{Taught hypothesis normalized likelihood evolution thought iteration using Gaussian classifier.  Feedback using one word per action. $\epsilon$-greedy action selection. A first run of $100$ iterations is performed where the robot learns a task from unknown feedback. Then by freezing the classifier corresponding to the best task estimate, the user teaches the robot a new task.}
+  \caption{Taught hypothesis normalized likelihood evolution thought iterations using Gaussian classifier. A real teacher delivers spoken feedback signals using one word per meaning. The robot uses the $\epsilon$-greedy action selection method. A first run of 100 iterations is performed where the robot learns a task from unknown feedback. Then, by freezing the classifier corresponding to the most likely task, the user teaches the robot a new task.}
   \label{fig:Real}
 \end{figure}
 
-This experiment was done at a very early stage of this work and was not yet considering the method discussed in section~\ref{chapter:lfui:tasttotask}, but only a simplified version were the label from the first task are used to calibrate a classifier used for the learning of the second task.
+% We used a simplified version were the label from the first task are used to calibrate a classifier used for the learning of the second task.
 
 \subsection{Action selection methods}
 
-Finally we compare the impact of using different action selection methods, we consider $\epsilon$-greedy and random action selection methods.
+Finally, we compare the impact of using different action selection methods, we consider the $\epsilon$-greedy and the random action selection methods.
 
-Figure~\ref{fig:selectionMethod} left and right compares respectively the action selection method for the case of feedback and guidance interaction frames. The $\epsilon$-greedy method results in a faster learning with less variance. This method, at each step, leads the robot in the direction of the most probable goal. In this way it will receive more diverse feedback and will visit more relevant states than what a random exploration would do.
+Figure~\ref{fig:selectionMethod} left and right compares respectively the action selection method for the case of feedback and guidance interaction frames. The $\epsilon$-greedy method results in a faster learning with less variance. The $\epsilon$-greedy method leads the robot in the direction of the most probable goal. In this way, the robot will receive more diverse feedback and will visit more relevant states than what a random exploration does.
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.49\columnwidth]{\imgpath/feedback}
-  \includegraphics[width=0.49\columnwidth]{\imgpath/guidance}
-  \caption{Taught hypothesis normalized likelihood evolution (mean + standard error) thought iteration using Gaussian classifier. The teacher is providing feedback (left) or guidance (right) signals using one word per meaning. The $\epsilon$-greedy action selection method learns faster than the random one. Note that the x-axis showing the number of iteration from start does not considered the same range.}
+  \begin{subfigure}[b]{0.49\columnwidth}
+    \centering
+    \includegraphics[width=\columnwidth]{\imgpath/feedback}
+    \caption{Feedback}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.49\columnwidth}
+    \centering
+    \includegraphics[width=\columnwidth]{\imgpath/guidance}
+    \caption{Guidance}
+  \end{subfigure}
+  \caption{Taught hypothesis normalized likelihood evolution (mean + standard error) thought iterations using Gaussian classifier. The teacher is providing feedback (left) or guidance (right) signals using one word per meaning. The $\epsilon$-greedy action selection method allows a faster learning than the random method. Note that the x-axis, showing the number of iterations, does not considered the same range for the feedback (left) and guidance (right) cases.}
   \label{fig:selectionMethod}
 \end{figure}
 
-
 \transition
 
-We showed that learning simultaneously a task and the meaning of an a priori unknown human instruction is possible and that the action selection method impacted the learning performances. Can we do better than random or $epsilon$-greedy action selection method? 
+We showed that learning simultaneously a task and the meaning of an a priori unknown human instruction is possible and that the action selection method impacts the learning performances. Can we do better than random or $epsilon$-greedy action selection methods?
 
-Using an active learning approach \cite{settles2010active}, it should be more time efficient to choose the actions that are expected to reduce the uncertainty as fast as possible. In next section we will investigate and details the specific aspect of the uncertainty in our setting, where not only the task is unknown but also the signal to meaning mapping. We will provide measures of uncertainty that can be used as exploration bonus for planning exploration strategies. And present results from artificial dataset of different qualities in a two-dimensional grid world.
+% This experiment was performed at a very early stage of this work and was not yet considering the full method introduced in section~\ref{chapter:lfui:tasttotask}.
+
+Using an active learning approach \cite{settles2010active}, it might be more efficient to choose the actions that are expected to reduce the uncertainty as fast as possible. In next chapter, we investigate and details the specific properties of the uncertainty in our problem, where not only the task is unknown but also the signal to meaning mapping. We will provide measures of uncertainty that can be used as exploration bonuses for exploration strategies. We will finally present results from artificial dataset of different qualities in a two-dimensional grid world scenario.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
