@@ -99,68 +99,69 @@ Before the step 200, we observe a strong evolution of every classifiers (see Fig
 
 However after step 200, the difference between classifier qualities is very small. Indeed, 5 tasks have already been identified and they now share most of their signal-label pairs (due to the propagation of label after each task identified seen in chapter~\ref{chapter:lfui:tasttotask}). From iteration 200, the algorithm behaves similarly if a calibrated classifier common for all hypothesis was provided. Indeed,  all classifier are similar and make similar predictions. 
 
-Interestingly, these two modes are captured by the same equation (see Equation~\ref{eq:matchingcrossvalidation}), which compares predicted and expected labels while taking into account the confidence in the predictions of the classifiers through the estimated confusion matrix.
+Interestingly, these two modes are captured by the same equation (see Equation~\ref{eq:matchingcrossvalidation}), which compares predicted and expected labels while taking into account the confidence in the predictions of the classifiers using their respective estimated confusion matrix.
 
 \subsection{Planning}
 
-Figure~\ref{fig:planningEEG} compares the number of steps (with maximum values of 500 steps) needed to identify the first task when learning from scratch with different planning methods. Our proposed planning method leads the system towards regions that maximize disambiguation among hypotheses and outperforms the other action selection methods. Those results are in line with the one using artificial datasets in Figure~\ref{fig:artificialplanning}. Given these results, the remainder of this section will only consider our planning method.
-
+Figure~\ref{fig:planningEEG} compares the number of steps (with maximum values of 500 steps) needed to identify the first task when learning from scratch with different planning methods. Our proposed planning method guide the agent towards states that maximize disambiguation among hypotheses, which outperforms the other action selection methods. Given these results, the remainder of this section will only consider our planning method.
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_EEG_planning.eps}
-    \caption{Number of steps to complete first task using EEG data of different quality. The EEG data have similar properties than our 30 dimensional simulated data in Figure~\ref{fig:artificialplanning}. Our planning method based on both the task and the signal to meaning mapping uncertainty is more efficient that choosing action randomly, greedily or only based on the uncertainty on the task.}
+    \caption{Number of steps to complete first task using EEG data of different quality. The EEG data have similar properties than our 30 dimensional simulated data in Figure~\ref{fig:artificialplanning}. Our planning method, based on both the task and the signal to meaning mapping uncertainty, is more efficient that choosing action randomly, greedily, or only based on the uncertainty on the task.}
     \label{fig:planningEEG}
 \end{figure}
 
 \subsection{Time to first task}
 
-Figure~\ref{fig:firstEEG} shows the number of iterations to identify the first task and compares the results between our self-calibration method and calibration period of 200, 300, and 400 iterations. The percentage of time the task first task was correct is show on top of the each box plot. For our self-calibration method, the learning time is strongly correlated with the dataset quality. This is an important properties as we are able to adapt online to the quality of the data we receive. For dataset of more than 80 percent classification rate, we can complete the first task is less than 150 steps on average without mistake.
+Figure~\ref{fig:firstEEG} shows the number of iterations needed to identify the first task and compares the results between our self-calibration method and calibration periods of 200, 300, and 400 iterations. The percentage of time the first task was correctly identified is shown on top of each box plot. For our self-calibration method, the learning time is strongly correlated with the dataset quality. This is an important properties, it means our method is able to adapt online to the quality of the data it receives. For datasets of more than 80 percent classification accuracy, we can complete the first task in less than 150 steps on average and without mistake.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_EEG_calib_firstconf.eps}
-\caption{Number of steps to complete first task with EEG data. The agent planned its action using our uncertainty based method. The percentage of time the task first task was correct is show on top of the each box plot. The method scale well to EEG data. For our self-calibration method, the learning time is strongly correlated with the dataset quality. Contrary to the standard calibration approaches, we do not make mistakes with low quality datasets.}
+\caption{Number of steps to complete the first task using EEG data. The agent plans its action using our uncertainty based method. The percentage of time the first task was correctly identified is shown on top of each box plot. The method scale well to EEG data. For our self-calibration method, the learning time is strongly correlated with the dataset quality. Contrary to the standard calibration approaches, we do not make mistakes with low quality datasets.}
 \label{fig:firstEEG}
-\end{figure} 
+\end{figure}
 
-Compared to calibration methods, our algorithm allows to complete the first task without errors. However calibration methods, which do not update their classifier once calibrated, identify more tasks incorrectly. In addition, for the calibration method, the time to first target is way less correlated to the dataset quality than our self calibration procedure. The fact of training one classifier per task makes our algorithm more robust. We will discuss potentials reasons of such errors in section~\ref{chapter:bci:cheating}.
+Compared to calibration based methods, our algorithm allows to complete the first task without errors. However, calibration based methods, which do not update their classifier once calibrated, identify more tasks incorrectly. In addition, the time to complete the first task is less correlated with the datasets' quality for the calibration based methods than for our self-calibration procedure. Training one classifier per task makes our algorithm more robust. We will discuss propose several explanations of the bad performances of calibration based methods in section~\ref{chapter:bci:cheating}.
 
 \subsection{Cumulative performances}
 
-Figure~\ref{fig:nCorrectEEG} compares the number of tasks that can be achieved in 500 steps. With 90\% and more dataset quality we can achieve about 20 tasks on average. The results are consistent with artificial dataset analysis.
+Figure~\ref{fig:nCorrectEEG} compares the number of tasks achieved in 500 steps. With datasets of more than 90\% classification accuracy, we can achieve more than 20 tasks on average. 
+
+% These results are consistent with artificial dataset analysis.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_EEG_calib_nCorrect.eps}
-\caption{Number of task correctly achieved in 500 steps with EEG data. Calibration methods can not complete a significant number of task as most of the time is spent on calibration.}
+\caption{Number of tasks correctly achieved in 500 steps with EEG data. Calibration based methods can not complete a significant number of tasks because most of the experimental time is spent on calibrating the system.}
 \label{fig:nCorrectEEG}
 \end{figure} 
 
-The calibration methods can not complete many task as a significant amount of iteration was used for calibrating the system. A calibration of 200 steps makes as many good estimation than our method, but it also makes many wrong estimation, see Figure~\ref{fig:nWrongEEG}. For calibration methods, the less time spent on calibration, the poorer the classifier which implies more mistakes.
+The calibration based methods can not complete a significant number of tasks because most of the experimental time is spent on calibrating the system. A calibration of 200 steps allow to reach as many target correctly than the self-calibration method, but it also produces many wrong estimation, see Figure~\ref{fig:nWrongEEG}. For calibration based methods, the less time spent on calibration the poorer the classifier, which implies more mistakes.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_EEG_calib_nWrong.eps}
-\caption{Number of task incorrectly achieved in 500 steps with EEG data. Calibration methods, which do not update their models once calibrated, make more errors.}
+\caption{Number of tasks incorrectly achieved in 500 steps with EEG data. Calibration based methods, which do not update their models once calibrated, make more errors.}
 \label{fig:nWrongEEG}
 \end{figure}
 
 \subsection{Last 100 iterations performances}
 
-Figure~\ref{fig:nCorrectEEG_last100} compares the number of task that can be achieved during the last 100 steps with EEG data. During the last 100 steps, all method are active at their full potential as no time is lost in calibrating the system. With 80-90\% dataset quality, all methods achieve an average success rate of one task every 20 steps. However calibration methods, which do not update their models once calibrated, make more mistakes (see figure \ref{fig:nWrongEEG_last100}). While our method achieve slightly less task during the last 100 steps, it makes less mistakes, which seems to indicate our method is more conservative. We will discuss that point in section~\ref{chapter:bci:cheating}.
+Figure~\ref{fig:nCorrectEEG_last100} compares the number of tasks achieved during the last 100 steps with EEG data. During the last 100 steps, all methods are active at their full potential because no time is lost in calibrating the system. With dataset in the range of 80-90\%, all methods achieve an average success rate of one task every 20 steps. However calibration based methods, which do not update their classifiers once calibrated, make more mistakes (see figure \ref{fig:nWrongEEG_last100}). While our method achieve slightly less task during the last 100 steps, it makes less mistakes, which seems to indicate our method is more conservative. We will discuss that point in section~\ref{chapter:bci:cheating}.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_EEG_calib_nCorrect_last100.eps}
-\caption{Number of task correctly achieved during the last 100 steps with EEG data. All methods have equivalent successful reaching rate.}
+\caption{Number of tasks correctly achieved during the last 100 steps using EEG data. All methods allow the agent to complete an equivalent of tasks.}
 \label{fig:nCorrectEEG_last100}
 \end{figure} 
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_EEG_calib_nWrong_last100.eps}
-\caption{Number of task incorrectly achieved during the last 100 steps with EEG data. Calibration methods, which do not update their models once calibrated, make more errors.}
+\caption{Number of tasks incorrectly achieved during the last 100 steps using EEG data. Calibration based methods, which do not update their classifiers once calibrated, make more errors.}
 \label{fig:nWrongEEG_last100}
 \end{figure} 
 
@@ -169,18 +170,18 @@ Figure~\ref{fig:nCorrectEEG_last100} compares the number of task that can be ach
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Why we are cheating with pre-recorder EEG samples}
+\section{Why are we cheating with pre-recorder EEG samples?}
 \label{chapter:bci:cheating}
 
-We can identify two main differences between our method and the usual calibration procedure for this kind of BCI experiments:
+For this BCI scenario, we can identify two main differences between our self-calibration method and the usual calibration based approaches:
 \begin{enumerate}
-\item \textbf{Online update of multiple classifiers.} Our method integrates new data at every step whose label can differ between task hypothesis. For incorrect task hypothesis, the associated label can be incorrect and decrease the performance of the associated classifier. This dynamic can be observed in figure \ref{fig:sequence_evolution} where classifiers associated to incorrect tasks (in blue) have lower estimated accuracies than the correct one (in red). As a result our algorithm makes different predictions and updates for each hypothesis.
-\item \textbf{Positive/Negative percent ratio of training examples}. Following the literature \cite{chavarriaga2010learning, iturrate2013task} we used a 80/20 percent ratio. Table \ref{tab:correctLabelRatio} shows the positive/negative ratio obtained following our planning method. The ratio we obtain is more balanced, resulting in classifiers with better properties. However a 50/50 percent ratio may lead to practical problems during online real world experiments and should be studied in more details.
+\item \textbf{Online update of multiple classifiers.} Our method integrates new data at each new step, and classifiers can differ between task hypothesis. For incorrect task hypothesis, the signal-label pair added to the training datasets can be incorrect and decrease the performance of the associated classifier. This dynamic can be observed in figure \ref{fig:sequence_evolution}, where classifiers associated to incorrect tasks (in blue) have lower estimated accuracy than the classifiers associated to the correct task (in red). As a result, our algorithm makes different predictions and updates for each hypothesis.
+\item \textbf{Positive/Negative percent ratio of training examples}. Following the literature \cite{chavarriaga2010learning, iturrate2013task}, the training dataset for calibration based methods was composed of 80 percent of the signals of meaning ``correct'', and only 20 percent of ``incorrect''. The ratio obtained during the self-calibration experiments is more balanced (around 50/50, see Table~\ref{tab:correctLabelRatio}), resulting in classifiers with better properties. But, during online real world experiments, a 50/50 percent ratio may lead to practical problems and should be studied in more details.
 \end{enumerate}
 
-This latter aspect concerning the positive/negative ratio of training example is usually required due to the properties of the signal we seek for in the subjects. Indeed Errp signals are signals that corresponds more to non expected movement from the agent than to voluntary erroneous assessment. By this we mean that the user should not expect the agent o make a mistake for the signal to be present and of good intensity. This explains why, during the calibration phase of their system, researchers uses 80 percent of the time a correct action (i.e. moving towards the goal), and only 20 percent of the time an incorrect action which is therefore unexpected. This is possible because during the calibration period, both the user and the agent are aware of the target considered.
+This latter aspect concerning the positive/negative ratio of training example is usually required due to the properties of the signal we seek for in the subjects' brain. Indeed ErrP signals are more powerful when triggered by non expected movement of the agent, rather than being a voluntary erroneous assessment. In other words, for the ErrP signal to be observable and of good intensity, the user should not expect the agent to make a mistake. This explains why, during the calibration phase of their system, researchers uses 80 percent of the time a correct action (i.e. moving towards the goal), and only 20 percent of the time an incorrect action which is therefore unexpected \cite{chavarriaga2014errare}. This is possible during a calibration period because both the experiment informs both the user the agent of the task to consider. As the agent knows the task, it can plan its action to maintain a 80/20 percent meaning ratio.
 
-However, in our scenario, the agent is not aware of the goal the user has in mind, Therefore it is impossible to guarantee such an 80/20 percent ratio of positive/negative examples. In practice our method acquired as many correct and incorrect samples according to the true intended task, see Table~\ref{tab:correctLabelRatio}.
+However, i our learning scenario, the agent is not aware of the task the user has in mind. Therefore it is impossible to guarantee a 80/20 percent ratio of positive/negative examples. In practice, using our approach, the agent acquires as many signals of meaning ``correct'' than of meaning ``incorrect'' according to the true intended task, see Table~\ref{tab:correctLabelRatio}.
 
 \begin{table}
 \centering
@@ -193,28 +194,30 @@ Dataset Accuracies & Self-calibration & Calibration \\ \hline
 80-90 & 0.57 (0.03) & 0.8 (0) \\
 90-100 & 0.59 (0.01) & 0.8 (0) \\
 \end{tabular}
-\caption{Mean ratio of positive examples in training dataset (standard deviation shown in parenthesis). Calibration procedure for ErrP EEG signal usual account for a 80 percent ratio of positive examples. However when following our method we collect as many positive than negative examples. This is likely to impact the quality of Errp signal received from the human during online experiment.}
+\caption{Mean ratio of positive examples in the training datasets (standard deviation shown in parenthesis). Calibration procedures for creating a usable dataset of ErrP signals usually account for a 80 percent ratio of positive examples. However, when the task is unknown, it is impossible to guarantee such ratio. In practice, using our self-calibration method, an agent will collect as many positive than negative examples. This is likely to impact the quality of the ErrP signals received from the human brain during online experiments.}
 \label{tab:correctLabelRatio}
 \end{table}
 
-As a first observation this can explain the results of Figure~\ref{fig:firstEEG}, Figure~\ref{fig:nWrongEEG}, and Figure~\ref{fig:nWrongEEG_last100} where the calibration method, while using the exact same update equation, makes more mistakes than our self-calibration method. Apart from the fact that our method train one classifier per class, the method which calibrates using 400 examples should have similar performances than our self-calibration. But the calibration based method only observed 80 samples corresponding to the ``incorrect'' class, while the self-calibration method observed 200 in average after 400 steps. As the data are of relatively high dimension, 80 sample is not that to build a good enough model, especially for those low quality datasets.
+At a glance, our observation of the ratio of positive/negative signals can explain the results of Figure~\ref{fig:firstEEG}, Figure~\ref{fig:nWrongEEG}, and Figure~\ref{fig:nWrongEEG_last100}, where the calibration based methods, while using the same update equation, make more mistakes than our self-calibration method. Apart from the fact that our method train one classifier per class, calibrating using 400 examples should produce similar results than our self-calibration approach. But after 400 steps, the calibration based method only observed 80 signals corresponding to the ``incorrect'' class, while the self-calibration method observed 200 signals. As the signals are represented in a 34 dimensional space, 80 samples may not be enough to build a good model, especially for low quality datasets.
 
-As a results, the properties of the classifiers are different between our self-calibration method and the one from the calibration procedure. Figure~\ref{fig:calibFail} shows the difference between the perceived accuracy of the classifiers (i.e. when estimating their quality on their training data) versus the actual accuracy of the classifiers (i.e. when estimating their quality on the remaining data in our bigger dataset). For dataset of good quality, our method generates classifiers that are under-confident while the calibration method tend to produce over-confident classifiers. This over-confidence is likely to explain the high number of estimation error when relying on the  calibration procedure, versus the very low error rate observed for our self-calibration method which tend to under-estimate the quality of its classifiers.
+% As a results, the properties of the classifiers are different between our self-calibration method and the one from the calibration procedure.
+
+Figure~\ref{fig:calibFail} shows the difference between the perceived accuracy of the classifiers (i.e. when estimating their quality on their training data) versus the actual accuracy of the classifiers (i.e. when estimating their quality on the remaining data in our bigger dataset). For dataset of good quality, our method generates classifiers that are under-confident while the calibration method tend to produce over-confident classifiers. This over-confidence is likely to explain the higher number of estimation errors when relying on a calibration procedure, versus the very low error rate observed with our self-calibration method which tend to under-estimate the quality of its classifiers.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_explaination_for_calib_failure.eps}
-\caption{Difference between true accuracy and estimated accuracy. True accuracy is the performance of the classifier on the unused data. Estimated accuracy is the 10 fold cross validation performance of the classifier on collected data. A negative(positive) value indicates the classifier is over(under)-estimating its performance. Calibration methods tend to produce over-confident classifiers, certainly due to the biased positive to negative training example ratio, see table \ref{tab:correctLabelRatio}.}
+\caption{Difference between ``true accuracy'' and estimated accuracy. ``True accuracy'' is the performance of the classifier on the unused data. Estimated accuracy is the 10 fold cross validation performance of the classifier on the training data. A negative(positive) value indicates the classifier is over(under)-estimating its performance. Calibration methods tend to produce over-confident classifiers, certainly due to the biased positive to negative training example ratio, see table \ref{tab:correctLabelRatio}.}
 \label{fig:calibFail}
 \end{figure}
 
-But, while this conclusion seems satisfying and is likely to explain the observation made int he previous section, we forgot to considerer that the data we used in our simulated experiment where collected using an 80/20 percent ratio between the correct and incorrect signal samples. Will the brain signals conserve similar properties when using our self-calibration method, which collect samples with a 50/50 percent ratio? This is unlikely. 
+While this conclusion seems satisfying and is likely to explain the observation made in the previous section, we remind here that the data used in our simulated experiments were collected using an 80/20 percent ratio between the correct and incorrect signal samples. Will the brain signals conserve similar properties when using our self-calibration method online? This is unlikely due to the 50/50 percent ratio of signals' meaning observed using our method. 
 
-The work of Chavarriaga et al. and Iturrate et al. shows that high variability in the teaching signals properties are observed when varying the task and the teaching protocol \cite{chavarriaga2010learning, iturrate2013task}. Indeed Errp signals are signals that corresponds more to non expected movement from the agent than to voluntary erroneous assessment. This means that the user should not expect the agent to make a mistake for the signal to be present and of good intensity. With a 50/50 percent ratio, the subject is unlikely to be surprise and may produce signal of lower quality.
+The work of Chavarriaga et al. and Iturrate et al. shows that high variability in the teaching signals properties are observed when varying the task and the teaching protocol \cite{chavarriaga2010learning, iturrate2013task}. Indeed ErrP signals are elicited more from non expected movements of the agent than they are voluntary erroneous assessment. In other words, for the ErrP signal to be observable and of good intensity, the user should not expect the agent to make a mistake. With a 50/50 percent ratio, the subject is unlikely to be surprise and may produce signal of lower quality.
 
-During our first session of online experiments with real subjects we observed that the quality of the received data were very poor, even for subjects that were highly trained to assess the agent action using their brain. The main cause was the behavior of the agent which is very confusing with respect to the goal. At the beginning of the experiments, for the subject the agent seems to act randomly, without trying to move toward the target. Therefore subject have high difficulty to generated Errp signals of good quality, which makes the process longer, do not improve the behavior of the agent and further reduces the engagement of the users in the teaching task. Studying in more details the impact of the agent behavior on the Errp signals is not our main goal and more thorough analysis is required to provide more firm conclusion.
+During our first experiment with real subject, we observed that the quality of the received data were very poor, even for subjects that were highly trained to the brain assessment task. The main cause was that the behavior of the agent was very confusing with respect to the goal state. The agent seems to act randomly, without trying to move toward the target. Therefore subjects had a lot of difficulty to generated ErrP signals of good quality, which makes the process longer, do not improve the behavior of the agent and further reduces the engagement of the users in the teaching task. Studying in more details the impact of the agent behavior on the ErrP signals is not an objective of this thesis. We acknowledge that a thorough analysis is required to provide more firm conclusion.
 
-Consequently, while some subject succeeded in the teaching task, we observed a relatively high number of errors and long teaching time. Therefore we decided to include an a priori information in the system in order to improve the learning time and the behavior of the agent. This properties relates to difference in power (sum of the EEG feature squared) between EEG signals of meaning ``correct'' and ``incorrect''. The signal related to the unexpected, erroneous action, being more powerful. However this property is not enough to identify with certainty ``correct'' and ``incorrect'' signals. In next section, we study in more detailed this properties and show how it can be exploited in our system.
+Consequently, while some subjects succeeded in the teaching task, we observed a relatively high number of errors and long teaching time. Therefore, in order to improve the learning time and the behavior of the agent, we decided to include an a priori information in the system. This information relates to the difference in power (sum of the EEG feature squared) between EEG signals of meaning ``correct'' and ``incorrect''. The signals related to the unexpected, erroneous action, are, on average, more powerful. But this property alone is not enough to identify ``correct'' and ``incorrect'' signals. In next section, we study in more detail the power component of ErrP signals and present how it can be exploited in our system.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
