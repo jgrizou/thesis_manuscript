@@ -33,7 +33,7 @@ The application of this work to BCI is a collaboration with I{\~n}aki Iturrate a
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\bcisetupsize\columnwidth]{\visualspdf/onlineXP/setup.pdf}
-\caption{The BCI setup for online experiment. ON the screen is displayed the grid world with the agent in green. We displayed the intended target in red, which was selected randomly. The purpose of this red square is to help the user remembering the target and our algorithm is at no point aware of the position of this red square.}
+\caption{The BCI setup for online experiments. On the screen is displayed the grid world with the agent in green. We displayed the intended target in red, which was selected randomly. The purpose of this red square is to help the user remembering the target and our algorithm is at no point aware of the position of this red square.}
 \label{fig:BCIsetup}
 \end{figure}
 
@@ -359,19 +359,19 @@ The results presented in this section confirm that the use of the power informat
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\bcisetupsize\columnwidth]{\visualspdf/onlineXP/setup.pdf}
-\caption{The BCI setup for online experiment. ON the screen is displayed the grid world with the agent in green. We displayed the intended target in red, which was selected randomly. The purpose of this red square is to help the user remembering the target and our algorithm is at no point aware of the position of this red square.}
+\caption{The BCI setup for online experiments. On the screen is displayed the grid world with the agent in green. We displayed the intended target in red, which was selected randomly. The purpose of this red square is to help the user remembering the target and our algorithm is at no point aware of the position of this red square.}
 \label{fig:BCIsetup}
 \end{figure}
 
-We ran online experiment where 3 subjects  control our agent in a virtual world. The setup of our online experiment is shown in Figure~\ref{fig:BCIsetup}. Each subject was asked to mentally assess the agent's actions with respect to a given target. The system was not calibrated to decode the user EEG signals beforehand. Once the agent identified a task, and whatever the success or failure of the task identification, the user selected a new goal state randomly, the agent reseted the task likelihoods, propagates the believed labels, and teaching started again. At no point the agent has access to a measure of its performance, it could only refer to the unlabeled feedback signals from the user. There was an action every three seconds. Each experiment lasted 500 actions minimum, after 500 steps we kept running the system until a next task was reached.
+We ran online experiments with 3 subjects. Each subject control an agent in a virtual world. The setup of our online experiment is shown in Figure~\ref{fig:BCIsetup}. Each subject was asked to mentally assess the agent's actions with respect to a given target. The system was not calibrated to decode the user EEG signals beforehand. Once the agent identified a task, and whatever the success or failure of the task identification, the user selected a new goal state randomly, the agent reseted the task likelihoods, propagates the believed labels, and teaching started again. At no point the agent has access to a measure of its performance, it could only refer to the unlabeled feedback signals from the user. There was an action every three seconds. Each experiment lasted 500 actions minimum, after 500 steps we kept running the system until a next task was reached.
 
-As depicted in Figure~\ref{fig:correcterror_online}, our system was able to identify many task correctly. As for our simulated experiments, there are strong variations among subjects but we note that our system  always identified the first task correctly (see Table~\ref{tab:onlineXPsummary}) and in less iterations than a normal calibration phase requires (between 300 and 600 examples depending on the user performance \cite{chavarriaga2010learning,iturrate2010single}) (see Figure~\ref{fig:timefirst_online}).
+As depicted in Figure~\ref{fig:correcterror_online}, our system was able to identify several tasks correctly. As for our simulated experiments, there are strong variations among subjects but we note that our system always identified the first task correctly (see Table~\ref{tab:onlineXPsummary}). Importantly, the first task was always identified in less iterations than a normal calibration procedure requires (between 300 and 600 examples depending on the user performance \cite{chavarriaga2010learning,iturrate2010single}) (see Figure~\ref{fig:timefirst_online}).
 
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/onlineXP/correct_and_error.eps}
-\caption{Number of task correctly (green dot) and incorrectly (red crosses) achieved in 500+ steps during our online experiment with real subjects. We kept running the experiments after 500 steps until the systems identified the next task. Our algorithm allow a user to control online and with their brain the final position of our agent, without the need to calibrate the system beforehand. The performance of the system is also correlated with the qualities of the EEG signals and matches well with our results form our simulated experiment.}
+\caption{Number of tasks correctly (green dot) and incorrectly (red crosses) achieved in 500+ steps during our online experiments with real subjects. We kept running the experiments after 500 steps until the systems identified the next task. The results are plotted against the a posteriori computed 10 fold accuracy of our classifier on each subject EEG signals. The performance of the system is correlated with the quality of the EEG signals. These results matches well with the results from simulated experiments.}
 \label{fig:correcterror_online}
 \end{figure} 
 
@@ -379,7 +379,7 @@ As depicted in Figure~\ref{fig:correcterror_online}, our system was able to iden
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/onlineXP/timefirst.eps}
-\caption{Number of steps to complete first task for all subjects in our online experiments. The results are plotted against the a posteriori computed 10 fold accuracy of our classifier on each subject EEG signals. The relation between data quality and the time to first task is in line with our simulated results shown in Figure~\ref{fig:timefirst_powermatching}. Note that this first target was always the correct one for every subject.}
+\caption{Number of steps to complete the first task for all subjects in our online experiments. The results are plotted against the a posteriori computed 10 fold accuracy of our classifier on each subject EEG signals. The relation between data quality and the time to first task is in line with our simulated results shown in Figure~\ref{fig:timefirst_powermatching}. Note that the first target was evaluated correctly for every subject.}
 \label{fig:timefirst_online}
 \end{figure} 
 
@@ -393,7 +393,7 @@ As depicted in Figure~\ref{fig:correcterror_online}, our system was able to iden
     S2 & 73 & 131 & Yes & 9 & 1\\
     S3 & 64 & 265 & Yes & 3 & 1\\
 \end{tabular}
-\caption{Result from our online experiment. For each subject, we provide the classification rate our classifier would have if we knew the correct labels associated to the brain signals (Class. rate), the number of steps needed to identify the first task and if the task identified was the correct one. Finally, we give the number of task that were correctly and incorrectly identified in 500 steps.} 
+\caption{Results from our online experiments. For each subject, we provide the a posteriori computed classification rate of classifier on subject's brain signals (Class. rate), the number of steps needed to identify the first task, and whether or not the task identified was the correct one. Finally, we give the number of task that were correctly and incorrectly identified in 500 steps.} 
 \label{tab:onlineXPsummary}
 \end{table}
 
@@ -406,9 +406,9 @@ As depicted in Figure~\ref{fig:correcterror_online}, our system was able to iden
 
 \transition
 
-The following results with real EEG signals allow us to envision that such algorithm could have practical applications in the real word. By removing the need of an expert to collect and calibrate the system, the use of brain computer interface may become more practical allowing their users to go out of the labs. 
+Results presented in this chapter with real EEG signals allow us to envision that the algorithm presented in this thesis could have practical applications in the real word. By removing the need of an expert to collect and calibrate the system, the use of brain computer interfaces may become more practical allowing their users to go out of the labs.
 
-While this work offers a good solution to start interacting with systems without defining in advance the particular signals that will be used by the users, we have only demonstrated its performances on relatively simple scenario. Especially, we considered, discrete states and actions, synchronous protocol, and a finite set of task hypothesis. While these constraints are, currently not limiting for BCI tasks, they are a more limiting factor for robotics experiments. In next chapter, we address some of these limitations in simple experiments, which may provide ideas for future developments of this work.
+While this work offers a good solution to start interacting with machines without defining in advance the particular signals that will be used by the users, we have only demonstrated its performances on relatively simple scenarios. Especially, we considered discrete states and actions, synchronous protocol, and a finite set of task hypothesis. While these constraints are, currently not limiting for most BCI scenarios, they are a more limiting factor for robotics experiments. In next chapter, we address some of these limitations in simple experiments, which may provide ideas for the future developments of this work.
 
 % accuracy = 0.83
 % powerCorrect = 670
