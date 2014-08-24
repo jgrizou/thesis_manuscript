@@ -51,6 +51,28 @@ As shown in Figure~\ref{fig:EEGsample}, the EEG signals associated to ``incorrec
 
 To build our feature vector we consider two fronto-central channels (FCz and Cz) in a time window of $[200,700]$ ms (being 0 ms the action onset of the agent) and downsampled the signal to $32$ Hz. Each element of the feature vector is the value in microvolts of the signal at the corresponding time. To compute the power information contained in our signal we simply compute the sum of the square of each feature representing our signal. This simple approximation allows to capture the slight difference in power between ``incorrect'' and ``correct'' signals (see Figure~\ref{fig:EEGpower}). However this is not enough to classify a single signal with more than 60 percent accuracy, which is almost random. But considering a group of point we can observe that the mean of power of the ``incorrect'' class is higher that the mean power of the ``correct'' class. We will exploit this property as an a priori information of which group of point should means ``correct'' or ``incorrect''.
 
+\subsection{Signal properties and classifier}
+
+We aim at applying this algorithm to error-related potentials (ErrPs) for EEG-based BCI applications. These signals are generated in the user's brain after s/he assesses actions performed by an external agent \cite{chavarriaga2010learning}, where correct and erroneous assessments will elicit different brain signals. Past approaches have already demonstrated that these signals can be classified online with accuracies of around 80\% and translated into binary feedback, thanks to a prior calibration session that lasts for 30-40 minutes \cite{chavarriaga2010learning, iturrate2013task}.
+
+Following the literature \cite{lotte2007review,blankertz2010single}, we rely on Gaussian classifiers and model the signals using independent multivariate normal distributions for each class, $\mathcal{N}(\mu_c, \Sigma_c), \mathcal{N}(\mu_w, \Sigma_w)$. With $\theta$ the set of parameters $\{\mu_c, \Sigma_c,\mu_w, \Sigma_w\}$. Given the high dimensionality of some datasets we also need to regularize. For this we apply shrinkage to the covariance matrix ($\lambda = 0.5$) and compute the value of the marginal pdf function using a noninformative (Jeffrey's) prior [\cite{gelman2003bayesian}, p88]:
+
+\begin{eqnarray}
+p(e|l, \theta) & = & t_{n-d}(e | \mu_l,\frac{\Sigma_l (n+1)}{n(n-d)})
+\label{eq:prior}
+\end{eqnarray}
+
+where $\theta$ represents the ML estimates (mean $\mu_l$ and covariance $\Sigma_l$ for each class $l$) required to estimate the marginal under the Jeffreys prior, $n$ is the number of signals, and $d$ is the dimensionality of a signal feature vector.
+
+Finally to compute the probability of a label given a signal, we use the bayes rules as follows: 
+%
+\begin{eqnarray}
+    p(l = l_i|e,\theta) &=& \frac{p(e|l = l_i, \theta)p(l = l_i)}{\sum_{k = 1,\ldots, L}{p(e|l = l_k,\theta)p(l = l_k)}}\nonumber \\
+    &=& \frac{p(e|l=l_i, \theta)}{\sum_{k = 1,\ldots, L} p(e|l=l_k)} \nonumber
+\end{eqnarray}
+%
+As we do not have a priori knowledge on the user intended meaning, we assume all labels are equiprobables, i.e. $\forall k,~p(l = l_k) = \frac{1}{L}$.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -345,7 +367,7 @@ We compare the number of tasks correctly (Figure~\ref{fig:nCorrect_powermatching
 
 The power information alone is not enough to identify a high number of task, even if the number of steps to reach the first target are similar. The difference lies in the reallocation of labels, we performed after a task is identified. As described in chapter~\ref{chapter:lfui:tasttotask}, once one task is identified with confidence, we propagate its labels to all other hypotheses. As a consequence, the number of new signals with different labels needed to pull apart two hypothesis in terms of power ratio increases. This problem arises because the power information is a global measure, which depends on averaged values over all collected observations. Our non-informed method (matching) classifies each new signal individually, which speeds up the learning process, especially when all hypothesis share a similar classifier (cf discussion of Figure~\ref{fig:sequence_evolution}).
 
-The results presented in this section confirm that the use of the power information improves the performance and robustness of our algorithm. In addition, by disambiguating faster the task with symmetric properties, the perceived behavior of our agent should improve. We can therefore expect to receive ErrP signals of better quality during our online experiments. At the time of writing, our study was not terminated and this particular point requires a more a detailed analysis to quantify this difference if it exists. 
+The results presented in this section confirm that the use of the power information improves the performance and robustness of our algorithm. In addition, by disambiguating faster the task with symmetric properties, the perceived behavior of our agent should improve. We can therefore expect to receive ErrP signals of better quality during our online experiments. At the time of writing, our study was not terminated and this particular point requires a more a detailed analysis to quantify this difference if it exists.
 
 % We can only report here our intuition from running the experiments, which is the reason of using the power information.
 
@@ -408,7 +430,7 @@ As depicted in Figure~\ref{fig:correcterror_online}, our system was able to iden
 
 Results presented in this chapter with real EEG signals allow us to envision that the algorithm presented in this thesis could have practical applications in the real word. By removing the need of an expert to collect and calibrate the system, the use of brain computer interfaces may become more practical allowing their users to go out of the labs.
 
-While this work offers a good solution to start interacting with machines without defining in advance the particular signals that will be used by the users, we have only demonstrated its performances on relatively simple scenarios. Especially, we considered discrete states and actions, synchronous protocol, and a finite set of task hypothesis. While these constraints are, currently not limiting for most BCI scenarios, they are a more limiting factor for robotics experiments. In next chapter, we address some of these limitations in simple experiments, which may provide ideas for the future developments of this work.
+While this work offers a good solution to start interacting with machines without defining in advance the particular signals that will be used by the users, we have only demonstrated its performances on relatively simple scenarios. Especially, we considered discrete states and actions, synchronous protocol, and a finite set of task hypothesis. While these constraints have no impact on most BCI scenarios, they are a more limiting factor for robotics experiments. In next chapter, we address some of these limitations in simple experiments, which may provide ideas for the future developments of this work.
 
 % accuracy = 0.83
 % powerCorrect = 670

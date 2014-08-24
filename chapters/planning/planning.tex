@@ -126,6 +126,8 @@ As we want to find which task is the correct one among the set of task hypothesi
 
 As explained in section~\ref{chapter:planning:where}, our uncertainty measure should take into account both the uncertainty due to the task and the signal model. We illustrate how this uncertainty can be measured by comparing the expected signals from each task hypothesis.
 
+\subsubsection*{Symmetric signal models}
+
 We start by considering the situation of Figure~\ref{fig:planningrightleft} where G1 and G2 have symmetric signal models. As depicted in Figure~\ref{fig:uncertaintysignalrightleftagree}, when selecting action left, both hypothesis agree that they should receive a signal in the right part of the feature space, even if they disagree on its meaning. Therefore taking action left in state 3 has low uncertainty on the expected signal.
 
 \begin{figure}[!htbp]
@@ -144,6 +146,8 @@ However for action down, both hypothesis agree they should receive a signal of m
   \label{fig:uncertaintysignalrightleftdisagree}
 \end{figure}
 
+\subsubsection*{Identical signal models}
+
 We now consider the situation of Figure~\ref{fig:planningupdown} where G1 and G2 have the same signal model. As depicted in Figure~\ref{fig:uncertaintysignalupdownagree}, when going down both hypothesis agree that they should receive a signal in the left part of the feature space, and agree on its meaning. Therefore taking action down in state 3 has low uncertainty on the expected signal.
 
 \begin{figure}[!htbp]
@@ -161,6 +165,9 @@ However for action left, both hypothesis disagree about the meaning of the signa
   \caption{Expected signal for both hypothesis if agent performs action left in state 3 and given they currently have a similar interpretation of the signals (see Figure~\ref{fig:planningupdown}). The two hypothesis expect two different signals, therefore there is high uncertainty associated to this state-action pair, and the agent should better perform this action.}
   \label{fig:uncertaintysignalupdowndisagree}
 \end{figure}
+
+
+\subsubsection*{Equations}
 
 To sum up, to compute the uncertainty associated to a state-action pair, we can compute the similarity between the expected signals from each task. The more the expected signals are similar the less there is uncertainty. And we remind that the vote of a hypothesis should be weighted by the current probability of this hypothesis.
 
