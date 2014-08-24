@@ -19,6 +19,33 @@ We still consider a strong a priori knowledge on the space of task, which is tha
 
 We use the cardinal direction frame define in section~\label{chapter:limitations:framegeneric} in Equation~\ref{eq:cardinalframe} with $\alpha = 0.01$. In this frame, the user provide an information about the cardinal direction of the goal state with respect the current agent position. The agent does not have to know how to reach a state to interpret the signal according to that state as only the absolute direction matters.
 
+We provide an example of interaction frame where the agent do not need to know the optimal policy to interpret a signal with respect to a particular objective. In this frame, the goal of the robot is to locate one object or find one particular position in a 2D space. The teacher provide indication on the absolute direction of such object with respect to the agent position. As an example, we consider a teacher that indicates the cardinal direction of the object, i.e. the message to the robot is: \emph{``the object is North (South, West or East) with respect to your position''}.
+
+We illustrate this frame in Figure~\ref{fig:cardinalframe}. The choice of the cardinal direction to send to the agent is modeled by a probabilistic models, where the probability of one cardinal direction is proportional to the angle between the target-agent direction and the cardinal direction considered.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.8\columnwidth]{\visualspdf/frame/cardinal_frame.pdf}
+    \caption{Example of the cardinal frame. The signal from the teacher indicates in which cardinal direction (N,S,W,E) the goal position or the object to reach is. There is a probabilistic model that describe the user behavior, such that the probability of generating a signal of meaning ``West'' is proportional to the angle between the agent position and the target position. This frame does not requires the agent to know how to reach the target position, but only its own position with respect to that goal.}
+    \label{fig:cardinalframe}
+\end{figure}
+
+We defined as $\varphi_N$ the angle between the target-agent direction and the North cardinal direction, and respectively $\varphi_S$, $\varphi_W$, and $\varphi_E$ the angles with respect to the South, West, and East directions. The probability of that the user refers to the North cardinal direction is defined as follows:
+
+\begin{equation}
+    p(l^f = \emph{north}~|~\varphi_N) = 
+    \begin{cases}
+    (1 - \frac{2 \varphi_N}{\pi}) (1-\alpha) & if~\varphi_N < \frac{\pi}{2}\\
+        \frac{\alpha}{K}  & \text{otherwise}\\
+   \end{cases}
+   \label{eq:cardinalframe}
+\end{equation}
+with $K$ the number of cardinal direction that do not satisfies the condition $\varphi_N < \frac{\pi}{2}$, which means K can take value of 2 or 3 only. $\alpha$ is the error rate of the user. Finally, we consider unsigned angles only within the $[0, \pi]$ intervals only, meaning that angles of $\frac{-\pi}{2}$ or $\frac{3\pi}{2}$ are taken as $\frac{\pi}{2}$. The same equation applies for all cardinal direction and should maintain the following properties $\sum_{c \in \{N,S,E,W\}} p(l^f = c |\varphi_c) = 1$.
+
+In practice, if we consider our visual representation of Figure~\ref{fig:cardinalframe}, we obtain the following angle measurements: $\varphi_N = \frac{9\pi}{22}$, $\varphi_S = \frac{13\pi}{22}$, $\varphi_W = \frac{20\pi}{22}$, and $\varphi_E = \frac{\pi}{11}$. In that case $K = 2$. If we consider $\alpha = 0$, we obtain the following probabilities values: $p(l^f = \emph{north}~|~\varphi_N) = 0.18$, $p(l^f = \emph{south}~|~\varphi_S) = 0$, $p(l^f = \emph{west}~|~\varphi_W) = 0$, and $p(l^f = \emph{east}~|~\varphi_E) = 0.82$, which we represent as a vector $[0.18,0,0,0.82]$. If we account of some probability of errors from the teacher, taking for example $\alpha = 0.05$, we obtain the following vector of probability: $[0.17, 0.025, 0.025,0.78]$.
+
+We will use this frame in our experiment of section~\ref{chapter:limitations:continuoushypothesis}. Note that the same frame can apply with different referential, instead of the cardinal direction, one could refer to the direction with respect the robot orientation, or with respect to the position of the human teacher in the room, etc.
+
 \subsection{Finger movements datasets}
 
 We will present results using two different datasets made of finger movements performed on a tablet. 

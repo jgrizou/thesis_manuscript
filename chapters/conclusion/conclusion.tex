@@ -71,6 +71,8 @@ Interestingly, these two modes are captured by the same equation (see Equation~\
 \subsection{A frame is a generic function}
 \label{chapter:limitations:framegeneric}
 
+In section~\ref{chapter:limitations:framegeneric} we insist again on the fact that an interaction frame is not limited to the straightforward meaning correspond we assumed (feedback and guidance), and do not requires the robot to know how to perform a task.
+
 \todo{A frame can be more complex than the simple relation described above. For example, a frame could include the gaze of the user as an indication of the user attention, therefore influencing the probability that the user is making a teaching mistake. For example, if the user is looking away from the scene, he is less likely to provide correct feedback. A frame is also not always related to the actions of the agent, it can be that, when the user show an object to the robot, he also spell the name of that object. This frame allows the robot to learn the name of different objects, this frame is often used in language acquisition experiments (see chapter~\ref{chapter:related:language})}
 
 
@@ -139,12 +141,26 @@ symmetry cases
 By taking inspiration from the proof described in previous chapter, there is many fast imporvmenrt than can be done. Mainly by relaxinfg the assumtion that the user is perfect, or that each task is composed os half optimal and halfp non optimal state action pairs.
 
 
-\subsection{Reaching tasks versus reward accumulation tasks}
+\subsection{Target based versus reward maximization scenarios}
 
-difference between episodes based interaction and never ending 
+
+as identifued in chapter~\ref{chapter:limitations:wordlproperties}
+
+The main conclusion of our preliminary study is that we do not understand well the impact of some properties of the world and dataset on the final performance of the system. Many of those properties are tightly linked together and the additional layer of uncertainty inherent to our problem makes the dependencies hard to identifies.
+
+However one important aspect highlighted by the study is that our uncertainty measure should be combined with other metrics to optimize additional criteria on the task. Our measure was developed to discriminate faster the correct hypothesis from the set of possible tasks and not to also execute that task as fast as possible.
+
+We propose two different types of scenario that are likely to be useful in real world scenario: 
+\begin{itemize}
+\item Target based scenarios: The goal of the agent is to execute one specific action in a particular state and should not make mistakes in the execution of the task. For example, a robot should put one object to the bin for a human. The robot can navigate around of the objects area in order to collect feedback but should only grasp an object and put it to the bin once it is confident about which object to throw away. This includes all the scenario considered in this thesis, and as seen in this section there is room to improve over our uncertainty method by including information about the hypothesized task. A potential avenue is to merge our measure of uncertainty with the optimal policies for each task, such that, for two states with close uncertainty value, the one closer to the target should be preferred. When all task are equally probable, only the uncertainty should be taken into account. And once there is no more uncertainty, i.e. when confidence is reached, the action should be selected according to the task policy. The main problem is about how to weight the two functions.
+
+\item Reward maximization scenarios: In such scenario the goal of the robot is to maximize the reward associated to the correct task. However, many tasks may share some parts of a reward functions. Therefore it is not always necessary to identify the correct task with confidence to collect maximal rewards. For example, in our puddle word scenario of section~\ref{chapter:limitations:continousstate}, two tasks may share the same goal area but different areas to avoid. If the robot can reach the shared goal area by avoiding both negative areas, then the agent will have maximized the collected reward without ever knowing what specific task the user had in mind. Tackling this problem requires a different approach as the agent should now be confident that merging two reward functions is more optimal than trying to differentiate between them. However the robot can not merge all rewards function right from the start as no specific direction will emerge and the correct reward won't be maximized in the long run.
+\end{itemize}
 
 
 \subsection{Applications}
+
+we only considered three domains?
 
 This work opens a new perspective regarding the global challenge of interacting with machines. It has application to many interaction problems which requires a machine to learn how to interpret unknown communicative signals. A promising avenue, outside the BCI field, lies in human robot interaction scenarios where robots must learn from, and interact with, many different users who have their own limitations and preferences.
 
@@ -156,6 +172,8 @@ to the worth application, such as advertissing website, mouse movement on a webs
 \label{chapter:limitations:userstudies}
 
 \question{Do people want to have an open-ended choice about what signal to use? \\ Would they be more efficient?}
+
+In section~\ref{chapter:limitations:userstudies}, we discuss the need for conducting user studies in more complex domain to evaluate the scalability, efficiency, and acceptability of our method.
 
 Only prerecorded datasets have been used. However, signals may change during the learning. For instance, people can try to adapt themselves to a robot if they believe the latter is not understanding properly. Or, brain signals are sensitive to the protocol, the duration of the experiment or even the percentage of errors made by the agent \cite{chavarriaga2010learning}. To which extend the behavior of our agent changes the properties of the teaching signal? 
 
@@ -188,6 +206,10 @@ cite mohammed chetouanni
 \subsection{Creating meanings and interaction frames}
 
 \question{Who create the frame functions?}
+
+Finally in section~\ref{chapter:limitations:discussion}, we discuss a number of limitations that were not addressed in this work and that are not straightforward to solve given our context. Such as using continuous actions or learning new meanings.
+
+However, to fully address the stated problem of fluid interactive learning, a number of open challenges still remain to be investigated. For example, extending the system towards the creation of novel meanings is an important question, as well as the problem of detecting, and understanding new interaction frames that may allow the user to progressively provide more higher level instructions to the robot. A key challenge towards life long learning also lies in dynamic and hierarchical learning architecture, such as for example learning new macro-states and new macro-actions, associated to new macro-instructions.
 
 all this is very high level
 
