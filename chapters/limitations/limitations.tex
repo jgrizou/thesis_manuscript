@@ -7,9 +7,9 @@
 \label{chapter:limitations}
 \minitoc
 
-In the previous chapters, we described an algorithm allowing a robot to learn a new task by interacting with a human partner without defining in advance how the signals of the user maps to their meaning. We tested this algorithm on two domains, a pick and place scenario using speech commands, and a reaching task scenario using EEG signals. We demonstrated the use of our system online and with real subjects using their brain to assess agent's actions with respect to a final desired position.
+In the previous chapters, we described an algorithm allowing a robot to learn the task desired by a user without defining in advance how the signals of the user maps with their meanings. We tested this algorithm on two domains, a pick and place scenario using speech commands, and a virtual cursor navigation task using EEG signals. We demonstrated the use of our system in real time and with real subjects using their brain to assess agent's actions with respect to a final desired position.
 
-A number of assumptions and constraints have been defined to easy our first approach to the problem. In this chapter we will detail important limitations, discuss the possibility to release them and provide small experiments to demonstrate our ideas. 
+A number of assumptions and constraints were used. In this chapter we will detail important limitations, discuss the possibility to release them and provide small experiments to demonstrate our ideas. 
 
 In section~\ref{chapter:limitiations:simplevsmatching} we compare the performance of Equation~\ref{eq:matchingfilter} and Equation~\ref{eq:matchingfiltercrossvalidation} defined in chapter~\ref{chapter:lfui}. We show that correcting classifiers' predictions given our knowledge about their confusion matrix (Equation~\ref{eq:matchingfiltercrossvalidation}) makes our algorithm more robust than relying on the raw classifiers' outputs (Equation~\ref{eq:matchingfilter}).
 
@@ -19,7 +19,7 @@ In section~\ref{chapter:limitations:overlap} we introduce an other method to ide
 
 In section~\ref{chapter:limitations:continousstate}, we address the problem of continuous state space, and show that our method is not impacted by the continuous aspect of the problem. Indeed, as our method only requires to known the optimal policy for each task, we can rely on any algorithm that computes a policy for continuous states given a pre-defined task.
 
-In section~\ref{chapter:limitations:continoushypothesis}, we release the assumption that finite set of task is available and rely on a particle filter based method to dynamically update a finite subset of hypothesis. We show that sampling actively new tasks, as well as selecting actively the next visited states, significantly improves the final performance of our method.
+In section~\ref{chapter:limitations:continoushypothesis}, we release the assumption that a finite set of task is available and rely on a particle filter based method to dynamically update a finite subset of hypothesis. We show that sampling actively new tasks, as well as selecting actively the next visited states, significantly improves the final performance of our method.
 
 In section~\ref{chapter:limitations:framehypothesis}, we release the assumption that the interaction frame is known and consider the agent as access to a finite number of hypothetic interaction frames. We illustrated this problem in a simple line world scenario. We present results from simulated experiments that demonstrate the ability of our method to not only learn the task and the signal to meaning mapping, but also the interaction protocol used by the teacher.
 
