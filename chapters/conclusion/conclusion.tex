@@ -2,7 +2,7 @@
 \define{\chapterpath}{\allchapterspath/conclusion}
 \define{\imgpath}{\chapterpath/img}
 
-\chapter{Conclusion}
+\chapter{Discussion and Perspectives}
 \label{chapter:conclusion}
 \minitoc
 
@@ -67,15 +67,15 @@ Our algorithm is divided into a classification algorithm, estimating one classif
 
 We highlight the different processes acting during a full experiment when learning multiple tasks. We will refer to two operating modes: \begin{inparaenum}[a)] \item mode 1 is learning the first task from unlabeled instructions, and \item mode 2 is learning a task when most of the labels are shared between hypothesis. \end{inparaenum} Our update equation is the same for the two operating modes but different properties are more or less active during mode 1 or mode 2.
 
-We remind that our update equation is computed from three terms: 
-\begin{itemize}
-\item $p(l^f|s,a,\xi)$ is the frame function, it represents the probability distributions of the meanings according to a task, the executed action and the current state, i.e. it represent the interaction frame. 
-\item $p(l^c | e, \theta)$ is the raw prediction of the classifier $\theta$. 
-\item $p(l^{cc} | l^c, \theta)$ encodes which label should be actually recovered by $\theta$. It is the probability that the classifier itself is reliable in its predictions. 
-% Intuitively, it models the quality of the model $\theta$.
-\end{itemize}
+% We remind that our update equation is computed from three terms: 
+% \begin{itemize}
+% \item $p(l^f|s,a,\xi)$ is the frame function, it represents the probability distributions of the meanings according to a task, the executed action and the current state, i.e. it represent the interaction frame. 
+% \item $p(l^c | e, \theta)$ is the raw prediction of the classifier $\theta$. 
+% \item $p(l^{cc} | l^c, \theta)$ encodes which label should be actually recovered by $\theta$. It is the probability that the classifier itself is reliable in its predictions. 
+% % Intuitively, it models the quality of the model $\theta$.
+% \end{itemize}
 
-Mode 1 is the main contribution of this work. During mode 1 is our measure of uncertainty on classifiers' predictions have more impact than the raw predictions of each classifier. Indeed, with very few data available, the classifiers are unable to predict correctly unseen data.
+Mode 1 is the main contribution of this work. During mode 1 our measure of uncertainty on classifiers' predictions has more impact than the raw predictions of each classifier. Indeed, with very few data available, the classifiers are unable to predict correctly unseen data.
 %Even the classifier associated to the correct task is initially of bad quality, due to the noise and dimensionality in the teaching signals. 
 Therefore all classifiers are considered as unreliable, and our update equation makes only small updates each step. It is only once one classifier stands apart as being more reliable than the others that differences between likelihoods will emerges. Mode 1 can be observed on Figure~\ref{fig:sequence_evolution} (top), where, during the learning of the first task, all classifier have accuracy close to random (50\%). It is only at step 83 that the correct hypothesis stands apart by being consistently more reliable than the other.
 
@@ -93,7 +93,7 @@ To sum up, the same processes are active in both modes and are captured by the s
 
 % These two modes are captured by the same equation (see Equation~\ref{eq:matchingcrossvalidation}) , which compares predicted and expected labels while taking into account the confidence in the predictions of the classifiers using their respective estimated confusion matrix.
 
-Interestingly, our measure of uncertainty presented in chapter~\ref{chapter:planning} applies indifferently to mode 1 or 2 or during the transition between them. Our uncertainty function combines uncertainty on both signal and task space, when former is known (during mode 2 all hypotheses share the same signal model), the latter becomes the sole source of ambiguity.
+Interestingly, our measure of uncertainty presented in chapter~\ref{chapter:planning} applies indifferently to each operation mode. Our uncertainty function combines uncertainty on both signal and task space, when former is known (during mode 2 all hypotheses share the same signal model), the latter becomes the sole source of ambiguity.
 
 \subsection{A frame is a generic function}
 \label{chapter:limitations:framegeneric}
@@ -204,65 +204,49 @@ Each of these scenarios requires to develop new exploration method. These challe
 
 \subsection{Applications}
 
-we only considered three domains?
-
-This work opens a new perspective regarding the global challenge of interacting with machines. It has application to many interaction problems which requires a machine to learn how to interpret unknown communicative signals. A promising avenue, outside the BCI field, lies in human robot interaction scenarios where robots must learn from, and interact with, many different users who have their own limitations and preferences.
-
-We hope for the better with application to assistive technologies, but can anticipate the worst, such as customer behavior understanding for advertissing purposes.
+This work opens a new perspective regarding the global challenge of interacting with machines. It has application to many interaction problems which requires a machine to learn how to interpret unknown communicative signals. Yet, only the BCI scenario is convincing as a potential short term practical application of our method. We believe other applications are yet to identify and proof test with human subjects. Finding applications is an important direction for the future work in the domain. A good application will allow to advertise the potential benefits of adaptive interactive systems, which could learn from, and interact with, many different users who have their own limitations and preferences. We hope for the better with application to assistive technologies, but we can anticipate the worst, with application such as customer behavior understanding for advertising purposes.
 
 \subsection{Studying humans in the loop}
 \label{chapter:limitations:userstudies}
 
 \question{Do people want to have an open-ended choice about what signal to use? \\ Would they be more efficient?}
 
-In section~\ref{chapter:limitations:userstudies}, we discuss the need for conducting user studies in more complex domain to evaluate the scalability, efficiency, and acceptability of our method.
+As we argued in the introduction, the work we presented is a starting point towards forms of adaptive interaction with non-technical users. In this subsection, we highlight the importance of conducting various user studies to evaluate the scalability, efficiency, and acceptability of our method to real world applications. It is only by demonstrating that this work can be applied and allows to improve over existing interaction methods that the idea of adaptive and flexible systems will be considered by a larger audience. The brain computer interaction studies described in this thesis is one interesting study, but a lot more is needed in broader applications and considering various interaction modalities.
 
-Only prerecorded datasets have been used. However, signals may change during the learning. For instance, people can try to adapt themselves to a robot if they believe the latter is not understanding properly. Or, brain signals are sensitive to the protocol, the duration of the experiment or even the percentage of errors made by the agent \cite{chavarriaga2010learning}. To which extend the behavior of our agent changes the properties of the teaching signal? 
+We mostly used prerecorded datasets. When we performed real time experiments with real subjects, such as the BCI experiments in chapter~\ref{chaper:bci}, we noticed that brain signals are sensitive to the protocol of interaction, the duration of the experiment, and to the percentage of errors made by the agent. In addition, people attribute mental states to the agent according to its actions and sometime try to adapt their teaching behavior accordingly. Therefore a fist question to investigate is: \emph{To which extend the behavior of our agent changes the properties of the teaching signal?}
 
-Moreover, in real-world applications, users are usually told how to interact with machines. And having a free choice on some details of the interaction may finally become a disadvantage and lower perfomances. Do people want to have an open-ended choice about what signal to use? Would they be more efficient? When is it better to use a calibration procedure?
+% the quality and properties of signals tends to change during the interaction. A potential explanation is that 
 
-As we argued in the introduction, the work we presented is a starting point towards forms of adaptive interaction with non-technical users, that we may call fluid interaction learning. While we studied in this thesis properties of learning algorithms that will be needed for such an endeavor, it remains to be shown how they can be integrated within a full real-world human-robot interaction scenario and architecture so that the usability and acceptability of such system can be evaluated. Thus, user studies in particular will be a crucial next step of this work. The improvements described in previous section may be needed to reach acceptable levels of usability.
+Importantly, in most real-world applications, the users are told how to interact with the machines. Our algorithm allow a free choice in terms of signal, and having such a choice on some details of the interaction may finally become a disadvantage. An adaptive interface designed on the basis of our work would not be fully operational during the first few interactions. It initially needs a few steps to adapt to the teaching signals, which may discourage some users. They may rather prefer a more rigid but more intuitive interface. Therefore a second set of questions to investigate is: \emph{Do people want to have an open-ended choice about what signal to use? Would they be more efficient? When is it better to use a calibration procedure?}
 
-An interesting direction would be to consider the same experimental setup as the one used in chapter~\ref{chapter:humanexperiment} which allow to seamlessly use a human or a machine on either of the side of the interaction. A natural extension is therefore to replace the human builder by an agent using our algorithm. But one could also study active teaching algorithm \cite{cakmak2012algorithmic}, by replacing the teacher side by an artificial agent.
+Finally, an interesting direction is to consider the same experimental semiotic experiment as described in chapter~\ref{chapter:humanexperiment} to build various human-robot interaction scenario. The setup allows to seamlessly use a human or a machine on either of the side of the interaction. A natural extension is therefore to replace the human builder by an agent using our algorithm. But one could also study active teaching algorithm \cite{cakmak2012algorithmic}, by replacing the teacher side by an artificial agent. In addition, the setup also allows to bias, and control, some specific aspects of the interaction. For example, we could study how specific agent's behaviors affect the teaching behavior of humans. But also study how an unobservable bias in the  interaction, such as one button having no effect, not being delayed, or being displayed at random location, could affect a human-human interaction. We may finally test our assumption that, in order to succeed in such asymmetric interaction games, participants must be able to use theory of mind and project themselves in different common interaction frames. For example by asking autistic people, which are known to have with respect to theory of mind. to participate in similar experiments.
 
-This kind of experiment would allow to study the same setup with both humans and artificial agents and may open new perspective in both human-robot interaction and experimental semiotic studies. By controlling some aspects of the interaction, on either of the interaction side, one could for example study how the agent behavior affect the teaching behavior of the human. But also study how the teaching behavior of a human influence the understanding and performance of the learner, whether the learner is a human or a machine. 
+\todo{cite mohammed chetouanni}
 
-algorithm assumption on human behavior
+% human exp with a computer at one side, or with some signal not dipslaye,d or with delayed, or with ranodm possition...
 
-discuss how the setup can be used in HRI, but also semiotic stuff...
+% the teaching behavior of a human influence the understanding and performance of the learner, whether the learner is a human or a machine. 
 
-Users comply with the frame implemented. Same meaning, optimal strategies, timing...
+% Indeed, our current system can be restrictive for the user as the number of interaction increases quickly with the complexity of the size of the task and meaning spaces. However, we have shown that the system is able to use known sources of information, which in real-world interaction could be leveraged to keep the sample complexity low.
 
-Assumption: The properties of the signals do not change wrt. the behavior of the agent
-
-In relation to targeting fluid interaction learning, we will consider in the future how more complex kinds of instructions can be included in our formalism. Indeed, the possible teaching models used spontaneously by people can be more complex than the simple meaning correspondences we assumed \cite{thomaz2008teachable,Cakmak2010optimality}. Also the turn taking scheme could be made more natural, as the robot could ask questions \cite{cakmak2012designing} and accept asynchronous instructions.
-
-Indeed, our current system can be restrictive for the user as the number of interaction increases quickly with the complexity of the size of the task and meaning spaces. However, we have shown that the system is able to use known sources of information, which in real-world interaction could be leveraged to keep the sample complexity low.
-
-users are not ready maybe, they want intuitive interface, not adaptive.
-
-human exp with a computer at one side, or with some signal not dipslaye,d or with delayed, or with ranodm possition...
-
-cite mohammed chetouanni
 
 \subsection{Creating meanings and interaction protocols}
 
 \question{Who create the frame functions?}
 
-Finally in section~\ref{chapter:limitations:discussion}, we discuss a number of limitations that were not addressed in this work and that are not straightforward to solve given our context. Such as using continuous actions or learning new meanings.
+% Interacting with various people requires to adapt to each individuality as most humans do in their daily life. 
 
-However, to fully address the stated problem of fluid interactive learning, a number of open challenges still remain to be investigated. For example, extending the system towards the creation of novel meanings is an important question, as well as the problem of detecting, and understanding new interaction frames that may allow the user to progressively provide more higher level instructions to the robot. 
+In this work, we focused on the problem of adaptation to the specificities and limitations of each user's communicative signals. To do so we considered the interaction frame is known by the robot and used by the human. This latter assumption is easily opposable, not two humans will act in the exact same way. Learning the interaction frame seems to be the natural next step, and raises the question of creating novel meanings, as well as the problem of detecting and understanding new interaction protocols. Advances in this domain may allow a user to progressively provide higher level instructions throughout the life of a robot. Therefore, creating dynamic and hierarchical learning architectures will play a key role to enable life long learning of interactive skills, and following developmental learning approaches may be the way to go.
 
-A key challenge towards life long learning also lies in dynamic and hierarchical learning architecture, such as for example learning new macro-states and new macro-actions, associated to new macro-instructions.
+\todo{cite}
 
-all this is very high level
+% such as for example learning new macro-states and new macro-actions, associated to new macro-instructions.
 
-learning the meaning is the natural next step, where very few work jave tackled it
-
-how to learn the interaction hypothesis and interaction frame is a big problem, refer to thomas thesis.
-
-coupled with a system that creates the frame, not neccessarily the meaning but at least generate some human behaviors.
+% To fully address the problem of adaptive and flexible interactive learning, a number of open challenges still remain to be investigated. For example, extending the system towards the creation of novel meanings is an important question, as well as the problem of detecting, and understanding new interaction protocols that may allow the user to progressively provide more higher level instructions to the robot. A key challenge towards life long learning also lies in dynamic and hierarchical learning architecture, such as for example learning new macro-states and new macro-actions, associated to new macro-instructions.
 
 
-The transition from raw input to higher level meaning is however not much investigated in science. Here our agent or robot already have the ability to categorize state, make plans and select what is relevant from the environment.
+% In relation to targeting fluid interaction learning, we will consider in the future how more complex kinds of instructions can be included in our formalism. Indeed, the possible teaching models used spontaneously by people can be more complex than the simple meaning correspondences we assumed \cite{thomaz2008teachable,Cakmak2010optimality}. Also the turn taking scheme could be made more natural, as the robot could ask questions \cite{cakmak2012designing} and accept asynchronous instructions.
+
+
+
 
