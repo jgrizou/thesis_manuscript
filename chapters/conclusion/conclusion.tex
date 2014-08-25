@@ -162,8 +162,7 @@ Information known to be true for most interaction scenarios can be included in t
 \section{Future works}
 % \section{Future works in this domain}
 
-The work presented in this thesis opens new perceptive 
-
+This work opens a new perspective regarding the global challenge of interacting with machines. In this section, we emphasis that future work in the domain should focus two main aspects:  \begin{inparaenum}[(a)] \item analyzing the theoretical properties of the problem (convergence proof, criteria of symmetries), and \item  conducting user studies to evaluate the scalability, efficiency, and acceptability of our method in various real world applications. \end{inparaenum}
 
 % \subsection{Technical challenges}
 
@@ -171,47 +170,51 @@ The work presented in this thesis opens new perceptive
 
 \subsection{Theoretical analysis}
 
-The work presented in this thesis mainly focus on empirical experiments. 
+The work presented in this thesis mainly focuses on empirical experiments. 
 
+Making proof is nice but, given the specificity of our problem, are not easy to generalize to complex domains, considering noisy teacher and noisy signals.
 
-such as proof and studies of the properties of the system. 
+It was therefore important to show that our approach scales to real word problem such as the BCI scenario.
 
+such as proof and studies of the properties of the system.  
 symmetry cases
 
-By taking inspiration from the proof described in previous chapter, there is many fast imporvmenrt than can be done. Mainly by relaxinfg the assumtion that the user is perfect, or that each task is composed os half optimal and halfp non optimal state action pairs.
+By taking inspiration from the proof described in previous chapter, there is many fast improvement than can be done. Mainly by relaxing the assumption that the user is perfect, or that each task is composed of half optimal and half non optimal state action pairs. The next step will be to consider non symbolic signals sampled from known distribution.
 
 
 \subsection{Target based versus reward maximization scenarios}
 
-as identifued in chapter~\ref{chapter:limitations:wordlproperties}
+As identified in chapter~\ref{chapter:limitations:wordlproperties}, we do not understand well the impact of some properties of the world and of datasets on the final performance of our system. But this study confirmed that our uncertainty measure is only efficient at disambiguating task hypotheses and has not been designed to optimize additional criteria on the task, such as to minimize the number of step to reach the correct state with confidence. The challenge of merging our uncertainty with additional objective remains to be investigate and, if solved, are likely to be of practical interest for real word applications.
 
-The main conclusion of our preliminary study is that we do not understand well the impact of some properties of the world and dataset on the final performance of our system. Many of these properties are tightly linked together and the additional layer of uncertainty inherent to our problem makes the dependencies hard to identifies.
+% Each of these scenarios requires to develop new exploration methods. 
+% Our measure was developed to discriminate faster the correct hypothesis from the set of possible tasks and not to also execute that task as fast as possible.
 
-However one important aspect highlighted by the study is that our uncertainty measure should be combined with other metrics to optimize additional criteria on the task. 
-
-Our measure was developed to discriminate faster the correct hypothesis from the set of possible tasks and not to also execute that task as fast as possible.
-
-
-
-We propose two different types of scenario that are likely to be useful in real world scenario: 
+We propose two different types of scenario that are representative of various real world scenario: 
 \begin{itemize}
-\item Target based scenarios: The goal of the agent is to execute one specific action in a particular state and should not make mistakes in the execution of the task. For example, a robot should put one object to the bin for a human. The robot can navigate around of the objects area in order to collect feedback but should only grasp an object and put it to the bin once it is confident about which object to throw away. This includes all the scenario considered in this thesis, and as seen in this section there is room to improve over our uncertainty method by including information about the hypothesized task. A potential avenue is to merge our measure of uncertainty with the optimal policies for each task, such that, for two states with close uncertainty value, the one closer to the target should be preferred. When all task are equally probable, only the uncertainty should be taken into account. And once there is no more uncertainty, i.e. when confidence is reached, the action should be selected according to the task policy. The main problem is about how to weight the two functions.
+\item \textbf{Target based scenarios:} In this scenario, the goal of the agent is to execute one specific action in a particular state, but in situation where failing the task have bad consequences. 
+% In addition, it is important to succeed in the task. and should not make mistakes in the execution of the task. 
+Lets consider a robot that should put one object to the bin for a human. The robot can navigate freely around the objects in order to collect feedbacks from the human. However, the robot should only grasp and throw an object once it is confident that it is the object intended by the human. 
+% This includes all the scenario considered in this thesis, and as seen in this section there is room to improve over our uncertainty method by including information about the hypothesized task.
+This problem is an instantiation of the visual navigation task used in our BCI experiments. In chapter~\ref{chapter:limitations:wordlproperties}, we have seen that our uncertainty method can be outperformed by a simpler method (greedy) when the goal is to identify and perform the task as fast as possible. It is likely that a pure greedy method can be outperformed. The problem with our uncertainty measure was that the robot could disambiguate between task ``far away'' from their respective goal states. Requiring additional steps to reach the correct goal state once identified. A potential avenue is to merge our measure of uncertainty with information about the optimal policy of each task, such that, for two states of equal uncertainty, the state closer to the potential targets is preferred. The resulting problem lies in weighting between seeking for uncertainty reduction and optimizing the position of the agent with respect to the, yet unknown, goal state.
 
-\item Reward maximization scenarios: In such scenario the goal of the robot is to maximize the reward associated to the correct task. However, many tasks may share some parts of a reward functions. Therefore it is not always necessary to identify the correct task with confidence to collect maximal rewards. For example, in our puddle word scenario of section~\ref{chapter:limitations:continousstate}, two tasks may share the same goal area but different areas to avoid. If the robot can reach the shared goal area by avoiding both negative areas, then the agent will have maximized the collected reward without ever knowing what specific task the user had in mind. Tackling this problem requires a different approach as the agent should now be confident that merging two reward functions is more optimal than trying to differentiate between them. However the robot can not merge all rewards function right from the start as no specific direction will emerge and the correct reward won't be maximized in the long run.
+% When all task are equally probable, only the uncertainty should be taken into account. And once there is no more uncertainty, i.e. when confidence is reached, the action should be selected according to the task policy.
+
+\item \textbf{Reward maximization scenarios:} In this scenario, the goal of the robot is to maximize the cumulative reward associated to the correct task. The problem is that many tasks may have similar reward functions. Therefore it is not always necessary to identify the correct task with confidence to collect maximal rewards. For example, in our puddle word scenario of section~\ref{chapter:limitations:continousstate}, two tasks may share the same goal area but have different areas to avoid. If the robot can reach the shared goal area by avoiding the negative areas of both hypothesis, then the agent will have maximized the collected reward without ever knowing what specific task the user had in mind. In such case, the agent must known whether merging two reward functions is more optimal than trying to differentiate between them.
+
+% Interesting problems  is that of a task robot can not merge all rewards function right from the start as no specific direction will emerge and the correct reward won't be maximized in the long run.
 \end{itemize}
 
-Each of these scenarios requires to develop new exploration method. These challenges remain to be investigate and, if solved, are likely to be of practical interest for real word applications.
 
 \subsection{Applications}
 
-This work opens a new perspective regarding the global challenge of interacting with machines. It has application to many interaction problems which requires a machine to learn how to interpret unknown communicative signals. Yet, only the BCI scenario is convincing as a potential short term practical application of our method. We believe other applications are yet to identify and proof test with human subjects. Finding applications is an important direction for the future work in the domain. A good application will allow to advertise the potential benefits of adaptive interactive systems, which could learn from, and interact with, many different users who have their own limitations and preferences. We hope for the better with application to assistive technologies, but we can anticipate the worst, with application such as customer behavior understanding for advertising purposes.
+This work opens a new perspective regarding the global challenge of interacting with machines. It has application to many interaction problems which requires a machine to learn how to interpret unknown communicative signals. Yet, only the BCI scenario can convincingly be conceived as a potential short term practical application of our method. We believe other applications are yet to identify and proof test with human subjects. Finding applications is an important direction for the future work in the domain. A good application will allow to advertise the potential benefits of adaptive interactive systems, which could learn from, and interact with, many different users who have their own limitations and preferences. We hope for the better with application to assistive technologies, but we can anticipate the worst, with application such as customer behavior understanding for advertising purposes.
 
 \subsection{Studying humans in the loop}
 \label{chapter:limitations:userstudies}
 
 \question{Do people want to have an open-ended choice about what signal to use? \\ Would they be more efficient?}
 
-As we argued in the introduction, the work we presented is a starting point towards forms of adaptive interaction with non-technical users. In this subsection, we highlight the importance of conducting various user studies to evaluate the scalability, efficiency, and acceptability of our method to real world applications. It is only by demonstrating that this work can be applied and allows to improve over existing interaction methods that the idea of adaptive and flexible systems will be considered by a larger audience. The brain computer interaction studies described in this thesis is one interesting study, but a lot more is needed in broader applications and considering various interaction modalities.
+As we argued in the introduction, the work we presented is a starting point towards forms of adaptive interaction with non-technical users. In this subsection, we highlight the importance of conducting various user studies to evaluate the scalability, efficiency, and acceptability of our method to real world applications. It is only by demonstrating that this work can be applied and allows to improve over existing interaction methods that the idea of adaptive and flexible systems will be considered by a larger audience. The brain computer interaction study described in this thesis (chapter~\ref{chaper:bci}) is one interesting study, but a lot more is needed considering broader applications and various interaction modalities.
 
 We mostly used prerecorded datasets. When we performed real time experiments with real subjects, such as the BCI experiments in chapter~\ref{chaper:bci}, we noticed that brain signals are sensitive to the protocol of interaction, the duration of the experiment, and to the percentage of errors made by the agent. In addition, people attribute mental states to the agent according to its actions and sometime try to adapt their teaching behavior accordingly. Therefore a fist question to investigate is: \emph{To which extend the behavior of our agent changes the properties of the teaching signal?}
 
@@ -219,7 +222,7 @@ We mostly used prerecorded datasets. When we performed real time experiments wit
 
 Importantly, in most real-world applications, the users are told how to interact with the machines. Our algorithm allow a free choice in terms of signal, and having such a choice on some details of the interaction may finally become a disadvantage. An adaptive interface designed on the basis of our work would not be fully operational during the first few interactions. It initially needs a few steps to adapt to the teaching signals, which may discourage some users. They may rather prefer a more rigid but more intuitive interface. Therefore a second set of questions to investigate is: \emph{Do people want to have an open-ended choice about what signal to use? Would they be more efficient? When is it better to use a calibration procedure?}
 
-Finally, an interesting direction is to consider the same experimental semiotic experiment as described in chapter~\ref{chapter:humanexperiment} to build various human-robot interaction scenario. The setup allows to seamlessly use a human or a machine on either of the side of the interaction. A natural extension is therefore to replace the human builder by an agent using our algorithm. But one could also study active teaching algorithm \cite{cakmak2012algorithmic}, by replacing the teacher side by an artificial agent. In addition, the setup also allows to bias, and control, some specific aspects of the interaction. For example, we could study how specific agent's behaviors affect the teaching behavior of humans. But also study how an unobservable bias in the  interaction, such as one button having no effect, not being delayed, or being displayed at random location, could affect a human-human interaction. We may finally test our assumption that, in order to succeed in such asymmetric interaction games, participants must be able to use theory of mind and project themselves in different common interaction frames. For example by asking autistic people, which are known to have with respect to theory of mind. to participate in similar experiments.
+Finally, an interesting direction is to consider the same experimental semiotic experiment as described in chapter~\ref{chapter:humanexperiment} to build various human-robot interaction scenario. The setup allows to seamlessly use a human or a machine on either of the side of the interaction. A natural extension is therefore to replace the human builder by an agent using our algorithm. But one could also study active teaching algorithm \cite{cakmak2012algorithmic}, by replacing the teacher side by an artificial agent. In addition, the setup also allows to bias, and control, some specific aspects of the interaction. For example, we could study how specific agent's behaviors affect the teaching behavior of humans. But also study how an unobservable bias in the  interaction, such as one button having no effect, not being delayed, or being displayed at random locations, could affect a human-human interaction. We may finally test our assumption that, in order to succeed in such asymmetric interaction games, participants must be able to use theory of mind and project themselves in different common interaction frames; for example by asking people with specific neurodevelopmental disorder, such as autism, to participate in similar experiments.
 
 \todo{cite mohammed chetouanni}
 
@@ -238,7 +241,7 @@ Finally, an interesting direction is to consider the same experimental semiotic 
 
 In this work, we focused on the problem of adaptation to the specificities and limitations of each user's communicative signals. To do so we considered the interaction frame is known by the robot and used by the human. This latter assumption is easily opposable, not two humans will act in the exact same way. Learning the interaction frame seems to be the natural next step, and raises the question of creating novel meanings, as well as the problem of detecting and understanding new interaction protocols. Advances in this domain may allow a user to progressively provide higher level instructions throughout the life of a robot. Therefore, creating dynamic and hierarchical learning architectures will play a key role to enable life long learning of interactive skills, and following developmental learning approaches may be the way to go.
 
-\todo{cite}
+\todo{add citations}
 
 % such as for example learning new macro-states and new macro-actions, associated to new macro-instructions.
 
