@@ -159,10 +159,10 @@ Information known to be true for most interaction scenarios can be included in t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Future works}
-% \section{Future works in this domain}
+\section{Future work}
+% \section{Future work in this domain}
 
-This work opens a new perspective regarding the global challenge of interacting with machines. In this section, we emphasis that future work in the domain should focus two main aspects:  \begin{inparaenum}[(a)] \item analyzing the theoretical properties of the problem (convergence proof, criteria of symmetries), and \item  conducting user studies to evaluate the scalability, efficiency, and acceptability of our method in various real world applications. \end{inparaenum}
+This thesis opens a new perspective regarding the global challenge of interacting with machines. In this section, we emphasis that future work in the domain should focus two main aspects:  \begin{inparaenum}[(a)] \item analyzing the theoretical properties of the problem (convergence proof, criteria of symmetries), and \item  conducting user studies to evaluate the scalability, efficiency, and acceptability of our method in various real world applications. \end{inparaenum}
 
 % \subsection{Technical challenges}
 
@@ -170,17 +170,13 @@ This work opens a new perspective regarding the global challenge of interacting 
 
 \subsection{Theoretical analysis}
 
-The work presented in this thesis mainly focuses on empirical experiments. 
+The work presented in this thesis mainly focuses on empirical experiments. Nonetheless, in section~\ref{chapter:limitations:proof}, we presented a proof that our algorithm can identify the correct task and highlighted the symmetry effect. The making of this simple proof required to add additional assumptions about several properties of the world (e.g. ratio of optimal state-action pairs), as well as considering an optimal teacher using symbolic signals (e.g. button presses). 
 
-Making proof is nice but, given the specificity of our problem, are not easy to generalize to complex domains, considering noisy teacher and noisy signals.
+It is important to pursue in that direction by progressively relaxing these assumptions. Sensible progresses can be achieved quickly, a first step is to consider a non-optimal user making uniform teaching mistakes and worlds with more realistic properties (e.g. with different ratios of optimal state-action pairs). Reaching that level of proof would already offer some guarantees for simple scenarios using discrete state, discrete action, and symbolic signals, but under more realistic teaching conditions. The next step will be to consider non symbolic signals, assuming they are sampled from known latent distributions.
 
-It was therefore important to show that our approach scales to real word problem such as the BCI scenario.
+% While it is always interesting and useful to formulate proof of algorithm, it sometimes takes more time than trying out a system. We note that our experimental results showed that our algorithm works in real time with real users using noisy EEG signals. Which correspond to proof level non reachable
 
-such as proof and studies of the properties of the system.  
-symmetry cases
-
-By taking inspiration from the proof described in previous chapter, there is many fast improvement than can be done. Mainly by relaxing the assumption that the user is perfect, or that each task is composed of half optimal and half non optimal state action pairs. The next step will be to consider non symbolic signals sampled from known distribution.
-
+% Making proof is nice but, given the specificity of our problem, are not easy to generalize to complex domains, considering noisy teacher and noisy signals. It was therefore important to show that our approach scales to real word problem such as the BCI scenario.
 
 \subsection{Target based versus reward maximization scenarios}
 
@@ -193,7 +189,7 @@ We propose two different types of scenario that are representative of various re
 \begin{itemize}
 \item \textbf{Target based scenarios:} In this scenario, the goal of the agent is to execute one specific action in a particular state, but in situation where failing the task have bad consequences. 
 % In addition, it is important to succeed in the task. and should not make mistakes in the execution of the task. 
-Lets consider a robot that should put one object to the bin for a human. The robot can navigate freely around the objects in order to collect feedbacks from the human. However, the robot should only grasp and throw an object once it is confident that it is the object intended by the human. 
+Lets consider a robot that should identify one object among a finite set and put it to the bin for a human. The robot can navigate freely around the objects in order to collect feedbacks from the human. However, the robot should only grasp and throw an object once it is confident that it is the object intended by the human. 
 % This includes all the scenario considered in this thesis, and as seen in this section there is room to improve over our uncertainty method by including information about the hypothesized task.
 This problem is an instantiation of the visual navigation task used in our BCI experiments. In chapter~\ref{chapter:limitations:wordlproperties}, we have seen that our uncertainty method can be outperformed by a simpler method (greedy) when the goal is to identify and perform the task as fast as possible. It is likely that a pure greedy method can be outperformed. The problem with our uncertainty measure was that the robot could disambiguate between task ``far away'' from their respective goal states. Requiring additional steps to reach the correct goal state once identified. A potential avenue is to merge our measure of uncertainty with information about the optimal policy of each task, such that, for two states of equal uncertainty, the state closer to the potential targets is preferred. The resulting problem lies in weighting between seeking for uncertainty reduction and optimizing the position of the agent with respect to the, yet unknown, goal state.
 
@@ -216,7 +212,7 @@ This work opens a new perspective regarding the global challenge of interacting 
 
 As we argued in the introduction, the work we presented is a starting point towards forms of adaptive interaction with non-technical users. In this subsection, we highlight the importance of conducting various user studies to evaluate the scalability, efficiency, and acceptability of our method to real world applications. It is only by demonstrating that this work can be applied and allows to improve over existing interaction methods that the idea of adaptive and flexible systems will be considered by a larger audience. The brain computer interaction study described in this thesis (chapter~\ref{chaper:bci}) is one interesting study, but a lot more is needed considering broader applications and various interaction modalities.
 
-We mostly used prerecorded datasets. When we performed real time experiments with real subjects, such as the BCI experiments in chapter~\ref{chaper:bci}, we noticed that brain signals are sensitive to the protocol of interaction, the duration of the experiment, and to the percentage of errors made by the agent. In addition, people attribute mental states to the agent according to its actions and sometime try to adapt their teaching behavior accordingly. Therefore a fist question to investigate is: \emph{To which extend the behavior of our agent changes the properties of the teaching signal?}
+We mostly used prerecorded datasets. When we performed real time experiments with real subjects, such as the BCI experiments in chapter~\ref{chaper:bci}, we noticed that brain signals are sensitive to the protocol of interaction, the duration of the experiment, and to the percentage of errors made by the agent. In addition, people attribute mental states to the agent according to its actions and sometime try to adapt their teaching behavior accordingly. Therefore a fist question to investigate is: \emph{To which extend the behavior of our agent changes the properties of the teaching signals?}
 
 % the quality and properties of signals tends to change during the interaction. A potential explanation is that 
 
