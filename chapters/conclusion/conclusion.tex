@@ -6,22 +6,26 @@
 \label{chapter:conclusion}
 \minitoc
 
-In this thesis, we have developed a set of algorithmic solutions to deal with the problem of \emph{learning from unlabeled interaction frames}. We proposed several methods to exploit the assumption that users are coherent in their teaching behaviors, and to allow the learning agent to improve its performance by actively selecting its next actions.
+% In this thesis, we have developed a set of algorithmic solutions to deal with the problem of \emph{learning from unlabeled interaction frames}. We proposed several methods to exploit the assumption that users are coherent in their teaching behaviors, and to allow the learning agent to improve its performance by actively selecting its next actions.
 
-In this chapter, we summarize our contributions and highlight the most important ideas and algorithm properties of this work. Finally, we explicit a number of possible directions for future research in this domain. We particularly highlight two important directions. The first is to study the property of our problem in a more theoretical way (e.g. convergence properties, effects of world properties). The second direction is the importance of testing this algorithm with a multitude of users in a variety of tasks, we particularly highlight the potential difference between intuitive and adaptive interfaces. As a final note, we highlight the challenge of learning new meanings and identifying new interaction protocols through practical interaction with humans.
+% In this chapter, we summarize our contributions and highlight the most important ideas and algorithm properties of this work. Finally, we explicit a number of possible directions for future research in this domain. We particularly highlight two important directions. The first is to study the property of our problem in a more theoretical way (e.g. convergence properties, effects of world properties). The second direction is the importance of testing this algorithm with a multitude of users in a variety of tasks, we particularly highlight the potential difference between intuitive and adaptive interfaces. As a final note, we highlight the challenge of learning new meanings and identifying new interaction protocols through practical interaction with humans.
+
+In this chapter, we summarize our contributions and we explicit a number of possible directions for future research in this domain. We particularly advocate for the importance of testing this algorithm with a multitude of users in a variety of tasks. As a final note, we highlight the challenge of learning new meanings and identifying new interaction protocols through practical interaction with humans.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Summary of contributions}
+% \section{Summary of contributions}
 
-The main objective of this thesis is to endow the interested readers with sufficient understanding of the problem of \emph{learning from unlabeled interaction frames} to implement their own version of the algorithm with the tools they are more familiar with.
+% The main objective of this thesis is to endow the interested readers with sufficient understanding of the problem of \emph{learning from unlabeled interaction frames} to implement their own version of the algorithm with the tools they are more familiar with.
+
+\subsubsection*{Contributions}
 
 Our main contribution is a method allowing a user to start teaching a robot a new task using its own preferred teaching signals. The machine will learn simultaneously which signals are associated to which meaning, as well as identify the task the user wants to solve. Our method consists of generating interpretation hypotheses of the teaching signals with respect to a set of possible tasks. We then assume that the correct task is the one that explains better the history of interaction.
 
-We can highlight four important contributions of this thesis: \begin{inparaenum}[(1)] \item we proposed a new experimental setup to study the co-construction of interaction protocols in collaborative tasks with humans (chapter~\ref{chapter:humanexperiment}); \item we presented an algorithm allowing to simultaneously learn a new task from human instructions as well as the mapping between human instruction signals and their meanings (chapter~\ref{chapter:lfui}); \item we described a measure of uncertainty on the joint task-signal space that takes into account both the uncertainty inherent to the task, as well as the uncertainty about the signal to meaning mapping (chapter~\ref{chapter:planning}); and \item we showed the applicability of the approach to brain-machine interfaces based on error potentials which could work out of the box without calibration, a long-desired property of this type of systems (chapter~\ref{chapter:bci}). \end{inparaenum}
+We highlight four important contributions of this thesis: \begin{inparaenum}[(1)] \item we proposed a new experimental setup to study the co-construction of interaction protocols in collaborative tasks with humans (chapter~\ref{chapter:humanexperiment}); \item we presented an algorithm allowing to simultaneously learn a new task from human instructions as well as the mapping between human instruction signals and their meanings (chapter~\ref{chapter:lfui}); \item we described a measure of uncertainty on the joint task-signal space that takes into account both the uncertainty inherent to the task, as well as the uncertainty about the signal to meaning mapping (chapter~\ref{chapter:planning}); and \item we showed the applicability of the approach to brain-machine interfaces based on error potentials which could work out of the box without calibration, a long-desired property of this type of systems (chapter~\ref{chapter:bci}). \end{inparaenum}
 
 We also proposed a number of possible extensions releasing several assumptions made by our initial algortihm. We address the problems of continuous state space (chapter~\ref{chapter:limitations:continousstate}), continuous task hypothesis space (chapter~\ref{chapter:limitations:continoushypothesis}) and unspecified interaction frames (chapter~\ref{chapter:limitations:framehypothesis}). 
 
@@ -36,71 +40,71 @@ We also proposed a number of possible extensions releasing several assumptions m
 
 % We showed the applicability of the approach to brain-machine interfaces based on error potentials which could work out of the box without calibration, a long-desired property of this type of systems. 
 
-\paragraph{} We believe the theoretical and empirical work presented in this thesis can constitute an important first step towards flexible personalized teaching interfaces, a key for the future of personal robotics.
+% \paragraph{} We believe the theoretical and empirical work presented in this thesis can constitute an important first step towards flexible personalized teaching interfaces, a key for the future of personal robotics.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Take home messages: ideas and algorithm properties}
+% \section{Take home messages: ideas and algorithm properties}
 
-% \section{Main ideas and algorithm properties}
+% % \section{Main ideas and algorithm properties}
 
-There is three main aspects we would like the reader to take home. First, a source of information does not always apply only on the task space, or on the signal space, but can sometime be observed by combining constraints from both the task and the signal spaces. Secondly, we want to higlight the two operating modes of our algortihm, which first identifies the tasks by measuring the coherence of their signal models and then relies more on an individual classification of signals. Finally, it is important to not feel limited by our examples and to understand that an intercation frame is a generic concept which can be applied to a variety of problems.
+% There is three main aspects we would like the reader to take home. First, a source of information does not always apply only on the task space, or on the signal space, but can sometime be observed by combining constraints from both the task and the signal spaces. Secondly, we want to higlight the two operating modes of our algortihm, which first identifies the tasks by measuring the coherence of their signal models and then relies more on an individual classification of signals. Finally, it is important to not feel limited by our examples and to understand that an intercation frame is a generic concept which can be applied to a variety of problems.
 
 % Therefore only the defintion of the problem and the visual example are my main concern the main take home message is that by generating hypothesis about the possible tasks, different interpreationg of the signals emerges among which the more coherent is assumed to be the one taught by the teacher. \todo{look for the formulation of a reviewer}
 
-\subsection{Exploiting information on the joint task-signal space}
+% \subsection{Exploiting information on the joint task-signal space}
 
-Our algorithm relies on measuring the coherence between the spacial organization of the signal and their labels. We link this coherence with the performance of a classifier trained on hypothesized signal-label pairs. This source of information does not provide a direct knowledge about the task, neither about how to decode the signals themselves. It rather provides information emerging from the joint combination of a task and the signals. That is, that for the correct task, the spacial organization of the signal will match with their associated labels. 
+% Our algorithm relies on measuring the coherence between the spacial organization of the signal and their labels. We link this coherence with the performance of a classifier trained on hypothesized signal-label pairs. This source of information does not provide a direct knowledge about the task, neither about how to decode the signals themselves. It rather provides information emerging from the joint combination of a task and the signals. That is, that for the correct task, the spacial organization of the signal will match with their associated labels. 
 
-This type of information, that acts neither on the task, neither on the signal decoder, but rather on the combination of both is at the core of this work. It has not been often considered in the literature. We highlighted the work of Cederborg et al. (section~\ref{chapter:related:language:thomas}), which make use of a similar source of information reasoning about the consistency of some gestures with respect to different geographical references.
+% This type of information, that acts neither on the task, neither on the signal decoder, but rather on the combination of both is at the core of this work. It has not been often considered in the literature. We highlighted the work of Cederborg et al. (section~\ref{chapter:related:language:thomas}), which make use of a similar source of information reasoning about the consistency of some gestures with respect to different geographical references.
 
-In the BCI community, the work of Kindermans et al. highlights well the use and differences between different information sources \cite{kindermans2014integrating}. They considered a P300 spelling task, and used transfer learning to acquire prior information of the signal decoder. They also used a language model to acquire prior information on the task (i.e. on the possible next letter). And they finally exploit the particular fact that among the multiple stimulations only one event out of six encodes a P300 potential in the speller paradigm. This latter information is a property of the speller paradigm that emerges on the signal space but only for the correct task.
+% In the BCI community, the work of Kindermans et al. highlights well the use and differences between different information sources \cite{kindermans2014integrating}. They considered a P300 spelling task, and used transfer learning to acquire prior information of the signal decoder. They also used a language model to acquire prior information on the task (i.e. on the possible next letter). And they finally exploit the particular fact that among the multiple stimulations only one event out of six encodes a P300 potential in the speller paradigm. This latter information is a property of the speller paradigm that emerges on the signal space but only for the correct task.
 
-We advocate that this kind of information sources will play an important role in developing flexible personalized teaching interfaces, which can not rely on known information about the task or the signals independently.
+% We advocate that this kind of information sources will play an important role in developing flexible personalized teaching interfaces, which can not rely on known information about the task or the signals independently.
 
-\subsection{Two modes}
+% \subsection{Two modes}
 
-Our algorithm is divided into a classification algorithm, estimating one classifier for each hypothesis based on past interaction, and a filtering algorithm that uses the predictions and properties of this classifier to update a belief over all tasks hypothesis. The key point is that each hypothesis is considered as if it was the true one. We model the signal to meaning mapping of the user with respect to each task. We then simply test if each classifier can make accurate predictions. As the user is acting according to only one hypothesis, only that hypothesis will be able to predict correctly future interactions. Once a task is identified, we have access to the true intended labels of the user. Which we transfer to all the other hypotheses and start learning a new task using the same equation and by continuing the interpretation hypothesis process. As all hypothesis now share a common set of signal-label pairs, we should be able to learn the new task faster.
+% Our algorithm is divided into a classification algorithm, estimating one classifier for each hypothesis based on past interaction, and a filtering algorithm that uses the predictions and properties of this classifier to update a belief over all tasks hypothesis. The key point is that each hypothesis is considered as if it was the true one. We model the signal to meaning mapping of the user with respect to each task. We then simply test if each classifier can make accurate predictions. As the user is acting according to only one hypothesis, only that hypothesis will be able to predict correctly future interactions. Once a task is identified, we have access to the true intended labels of the user. Which we transfer to all the other hypotheses and start learning a new task using the same equation and by continuing the interpretation hypothesis process. As all hypothesis now share a common set of signal-label pairs, we should be able to learn the new task faster.
 
-We highlight the different processes acting during a full experiment when learning multiple tasks. We will refer to two operating modes: \begin{inparaenum}[a)] \item mode 1 is learning the first task from unlabeled instructions, and \item mode 2 is learning a task when most of the labels are shared between hypothesis. \end{inparaenum} Our update equation is the same for the two operating modes but different properties are more or less active during mode 1 or mode 2.
+% We highlight the different processes acting during a full experiment when learning multiple tasks. We will refer to two operating modes: \begin{inparaenum}[a)] \item mode 1 is learning the first task from unlabeled instructions, and \item mode 2 is learning a task when most of the labels are shared between hypothesis. \end{inparaenum} Our update equation is the same for the two operating modes but different properties are more or less active during mode 1 or mode 2.
 
-% We remind that our update equation is computed from three terms: 
-% \begin{itemize}
-% \item $p(l^f|s,a,\xi)$ is the frame function, it represents the probability distributions of the meanings according to a task, the executed action and the current state, i.e. it represent the interaction frame. 
-% \item $p(l^c | e, \theta)$ is the raw prediction of the classifier $\theta$. 
-% \item $p(l^{cc} | l^c, \theta)$ encodes which label should be actually recovered by $\theta$. It is the probability that the classifier itself is reliable in its predictions. 
-% % Intuitively, it models the quality of the model $\theta$.
-% \end{itemize}
+% % We remind that our update equation is computed from three terms: 
+% % \begin{itemize}
+% % \item $p(l^f|s,a,\xi)$ is the frame function, it represents the probability distributions of the meanings according to a task, the executed action and the current state, i.e. it represent the interaction frame. 
+% % \item $p(l^c | e, \theta)$ is the raw prediction of the classifier $\theta$. 
+% % \item $p(l^{cc} | l^c, \theta)$ encodes which label should be actually recovered by $\theta$. It is the probability that the classifier itself is reliable in its predictions. 
+% % % Intuitively, it models the quality of the model $\theta$.
+% % \end{itemize}
 
-Mode 1 is the main contribution of this work. During mode 1 our measure of uncertainty on classifiers' predictions has more impact than the raw predictions of each classifier. Indeed, with very few data available, the classifiers are unable to predict correctly unseen data.
-%Even the classifier associated to the correct task is initially of bad quality, due to the noise and dimensionality in the teaching signals. 
-Therefore all classifiers are considered as unreliable, and our update equation makes only small updates each step. It is only once one classifier stands apart as being more reliable than the others that differences between likelihoods will emerges. Mode 1 can be observed on Figure~\ref{fig:sequence_evolution} (top), where, during the learning of the first task, all classifier have accuracy close to random (50\%). It is only at step 83 that the correct hypothesis stands apart by being consistently more reliable than the other.
+% Mode 1 is the main contribution of this work. During mode 1 our measure of uncertainty on classifiers' predictions has more impact than the raw predictions of each classifier. Indeed, with very few data available, the classifiers are unable to predict correctly unseen data.
+% %Even the classifier associated to the correct task is initially of bad quality, due to the noise and dimensionality in the teaching signals. 
+% Therefore all classifiers are considered as unreliable, and our update equation makes only small updates each step. It is only once one classifier stands apart as being more reliable than the others that differences between likelihoods will emerges. Mode 1 can be observed on Figure~\ref{fig:sequence_evolution} (top), where, during the learning of the first task, all classifier have accuracy close to random (50\%). It is only at step 83 that the correct hypothesis stands apart by being consistently more reliable than the other.
 
-% By doing so the system ends up knowing what is the task taught by the teacher and consequently what are the true labels associated to the teaching signals. Consequently, at the end of phase 1, the system knows a lot more about the mapping between human signals and their meaning.
+% % By doing so the system ends up knowing what is the task taught by the teacher and consequently what are the true labels associated to the teaching signals. Consequently, at the end of phase 1, the system knows a lot more about the mapping between human signals and their meaning.
 
-Mode 2 is almost the contrary. Once many tasks have been identified, all hypothesis share a similar classifier because of the transfer of labels. Therefore they all have similar confusion matrix and make similar predictions. Mode 2 is therefore similar to learning from a known source of information, where all tasks share the same classifier. And it is only by comparing the label prediction of new signals to their expected label for each task that we differentiate hypotheses. This process is logically faster than mode 1 because strong updates are made for each received signal. Mode 2 can be observed on Figure~\ref{fig:sequence_evolution} (top), where, after the step 200, the difference between classifier qualities is very small. Indeed, 5 tasks have already been identified and all hypotheses share most of their signal-label pairs, therefore all classifiers make similar predictions. 
+% Mode 2 is almost the contrary. Once many tasks have been identified, all hypothesis share a similar classifier because of the transfer of labels. Therefore they all have similar confusion matrix and make similar predictions. Mode 2 is therefore similar to learning from a known source of information, where all tasks share the same classifier. And it is only by comparing the label prediction of new signals to their expected label for each task that we differentiate hypotheses. This process is logically faster than mode 1 because strong updates are made for each received signal. Mode 2 can be observed on Figure~\ref{fig:sequence_evolution} (top), where, after the step 200, the difference between classifier qualities is very small. Indeed, 5 tasks have already been identified and all hypotheses share most of their signal-label pairs, therefore all classifiers make similar predictions. 
 
-Between mode 1 and mode 2 is a period of transition where the effects of both modes are active. When only few signal-label pairs are shared between hypothesis, each classifier evolve quickly as new observations comes in. This transition can be observed on Figure~\ref{fig:sequence_evolution} (top) between step 83 and 200.
+% Between mode 1 and mode 2 is a period of transition where the effects of both modes are active. When only few signal-label pairs are shared between hypothesis, each classifier evolve quickly as new observations comes in. This transition can be observed on Figure~\ref{fig:sequence_evolution} (top) between step 83 and 200.
 
-% After the first task is identified, we have access to the true labels associated to each signals but we keep updating all the classifiers. And as the number of shared signal-label pairs is not big enough, 
+% % After the first task is identified, we have access to the true labels associated to each signals but we keep updating all the classifiers. And as the number of shared signal-label pairs is not big enough, 
 
-% In the beginning phase 2, all the classifiers are the same, the difference between hypothesis will be on the match between classified signal and expected label. As we interact with the user, some teaching mistake occurs (\textbf{teaching mistake with respect to the hypothesis considered}) that both create non expected prediction from the classifier and decrease the trust I put into my classifier by mixing labels.
+% % In the beginning phase 2, all the classifiers are the same, the difference between hypothesis will be on the match between classified signal and expected label. As we interact with the user, some teaching mistake occurs (\textbf{teaching mistake with respect to the hypothesis considered}) that both create non expected prediction from the classifier and decrease the trust I put into my classifier by mixing labels.
 
-To sum up, the same processes are active in both modes and are captured by the same equation (see Equation~\ref{eq:matchingcrossvalidation}). In mode 1, it is the classifier intrinsic quality that has the most impact. In mode 2, it is the classification of each individual signal that has the most impact. 
+% To sum up, the same processes are active in both modes and are captured by the same equation (see Equation~\ref{eq:matchingcrossvalidation}). In mode 1, it is the classifier intrinsic quality that has the most impact. In mode 2, it is the classification of each individual signal that has the most impact. 
 
-% These two modes are captured by the same equation (see Equation~\ref{eq:matchingcrossvalidation}) , which compares predicted and expected labels while taking into account the confidence in the predictions of the classifiers using their respective estimated confusion matrix.
+% % These two modes are captured by the same equation (see Equation~\ref{eq:matchingcrossvalidation}) , which compares predicted and expected labels while taking into account the confidence in the predictions of the classifiers using their respective estimated confusion matrix.
 
-Interestingly, our measure of uncertainty presented in chapter~\ref{chapter:planning} applies indifferently to each operation mode. Our uncertainty function combines uncertainty on both signal and task space, when former is known (during mode 2 all hypotheses share the same signal model), the latter becomes the sole source of ambiguity.
+% Interestingly, our measure of uncertainty presented in chapter~\ref{chapter:planning} applies indifferently to each operation mode. Our uncertainty function combines uncertainty on both signal and task space, when former is known (during mode 2 all hypotheses share the same signal model), the latter becomes the sole source of ambiguity.
 
-\subsection{A frame is a generic function}
+\subsubsection*{A frame is a generic function}
 \label{chapter:limitations:framegeneric}
 
 An interaction frame is not limited to the straightforward meaning correspondence we assumed (feedback and guidance), it can include various aspects of timing (e.g. teaching delays, asynchronous signals), social cues (e.g. gaze of the user), and do not always requires the robot to know how to perform a task. We provide below some examples of what a frame might includes.
 
-\subsubsection*{A task is not always a fixed target}
+\paragraph{A task is not always a fixed target}
 
 In this thesis, we only considered tasks represented as a sparse reward function in a discrete state and action MDP. There is no reason to be limited to this representation of a task, especially to concept of a reaching task, where the agent should reach a specific state. For example task could be an endless repetition of actions such as a robot in an assembly line that should assemble a given object again and again.
 
@@ -128,13 +132,13 @@ The policy of Figure~\ref{fig:gridwolrdgenericframesaround} consists of followin
 
 We note that it is possible, but not always convenient, to represent a problem such that a fixed reward function allows to define the task of Figure~\ref{fig:gridwolrdgenericframesaround}~and~\ref{fig:gridwolrdgenericframesloop}. For Figure~\ref{fig:gridwolrdgenericframesaround} defining a reward function on the state-action space would be enough. For Figure~\ref{fig:gridwolrdgenericframesloop}, it is more challenging as the Markov properties are not respected (we must know the current and previous position of the agent to predict its future position). Therefore the representation of the problem should include the previous position of the agent, which increases the state space from 9 states to 81 states.
 
-\subsubsection*{No need for planning skills}
+\paragraph{No need for planning skills}
 
 Although in most of the problem described in this work, the agent needed to know the optimal policy for each task, it is only a specificity of the feedback and guidance frame we considered. For example, in section~\ref{chapter:limitations:continuoushypothesis} we considered a frame where a teacher provides indication about the absolute direction of objects. Therefore, interpreting a signal with respect to various object only requires to know the positions of these objects, without the need to know how to reach each object.
 
 % equiring the robot to be equipped with planning abilities
 
-\subsubsection*{Asynchronous instructions}
+\paragraph{Asynchronous instructions}
 
 The interaction between the user and the machine would be easier if the robot could act continuously and the human could provide instructions when he deemed necessary. Our pick and place scenario of chapter~\ref{chapter:lfui} has been experienced as boring by the users, which had to provide a feedback after each movement of the robot. In some domains, the frequency of actions is to high to afford waiting for a feedback signal between each action. Either the action would be so small that the user would not be able to evaluate it, either the interaction flow and execution time would be dramatically affected by the many pauses in the task execution.
 
@@ -142,7 +146,7 @@ To allow for continuous operation of the robot, asynchronous delivery of signals
 
 % This method has been used by Knox et al. in their TAMER framework \cite{knox2009interactively} using a data from a study of the distribution of human response times \cite{hockley1984analysis}.
 
-\subsubsection*{Including social clues}
+\paragraph{Including social clues}
 
 Information known to be true for most interaction scenarios can be included in the frame definition. For example, if the user is looking away from the scene, he is less likely to provide correct feedback. Such information can be included to the frame function by decreasing the probability that the user will provide an appropriate signal if the user is looking away. Other potential sources of teaching mistakes include the presence of other persons in the room, or the fact that some objects are hidden to the teacher's eyes.
 
@@ -168,37 +172,37 @@ This thesis opens a new perspective regarding the global challenge of interactin
 
 % remove assumptions such as the one presented is limitation section
 
-\subsection{Theoretical analysis}
+% \subsection{Theoretical analysis}
 
-The work presented in this thesis mainly focuses on empirical experiments. Nonetheless, in section~\ref{chapter:limitations:proof}, we presented a proof that our algorithm can identify the correct task and highlighted the symmetry effect. The making of this simple proof required to add additional assumptions about several properties of the world (e.g. ratio of optimal state-action pairs), as well as considering an optimal teacher using symbolic signals (e.g. button presses). 
+% The work presented in this thesis mainly focuses on empirical experiments. Nonetheless, in section~\ref{chapter:limitations:proof}, we presented a proof that our algorithm can identify the correct task and highlighted the symmetry effect. The making of this simple proof required to add additional assumptions about several properties of the world (e.g. ratio of optimal state-action pairs), as well as considering an optimal teacher using symbolic signals (e.g. button presses). 
 
-It is important to pursue in that direction by progressively relaxing these assumptions. Sensible progresses can be achieved quickly, a first step is to consider a non-optimal user making uniform teaching mistakes and worlds with more realistic properties (e.g. with different ratios of optimal state-action pairs). Reaching that level of proof would already offer some guarantees for simple scenarios using discrete state, discrete action, and symbolic signals, but under more realistic teaching conditions. The next step will be to consider non symbolic signals, assuming they are sampled from known latent distributions.
+% It is important to pursue in that direction by progressively relaxing these assumptions. Sensible progresses can be achieved quickly, a first step is to consider a non-optimal user making uniform teaching mistakes and worlds with more realistic properties (e.g. with different ratios of optimal state-action pairs). Reaching that level of proof would already offer some guarantees for simple scenarios using discrete state, discrete action, and symbolic signals, but under more realistic teaching conditions. The next step will be to consider non symbolic signals, assuming they are sampled from known latent distributions.
 
 % While it is always interesting and useful to formulate proof of algorithm, it sometimes takes more time than trying out a system. We note that our experimental results showed that our algorithm works in real time with real users using noisy EEG signals. Which correspond to proof level non reachable
 
 % Making proof is nice but, given the specificity of our problem, are not easy to generalize to complex domains, considering noisy teacher and noisy signals. It was therefore important to show that our approach scales to real word problem such as the BCI scenario.
 
-\subsection{Target based versus reward maximization scenarios}
+% \subsection{Target based versus reward maximization scenarios}
 
-As identified in chapter~\ref{chapter:limitations:wordlproperties}, we do not understand well the impact of some properties of the world and of datasets on the final performance of our system. But this study confirmed that our uncertainty measure is only efficient at disambiguating task hypotheses and has not been designed to optimize additional criteria on the task, such as to minimize the number of step to reach the correct state with confidence. The challenge of merging our uncertainty with additional objective remains to be investigate and, if solved, are likely to be of practical interest for real word applications.
+% As identified in chapter~\ref{chapter:limitations:wordlproperties}, we do not understand well the impact of some properties of the world and of datasets on the final performance of our system. But this study confirmed that our uncertainty measure is only efficient at disambiguating task hypotheses and has not been designed to optimize additional criteria on the task, such as to minimize the number of step to reach the correct state with confidence. The challenge of merging our uncertainty with additional objective remains to be investigate and, if solved, are likely to be of practical interest for real word applications.
 
-% Each of these scenarios requires to develop new exploration methods. 
-% Our measure was developed to discriminate faster the correct hypothesis from the set of possible tasks and not to also execute that task as fast as possible.
+% % Each of these scenarios requires to develop new exploration methods. 
+% % Our measure was developed to discriminate faster the correct hypothesis from the set of possible tasks and not to also execute that task as fast as possible.
 
-We propose two different types of scenario that are representative of various real world scenario: 
-\begin{itemize}
-\item \textbf{Target based scenarios:} In this scenario, the goal of the agent is to execute one specific action in a particular state, but in situation where failing the task have bad consequences. 
-% In addition, it is important to succeed in the task. and should not make mistakes in the execution of the task. 
-Lets consider a robot that should identify one object among a finite set and put it to the bin for a human. The robot can navigate freely around the objects in order to collect feedbacks from the human. However, the robot should only grasp and throw an object once it is confident that it is the object intended by the human. 
-% This includes all the scenario considered in this thesis, and as seen in this section there is room to improve over our uncertainty method by including information about the hypothesized task.
-This problem is an instantiation of the visual navigation task used in our BCI experiments. In chapter~\ref{chapter:limitations:wordlproperties}, we have seen that our uncertainty method can be outperformed by a simpler method (greedy) when the goal is to identify and perform the task as fast as possible. It is likely that a pure greedy method can be outperformed. The problem with our uncertainty measure was that the robot could disambiguate between task ``far away'' from their respective goal states. Requiring additional steps to reach the correct goal state once identified. A potential avenue is to merge our measure of uncertainty with information about the optimal policy of each task, such that, for two states of equal uncertainty, the state closer to the potential targets is preferred. The resulting problem lies in weighting between seeking for uncertainty reduction and optimizing the position of the agent with respect to the, yet unknown, goal state.
+% We propose two different types of scenario that are representative of various real world scenario: 
+% \begin{itemize}
+% \item \textbf{Target based scenarios:} In this scenario, the goal of the agent is to execute one specific action in a particular state, but in situation where failing the task have bad consequences. 
+% % In addition, it is important to succeed in the task. and should not make mistakes in the execution of the task. 
+% Lets consider a robot that should identify one object among a finite set and put it to the bin for a human. The robot can navigate freely around the objects in order to collect feedbacks from the human. However, the robot should only grasp and throw an object once it is confident that it is the object intended by the human. 
+% % This includes all the scenario considered in this thesis, and as seen in this section there is room to improve over our uncertainty method by including information about the hypothesized task.
+% This problem is an instantiation of the visual navigation task used in our BCI experiments. In chapter~\ref{chapter:limitations:wordlproperties}, we have seen that our uncertainty method can be outperformed by a simpler method (greedy) when the goal is to identify and perform the task as fast as possible. It is likely that a pure greedy method can be outperformed. The problem with our uncertainty measure was that the robot could disambiguate between task ``far away'' from their respective goal states. Requiring additional steps to reach the correct goal state once identified. A potential avenue is to merge our measure of uncertainty with information about the optimal policy of each task, such that, for two states of equal uncertainty, the state closer to the potential targets is preferred. The resulting problem lies in weighting between seeking for uncertainty reduction and optimizing the position of the agent with respect to the, yet unknown, goal state.
 
 % When all task are equally probable, only the uncertainty should be taken into account. And once there is no more uncertainty, i.e. when confidence is reached, the action should be selected according to the task policy.
 
-\item \textbf{Reward maximization scenarios:} In this scenario, the goal of the robot is to maximize the cumulative reward associated to the correct task. The problem is that many tasks may have similar reward functions. Therefore it is not always necessary to identify the correct task with confidence to collect maximal rewards. For example, in our puddle word scenario of section~\ref{chapter:limitations:continousstate}, two tasks may share the same goal area but have different areas to avoid. If the robot can reach the shared goal area by avoiding the negative areas of both hypothesis, then the agent will have maximized the collected reward without ever knowing what specific task the user had in mind. In such case, the agent must known whether merging two reward functions is more optimal than trying to differentiate between them.
+% \item \textbf{Reward maximization scenarios:} In this scenario, the goal of the robot is to maximize the cumulative reward associated to the correct task. The problem is that many tasks may have similar reward functions. Therefore it is not always necessary to identify the correct task with confidence to collect maximal rewards. For example, in our puddle word scenario of section~\ref{chapter:limitations:continousstate}, two tasks may share the same goal area but have different areas to avoid. If the robot can reach the shared goal area by avoiding the negative areas of both hypothesis, then the agent will have maximized the collected reward without ever knowing what specific task the user had in mind. In such case, the agent must known whether merging two reward functions is more optimal than trying to differentiate between them.
 
-% Interesting problems  is that of a task robot can not merge all rewards function right from the start as no specific direction will emerge and the correct reward won't be maximized in the long run.
-\end{itemize}
+% % Interesting problems  is that of a task robot can not merge all rewards function right from the start as no specific direction will emerge and the correct reward won't be maximized in the long run.
+% \end{itemize}
 
 
 \subsection{Applications}
