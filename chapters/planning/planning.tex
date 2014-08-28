@@ -35,7 +35,7 @@ A solution is to consider exploration-bonuses, where, for each state-action pair
 
 % by for example finding the optimal policy based on the uncertainty map (using for example reinforcement learning methods) scenario the agent select the action that maximizes uncertainty reduction on the task in the long term.
 
-Measuring uncertainty on the task is the basic principle of active learning for inverse reinforcement learning problems \cite{lopes2009active, macl09airl}. The idea is to take a query-by-committee approach, where each member of the committee, i.e. each task hypothesis $\xi_k$, votes according to its weight in the committee, to its respective probability $p(\xi_k)$.. 
+Measuring uncertainty on the task is the basic principle of active learning for inverse reinforcement learning problems \cite{macl09airl}. The idea is to take a query-by-committee approach, where each member of the committee, i.e. each task hypothesis $\xi_k$, votes according to its weight in the committee, to its respective probability $p(\xi_k)$.. 
 
 We can define a vector that accumulates the weighted optimal actions of each hypothesis: 
 %
@@ -302,7 +302,7 @@ Our measure of uncertainty $U(s,a)$ will be higher when, for a given state-actio
 
 \transition
 
-Interestingly the two approaches proposed generalize over other active planning methods \cite{lopes2009active}, if the signal to meaning classifier is known, i.e. the same for all hypothesis, our equations reduces to the one presented in \cite{macl11simul}. For example, our first method, which relies on measuring the uncertainty on expected signals, will be equivalent to a measure on the expected meanings because all hypotheses will have identical signal's models. For our second method, all classifiers will be identical, therefore the resulting equations will no longer be dependent on signal $e$. As our uncertainty function combines uncertainty on both signal and task space, when former is known, the latter becomes the sole source of ambiguity.
+Interestingly the two approaches proposed generalize over other active planning methods \cite{macl09airl}, if the signal to meaning classifier is known, i.e. the same for all hypothesis, our equations reduces to the one presented in \cite{macl11simul}. For example, our first method, which relies on measuring the uncertainty on expected signals, will be equivalent to a measure on the expected meanings because all hypotheses will have identical signal's models. For our second method, all classifiers will be identical, therefore the resulting equations will no longer be dependent on signal $e$. As our uncertainty function combines uncertainty on both signal and task space, when former is known, the latter becomes the sole source of ambiguity.
 
 \subsection{Why not building model first}
 
@@ -408,7 +408,7 @@ We used $\alpha = 0.1$, $\beta = 0.9$. For dataset of dimension $d$, we started 
 \section{Illustration of the grid world scenario}
 \label{chapter:planning:gridworld}
 
-We illustrate in Figure~\ref{fig:appendix:gridworldfeedback}, a smaller 3x3 grid world example and the results of the hypothetic labeling process. The teacher is providing feedback with respect to hypothesis 1. The labeling process for hypothesis 1 is the more coherent. We note that hypothesis 9 has symmetric properties with hypothesis 1 but the use of the ``no move'' action allows to break that symmetry.
+We illustrate in Figure~\ref{fig:planning:gridworldfeedback}, a smaller 3x3 grid world example and the results of the hypothetic labeling process. The teacher is providing feedback with respect to hypothesis 1. The labeling process for hypothesis 1 is the more coherent. We note that hypothesis 9 has symmetric properties with hypothesis 1 but the use of the ``no move'' action allows to break that symmetry.
 
 \begin{figure}[!htbp]
   \centering
@@ -423,6 +423,7 @@ We illustrate in Figure~\ref{fig:appendix:gridworldfeedback}, a smaller 3x3 grid
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
+\label{chapter:planning:results}
 
 In the following, we present most of the results in terms of the quality of the dataset, measured as the ten-fold classification accuracy that a calibrated signal classifier would obtain. Each simulation was run 100 times using different sampled datasets, and their associated box plots were computed. For each boxplot, colored bars show the interquartile range (between 25th and 75th percentile). The median and the mean are marked as a horizontal line and a colored dot respectively. The two whiskers show the 5th and 95th percentiles, black crosses are outliers. 
 
@@ -469,7 +470,7 @@ Once the first task is completed, a new one is selected randomly. Figure~\ref{fi
 
 Importantly, our algorithm makes very few mistakes when identifying the first task. We reported only 9 erroneous estimations across all simulated experiments (5 in the 70-80 group and 4 in the 80-90 group).
 
-\transition
+\section{Discussion}
 
 In this chapter, we presented a planning method allowing to reduce the number of iterations needed to identify the correct task from unlabeled teaching signals. This method was based on assigning an uncertainty value to each state-action pair. By asking the agent to look for the most uncertain state-action pair, it can collect more useful data to disambiguate faster between the hypotheses. We identified two sources of uncertainty, one coming from the task and the other coming from the signal model associated to each task hypothesis. We presented two methods to measure this uncertainty. The first method measures the uncertainty on the expected signals between each hypothesis. The second method measures uncertainty on the meaning space by making hypothesis on future observed signals.
 

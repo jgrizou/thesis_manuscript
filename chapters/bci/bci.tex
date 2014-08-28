@@ -25,12 +25,15 @@ The application of this work to BCI is a collaboration with I{\~n}aki Iturrate a
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Learning from error related potentials}
+\section{Experimental setup and EEG signals}
+% Learning from error related potentials}
 \label{chapter:bci:setupandeeg}
 
-\subsection{The visual naviguation task}
+In this section, we introduce the BCI visual navigation experimental setup as well as the brain signals encoding ``correct'' and ``incorrect'' feedback we record the subjects' brain.
 
-The setup of our online experiment is shown in Figure~\ref{fig:BCIsetup}. Each subject was asked to mentally assess the agent's actions with respect to a given target. The system was not calibrated to decode the user EEG signals beforehand. Once the agent identified a task, and whatever the success or failure of the task identification, the user selected a new goal state randomly, the agent reseted the task likelihoods, propagates the believed labels, and teaching started again. At no point the agent has access to a measure of its performance, it could only refer to the unlabeled feedback signals from the user. There was an action every three seconds. Each experiment lasted 500 actions minimum, after 500 steps we kept running the system until a next task was reached.
+\subsection{The visual navigation task}
+
+The setup of our online experiment is shown in Figure~\ref{fig:BCIsetup}. A human subject is equipped with a EEG cup is facing a screen where is displayed a two dimensional grid. The grid is composed of 25 discrete states, 5 rows and 5 columns. In green is displayed an agent that is able to move in the four cardinal direction (N/S/E/W). In red is the target the user selected. The user will mentally assess each agent's action a being ``correct'' or ``incorrect'' with respect to the target location.
 
 \begin{figure}[!htbp]
 \centering
@@ -41,21 +44,25 @@ The setup of our online experiment is shown in Figure~\ref{fig:BCIsetup}. Each s
 
 \subsection{The brain signals}
 
-As shown in Figure~\ref{fig:EEGsample}, the EEG signals associated to ``incorrect'' labels have slightly more amplitude than the one associated to ``correct'' labels, especially at around 300ms.
+We are interested by error-related potentials (ErrPs) in the subject's brain activity. These potentials are a specific kind of event-related potential (ERP) generated in the user's brain after s/he assesses actions performed by an external agent \cite{chavarriaga2010learning}. Correct and erroneous assessments will elicit different brain signals. As shown in Figure~\ref{fig:EEGsample}, the EEG signals associated to ``incorrect'' labels have slightly more amplitude than the one associated to ``correct'' labels, especially at around 350ms.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.49\columnwidth]{\imgpath/illustration/eeg_correct.eps}
 \includegraphics[width=0.49\columnwidth]{\imgpath/illustration/eeg_incorrect.eps}
-\caption{Low-pass filtered EEG signals associated to ``correct'' labels (left) and to ``incorrect'' labels (right).  The signals have slightly different amplitudes, especially at around 300ms. \todo{change with one figure inkscaped}}
+\caption{Low-pass filtered EEG signals associated to ``correct'' labels (left) and to ``incorrect'' labels (right). The signals for each class have slightly different amplitudes, especially at around 300ms.}
 \label{fig:EEGsample}
 \end{figure}
 
-To build our feature vector we consider two fronto-central channels (FCz and Cz) in a time window of $[200,700]$ ms (being 0 ms the action onset of the agent) and downsampled the signal to $32$ Hz. Each element of the feature vector is the value in microvolts of the signal at the corresponding time. To compute the power information contained in our signal we simply compute the sum of the square of each feature representing our signal. This simple approximation allows to capture the slight difference in power between ``incorrect'' and ``correct'' signals (see Figure~\ref{fig:EEGpower}). However this is not enough to classify a single signal with more than 60 percent accuracy, which is almost random. But considering a group of point we can observe that the mean of power of the ``incorrect'' class is higher that the mean power of the ``correct'' class. We will exploit this property as an a priori information of which group of point should means ``correct'' or ``incorrect''.
+Past approaches have already demonstrated that these signals can be classified online with accuracies of around 80\% and translated into binary feedback, thanks to a prior calibration session that lasts for 30-40 minutes \cite{chavarriaga2010learning, iturrate2013task}.
+
+\paragraph{Difference with P300 signals} In the related work chapter, we presented the work of Kindermans et al. which also achieve calibration free BCI but consider the speller paradigm using P300 EEG signals (section~\ref{chapter:related:bci:kindermans}). We identified an important difference between our respective work in that the speller task ensure that one signal out of 6 is encodes a positive P300 signal. This information allows their EM algorithm to attribute the class of each identified cluster. Following our approach we do not need do guarantee such ratio, which make our approach applicable to a broader variety of task.
+
+In addition the nature of the brain signals considered in our respective work differs, they use P300 signals and we use Errp signals. The P300 and the ErrP both come from the same family of EEG signal, called event-related potentials (ERP) \cite{chavarriaga2014errare}. Both are generated as a reaction to internal or external events. The main difference is that P300 can be generated as many times as needed, i.e. each time the correct row or column is flashed a P300 is triggered in the subject's brain. Therefore is is possible to average, increasing the signal to noise ratio. Whereas the ErrP cannot be generated on demand, once the agent performed an unexpected, erroneous, action the corresponding potential must be detect when it appears, it is a single trial detection. Hence the Errp are harder to use in online interactive scenarios.
+
+\paragraph{Building the feature vector} After every agent's action, the brain signals from the user are recorded via a computer using a gTec system. To build our feature vector we consider two fronto-central channels (FCz and Cz) in a time window of $[200,700]$ ms (being 0 ms the action onset of the agent) and downsampled the signal to $32$ Hz. Each element of the feature vector is the value in microvolts of the signal at the corresponding time. 
 
 \subsection{The signal model}
-
-ErrPs signals are generated in the user's brain after s/he assesses actions performed by an external agent \cite{chavarriaga2010learning}, where correct and erroneous assessments will elicit different brain signals. Past approaches have already demonstrated that these signals can be classified online with accuracies of around 80\% and translated into binary feedback, thanks to a prior calibration session that lasts for 30-40 minutes \cite{chavarriaga2010learning, iturrate2013task}.
 
 Following the literature \cite{lotte2007review,blankertz2010single}, we rely on Gaussian classifiers and model the signals using independent multivariate normal distributions for each class, $\mathcal{N}(\mu_c, \Sigma_c), \mathcal{N}(\mu_w, \Sigma_w)$. With $\theta$ the set of parameters $\{\mu_c, \Sigma_c,\mu_w, \Sigma_w\}$. Given the high dimensionality of some datasets we also need to regularize. For this we apply shrinkage to the covariance matrix ($\lambda = 0.5$) and compute the value of the marginal pdf function using a noninformative (Jeffrey's) prior [\cite{gelman2003bayesian}, p88]:
 
@@ -66,7 +73,7 @@ p(e|l, \theta) & = & t_{n-d}(e | \mu_l,\frac{\Sigma_l (n+1)}{n(n-d)})
 
 where $\theta$ represents the ML estimates (mean $\mu_l$ and covariance $\Sigma_l$ for each class $l$) required to estimate the marginal under the Jeffreys prior, $n$ is the number of signals, and $d$ is the dimensionality of a signal feature vector.
 
-Finally to compute the probability of a label given a signal, we use the bayes rules as follows: 
+Finally to compute the probability of a label given a signal, we use the bayes rules as follows:
 %
 \begin{eqnarray}
     p(l = l_i|e,\theta) &=& \frac{p(e|l = l_i, \theta)p(l = l_i)}{\sum_{k = 1,\ldots, L}{p(e|l = l_k,\theta)p(l = l_k)}}\nonumber \\
@@ -255,17 +262,7 @@ In this section, we detail how we can exploit the difference of power between po
 
 \subsection{Difference of power between correct and incorrect signals}
 
-As shown in Figure~\ref{fig:EEGsample}, the EEG signals associated to ``incorrect'' labels have slightly more amplitude than the one associated to ``correct'' labels, especially around 300ms. 
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.49\columnwidth]{\imgpath/illustration/eeg_correct.eps}
-\includegraphics[width=0.49\columnwidth]{\imgpath/illustration/eeg_incorrect.eps}
-\caption{Low-pass filtered EEG signals associated to ``correct'' labels (left) and to ``incorrect'' labels (right).  The signals have slightly different amplitudes, especially at around 300ms. \todo{change with one figure inkscaped}}
-\label{fig:EEGsample}
-\end{figure}
-
-To build our feature vector we consider two fronto-central channels (FCz and Cz) in a time window of $[200,700]$ ms (being 0 ms the action onset of the agent) and downsampled the signal to $32$ Hz. Each element of the feature vector is the value in microvolts of the signal at the corresponding time. To compute the power information contained in our signal we simply compute the sum of the square of each feature representing our signal. This simple approximation allows to capture the slight difference in power between ``incorrect'' and ``correct'' signals (see Figure~\ref{fig:EEGpower}). However this is not enough to classify a single signal with more than 60 percent accuracy, which is almost random. But considering a group of point we can observe that the mean of power of the ``incorrect'' class is higher that the mean power of the ``correct'' class. We will exploit this property as an a priori information of which group of point should means ``correct'' or ``incorrect''.
+As shown in Figure~\ref{fig:EEGsample}, the EEG signals associated to ``incorrect'' labels have slightly more amplitude than the one associated to ``correct'' labels, especially around 300ms. To compute the power information contained in our signal we simply compute the sum of the square of each feature representing our signal. This simple approximation allows to capture the slight difference in power between ``incorrect'' and ``correct'' signals (see Figure~\ref{fig:EEGpower}). However this is not enough to classify a single signal with more than 60 percent accuracy. But considering a group of point we can observe that the mean of power of the ``incorrect'' class is higher that the mean power of the ``correct'' class. We will exploit this property as an a priori information of which group of point should means ``correct'' or ``incorrect''.
 
 \begin{figure}[!htbp]
 \centering
@@ -380,16 +377,9 @@ The results presented in this section confirm that the use of the power informat
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiments with real users}
 
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=\bcisetupsize\columnwidth]{\visualspdf/onlineXP/setup.pdf}
-\caption{The BCI setup for online experiments. On the screen is displayed the grid world with the agent in green. We displayed the intended target in red, which was selected randomly. The purpose of this red square is to help the user remembering the target and our algorithm is at no point aware of the position of this red square.}
-\label{fig:BCIsetup}
-\end{figure}
-
 We ran online experiments with 3 subjects. Each subject control an agent in a virtual world. The setup of our online experiment is shown in Figure~\ref{fig:BCIsetup}. Each subject was asked to mentally assess the agent's actions with respect to a given target. The system was not calibrated to decode the user EEG signals beforehand. Once the agent identified a task, and whatever the success or failure of the task identification, the user selected a new goal state randomly, the agent reseted the task likelihoods, propagates the believed labels, and teaching started again. At no point the agent has access to a measure of its performance, it could only refer to the unlabeled feedback signals from the user. There was an action every three seconds. Each experiment lasted 500 actions minimum, after 500 steps we kept running the system until a next task was reached.
 
-As depicted in Figure~\ref{fig:correcterror_online}, our system was able to identify several tasks correctly. As for our simulated experiments, there are strong variations among subjects but we note that our system always identified the first task correctly (see Table~\ref{tab:onlineXPsummary}). Importantly, the first task was always identified in less iterations than a normal calibration procedure requires (between 300 and 600 examples depending on the user performance \cite{chavarriaga2010learning,iturrate2010single}) (see Figure~\ref{fig:timefirst_online}).
+\subsection*{Results} As depicted in Figure~\ref{fig:correcterror_online}, our system was able to identify several tasks correctly. As for our simulated experiments, there are strong variations among subjects but we note that our system always identified the first task correctly (see Table~\ref{tab:onlineXPsummary}). Importantly, the first task was always identified in less iterations than a normal calibration procedure requires (between 300 and 600 examples depending on the user performance \cite{chavarriaga2010learning,iturrate2010single}) (see Figure~\ref{fig:timefirst_online}).
 
 
 \begin{figure}[!htbp]
@@ -428,7 +418,7 @@ As depicted in Figure~\ref{fig:correcterror_online}, our system was able to iden
 % \label{fig:correcterror_online}
 % \end{figure} 
 
-\transition
+\section{Discussion}
 
 Results presented in this chapter with real EEG signals allow us to envision that the algorithm presented in this thesis could have practical applications in the real word. By removing the need of an expert to collect and calibrate the system, the use of brain computer interfaces may become more practical allowing their users to go out of the labs.
 

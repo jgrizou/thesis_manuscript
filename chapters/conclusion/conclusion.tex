@@ -4,7 +4,7 @@
 
 \chapter{Discussion and Perspectives}
 \label{chapter:conclusion}
-\minitoc
+% \minitoc
 
 % In this thesis, we have developed a set of algorithmic solutions to deal with the problem of \emph{learning from unlabeled interaction frames}. We proposed several methods to exploit the assumption that users are coherent in their teaching behaviors, and to allow the learning agent to improve its performance by actively selecting its next actions.
 
@@ -99,38 +99,42 @@ We also proposed a number of possible extensions releasing several assumptions m
 
 % Interestingly, our measure of uncertainty presented in chapter~\ref{chapter:planning} applies indifferently to each operation mode. Our uncertainty function combines uncertainty on both signal and task space, when former is known (during mode 2 all hypotheses share the same signal model), the latter becomes the sole source of ambiguity.
 
-\subsubsection*{A frame is a generic function}
+\subsection*{A frame is a generic function}
 \label{chapter:limitations:framegeneric}
 
 An interaction frame is not limited to the straightforward meaning correspondence we assumed (feedback and guidance), it can include various aspects of timing (e.g. teaching delays, asynchronous signals), social cues (e.g. gaze of the user), and do not always requires the robot to know how to perform a task. We provide below some examples of what a frame might includes.
 
 \paragraph{A task is not always a fixed target}
 
-In this thesis, we only considered tasks represented as a sparse reward function in a discrete state and action MDP. There is no reason to be limited to this representation of a task, especially to concept of a reaching task, where the agent should reach a specific state. For example task could be an endless repetition of actions such as a robot in an assembly line that should assemble a given object again and again.
+We only considered tasks represented as a sparse reward function in a discrete state and action MDP. There is no reason to be limited to this representation of a task, especially to concept of a reaching task. Our algortihm only need to have access to a frame function interpreting each teacher signal given a context and an hypothesized task. Considering the feedback and guidance frame, as soon as the policies associated to each task can be provided to the robot, our algorithm can be applied. 
 
-Considering the feedback and guidance frame, as soon as the policies associated to each task can be provided to the robot, our algorithm can be applied. We present in Figure~\ref{fig:gridwolrdgenericframes} two examples where policies are easy to define but are not always possible to derive in a simple MDP representation.
+% For example task could be an endless repetition of actions such as a robot in an assembly line that should assemble a given object again and again.
 
-The policy of Figure~\ref{fig:gridwolrdgenericframesaround} consists of following the external wall of the grid world in a clockwise direction. Similarly in Figure~\ref{fig:gridwolrdgenericframesaround}, the policy consists of an endless looping trajectory. These policies can not be derived from a state based reward function. They are however rather easy to define by hand or to derive from another representation of the task.
+% Considering the feedback and guidance frame, as soon as the policies associated to each task can be provided to the robot, our algorithm can be applied. We present in Figure~\ref{fig:gridwolrdgenericframes} two examples where policies are easy to define but are not always possible to derive in a simple MDP representation.
 
-\begin{figure}[!htbp]
-\centering
-    \begin{subfigure}[b]{0.49\columnwidth}
-        \centering
-        \includegraphics[width=0.6\columnwidth]{\visualspdf/frame/gridworld_around.pdf}
-        \caption{}
-        \label{fig:gridwolrdgenericframesaround}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.49\columnwidth}
-        \centering
-        \includegraphics[width=0.6\columnwidth]{\visualspdf/frame/gridworld_loop.pdf}
-        \caption{}
-        \label{fig:gridwolrdgenericframesloop}
-    \end{subfigure}
-\caption{Two agent behaviors that are hard to define in terms of reward function.}
-\label{fig:gridwolrdgenericframes}
-\end{figure}
+% The policy of Figure~\ref{fig:gridwolrdgenericframesaround} consists of following the external wall of the grid world in a clockwise direction. Similarly in Figure~\ref{fig:gridwolrdgenericframesaround}, the policy consists of an endless looping trajectory. 
 
-We note that it is possible, but not always convenient, to represent a problem such that a fixed reward function allows to define the task of Figure~\ref{fig:gridwolrdgenericframesaround}~and~\ref{fig:gridwolrdgenericframesloop}. For Figure~\ref{fig:gridwolrdgenericframesaround} defining a reward function on the state-action space would be enough. For Figure~\ref{fig:gridwolrdgenericframesloop}, it is more challenging as the Markov properties are not respected (we must know the current and previous position of the agent to predict its future position). Therefore the representation of the problem should include the previous position of the agent, which increases the state space from 9 states to 81 states.
+% These policies can not be derived from a state based reward function. They are however rather easy to define by hand or to derive from another representation of the task.
+
+% \begin{figure}[!htbp]
+% \centering
+%     \begin{subfigure}[b]{0.49\columnwidth}
+%         \centering
+%         \includegraphics[width=0.6\columnwidth]{\visualspdf/frame/gridworld_around.pdf}
+%         \caption{}
+%         \label{fig:gridwolrdgenericframesaround}
+%     \end{subfigure}
+%     \begin{subfigure}[b]{0.49\columnwidth}
+%         \centering
+%         \includegraphics[width=0.6\columnwidth]{\visualspdf/frame/gridworld_loop.pdf}
+%         \caption{}
+%         \label{fig:gridwolrdgenericframesloop}
+%     \end{subfigure}
+% \caption{Two agent behaviors that are hard to define in terms of reward function.}
+% \label{fig:gridwolrdgenericframes}
+% \end{figure}
+
+% We note that it is possible, but not always convenient, to represent a problem such that a fixed reward function allows to define the task of Figure~\ref{fig:gridwolrdgenericframesaround}~and~\ref{fig:gridwolrdgenericframesloop}. For Figure~\ref{fig:gridwolrdgenericframesaround} defining a reward function on the state-action space would be enough. For Figure~\ref{fig:gridwolrdgenericframesloop}, it is more challenging as the Markov properties are not respected (we must know the current and previous position of the agent to predict its future position). Therefore the representation of the problem should include the previous position of the agent, which increases the state space from 9 states to 81 states.
 
 \paragraph{No need for planning skills}
 
@@ -163,10 +167,10 @@ Information known to be true for most interaction scenarios can be included in t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Future work}
-% \section{Future work in this domain}
+% \subsection{Future work}
+% % \section{Future work in this domain}
 
-This thesis opens a new perspective regarding the global challenge of interacting with machines. In this section, we emphasis that future work in the domain should focus two main aspects:  \begin{inparaenum}[(a)] \item analyzing the theoretical properties of the problem (convergence proof, criteria of symmetries), and \item  conducting user studies to evaluate the scalability, efficiency, and acceptability of our method in various real world applications. \end{inparaenum}
+% This thesis opens a new perspective regarding the global challenge of interacting with machines. In this section, we emphasis that future work in the domain should focus two main aspects:  \begin{inparaenum}[(a)] \item analyzing the theoretical properties of the problem (convergence proof, criteria of symmetries), and \item  conducting user studies to evaluate the scalability, efficiency, and acceptability of our method in various real world applications. \end{inparaenum}
 
 % \subsection{Technical challenges}
 
@@ -205,26 +209,38 @@ This thesis opens a new perspective regarding the global challenge of interactin
 % \end{itemize}
 
 
-\subsection{Applications}
+% \subsection{Applications}
 
-This work opens a new perspective regarding the global challenge of interacting with machines. It has application to many interaction problems which requires a machine to learn how to interpret unknown communicative signals. Yet, only the BCI scenario can convincingly be conceived as a potential short term practical application of our method. We believe other applications are yet to identify and proof test with human subjects. Finding applications is an important direction for the future work in the domain. A good application will allow to advertise the potential benefits of adaptive interactive systems, which could learn from, and interact with, many different users who have their own limitations and preferences. We hope for the better with application to assistive technologies, but we can anticipate the worst, with application such as customer behavior understanding for advertising purposes.
-
-\subsection{Studying humans in the loop}
+\subsection*{Studying humans in the loop}
 \label{chapter:limitations:userstudies}
 
-\question{Do people want to have an open-ended choice about what signal to use? \\ Would they be more efficient?}
+% This work opens a new perspective regarding the global challenge of interacting with machines. It has application to many interaction problems which requires a machine to learn how to interpret unknown communicative signals. 
 
-As we argued in the introduction, the work we presented is a starting point towards forms of adaptive interaction with non-technical users. In this subsection, we highlight the importance of conducting various user studies to evaluate the scalability, efficiency, and acceptability of our method to real world applications. It is only by demonstrating that this work can be applied and allows to improve over existing interaction methods that the idea of adaptive and flexible systems will be considered by a larger audience. The brain computer interaction study described in this thesis (chapter~\ref{chaper:bci}) is one interesting study, but a lot more is needed considering broader applications and various interaction modalities.
+It is only by demonstrating that this work can be applied and allows to improve over existing interaction methods that the idea of adaptive and flexible systems will be considered by a larger audience.
 
-We mostly used prerecorded datasets. When we performed real time experiments with real subjects, such as the BCI experiments in chapter~\ref{chaper:bci}, we noticed that brain signals are sensitive to the protocol of interaction, the duration of the experiment, and to the percentage of errors made by the agent. In addition, people attribute mental states to the agent according to its actions and sometime try to adapt their teaching behavior accordingly. Therefore a fist question to investigate is: \emph{To which extend the behavior of our agent changes the properties of the teaching signals?}
+\paragraph{Finding application} Yet, only the BCI scenario can convincingly be conceived as a potential short term practical application of our method. We believe other applications are yet to identify and is an important direction for the future work in the domain. A good application will allow to advertise the potential benefits of adaptive interactive systems, which is to learn from, and interact with, many different users who use different type of signals given their own limitations and preferences. We hope for the better with application to assistive technologies, but we can anticipate the worst, with application such as customer behavior understanding for advertising purposes.
+
+% and proof test with human subjects. Finding applications is an important direction for the future work in the domain. 
+
+
+
+% \question{Do people want to have an open-ended choice about what signal to use? \\ Would they be more efficient?}
+
+\paragraph{User studies}
+
+% As we argued in the introduction, the work we presented is a starting point towards forms of adaptive interaction with non-technical users. 
+
+In the following paragraphs, we highlight the importance of conducting various user studies to evaluate the scalability, efficiency, and acceptability of our method to real world applications. 
+
+% The brain computer interaction study described in this thesis (chapter~\ref{chaper:bci}) is one interesting study, but a lot more is needed considering broader applications and various interaction modalities.
+
+We mostly used prerecorded datasets. Bu when we performed real time experiments with real subjects, such as the BCI experiments in chapter~\ref{chaper:bci}, we noticed that brain signals are sensitive to the protocol of interaction, the duration of the experiment, and to the percentage of errors made by the agent. In addition, people attribute mental states to the agent according to its actions and sometime try to adapt their teaching behavior accordingly. Therefore a fist question to investigate is: \emph{To which extend the behavior of our agent changes the properties of the teaching signals?}
 
 % the quality and properties of signals tends to change during the interaction. A potential explanation is that 
 
-Importantly, in most real-world applications, the users are told how to interact with the machines. Our algorithm allow a free choice in terms of signal, and having such a choice on some details of the interaction may finally become a disadvantage. An adaptive interface designed on the basis of our work would not be fully operational during the first few interactions. It initially needs a few steps to adapt to the teaching signals, which may discourage some users. They may rather prefer a more rigid but more intuitive interface. Therefore a second set of questions to investigate is: \emph{Do people want to have an open-ended choice about what signal to use? Would they be more efficient? When is it better to use a calibration procedure?}
+Also, in most real-world applications, the users are told how to interact with the machines. Our algorithm allow a free choice in terms of signal, and having such a choice on some details of the interaction may finally become a disadvantage. An adaptive interface designed on the basis of our work would not be fully operational during the first few interactions (exept if other known sources of information are available). Our algortihm needs a few intial steps to adapt to the teaching signals, which may discourage some users. They may rather prefer a more rigid but more intuitive interface. Therefore a second set of questions to investigate is: \emph{Do people want to have an open-ended choice about what signal to use? Would they be more efficient? When is it better to use a calibration procedure?}
 
 Finally, an interesting direction is to consider the same experimental semiotic experiment as described in chapter~\ref{chapter:humanexperiment} to build various human-robot interaction scenario. The setup allows to seamlessly use a human or a machine on either of the side of the interaction. A natural extension is therefore to replace the human builder by an agent using our algorithm. But one could also study active teaching algorithm \cite{cakmak2012algorithmic}, by replacing the teacher side by an artificial agent. In addition, the setup also allows to bias, and control, some specific aspects of the interaction. For example, we could study how specific agent's behaviors affect the teaching behavior of humans. But also study how an unobservable bias in the  interaction, such as one button having no effect, not being delayed, or being displayed at random locations, could affect a human-human interaction. We may finally test our assumption that, in order to succeed in such asymmetric interaction games, participants must be able to use theory of mind and project themselves in different common interaction frames; for example by asking people with specific neurodevelopmental disorder, such as autism, to participate in similar experiments.
-
-\todo{cite mohammed chetouanni}
 
 % human exp with a computer at one side, or with some signal not dipslaye,d or with delayed, or with ranodm possition...
 
@@ -233,15 +249,15 @@ Finally, an interesting direction is to consider the same experimental semiotic 
 % Indeed, our current system can be restrictive for the user as the number of interaction increases quickly with the complexity of the size of the task and meaning spaces. However, we have shown that the system is able to use known sources of information, which in real-world interaction could be leveraged to keep the sample complexity low.
 
 
-\subsection{Creating meanings and interaction protocols}
+\subsection*{Creating meanings and interaction protocols}
 
-\question{Who create the frame functions?}
+% \question{Who create the frame functions?}
 
-% Interacting with various people requires to adapt to each individuality as most humans do in their daily life. 
+% Interacting with various people requires to adapt to each individuality as most humans do in their daily life.
 
-In this work, we focused on the problem of adaptation to the specificities and limitations of each user's communicative signals. To do so we considered the interaction frame is known by the robot and used by the human. This latter assumption is easily opposable, not two humans will act in the exact same way. Learning the interaction frame seems to be the natural next step, and raises the question of creating novel meanings, as well as the problem of detecting and understanding new interaction protocols. Advances in this domain may allow a user to progressively provide higher level instructions throughout the life of a robot. Therefore, creating dynamic and hierarchical learning architectures will play a key role to enable life long learning of interactive skills, and following developmental learning approaches may be the way to go.
+We focused on the problem of adaptation to the specificities and limitations of each user's communicative signals. To do so we considered the interaction frame is known by the robot and used by the human. This latter assumption is easily opposable, not two humans will socially behave in the exact same way. Learning the interaction frame seems to be the natural next step, and raises the question of creating novel meanings \cite{steels2002aibos}, as well as the problem of detecting and understanding new interaction protocols \cite{mohammad2010learning,macl11simul}. Advances in this domain may allow a user to progressively provide higher level instructions throughout the life of a robot. Therefore, creating dynamic and hierarchical learning architectures will play a key role to enable life long learning of interactive skills, and following developmental learning approaches may be the way to go \cite{lungarella2003developmental,demiris2005motor,lopes2007developmental}.
 
-\todo{add citations}
+% \todo{add citations}
 
 % such as for example learning new macro-states and new macro-actions, associated to new macro-instructions.
 

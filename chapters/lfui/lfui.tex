@@ -319,7 +319,7 @@ When taking the ``no move'' action the agent does not change position. This acti
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/lineworld_symmetries/feedback_3actions.pdf}
-  \caption{Interpretation hypotheses made by an agent receiving feedback on its action in the line word and where the hypothetic tasks are G1 or G2. The agent can perform right, left, or ``no move'' actions. As opposed to Figure~\ref{lineworldfeedback2action}, the ``no move'' action allows to break the symmetry of interpretation between G1 and G2.}
+  \caption{Interpretation hypotheses made by an agent receiving feedback on its action in the line word and where the hypothetic tasks are G1 or G2. The agent can perform right, left, or ``no move'' actions. As opposed to Figure~\ref{fig:lineworldfeedback2action}, the ``no move'' action allows to break the symmetry of interpretation between G1 and G2.}
   \label{fig:lineworldfeedback3action}
 \end{figure}
 
@@ -358,7 +358,7 @@ The ``no move'' signal will be used only at the goal state. As this state is not
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/lineworld_symmetries/guidance_3actions.pdf}
-  \caption{Interpretation hypotheses made by an agent receiving guidance on its actions in the line word and where the hypothetic tasks are G1 or G2. The agent can perform right, left, or ``no move'' actions. As opposed to Figure~\ref{lineworldguidance2action}, the ``no move'' action allows to break the symmetry of interpretation between G1 and G2.}
+  \caption{Interpretation hypotheses made by an agent receiving guidance on its actions in the line word and where the hypothetic tasks are G1 or G2. The agent can perform right, left, or ``no move'' actions. As opposed to Figure~\ref{fig:lineworldguidance2action}, the ``no move'' action allows to break the symmetry of interpretation between G1 and G2.}
   \label{fig:lineworldguidance3action}
 \end{figure}
 
@@ -899,7 +899,7 @@ Once the first task has been identified by the robot, we keep in corresponding c
 
 Figure~\ref{fig:Real} shows the result from this setting. In the first run it took about 100 iterations for the robot to identify the task. Whereas in the second run, when reusing knowledge from the first one, the robot is able to learn a new task faster, in about 30 iterations. The second run being faster that the first one indicates that our algorithm identified correctly the mapping between the user's speech signals and their corresponding meanings. 
 
-The author of this thesis was the user for this studies and was therefore aware of the task representation used by the robot, i.e. a MDP with four discrete actions. As explained in chapter~\ref{chapter:related:humanintheloop}, an important challenge is to deal with non-expert humans whose teaching styles can vary considerably. While this challenge is not part of the current study, we observed that non-informed users teaching our robot had various understanding of the robot behaviors. It most often led to unsuccessful interactions due to an important amount of teaching mistakes from non-informed users.
+The author of this thesis was the user for this studies and was therefore aware of the task representation used by the robot, i.e. a MDP with four discrete actions. As explained in subsection~\ref{chapter:related:humanintheloop}, an important challenge is to deal with non-expert humans whose teaching styles can vary considerably. While this challenge is not part of the current study, we observed that non-informed users teaching our robot had various understanding of the robot behaviors. It most often led to unsuccessful interactions due to an important amount of teaching mistakes from non-informed users.
 
 % the two clusters in our $\mathbb{R}^{20}$ dimensional space as well as 
 
@@ -934,7 +934,7 @@ Figure~\ref{fig:selectionMethod} left and right compares respectively the action
   \label{fig:selectionMethod}
 \end{figure}
 
-\transition
+\section{Discussion}
 
 We showed that learning simultaneously a task and the meaning of an a priori unknown human instruction is possible and that the action selection method impacts the learning performances. Can we do better than random or $epsilon$-greedy action selection methods?
 
