@@ -84,20 +84,42 @@ Therefore, we can evaluate the possible signal to meaning mappings based on the 
 
 Given our previously defined assumption, and assuming the agent visited all state-action pairs once, if the user uses the blue ($B$) button to mean ``correct'', then the blue signal model will be $[\Upsilon_{\xi_t},1-\Upsilon_{\xi_t}]_{B,\xi_t}$. Which implies the orange button mapping is $[1-\Upsilon_{\xi_t},\Upsilon_{\xi_t}]_{O,\xi_t}$. Respectively, if the user uses the blue button to mean ``incorrect'', then the blue signal model will be $[1-\Upsilon_{\xi_t},\Upsilon_{\xi_t}]_{B,\xi_t}$. Which implies the orange button mapping is $[\Upsilon_{\xi_t},1-\Upsilon_{\xi_t}]_{O,\xi_t}$.
 
-As there is the same number of ``correct'' and ``incorrect'' expected labels, we can factorize the likelihood equation as follows (see appendix~\ref{appendix:proof}):
-%
+\subsubsection*{Deriving the likelihood with respect to $\Upsilon_{\xi_t}$}
+
+Using this notation, we can write the likelihood equation as a product of vector's products. Where for example, $\sum_{k = 1, \ldots, L} p(l^c_i = l_k | e_i, \theta_M) p(l^f_i = l_k | s_i, a_i, \xi_t)$ can be written as $[\Upsilon_{\xi_t},1-\Upsilon_{\xi_t}]_{B,\xi_t}.[1,0]_{s_i,a_i,\xi_t}^T$ for those cases where the user pressed the blue button (i.e. $e_i = B$) after an optimal state-action pair (i.e. the expected meanings is ``correct'', i.e. $[1,0]_{s_i,a_i,\xi_t}$), and given that the blue button was the one used by the teacher to mean ``correct'', resulting in $[\Upsilon_{\xi_t},1-\Upsilon_{\xi_t}]_{B,\xi_t}$ as the button to meaning model.
+
+We can now list all the possible cases. We can split the state-action pairs in half, the one that are optimal according to the teacher intended task $\hat{\xi}$ (there is $\frac{nSA}{2}$ of them) and the one that are non-optimal according to the teacher intended task $\hat{\xi}$ (there is $\frac{nSA}{2}$ of them). For the state-action pairs that are optimal, the user will press the button he uses to mean ``correct'' (i.e. the blue or the orange one), respectively for the non-optimal, he will press the other button (i.e. the orange or the blue one).
+
+But the agent evaluates those button presses with respect to the task hypothesis currently considered $\xi_t$, which might not be the one the teacher as in mind. Therefore, only a fraction of the time the button presses match with what is expected by the task considered $\xi_t$. This number can be exactly identified as $\frac{nSA}{2}.\Upsilon_{\xi_t}$. Therefore for $\frac{nSA}{2}.\Upsilon_{\xi_t}$ state-action pairs, the ``correct'' button was pressed for the ``correct'' meaning. For one state-action pair, this represent an update of the likelihood function by $[\Upsilon_{\xi_t},1-\Upsilon_{\xi_t}].[1,0]^T$, which is simply $\Upsilon_{\xi_t}$. As there is $\frac{nSA}{2}.\Upsilon_{\xi_t}$ similar situations the update is $\Upsilon_{\xi_t}^{\frac{nSA}{2}.\Upsilon_{\xi_t}}$.
+
+Similarly there is $\frac{nSA}{2}.(1-\Upsilon_{\xi_t})$, where the ``incorrect'' button was pressed for the ``correct'' meaning. Which represents an update of $[\Upsilon_{\xi_t},1-\Upsilon_{\xi_t}].[0,1]^T$, which is simply $1-\Upsilon_{\xi_t}$. As there is $\frac{nSA}{2}.(1-\Upsilon_{\xi_t})$ similar situations the update is $(1-\Upsilon_{\xi_t})^{\frac{nSA}{2}.(1-\Upsilon_{\xi_t})}$.
+
+And, as the situation is symmetric for the non-optimal state-action pairs of the teacher intended task $\hat{\xi}$, the likelihood equation can be rewritten as:
+
 \begin{eqnarray}
-\L(\xi_t) &=& \Upsilon_{\xi_t}^{nSA.\Upsilon_{\xi_t}} \times (1-\Upsilon_{\xi_t})^{nSA.(1-\Upsilon_{\xi_t})}
-\label{eq:likelihoodproof}
+\L(\xi_t) &=& \Upsilon_{\xi_t}^{\frac{nSA}{2}.\Upsilon_{\xi_t}} \times (1-\Upsilon_{\xi_t})^{\frac{nSA}{2}.(1-\Upsilon_{\xi_t})} \times \Upsilon_{\xi_t}^{\frac{nSA}{2}.\Upsilon_{\xi_t}} \times (1-\Upsilon_{\xi_t})^{\frac{nSA}{2}.(1-\Upsilon_{\xi_t})} \nonumber \\
+&=& \Upsilon_{\xi_t}^{nSA.\Upsilon_{\xi_t}} \times (1-\Upsilon_{\xi_t})^{nSA.(1-\Upsilon_{\xi_t})}
+\label{eq:likelihoodproof} 
 \end{eqnarray}
 
+% Note that this equation is the same whatever the button chosen by the user to mean ``correct''.
+
+% As there is the same number of ``correct'' and ``incorrect'' expected labels, we can factorize the likelihood equation as follows (see appendix~\ref{appendix:proof}):
+% %
+% \begin{eqnarray}
+% \L(\xi_t) &=& \Upsilon_{\xi_t}^{nSA.\Upsilon_{\xi_t}} \times (1-\Upsilon_{\xi_t})^{nSA.(1-\Upsilon_{\xi_t})}
+% \label{eq:likelihoodproof}
+% \end{eqnarray}
+
 Note that this equation is the same whatever the button chosen by the user to mean ``correct''. We can check our previous likelihood estimate in our simple example of Figure~\ref{fig:proofsymbolic} considering the 4 state-action pairs visited are the only one available in the world, and considering we receive button presses as in line (d). We obtain the same likelihoods as the one derived in the first subsection, i.e. $\L(G1) = 1^{1\times4} \times 0^{0\times4} = 1$ and $\L(G1) = 0.5^{0.5\times4} \times 0.5^{0.5\times4} = 0.5^4 = 0.0625$.
+
+\subsubsection*{Analyzing the likelihood function}
 
 We can plot the likelihood function with respect to the full range of value that $\Upsilon_{\xi_t}$ can take, i.e. between 0 and 1. We consider that $nSA = 1$ for now. Obviously such a value of $nSA$ is impossible in practice given our assumptions, we need as many optimal and non-optimal state-action pair, which means that $nSA$ must be an even number. However, now that we have our theoretical estimate of the likelihood function we shall study its properties in a theoretical way. Additionally, our equation is only valid if the agent visited all state-action pairs but for the sake of our analysis, we consider that the value of $nSA$ represents the number of state-action pair visited by the agent. Moreover, there exist a relation between the number of state-action pairs and the discrete set of value that $\Upsilon_{\xi_t}$ can take given our assumptions, but for the sake of the analysis we consider the full range of value between 0 and 1.
 
 Figure~\ref{fig:prooflikelihoodone} shows the likelihood function for $nSA = 1$. As expected the likelihood value is higher for the correct task, i.e. when $\Upsilon_{\xi_t} = 1$, and decrease as the number of state-action pairs that differ increases, i.e. when $\Upsilon_{\xi_t}$ decrease. However this function holds an interesting property, which is that once more than half of the optimal state-action pair differs with the true task, the function increases again. Until is reaches a point where none of the optimal state-action pairs of the task are the same as for the true task. This specific case is what we called a symmetric task hypothesis, where the symmetric interpretation of the feedback signals is as likely as the correct interpretation of the signals. Indeed none of the state-action pairs allow to break this symmetry for the feedback frame. 
 
-Therefore, given all the assumptions considered, if the agent is provided with a set of task hypothesis, that included the correct task $\hat{\xi}$ but does not include any symmetric hypothesis --- which means all tasks hold the following property $\Upsilon_{\xi_t} > 0$ ---, we can guarantee that if the teacher visits all state-action pairs once, the user intended task $\hat{\xi}$ --- which hold the property $\Upsilon_{\xi_t} = 1$ --- will have the greater likelihood. In other words: $\L(\hat{\xi}) > \L(\xi_t)$ if $\Upsilon_{\xi_t} \in~]0,1[$.
+Therefore, given all the assumptions considered, if the agent is provided with a set of task hypothesis, that included the correct task $\hat{\xi}$ but does not include any symmetric hypothesis (which means all tasks hold the following property $\Upsilon_{\xi_t} > 0$), we can guarantee that if the teacher visits all state-action pairs once, the user intended task $\hat{\xi}$ (which hold the property $\Upsilon_{\xi_t} = 1$) will have the greater likelihood. In other words: $\L(\hat{\xi}) > \L(\xi_t)$ if $\Upsilon_{\xi_t} \in~]0,1[$.
 
 \begin{figure}[!htbp]
 \centering
@@ -106,7 +128,9 @@ Therefore, given all the assumptions considered, if the agent is provided with a
 \label{fig:prooflikelihoodone}
 \end{figure}
 
-We now discuss the problem of estimating our confidence that one task is a better candidate than an other one. Of course, in this setting, given the strong assumption that the user is never making mistakes, such confidence mechanism is not needed. However, we have seen in previous chapter that deciding when to stop is a critical part of the algorithm. The simplest method consist of normalizing the likelihood for each task defining a probability threshold above which a task is considered as the correct one. If we consider for example 10 task hypothesis with different values of $\Upsilon$, normalizing the likelihood when $nSA = 1$ won't produce a very sharp probability distribution on task. All task will roughly share the same probability. However, when visiting more and more states, the likelihood function becomes more and more sharp and only normalizing likelihoods will split the hypothesis apart. In the limit, when $nSA \rightarrow +Inf$, only the hypothesis with a better value of $\Upsilon$ (i.e. closer to 0 or 1) will reach a probability of 1.
+\subsubsection*{Building confidence}
+
+We now discuss the problem of estimating the confidence that one task is a better candidate than an other one. Of course, in this setting, given the strong assumption that the user is never making mistakes, such confidence mechanism is not needed. However, we have seen in previous chapter that deciding when to stop is a critical part of the algorithm. The simplest method consist of normalizing the likelihood for each task defining a probability threshold above which a task is considered as the correct one. If we consider for example 10 task hypothesis with different values of $\Upsilon$, normalizing the likelihood when $nSA = 1$ won't produce a very sharp probability distribution on task. All task will roughly share the same probability. However, when visiting more and more states, the likelihood function becomes more and more sharp and only normalizing likelihoods will split the hypothesis apart. In the limit, when $nSA \rightarrow +Inf$, only the hypothesis with a better value of $\Upsilon$ (i.e. closer to 0 or 1) will reach a probability of 1.
 
 \begin{figure}[!htbp]
 \centering
@@ -116,6 +140,8 @@ We now discuss the problem of estimating our confidence that one task is a bette
 \end{figure}
 
 This model allows to understand in more conceptual terms some properties of our algorithm. And in practice very few of the assumption considered are applicable in our experimental setups.
+
+\subsubsection*{A simple scenario}
 
 Finally, for illustration purpose, we present a world holding all our assumption properties, we named it the clock world (see Figure~\ref{fig:clockworld}). This world has 12 states, which we represent as the hours on a clock. The agent has two actions available: turning clockwise or counter-clockwise. The user wants the agent to reach one of 12 states. This world is the extension of the line word but where the line loops on itself.
 
@@ -128,11 +154,13 @@ Finally, for illustration purpose, we present a world holding all our assumption
 
 \subsection{Why not using the entropy of the signal models?}
 
-We continue here the discussion about the difference between the method detailed in this thesis work and the method presented in section~\ref{chapter:limitations:overlap}. In section~\ref{chapter:limitations:overlap}, we tried to differentiate the task by looking at the overlap of the model for each class. In other words, we tried to evaluate the uncertainty of the signal model fitted for each task, and we selects the one that as lower uncertainty.
+We continue here the discussion about the difference between the method detailed in chapter~\ref{chapter:lfui} of this thesis, where we differentiate between hypothesis by computing the probability that all signals are correctly classified, and the method presented in section~\ref{chapter:limitations:overlap}, where we consider only the signal models and differentiate between tasks by looking at the overlap of their Gaussian model associated to each class.
 
-We can do the same in our simple example, indeed, as we assumed that the user is coherent in his button presses, the task whose associate button presses model is the less uncertain is the more likely to be the correct one. Given the history of interaction, we can model the button presses of the user as Bernoulli variables, which can take only two values ``correct'' or ``incorrect'', such as a coin flipping problem. Following the previous development, we can compute the probability that the user will press the blue button to mean ``correct'', which is $\Upsilon_{\xi_t}$ (or $1-\Upsilon_{\xi_t}$ if the orange button is used for ``correct'').
+% In other words, we tried to evaluate the uncertainty of the signal model fitted for each task, and we selects the one that as lower uncertainty.
 
-The binary entropy function, denoted $H_{\mathrm b}(p)$, is the entropy of a Bernoulli process with probability of success p, and can be computed as follows:
+We can also apply a similar method than used in section~\ref{chapter:limitations:overlap} in our simple example. As we assumed that the user is coherent in his button presses, the task hypothesis whose associated button presses model is the less uncertain is the more likely to be the correct one. Given the history of interaction, we can model the button presses of the user as Bernoulli variables, which can take only two values ``correct'' or ``incorrect'', such as a coin flipping problem. Following the previous development, we can compute the probability that the user will press the blue button to mean ``correct'', which is $\Upsilon_{\xi_t}$ (or $1-\Upsilon_{\xi_t}$ if the orange button is used for ``correct'').
+
+The binary entropy function, denoted $H_{\mathrm b}(p)$, is the entropy of a Bernoulli process with probability of success p. It is a measure of uncertainty about the outcome of sampling from a Bernoulli process and can be computed as follows:
 
 \begin{eqnarray}
 H_{\mathrm b}(p) = -p\log_2(p) - (1-p)\log_2(1-p) 
@@ -148,13 +176,13 @@ The binary entropy function is shown in Figure~\ref{fig:prooflikelihoodentropy}.
 \label{fig:prooflikelihoodentropy}
 \end{figure}
 
-This method allow us to rank correctly our task hypothesis with respect to the uncertainty of their estimated models. However, this function will not ``sharpen'' as the likelihood Equation~\ref{eq:likelihoodproof} when the agent visit more and more states. The only change will result in a better approximation of the Bernoulli process modeling the button presses.
+This method allows us to rank correctly our task hypothesis with respect to the uncertainty of their estimated models. However, this function will not ``sharpen'' when the agent visit more and more states. The only change will result in a better approximation of the Bernoulli process modeling the button presses.
 
-Therefore, this method alone is not enough to estimate which task is the correct one as one should also measure the uncertainty of the measure of uncertainty. To do so, we propose to use beta distribution, which is the conjugate prior probability distribution for the Bernoulli distributions. A beta distribution would describe the initial knowledge concerning probability of button presses and would be updated as new information comes in. Finally, by comparing between the beta distribution associated to each task, we could expect to find a suitable measure of task confidence. The interested readers may refer to \cite{montesano2012active} for a practical robotic example using this process.
+Therefore, this method alone is not enough to estimate which task is the correct one, and we should also measure the uncertainty of this measure of uncertainty. To do so, we propose to use beta distribution, which is the conjugate prior probability distribution for the Bernoulli distributions. A beta distribution encodes a probability distribution over the parameter of the Bernoulli signal model given the amount of evidence available. By comparing between the beta distribution associated to each task, we could expect to find a suitable measure of task confidence. The interested readers may refer to \cite{montesano2012active} for a practical robotics example using this process.
 
 \subsection{Discussion}
 
-While it is always interesting and useful to formulate proof of algorithm, the restricted assumption used in this section makes it impossible to use this results in practical scenario. But we note that our experimental results shows that our algorithm can work with fairly good performance on different scenarios using continuous signals as noisy as EEG signals.
+While it is always interesting and useful to formulate proof of algorithm, the restricted assumption used in this section makes it impossible to use this results in practical scenarios. But we note that our experimental results shows that our algorithm can work with fairly good performance on different scenarios using continuous signals as noisy as EEG signals.
 
 % It may be useful to pursue in that direction by releasing some of the assumptions steps after steps. Starting with the assumption that all hypothesis have half of their state-action pair optimal and half non-optimal, and progressively accounting for some teaching mistakes. Reaching that level of proof would already offer some guarantees for simple scenarios using discrete state, discrete action, and symbolic signals, but under more realistic teaching conditions.
 
