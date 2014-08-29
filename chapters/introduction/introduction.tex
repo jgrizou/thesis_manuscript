@@ -109,9 +109,14 @@ A large variety of regression algorithm has been used in learning form demonstra
 
 The second approach consists of inferring the goal of the human from demonstration. By expressing this goal as an optimization problem or as a reward function, the robot can learn to reproduce the human goal by its own means.
 
-\paragraph{} \textbf{Inverse reinforcement learning} \cite{ng2000algorithms,Abbeel04icml,macl09airl} is a popular method that is inferring the hidden reward function the demonstrator is trying to optimize based on the observation of its actions. In addition, the human demonstrations can be used to learn a model of the environment in state unreachable to robot by mere self-exploration. Once the reward function has been evaluated form the demonstrations, and given the dynamic of the environment, the robot can generate a plan to fulfill the task using its own ability. This method is especially interesting when the human and the robot do not have the same abilities. As an example, a robot may be able to execute a skill faster that a human, but by mere reproduction of the human gestures the robot would not reach the same level of performance than by inferring the underlying goal of the human and solving the problem its own way.
+Inverse reinforcement learning \cite{ng2000algorithms,Abbeel04icml,macl09airl} is a popular method that is inferring the hidden reward function the demonstrator is trying to optimize based on the observation of its actions. In addition, the human demonstrations can be used to learn a model of the environment in state unreachable to robot by mere self-exploration. Once the reward function has been evaluated form the demonstrations, and given the dynamic of the environment, the robot can generate a plan to fulfill the task using its own ability. This method is especially interesting when the human and the robot do not have the same abilities. As an example, a robot may be able to execute a skill faster that a human, but by mere reproduction of the human gestures the robot would not reach the same level of performance than by inferring the underlying goal of the human and solving the problem its own way.
 
 One of the most impressive achievement of the past decade used inverse reinforcement learning methods for the learning of aerobatic helicopter flight \cite{abbeel2007application}. Demonstration were provided by an expert pilot teleoperating, i.e. flying, the helicopter to help finding its dynamics and the fitness function corresponding to different maneuvers such as flip, roll, tail-in and nose-in funnel.
+
+
+\paragraph{} Finally, in the work of Lopes et al. \cite{lopes2009computational}, the authors propose to combine imitation and emulation in a unified model by considering a continuum space whose three extreme cases are non-social behavior, emulation, and imitation. A demonstration from a teacher is evaluated according to these three baseline, and the agent final policy is a combination, more precisely a weighted mixture, of the three modules. By varying the weight attributed to each module, they were able to reproduce several well-known social learning experimental paradigms.
+
+% proposing a computational model to \textit{``describe how observed behavior can influence an observer’s own behavior, including the acquisition of new task descriptions''}. They propose a unified model for social learning as 
 
 \subsubsection*{Limitations and assumptions}
 
@@ -225,6 +230,8 @@ To exemplify the feedback frame, we introduce the navigation task used for our b
 \caption{The BCI setup for online experiments. On the screen is displayed a grid world with the agent in green.}
 \label{fig:feedbackBCIexample}
 \end{figure}
+
+\newpage
 
 \paragraph{Guidance frame} 
 
