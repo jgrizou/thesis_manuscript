@@ -130,7 +130,7 @@ As explained in section~\ref{chapter:planning:where}, our uncertainty measure sh
 
 We start by considering the situation of Figure~\ref{fig:planningrightleft} where G1 and G2 have symmetric signal models. As depicted in Figure~\ref{fig:uncertaintysignalrightleftagree}, when selecting action left, both hypothesis agree that they should receive a signal in the right part of the feature space, even if they disagree on its meaning. Therefore taking action left in state 3 has low uncertainty on the expected signal.
 
-\begin{figure}[!htbp]
+\begin{figure}[!p]
   \centering
   \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/planning/planning_right_left_agree.pdf}
   \caption{Expected signal for both hypothesis if agent performs action left in state 3 and given they currently have a symmetric interpretation of the signals (see Figure~\ref{fig:planningrightleft}). Both hypotheses expect the same signal, therefore there is no uncertainty associated to this state-action pair, and the agent should not select this action.}
@@ -139,7 +139,8 @@ We start by considering the situation of Figure~\ref{fig:planningrightleft} wher
 
 However for action down, both hypothesis agree they should receive a signal of meaning ``incorrect'', but disagree on the expected location of such signal in the feature space (see Figure~\ref{fig:uncertaintysignalrightleftdisagree}). Therefore taking action down in state 3 has high uncertainty on the expected signal.
 
-\begin{figure}[!htbp]
+
+\begin{figure}[!p]
   \centering
   \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/planning/planning_right_left_disagree.pdf}
   \caption{Expected signal for both hypothesis if agent performs action down in state 3 and given they currently have a symmetric interpretation of the signals (see Figure~\ref{fig:planningrightleft}). The two hypotheses expect two different signals, therefore there is high uncertainty associated to this state-action pair, and the agent should better perform this action.}
@@ -150,7 +151,7 @@ However for action down, both hypothesis agree they should receive a signal of m
 
 We now consider the situation of Figure~\ref{fig:planningupdown} where G1 and G2 have the same signal model. As depicted in Figure~\ref{fig:uncertaintysignalupdownagree}, when going down both hypothesis agree that they should receive a signal in the left part of the feature space, and agree on its meaning. Therefore taking action down in state 3 has low uncertainty on the expected signal.
 
-\begin{figure}[!htbp]
+\begin{figure}[!p]
   \centering
   \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_agree.pdf}
   \caption{Expected signal for both hypothesis if agent performs action down in state 3 and given they currently have a similar interpretation of the signals (see Figure~\ref{fig:planningupdown}). Both hypothesis expect the same signal, therefore there is no uncertainty associated to this state-action pair, and the agent should not select this action.}
@@ -159,12 +160,15 @@ We now consider the situation of Figure~\ref{fig:planningupdown} where G1 and G2
 
 However for action left, both hypothesis disagree about the meaning of the signal they should receive, and, as both share the same signal model, they expect a signal in different locations of the feature space (see Figure~\ref{fig:uncertaintysignalupdowndisagree}). Therefore taking action left in state 3 has high uncertainty on the expected signal.
 
-\begin{figure}[!htbp]
+\begin{figure}[!p]
   \centering
   \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_disagree.pdf}
   \caption{Expected signal for both hypothesis if agent performs action left in state 3 and given they currently have a similar interpretation of the signals (see Figure~\ref{fig:planningupdown}). The two hypothesis expect two different signals, therefore there is high uncertainty associated to this state-action pair, and the agent should better perform this action.}
   \label{fig:uncertaintysignalupdowndisagree}
 \end{figure}
+
+
+\newpage
 
 
 \subsubsection*{Equations}
@@ -198,77 +202,93 @@ Estimating uncertainty in the signal space can be very costly. It requires to co
 
 We start by considering the situation of Figure~\ref{fig:planningrightleft} where the two hypothesis have symmetric signal models. As depicted in Figure~\ref{fig:uncertaintymeaningrightleftexpectedleft}, when selecting action left in state 3 and if the user sends a signal in the right part of the feature space, both hypothesis agree that this particular signal is expected given this state-action pair. Hypothesis 1 expects a signal of meaning ``correct'', and the teacher signal is classified as being of class ``correct''. Hypothesis 2 expects a signal of meaning ``incorrect'' and the teacher signal is classified as being of class ``incorrect''. Therefore receiving this particular signal after taking action left in state 3 has low uncertainty.
 
-\begin{figure}[!htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_right_left_expected_matched.pdf}
   \caption{Matching between expected labels and the prediction of a teaching signal sampled on the right side of the feature space and if the agent performs action left in state 3 and the two hypothesis currently have a symmetric interpretation of the signals (see Figure~\ref{fig:planningrightleft}). Both hypothesis agree that the label associated to a signal on the right side of the feature space matches with the label predicted given the frame and the state-action pair considered. Therefore, there is no uncertainty associated to this state-action pair and the agent should not select action left.}
   \label{fig:uncertaintymeaningrightleftexpectedleft}
 \end{figure}
 
+\newpage
+
 This same process can be executed for any teaching signal. For example, as depicted in Figure~\ref{fig:uncertaintymeaningrightleftexpectedright}, considering a teaching signal on the left side of the feature space, if the agent performs action left in state 3, both hypothesis agree that this particular signal is not expected. Hypothesis 1 expects a signal of meaning ``correct'', and the teacher signal is classified as being of class ``incorrect''. Hypothesis 2 expects a signal of meaning ``incorrect'' and the teacher signal is classified as being of class ``correct''. Therefore receiving this particular signal after taking action left in state 3 has low uncertainty.
 
-\begin{figure}[!htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_right_left_expected_unmatched.pdf}
   \caption{Matching between expected labels and the prediction of a teaching signal sampled on the left side of the feature space for the two hypothesis if the agent performs action left in state 3 and the two hypothesis currently have a symmetric interpretation of the signals (see Figure~\ref{fig:planningrightleft}). Both hypothesis agree that the label associated to a signal on the left side of the feature space does not match with the label predicted given the frame and the state-action pair considered. Therefore, there is no uncertainty associated to this state-action pair and the agent should not select action left.}
   \label{fig:uncertaintymeaningrightleftexpectedright}
 \end{figure}
 
+\newpage
+
 However for action down, the two hypothesis disagree on whether such signals are expected or not given the state-action pair considered. As depicted in Figure~\ref{fig:uncertaintymeaningrightleftunexpectedright}, when selecting action down in state 3 and if the user sends a signal in the right part of the feature space, hypothesis 1 expects a signal of meaning ``incorrect'', and the teacher signal is classified as being of class ``correct''. And hypothesis 2 expects a signal of meaning ``incorrect'' and the teacher signal is classified as being of class ``incorrect''. Therefore receiving this particular signal after taking action down in state 3 is not expected for hypothesis 1 but expected for hypothesis 2, there is high uncertainty.
 
-\begin{figure}[!htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_right_left_unexpected_right_signal.pdf}
-  \caption{Matching between expected labels and the prediction of a teaching signal sampled on the right side of the feature space for the two hypothesis if the agent performs action down in state 3 and the two hypothesis currently have a symmetric interpretation of the signals (see Figure~\ref{fig:planningrightleft}). Hypothesis 1 says a signal on the right side of the feature space means ``correct'' which was not expected given the interaction frame, while hypothesis 2 expected a signal meaning ``incorrect'' and classify the signal as ``incorrect'' which is what was expected. Therefore there is high uncertainty associated to this state-action pair and the agent should better perform action down in order to disambiguate between hypothesis.}
+  \caption{Matching between expected labels and the prediction of a teaching signal sampled on the right side of the feature space if the agent performs action down in state 3 and the two hypothesis currently have a symmetric interpretation of the signals (see Figure~\ref{fig:planningrightleft}). Hypothesis 1 identify the signal as meaning ``correct'' which was not expected, while hypothesis 2 expected a signal meaning ``incorrect'' and classify the signal as ``incorrect'' which is what was expected. Therefore there is high uncertainty associated to this state-action pair and the agent should better perform action down in order to disambiguate between hypothesis. }
   \label{fig:uncertaintymeaningrightleftunexpectedright}
 \end{figure}
 
+\newpage
+
 Similarly, as depicted in Figure~\ref{fig:uncertaintymeaningrightleftunexpectedleft}, considering a teaching signal on the left side of the feature space, if the agent performs action down in state 3, hypothesis 1 expects a signal of meaning ``incorrect'', and the teacher signal is classified as being of class ``incorrect''. And hypothesis 2 expects a signal of meaning ``incorrect'' and the teacher signal is classified as being of class ``correct''. Therefore receiving this particular signal after taking action down in state 3 is expected for hypothesis 1 but not expected for hypothesis 2, there is high uncertainty.
 
-\begin{figure}[!htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_right_left_unexpected_left_signal.pdf}
   \caption{Matching between expected labels and the prediction of a teaching signal sampled on the left side of the feature space for the two hypothesis if the agent performs action down in state 3 and the two hypothesis currently have a symmetric interpretation of the signals (see Figure~\ref{fig:planningrightleft}). Hypothesis 1 says a signal on the left side of the feature space means ``incorrect'' which was expected given the interaction frame, while hypothesis 2 expected a signal meaning ``incorrect'' but classify the signal as ``correct'' which was not expected. Therefore there is high uncertainty associated to this state-action pair and the agent should better perform action down in order to disambiguate between hypothesis..}
   \label{fig:uncertaintymeaningrightleftunexpectedleft}
 \end{figure}
 
+\newpage
+
 \subsubsection*{Identical signal models}
 
 We now consider the situation of Figure~\ref{fig:planningupdown} when the same model is shared between hypothesis. As depicted in Figure~\ref{fig:uncertaintymeaningupdownexpectedright}, when selecting action down in state 3 and if the user sends a signal in the right part of the feature space, both hypothesis agree that this particular signal is unexpected given this state-action pair. Hypothesis 1 expects a signal of meaning ``incorrect'', and the teacher signal is classified as being of class ``correct''. Hypothesis 2 expects a signal of meaning ``incorrect'' and the teacher signal is classified as being of class ``correct''. Therefore receiving this particular signal after taking action down in state 3 has low uncertainty.
 
-\begin{figure}[!htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_expected_unmatched.pdf}
   \caption{Matching between expected labels and the prediction of a teaching signal sampled on the right side of the feature space for the two hypothesis if the agent performs action down in state 3 and the two hypothesis currently have a symmetric interpretation of the signals (see Figure~\ref{fig:planningupdown}). Both hypothesis agree that the label associated to a signal on the right side of the feature space does not match with the label predicted given the frame and the state-action pair considered. Therefore there is no uncertainty associated to this state-action pair and the agent should not select action down.}
   \label{fig:uncertaintymeaningupdownexpectedright}
 \end{figure}
 
+\newpage
+
 This same process can be executed for any teaching signal. For example, as depicted in Figure~\ref{fig:uncertaintymeaningupdownexpectedleft}, considering a teaching signal on the left side of the feature space, if the agent performs action down in state 3, both hypothesis agree that this particular signal is expected. Hypothesis 1 expects a signal of meaning ``incorrect'', and the teacher signal is classified as being of class ``incorrect''. Hypothesis 2 expects a signal of meaning ``incorrect'' and the teacher signal is classified as being of class ``incorrect''. Therefore receiving this particular signal after taking action down in state 3 has low uncertainty.
 
-\begin{figure}[!htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_expected_matched.pdf}
   \caption{Matching between expected labels and the prediction of a teaching signal sampled on the left side of the feature space for the two hypothesis if the agent performs action down in state 3 and the two hypothesis currently have a symmetric interpretation of the signals (see Figure~\ref{fig:planningupdown}). Both hypothesis agree that the label associated to a signal on the left side of the feature space match with the label predicted given the frame and the state-action pair considered. Therefore there is no uncertainty associated to this state-action pair and the agent should not select action down.}
   \label{fig:uncertaintymeaningupdownexpectedleft}
 \end{figure}
 
+\newpage
+
 However for action left, the two hypothesis disagree on whether such signals are expected or not given the state-action pair considered. As depicted in Figure~\ref{fig:uncertaintymeaningupdownunexpectedright}, when selecting action left in state 3 and if the user sends a signal in the right part of the feature space, hypothesis 1 expects a signal of meaning ``correct'', and the teacher signal is classified as being of class ``correct''. And hypothesis 2 expects a signal of meaning ``incorrect'' and the teacher signal is classified as being of class ``correct''. Therefore receiving this particular signal after taking action down in state 3 is expected for hypothesis 1 but not expected for hypothesis 2, there is high uncertainty.
 
-\begin{figure}[!htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_unexpected_right_signal.pdf}
-  \caption{Matching between expected labels and the prediction of a teaching signal sampled on the right side of the feature space for the two hypothesis if the agent performs action left in state 3 and the two hypothesis currently have a symmetric interpretation of the signals (see Figure~\ref{fig:planningupdown}). Hypothesis 1 says a signal on the right side of the feature space means ``correct'' which was expected given the interaction frame, while hypothesis 2 expected a signal meaning ``incorrect'' but classify the signal as ``correct'' which was not expected. Therefore there is high uncertainty associated to this state-action pair and the agent should better perform action left in order to disambiguate between hypothesis.}
+  \caption{Matching between expected labels and the prediction of a teaching signal sampled on the right side of the feature space for the two hypothesis if the agent performs action left in state 3 and the two hypothesis currently have a symmetric interpretation of the signals (see Figure~\ref{fig:planningupdown}). Hypothesis 1 identify the signal as meaning ``correct'' which was not expected, while hypothesis 2 expected a signal meaning ``incorrect'' but classify the signal as ``correct'' which was not expected. Therefore there is high uncertainty associated to this state-action pair and the agent should better perform action left in order to disambiguate between hypothesis.}
   \label{fig:uncertaintymeaningupdownunexpectedright}
 \end{figure}
 
+\newpage
+
 Similarly, as depicted in Figure~\ref{fig:uncertaintymeaningupdownunexpectedleft}, considering a teaching signal on the left side of the feature space, if the agent performs action left in state 3, hypothesis 1 expects a signal of meaning ``incorrect'', and the teacher signal is classified as being of class ``incorrect''. And hypothesis 2 expects a signal of meaning ``incorrect'' and the teacher signal is classified as being of class ``correct''. Therefore receiving this particular signal after taking action down in state 3 is not expected for hypothesis 1 but expected for hypothesis 2, there is high uncertainty.
 
-\begin{figure}[!htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\threeplanningwidth\columnwidth]{\visualspdf/planning/planning_up_down_unexpected_left_signal.pdf}
   \caption{Matching between expected labels and the prediction of a teaching signal sampled on the left side of the feature space for the two hypothesis if the agent performs action left in state 3 and the two hypothesis currently have a symmetric interpretation of the signals (see Figure~\ref{fig:planningupdown}). Hypothesis 1 says a signal on the left side of the feature space means ``incorrect'' which was not expected given the interaction frame, while hypothesis 2 expected a signal meaning ``incorrect'' and classify the signal as ``incorrect'' which is what was expected. Therefore there is high uncertainty associated to this state-action pair and the agent should better perform action left in order to disambiguate between hypothesis.}
   \label{fig:uncertaintymeaningupdownunexpectedleft}
 \end{figure}
+
+\newpage
 
 \subsubsection*{Equations}
 
@@ -310,12 +330,16 @@ A usual question concerning Figure~\ref{fig:planningupdown}, is why don't we fir
 
 Obviously this is not always possible, for example if we add a third hypothesis G3, that is at the bottom of the T trunk, it is not more possible to find actions leading to an unequivocal interpretation are the received signal. Neither the left and right actions (Figure~\ref{fig:planning3hyprightleft}), nor the up and down actions (Figure~\ref{fig:planning3hypupdown}) alone allow to have an unequivocal interpretation of the teaching signals. However taking all the actions and exploring the all state space still highlight hypothesis 1 (G1) has being the goal state the user as in mind (Figure~\ref{fig:planning3hyp}).
 
+In all the experiments presented in this thesis, there is no state-action pairs allowing for an unequivocal interpretation of the teaching signal.
+
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=\threetworldsize\columnwidth]{\visualspdf/planning/Tworld_feedback_3hyp_right_left.pdf}
-  \caption{Interpretation hypothesis made by the agent according to G1 (left), G2 (right), and G3 (middle). The agent performs only left and right actions. The labels associated to G1 and G2 are symmetric while for G3 the labels are highly mixed. Right and left actions to not allow to have a unequivocal interpretation of signal considering those three hypothesis. However right and left actions allow to discard hypothesis G3.}
+  \caption{Interpretation hypothesis made by the agent according to G1 (left), G2 (right), and G3 (middle). }
   \label{fig:planning3hyprightleft}
 \end{figure}
+
+% The agent performs only left and right actions. The labels associated to G1 and G2 are symmetric while for G3 the labels are highly mixed. Right and left actions to not allow to have a unequivocal interpretation of signal considering those three hypothesis. However right and left actions allow to discard hypothesis G3.
 
 \begin{figure}[!htbp]
   \centering
@@ -331,7 +355,6 @@ Obviously this is not always possible, for example if we add a third hypothesis 
   \label{fig:planning3hyp}
 \end{figure}
 
-In all the experiments presented in this thesis, there is no state-action pairs allowing for an unequivocal interpretation of the teaching signal.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -412,10 +435,12 @@ We illustrate in Figure~\ref{fig:planning:gridworldfeedback}, a smaller 3x3 grid
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.92\columnwidth]{\visualspdf/gridworld/gridworld_feedback.pdf}
+  \includegraphics[width=0.85\columnwidth]{\visualspdf/gridworld/gridworld_feedback.pdf}
   \caption{A schematic view of a 3x3 grid world scenario. There is nine possible hypotheses and the agent is acting randomly for this example. We show the results of the labeling process considering the feedback frame. The teacher is providing feedback with respect to hypothesis 1. The labeling process for hypothesis 1 is more coherent with the spacial organization of the data which indicates it is the one taught by the user. Hypothesis 9 has symmetric properties with hypothesis 1 but the use of the ``no move'' action allows to break that symmetry.}
   \label{fig:planning:gridworldfeedback}
 \end{figure}
+
+\newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

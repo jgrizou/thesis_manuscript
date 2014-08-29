@@ -3,7 +3,9 @@
 \section{Exploiting overlap between distributions}
 \label{chapter:limitations:overlap}
 
-In this section, we propose a method that exploit the overlap between the signal models for each class to identify the correct task hypothesis. We further demonstrate the efficiency of our uncertainty measure on the signal space presented in chapter~\ref{chapter:planning:uncertaintysignalspace}. We present simulated experiments using pre-recorded EEG signals, and show that we achieve similar performances than calibration based systems. Finally, we report online experiments where four users control, by means of a BCI, an agent on a virtual world to reach a target without any previous calibration process.
+In this section, we propose a different approach to exploit the interpreation hypothesis process. We consider the same scenario as for our bci experiments of chapter~\ref{chapter:bci}. This new method exploit the overlap between the signal models for each class to identify the correct task hypothesis. We present simulated experiments using pre-recorded EEG signals, and show that we achieve similar performances than calibration based systems. Finally, we report online experiments where four users control, by means of a BCI, an agent on a virtual world to reach a target without any previous calibration process.
+
+% We demonstrate the efficiency of our uncertainty measure on the signal space presented in chapter~\ref{chapter:planning:uncertaintysignalspace}. 
 
 \subsection{Using the Bhattacharyya coefficient}
 
@@ -122,9 +124,7 @@ The algorithm was able to identify the correct target for all runs of all the su
     \label{fig:overlaponlineresults} 
 \end{figure}
 
-Table~\ref{tab:overlaponline} shows for each subject and run the number of iterations needed to reach the confidence threshold for the subject selected target.
-
-On average, the number of iterations needed to identify the target was of 85 $\pm$ 32.
+Table~\ref{tab:overlaponline} shows for each subject and run the number of iterations needed to reach the confidence threshold for the subject selected target. On average, the number of iterations needed to identify the target was of 85 $\pm$ 32.
 
 \begin{table}[!htbp]
 \centering

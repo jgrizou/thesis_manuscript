@@ -58,6 +58,8 @@ Our first dataset shown in Figure~\ref{fig:fingerdatasetdirection} is build from
 \label{fig:fingerdatasetdirection}
 \end{figure} 
 
+\newpage
+
 Our second dataset shown in Figure~\ref{fig:fingerdatasetsigns} is build from a user drawing the cardinal letters (N, S, W, and E) in the middle of the tablet.
 
 \begin{figure}[!htbp]
@@ -125,7 +127,7 @@ Finally we compute the probability than one sample from that class as a value ab
 
 We illustrate this process in Figure~\ref{fig:normaldifferencedistribution}. 20 samples were generated randomly to simulate some estimates for two task hypothesis and model their respective distribution using normal distribution (see Figure~\ref{fig:normaldifferencedistribution:data}). Finally we compute the probability that a sample from the distribution with highest mean has higher value than a sample from the distribution with lowest mean. We use Equations~\ref{eq:meandiffgaussian}~and~\ref{eq:variancediffgaussian} to compute the mean and variance of the normal difference distribution between the two distributions, The area under curve from 0 to +Inf is our probability measure.
 
-\begin{figure}[!htbp]
+\begin{figure}[!p]
 \centering
     \begin{subfigure}[b]{\columnwidth}
         \centering
@@ -243,6 +245,8 @@ Figure~\ref{fig:continuoustasktasksampling} shows the task sampled (in blue) at 
 \label{fig:continuoustasktasksampling}
 \end{figure}
 
+\newpage
+
 \paragraph{State sampling comparison}
 
 We briefly illustrate the difference between our two state sampling methods, namely ``random'' and ``uncertainty''.
@@ -271,7 +275,7 @@ Figure~\ref{fig:continuoustaskstatesampling} shows the state visited (in blue) a
 
 Figure~\ref{fig:continuoustasktasksamplingexampleslow} details the uncertainty based method for selecting the next visited states. Figure~\ref{fig:continuoustaskexampleslowdist} present the goal state for this specific run (right) and the evolution of the distance to the goal of the best estimate (left). Figure~\ref{fig:continuoustaskexampleslowweights} shows the set of task hypothesis at steps 15, 50, and 150 (as for Figure~\ref{fig:continuoustasktasksampling}) where the colors associated to each point represent the estimated probability of each task (red is high, blue is low). To sample the following agent's state, we sample 1000 states randomly and estimates the uncertainty of each of those point using the method described in chapter~\ref{chapter:planning} by Equation~\ref{eq:planning}. Computing this uncertainty requires to have a set of hypothesis and their associated weights (shown in Figure~\ref{fig:continuoustaskexampleslowweights}), access to the interaction frame, and to a classifier for each hypothesis. The resulting maps for step 15, 50, and 150 are displayed in Figure~\ref{fig:continuoustaskexampleslowuncertainty} where the colors represent the uncertainty values (red is high, blue is low). The less the distribution of probably on task is flat, the more the uncertainty map is narrow and focused around the best estimate. The active task resampling step is beneficial to the uncertainty state selection step as it allows to specify the uncertainty in key areas.
 
-\begin{figure}[!htbp]
+\begin{figure}[!p]
 \centering
     \begin{subfigure}[b]{\columnwidth}
         \centering

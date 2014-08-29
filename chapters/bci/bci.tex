@@ -149,7 +149,7 @@ Figure~\ref{fig:firstEEG} shows the number of iterations needed to identify the 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_EEG_calib_firstconf.eps}
-\caption{Number of steps to complete the first task using EEG data. The agent plans its action using our uncertainty based method. The percentage of time the first task was correctly identified is shown on top of each box plot. The method scale well to EEG data. For our self-calibration method, the learning time is strongly correlated with the dataset quality. Contrary to the standard calibration approaches, we do not make mistakes with low quality datasets.}
+\caption{Number of steps to complete the first task using EEG data. The agent plans its action based on the uncertainty measure. The percentage of time the first task was correctly identified is shown on top of each box plot. For our self-calibration method, the learning time is strongly correlated with the dataset quality. Contrary to the calibration approaches, we do not make mistakes with low quality datasets.}
 \label{fig:firstEEG}
 \end{figure}
 
@@ -157,23 +157,25 @@ Compared to calibration based methods, our algorithm allows to complete the firs
 
 \subsection{Cumulative performances}
 
-Figure~\ref{fig:nCorrectEEG} compares the number of tasks achieved in 500 steps. With datasets of more than 90\% classification accuracy, we can achieve more than 20 tasks on average. 
+Figure~\ref{fig:nCorrectEEG} compares the number of tasks achieved in 500 steps. With datasets of more than 90\% classification accuracy, we achieve more than 20 tasks on average. 
 
 % These results are consistent with artificial dataset analysis.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_EEG_calib_nCorrect.eps}
-\caption{Number of tasks correctly achieved in 500 steps with EEG data. Calibration based methods can not complete a significant number of tasks because most of the experimental time is spent on calibrating the system.}
+\caption{Number of tasks correctly achieved in 500 steps with EEG data. Calibration methods reach less targets because most of the time is spent for calibrating.}
 \label{fig:nCorrectEEG}
 \end{figure} 
+
+\newpage
 
 The calibration based methods can not complete a significant number of tasks because most of the experimental time is spent on calibrating the system. A calibration of 200 steps allow to reach as many target correctly than the self-calibration method, but it also produces many wrong estimation, see Figure~\ref{fig:nWrongEEG}. For calibration based methods, the less time spent on calibration the poorer the classifier, which implies more mistakes.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_EEG_calib_nWrong.eps}
-\caption{Number of tasks incorrectly achieved in 500 steps with EEG data. Calibration based methods, which do not update their models once calibrated, make more errors.}
+\caption{Number of tasks incorrectly achieved in 500 steps with EEG data. Calibration based methods, which do not update their models, make more errors.}
 \label{fig:nWrongEEG}
 \end{figure}
 
@@ -188,12 +190,15 @@ Figure~\ref{fig:nCorrectEEG_last100} compares the number of tasks achieved durin
 \label{fig:nCorrectEEG_last100}
 \end{figure} 
 
+\newpage
+
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/plot_EEG_calib_nWrong_last100.eps}
 \caption{Number of tasks incorrectly achieved during the last 100 steps using EEG data. Calibration based methods, which do not update their classifiers once calibrated, make more errors.}
 \label{fig:nWrongEEG_last100}
 \end{figure} 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -270,6 +275,8 @@ As shown in Figure~\ref{fig:EEGsample}, the EEG signals associated to ``incorrec
 \label{fig:EEGpower}
 \end{figure} 
 
+\newpage
+
 To compute the average power information from the signals having ``correct'' labels, we simply compute the weighted mean of the signals' power, with weights the probability that each signal  being is of label ``correct''.
 \begin{eqnarray}
 powerCorrect(\xi_t) = \frac{\sum_{i = 1}^{M} p(l^c = ``correct"| e_i , \theta) ~~ e_i^T e_i}{\sum_{i = 1}^{M} p(l^c = ``correct"| e_i , \theta)}
@@ -325,7 +332,7 @@ We consider the same grid world setting presented in previous sections (e.g. sec
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/powermatching/timefirst.eps}
-\caption{Number of steps to complete the first task using EEG data. Comparison between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' signals (power), or both methods combined (power matching). The use of the power information affects the performance for the low quality dataset (under 60 percent of accuracy). For datasets of low quality, while the time to fist target seems more advantageous when using only the power information, most of the task estimations are erroneous (see Table~\ref{tab:errorTaskRatio}), which makes the use of the power information critical for low quality data. However low quality datasets are not the main target of our algorithm. Indeed, for such data it would be better to change the representation of the brain signals or the classifier used. For datasets of higher quality (above 60 percent), the power information allows to speed up the learning compared to our initial algorithm (matching), which do not rely on known information.}
+\caption{Number of steps to complete the first task using EEG data. Comparison between our general method (matching), or using the information that ``incorrect'' signals are more powerful than the ``correct'' signals (power), or both methods combined (power matching). The use of the power information affects the performance for the low quality dataset (under 60 percent of accuracy). For datasets of low quality, while the time to fist target seems more advantageous when using only the power information, most of the task estimations are erroneous (see Table~\ref{tab:errorTaskRatio}), which makes the use of the power information critical for low quality data. For datasets of higher quality (above 60 percent), the power information allows to speed up the learning compared to our initial algorithm (matching), which do not rely on known information.}
 \label{fig:timefirst_powermatching}
 \end{figure} 
 
@@ -364,6 +371,8 @@ We compare the number of tasks correctly (Figure~\ref{fig:nCorrect_powermatching
 \end{figure} 
 
 The power information alone is not enough to identify a high number of task, even if the number of steps to reach the first target are similar. The difference lies in the reallocation of labels, we performed after a task is identified. As described in chapter~\ref{chapter:lfui:tasttotask}, once one task is identified with confidence, we propagate its labels to all other hypotheses. As a consequence, the number of new signals with different labels needed to pull apart two hypothesis in terms of power ratio increases. This problem arises because the power information is a global measure, which depends on averaged values over all collected observations. Our non-informed method (matching) classifies each new signal individually, which speeds up the learning process, especially when all hypothesis share a similar classifier (cf discussion of Figure~\ref{fig:sequence_evolution}).
+
+\transition
 
 The results presented in this section confirm that the use of the power information improves the performance and robustness of our algorithm. In addition, by disambiguating faster the task with symmetric properties, the perceived behavior of our agent should improve. We can therefore expect to receive ErrP signals of better quality during our online experiments. At the time of writing, our study was not terminated and this particular point requires a more a detailed analysis to quantify this difference if it exists.
 

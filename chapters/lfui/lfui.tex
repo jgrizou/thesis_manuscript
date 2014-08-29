@@ -6,7 +6,7 @@
 \label{chapter:lfui}
 \minitoc
 
-We identified a potential mechanism for robots to learn a new task from human instructions without programming them in advance to understand the human instructions signals. This mechanism is based on the generation of interpretation hypothesis of the teaching signals with respect to specific constraints from the task and the interaction frame. It hypothesize that the correct hypothesis will explain better the history of interaction.
+We identified a potential mechanism for robots to learn a new task from human instructions without programming them in advance to understand the human instructions signals. This mechanism is based on the generation of interpretation hypothesis of the teaching signals with respect to specific constraints from the task and the interaction frame. It hypothesizes that the correct hypothesis will explain better the history of interaction.
 
 In this chapter, we exemplify the problem in a simple seven discrete states world, remind the underlying assumptions and define the notation used. We illustrate the interpretation hypothesis mechanism on our visual example and, based on our observation, we define the metric our algorithm will rely on. We then apply our algorithm to a pick and place scenario using a six degree of freedom robot and speech utterances as the modality of interaction. We show that our algorithm is able to identify a task in less than on hundred iterations when the teacher is providing feedback signals whose mapping to their associated meaning in a priori unknown. We further show that the system is robust to some teaching mistakes and that the knowledge learned during a first experiment can be reused for learning a second task faster. Finally, we will show that two different simple action selection methods for our robot lead to differences in learning efficiency. This observation opens the question of how our robot can plan its action to improve its learning performances, which will be investigated in next chapter.
 
@@ -51,14 +51,15 @@ For example, as depicted in Figure~\ref{fig:TworldOneStepUnlabeled}, the agent s
   \label{fig:TworldOneStepUnlabeled}
 \end{figure}
 
-After performing many actions randomly, the robot ends-up with a lot of observations associating a state, an action and a feedback signal. As depicted in Figure~\ref{fig:TworldManyStepUnlabeled}, we can observe that two clusters have emerged in the feature space. A straight forward assumption is that one cluster is associated to the ``correct'' meaning, and the other to the ``incorrect'' meaning. We will see how this assumption of consistency in the signals can be exploited in the coming sections.
+After performing several actions randomly, the robot ends-up with a lot of observations associating a state, an action and a feedback signal. As depicted in Figure~\ref{fig:TworldManyStepUnlabeled}, we can observe that two clusters have emerged in the feature space. A straight forward assumption is that one cluster is associated to the ``correct'' meaning, and the other to the ``incorrect'' meaning. We will see how this assumption of consistency in the signals can be exploited in the coming sections.
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_unlabeled.pdf}
-  \caption{After performing many random actions, the robot ends-up with many of observation associating a state, an action and a feedback signal. The robot does not have access to the label associated to the teaching signals.}
+  \caption{After performing several random actions, the robot ends-up with many of observation associating a state, an action and a feedback signal.}
   \label{fig:TworldManyStepUnlabeled}
 \end{figure}
+
 
 \subsection{What the agent knows}
 
@@ -172,7 +173,7 @@ The teacher wants the agent to go to G1. The agent starts in state 3, performs a
     \label{fig:TworldLabelOneStep}
 \end{figure}
 
-By repeating this process for several iteration steps, with the agent taking random actions and exploring all state-action pairs at least ones, the system end-up with a set of possible interpretation of the human teaching signals (see Figure~\ref{fig:TworldLabelinterpretation}). But as the user has only one objective in mind, in our case G1, only the correct interpretation will assign the correct labels to the observed signals. We say that the corresponding hypothesis exhibit a coherence between the signals and their associated meanings. 
+By repeating this process for several iteration steps, with the agent taking random actions, the system end-up with a set of possible interpretation of the human teaching signals (see Figure~\ref{fig:TworldLabelinterpretation}). But as the user has only one objective in mind, in our case G1, only the correct interpretation will assign the correct labels to the observed signals. We say that the corresponding hypothesis exhibit a coherence between the signals and their associated meanings. 
 
 % Note that when the agent moves in the trunk of the T, the interpretation hypothesis with respect to G1 an G2 give the same labels. Details about this interaction will be given in chapter~\ref{chapter:planning} to explain the problem of planning, here we assume the robot explores all state-action.
 
@@ -746,14 +747,14 @@ We illustrate in Figure~\ref{fig:lfui:pickplaceworld} the pick and place world (
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/pick_and_place/pick_and_place_world.pdf}
+  \includegraphics[width=0.4\columnwidth]{\visualspdf/pick_and_place/pick_and_place_world.pdf}
   \caption{A schematic view of the pick and place problem. There is three objects that can be moved in four different positions and stacked on two levels maximum. The robot's gripper can only grasp the object on top of the stack. An object is always released on top of a stack, except if the stack is full, in which case the release action produces no effect.}
   \label{fig:lfui:pickplaceworld}
 \end{figure}
 
 In order to complete a task, i.e. to reach a specific configuration of cubes, the robot must perform an ordered sequence of actions. For illustration purpose, we only consider 3 out of the 624 possible hypotheses. Figure~\ref{fig:lfui:pickplacesequence} shows a sequence of actions starting in our hypothesis 1 configuration and going to our hypothesis 3 configuration using the shortest possible number of actions. Hypothesis 2 is a state on this path. While hypothesis 1 and hypothesis 3 seems ``close'' in terms of position of the cubes, they are actually ``far'' one from the other in terms of the action sequence.
 
-\begin{figure}[!htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\columnwidth]{\visualspdf/pick_and_place/pick_and_place_sequence.pdf}
   \caption{A pick and place sequence showing three hypotheses and the sequence of actions from hypothesis 1 to hypothesis 3 through hypothesis 2. While hypothesis 1 and hypothesis 3 seems ``close'' in terms of position of the cubes, they are actually ``far'' one from the other in terms of the action sequence.}
@@ -762,7 +763,7 @@ In order to complete a task, i.e. to reach a specific configuration of cubes, th
 
 If the user is delivering feedback signals, the labeling process is presented in Figure~\ref{fig:lfui:pickplacefeedback} for a robot acting randomly in the environment. Note that hypothesis 1 and 2 are the most difficult to discriminate by acting randomly as they share most of their optimal policies.
 
-\begin{figure}[!htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\columnwidth]{\visualspdf/pick_and_place/pick_and_place_feedback.pdf}
   \caption{Results of the labeling process for our three hypotheses and considering the feedback frame. The robot explores randomly the state space. The teacher provides feedback with respect to hypothesis 1. Only a few state-action pairs allowed to differentiate between hypothesis 1 and 2.}
@@ -771,21 +772,23 @@ If the user is delivering feedback signals, the labeling process is presented in
 
 For the guidance case, the teacher uses the signals presented in Figure~\ref{fig:lfui:pickplaceguidancesignals} and the labeling process is presented in Figure~\ref{fig:lfui:pickplaceguidance} for a robot action randomly in the environment. Note that for some states there may be two optimal actions. For example, in Figure~\ref{fig:lfui:pickplacesequence}, for inverting two stacked cubes there is two different optimal policies, either the one presented in Figure~\ref{fig:lfui:pickplacesequence}, or putting the blue ball in position 2 and the green in position 3 during the exchange of position. These equally optimal options make the learning process more difficult, we can still visually find out that for hypothesis 1 all points in each cluster share one color, which is not the case for the other two hypotheses.
 
-\begin{figure}[!htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\signalwidth\columnwidth]{\visualspdf/pick_and_place/guidance_pick_and_place.pdf}
   \caption{The guidance signals used for our visual example.}
   \label{fig:lfui:pickplaceguidancesignals}
 \end{figure}
 
-\begin{figure}[!htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\columnwidth]{\visualspdf/pick_and_place/pick_and_place_guidance.pdf}
   \caption{Results of the labeling process for our three hypotheses considering the guidance frame. The robot explores randomly the state space. The teacher provides guidance with respect to hypothesis 1. The labeled signals that contain two colors represent situations where the user could have given two different guidance signals, i.e. where two actions were optimal. It is only for hypothesis 1 that all signals in each cluster share one color. The case of guidance with multiple optimal actions in some states makes the learning process more ambiguous and may require some additional time compared to the feedback case.}
   \label{fig:lfui:pickplaceguidance}
 \end{figure}
 
-\transition
+\newpage
+
+% \transition
 
 We have provided an example of the pick and place world with two dimensional signals and considering only three hypotheses. In next section, we consider real spoken words mapped to a 20 dimensional space and the full space of hypothesis which consists of 624 possible object configurations.
 
@@ -814,7 +817,7 @@ The results comparing the different classification methods are shown in Figure~\
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.7\columnwidth]{\imgpath/classifiers}
+  \includegraphics[width=\plotsize\columnwidth]{\imgpath/classifiers}
   \caption{Taught hypothesis normalized likelihood evolution (mean + standard error) thought iterations using different kinds of classifiers. The teacher is providing feedback signals using one word per meaning and the agent is performing actions according to the $\epsilon$-greedy strategy.}
   \label{fig:FeedbackOneWord}
 \end{figure}
@@ -844,7 +847,7 @@ In Figure~\ref{fig:Guidance}, we compare the performance between using feedback 
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.7\columnwidth]{\imgpath/feedback_vs_guidance}
+  \includegraphics[width=\plotsize\columnwidth]{\imgpath/feedback_vs_guidance}
   \caption{Taught hypothesis normalized likelihood evolution (mean + standard error) thought iterations using Gaussian classifier. Comparison of feedback (green) and guidance (blue) instructions using one word per meaning. The robot is able to learn the task based on both feedback and guidance signals but needs more iterations for the guidance case.}
   \label{fig:Guidance}
 \end{figure}
@@ -884,7 +887,7 @@ In this study, the teacher still provides unlabeled spoken words but can also us
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.7\columnwidth]{\imgpath/mix_button}
+  \includegraphics[width=\plotsize\columnwidth]{\imgpath/mix_button}
   \caption{Taught hypothesis normalized likelihood evolution (mean + standard error) thought iterations using Gaussian classifier. Comparison of using known button presses, unknown spoken signals, and both.}
   \label{fig:button}
 \end{figure}
@@ -905,7 +908,7 @@ The author of this thesis was the user for this studies and was therefore aware 
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.7\columnwidth]{\imgpath/real}
+  \includegraphics[width=\plotsize\columnwidth]{\imgpath/real}
   \caption{Taught hypothesis normalized likelihood evolution thought iterations using Gaussian classifier. A real teacher delivers spoken feedback signals using one word per meaning. The robot uses the $\epsilon$-greedy action selection method. A first run of 100 iterations is performed where the robot learns a task from unknown feedback. Then, by freezing the classifier corresponding to the most likely task, the user teaches the robot a new task.}
   \label{fig:Real}
 \end{figure}
