@@ -276,22 +276,22 @@ Figure~\ref{fig:continuoustasktasksamplingexampleslow} details the uncertainty b
     \begin{subfigure}[b]{\columnwidth}
         \centering
         \includegraphics[width=\columnwidth]{\imgpath/continuous_task/maps/distgoal_slow.eps}
-        \caption{Evolution of distance between he best task estimates and the goal position (left). The goal position being the red dot on the right plot.}
+        \caption{Evolution of distance between the best estimate and the goal position (left). The goal position being the red dot on the right plot.}
         \label{fig:continuoustaskexampleslowdist}
     \end{subfigure}
     \begin{subfigure}[b]{\columnwidth}
         \centering
-        \includegraphics[width=\columnwidth, trim=2.5cm 0cm 2.5cm -1cm, clip=true]{\imgpath/continuous_task/maps/weights_slow.eps}
-        \caption{Set of hypothesis after 15, 50, and 150 steps, with their associated probability show as colors. In order to allow for a good visualization of the maps, the associated value to each color are different for each time step. Red is associated to the most probable task, and blue for the less probable. The colors in the between are linearly maps according their associated weights.}
+        \includegraphics[width=0.95\columnwidth, trim=2.5cm 0cm 2.5cm -1cm, clip=true]{\imgpath/continuous_task/maps/weights_slow.eps}
+        \caption{Set of hypothesis after 15, 50, and 150 steps, with their associated probability show as colors. The associated value to each color are different for each time step. Red is associated to the most probable task, and blue for the less probable. The colors linearly maps according to their associated weights, red (blue) for the most (less) probable task.}
         \label{fig:continuoustaskexampleslowweights}
     \end{subfigure}
     \begin{subfigure}[b]{\columnwidth}
         \centering
-        \includegraphics[width=\columnwidth, trim=2.5cm 0cm 2.5cm -1cm, clip=true]{\imgpath/continuous_task/maps/uncertainty_slow.eps}
-        \caption{Uncertainty associated to each of the 1000 sampled states after 15, 50, and 150 steps. Only the most uncertain state will be select as the next state of the agent. The uncertainty maps evolve through time as the set of task hypothesis and their respective probability are updated. After 150 steps, the uncertainty is located around the goal position. In order to allow for a good visualization of the maps, the associated value to each color are different for each time step. Red is associated to the most probable task, and blue for the less probable. The colors in the between are linearly maps according their associated weights.}
+        \includegraphics[width=0.95\columnwidth, trim=2.5cm 0cm 2.5cm -1cm, clip=true]{\imgpath/continuous_task/maps/uncertainty_slow.eps}
+        \caption{Uncertainty associated to each of the 1000 sampled states after 15, 50, and 150 steps. The most uncertain state will be selected as the next state of the agent. The uncertainty maps evolve through time as the set of task hypothesis and their respective probabilities are updated. After 150 steps, the uncertainty is located around the goal position. The colors linearly maps according to their associated weights, red (blue) for the most (less) probable task.}
         \label{fig:continuoustaskexampleslowuncertainty}
     \end{subfigure}
-\caption{Illustration of the uncertainty based state sampling process after 15, 50, and 150 steps. The uncertainty is measure for 1000 randomly generated states and according to the current set of task hypothesis ans their associated probabilities.}
+\caption{Illustration of the uncertainty based state sampling process after 15, 50, and 150 steps. The uncertainty is evaluated for 1000 randomly generated states according to the current set of task hypothesis and their associated probabilities.}
 \label{fig:continuoustasktasksamplingexampleslow}
 \end{figure}
 
