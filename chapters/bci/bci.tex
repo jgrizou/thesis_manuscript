@@ -6,6 +6,8 @@
 \label{chapter:bci}
 \minitoc
 
+\blfootnote{The work presented in this chapter is the result of a collaboration with I{\~n}aki Iturrate and Luis Montesano. Code is available online under the github account \url{https://github.com/jgrizou/} in the following repositories: \href{https://github.com/jgrizou/lfui.git}{lfui}, \href{https://github.com/jgrizou/experiments_thesis.git}{experiments\_thesis}, and \href{https://github.com/jgrizou/datasets.git}{datasets}.}
+
 We presented an algorithm that exploits task constraints to solve simultaneously a task under human feedback and learn the associated meanings of the feedback signals. We detailed an uncertainty measure than allow our agent to solve this problem more efficiently and shown that our algorithm can transition from task to task in a smooth way. Our algorithm has important practical application since the user can start controlling a device from scratch, without the need of an expert defining the meaning of signals or carrying out a calibration phase. 
 
 In this chapter, we explore the use of our algorithm in brain computer interaction scenario. We consider the grid world reaching task scenario as presented in chapter~\ref{chapter:planning:method}. After briefly presenting the related work, we introduce the experimental setup an the Error-related potential EEG signals we will use. Then, we first test our algorithm with a database of EEG signals and compare the performance of our method with a calibration procedure method (that first collects signal-label pairs during a calibration period and trains a unique classifier). We will highlight one run of our experiments in detail.
@@ -17,8 +19,6 @@ However, we point out a main difference between calibration procedure and our se
 Finally, we present results where real users teach our artificial agent by assessing agent's actions in their mind, and without calibrating the system beforehand.
 
 The results with real EEG signals allow us to envision that such algorithm could have practical applications in the real word. By removing the need of an expert to collect and calibrate the system, the use of brain computer interfaces may become more practical allowing their users to go out of the labs.
-
-The application of this work to BCI is a collaboration with I{\~n}aki Iturrate and Luis Montesano.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

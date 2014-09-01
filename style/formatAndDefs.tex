@@ -4,7 +4,10 @@
 \usepackage{subcaption}
 \usepackage{paralist}
 \usepackage{float}
-
+% blank footnote
+\makeatletter
+\def\blfootnote{\gdef\@thefnmark{}\@footnotetext}
+\makeatother
 
 % wide page for side by side figures, tables, etc
 \usepackage{changepage}  

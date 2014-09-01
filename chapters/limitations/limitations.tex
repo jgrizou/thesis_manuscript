@@ -7,6 +7,8 @@
 \label{chapter:limitations}
 \minitoc
 
+\blfootnote{Code for most experiments presented in this chapter is available online under the github account \url{https://github.com/jgrizou/} in the following repositories: \href{https://github.com/jgrizou/lfui.git}{lfui}, \href{https://github.com/jgrizou/experiments_thesis.git}{experiments\_thesis}, and \href{https://github.com/jgrizou/datasets.git}{datasets}.}
+
 In the previous chapters, we described an algorithm allowing a robot to learn the task desired by a user without defining in advance how the signals of the user maps with their meanings. We tested this algorithm on two domains, a pick and place scenario using speech commands, and a virtual cursor navigation task using EEG signals. We demonstrated the use of our system in real time and with real subjects using their brain to assess agent's actions with respect to a final desired position.
 
 A number of assumptions and constraints were used. In this chapter we will detail important limitations, discuss the possibility to release them and provide small experiments to demonstrate our ideas. 
@@ -15,7 +17,7 @@ In section~\ref{chapter:limitiations:simplevsmatching} we compare the performanc
 
 In section~\ref{chapter:limitations:wordlproperties}, we present a small study on how different properties of the world impacts the efficiency of several planning methods. We specifically study the impact of the size and the maze like properties of our environment. This study will highlight the fact that our uncertainty based planning method allows to identify the correct task with best performance in several types of problems. However we will see that, by not considering the performance on the task itself during the exploration, for some problems our method lacks of efficiency with respect to solving the task as fast as possible.
 
-In section~\ref{chapter:limitations:overlap} we introduce an other method to identify the first task based on the overlap of signal models. We present online results with real subjects in a BCI scenario, and show the limitation of this new method to identifying a sequence of multiple tasks.
+In section~\ref{chapter:limitations:overlap} we introduce an other method to identify the first task based on the overlap of signal models. We present online results with real subjects in a BCI scenario, and show the limitation of this new method to identifying a sequence of multiple tasks\footnote{The work presented in section~\ref{chapter:limitations:overlap} has been published in \cite{grizou2014calibration}. It is the result of a collaboration with I{\~n}aki Iturrate and Luis Montesano.}.
 
 In section~\ref{chapter:limitations:continousstate}, we address the problem of continuous state space, and show that our method is not impacted by the continuous aspect of the problem. Indeed, as our method only requires to known the optimal policy for each task, we can rely on any algorithm that computes a policy for continuous states given a pre-defined task.
 
