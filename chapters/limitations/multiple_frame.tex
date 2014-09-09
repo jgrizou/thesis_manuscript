@@ -11,25 +11,25 @@ Until now we have assumed that the interaction frame, which specifies the detail
 
 \subsection{Illustrations}
 
-We will use a very simple example to illustrate the problem and show computational results. We consider that the agent lives in the line word as defined in chapter~\ref{chapter:lfui:symmetries}, where the agent has access to the ``no move'' action in order to remove the symmetry problem. The agent knowns it should reach either of the two edges of the world, G1 or G2. And the agent knowns that the teacher is providing either feedback or guidance instructions. To handle this new hidden information we will rely again on our interpretation hypothesis process. This time, one hypothesis will be the combination of one task hypothesis and one frame hypothesis. For our simple example, it results in having four hypotheses.
+We will use a very simple example to illustrate the problem and show computational results. We consider that the agent lives in the line word as defined in chapter~\ref{chapter:lfui:symmetries}, where the agent has access to the ``no move'' action in order to remove the symmetry problem. The agent knows it should reach either of the two edges of the world, G1 or G2. And the agent knows that the teacher is providing either feedback or guidance instructions. To handle this new hidden information we will rely again on our interpretation hypothesis process. This time, one hypothesis will be the combination of one task hypothesis and one frame hypothesis. For our simple example, it results in having four hypotheses.
 
 The result of the labeling process is shown in Figure~\ref{fig:multipleframeexplainedfeedback} for a teacher providing feedback instructions according the task G1. The hypothesis that labels the signals according to the task G1 and the feedback frame is the one whose signal-label pairs match better with the underlying structure of the data. Indeed, for the guidance case, the labeling process for hypothesis G1 is always giving a ``left'' label whether or not the agent is moving away or closer to the target, which allows to differentiate between feedback and guidance cases. To differentiate between G1 and G2, the same principle than the one described in chapter~\ref{chapter:lfui:symmetries} applies.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/multiple_frame/multiple_frame_feedback.pdf}
-\caption{Illustration of the labeling process on both task and interaction frame hypothesis. The agent can perform right, left, or a ``no move'' action. The agent receive feedback on its action in the line word according to G1 . The agent do not known which task (G1 or G2) neither which interaction scheme the teacher is following (feedback or guidance). The result of the labeling process allow to identify the hypothesis on task G1 and feedback frame as the more likely.}
+\caption{Illustration of the labeling process on both task and interaction frame hypothesis. The agent can perform right, left, or a ``no move'' action. The agent receives feedback on its action in the line word according to G1 . The agent does not known which task (G1 or G2) neither which interaction scheme the teacher is following (feedback or guidance). The result of the labeling process allow to identify the hypothesis on task G1 and feedback frame as the more likely.}
 \label{fig:multipleframeexplainedfeedback}
 \end{figure} 
 
-\newpage
+\visuopti{\newpage}
 
 Considering now that the teacher is providing guidance instructions according the task G1, the results of the labeling process can be seen in Figure~\ref{fig:multipleframeexplainedguidance}. The same explanation than for Figure~\ref{fig:multipleframeexplainedfeedback} applies. 
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\twoplanningwidth\columnwidth]{\visualspdf/multiple_frame/multiple_frame_guidance.pdf}
-\caption{Illustration of the labelling porcess on both task and interaction frame hypothesis. The agent can perform right, left, or a ``no move'' action. The agent receive guidance instruction on its action in the line word according to G1 . The agent do not known which task (G1 or G2) neither which interaction scheme the teacher is following (feedback or guidance). The result of the labeling process allow to identify the hypothesis on task G1 and guidance frame as the more likely.}
+\caption{Illustration of the labeling process on both task and interaction frame hypothesis. The agent can perform right, left, or a ``no move'' action. The agent receives guidance instruction on its action in the line word according to G1 . The agent does not known which task (G1 or G2) neither which interaction scheme the teacher is following (feedback or guidance). The result of the labeling process allow to identify the hypothesis on task G1 and guidance frame as the more likely.}
 \label{fig:multipleframeexplainedguidance}
 \end{figure} 
 
@@ -39,16 +39,16 @@ We now verify that the algorithm works in practice. We consider the same line wo
 
 Figure~\ref{fig:multipleframeall} shows the evolution of the probability associated to the correct combination of task and interaction frame (we use the minimum of pairwise normalized likelihood from Equation~\ref{eq:probapairwise} in chapter~\ref{chapter:lfui:confidence}). After 200 steps, all our experiments identified with probability 1 the correct combination of task and interaction frame. 
 
-% In practice, in our previous experiments, we used a confidence threshold of 0.9, under this condition most of our experiments would have identified the task in slighlty more than 50 steps.
+% In practice, in our previous experiments, we used a confidence threshold of 0.9, under this condition most of our experiments would have identified the task in slightly more than 50 steps.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/multiple_frame/multiple_frame_all_teacher.eps}
-\caption{Evolution of the minimum of pairwise normalized likelihood for the correct hypothesis. After 200 steps, all our experiments identified with probability 1 the correct combination of task and interaction frame. Most of the experiments would have identified the task slighlty more than 50 steps with a confidence threshold of 0.9.}
+\caption{Evolution of the minimum of pairwise normalized likelihood for the correct hypothesis. After 200 steps, all our experiments identified with probability 1 the correct combination of task and interaction frame. Most of the experiments would have identified the task slightly more than 50 steps with a confidence threshold of 0.9.}
 \label{fig:multipleframeall}
 \end{figure} 
 
-We plot in Figure~\ref{fig:multipleframefeedbackvsguidance} the cases where the teacher was using the feedback frame (left) or the guidance frame (right). The performance are similar in both cases.
+We plot in Figure~\ref{fig:multipleframefeedbackvsguidance} the cases where the teacher was using the feedback frame (left) or the guidance frame (right). The performances are similar in both cases.
 
 \begin{figure}[!htbp]
 \centering
@@ -58,11 +58,11 @@ We plot in Figure~\ref{fig:multipleframefeedbackvsguidance} the cases where the 
 \label{fig:multipleframefeedbackvsguidance}
 \end{figure}
 
-\newpage
+\visuopti{\newpage}
 
 \subsection{Discussion}
 
-Following the interpretation hypothesis method on a combination of task and interaction frame, we can start learning a task from unlabeled instructions and undefined interaction frames. In other words, such system can not only learn the task and the signal to meaning mapping, but also the interaction protocol used by the teacher.
+Following the interpretation hypothesis method on a combination of task and interaction frame, we can start learning a task from unlabeled instructions and undefined interaction frames. In other words, such system cannot only learn the task and the signal to meaning mapping, but also the interaction protocol used by the teacher.
 
 Considering our example in section~\ref{chapter:limitations:continuoushypothesis}, an application this method can be to consider different coordinate system for the cardinal frame. For example, the signals from the teacher can be relative to the true North magnetic pole, to the current position of the user relative to the agent, or relative to the current orientation of the robot. This experiment performed with a real robot, real users, considering a tablet, and different interaction frames has great potential to demonstrate the potential application of this work.
 

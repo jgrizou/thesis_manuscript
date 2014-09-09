@@ -46,14 +46,18 @@ The interaction between the agent and the teacher is turn-taking. First, the age
 
 For example, as depicted in Figure~\ref{fig:TworldOneStepUnlabeled}, the agent starts in state 3, performs action left, and ends-up in state 2. The teacher wants the agent to go to G1, therefore he sends a signal of meaning ``correct'' (i.e. in the right part of the feature space). Note that the signal shown in Figure~\ref{fig:TworldOneStepUnlabeled} (left) is neither green nor red, its label is undefined.
 
+\visuopti{\vspace{-0.3cm}}
+
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_unlabeled_one_action.pdf}
-  \caption{The teacher provides a feedback signal after each action of the agent. The agent starts in state 3, performs action left, and ends-up in state 2. The teacher wants the agent to go to G1, therefore he sends a signal meaning that the previous action was ``correct'' with respect to the goal. Note that the signal is on the right side of the space as described in Figure~\ref{fig:feedbacksignals}. However the agent does not have access to the label associated to this signal and it only observes a point in a two dimensional space.}
+  \caption{The teacher provides a feedback signal after each action of the agent. The agent starts in state 3, performs action left, and ends-up in state 2. The teacher wants the agent to go to G1, therefore he sends a signal meaning that the previous action was ``correct'' with respect to the goal. The signal is on the right side of the space as described in Figure~\ref{fig:feedbacksignals}. However the agent does not have access to the label associated to this signal, it only observes a point in a two dimensional space.}
   \label{fig:TworldOneStepUnlabeled}
 \end{figure}
 
 After performing several actions randomly, the robot ends-up with a lot of observations associating a state, an action and a feedback signal. As depicted in Figure~\ref{fig:TworldManyStepUnlabeled}, we can observe that two clusters have emerged in the feature space. A straightforward assumption is that one cluster is associated to the ``correct'' meaning, and the other to the ``incorrect'' meaning. We will see how this assumption of consistency in the signals can be exploited in the coming sections.
+
+\visuopti{\vspace{-0.2cm}}
 
 \begin{figure}[!htbp]
   \centering
@@ -61,7 +65,6 @@ After performing several actions randomly, the robot ends-up with a lot of obser
   \caption{After performing several random actions, the robot ends-up with many of observation associating a state, an action and a feedback signal.}
   \label{fig:TworldManyStepUnlabeled}
 \end{figure}
-
 
 \subsection{What the agent knows}
 
@@ -788,7 +791,7 @@ For the guidance case, the teacher uses the signals presented in Figure~\ref{fig
   \label{fig:lfui:pickplaceguidance}
 \end{figure}
 
-\newpage
+\visuopti{\newpage}
 
 % \transition
 

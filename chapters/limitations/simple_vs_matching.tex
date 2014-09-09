@@ -9,7 +9,7 @@ We compare the performance of Equation~\ref{eq:matchingfilter} and Equation~\ref
 
 We consider the same setting as for the experiments described in chapter~\ref{chapter:bci:EEGsignals} and used our two dimensional datasets of different qualities as presented in chapter~\ref{chapter:planning:artificialsignals}. We ran 500 simulations for each method. We consider only the planning method described in chapter~\ref{chapter:planning}.
 
-\paragraph{Time to first task}  Figure~\ref{fig:timefirst_simplevsmatching} compares the number of iterations needed to reach the first task with confidence. We call the method using equation Equation~\ref{eq:matchingfilter} ``simple matching'' and we call ``matching'' the method using Equation~\ref{eq:matchingfiltercrossvalidation} which corrects the classifiers' predictions. There is strong differences between our method especially for low quality datasets. For extremely overlapping data (50/60\% accuracy), the ``matching'' method is never confident about a task while the ``simple matching'' method show huge variability and sometime outputs confidence after very few time steps. 
+\paragraph{Time to first task}  Figure~\ref{fig:timefirst_simplevsmatching} compares the number of iterations needed to reach the first task with confidence. We call the method using equation Equation~\ref{eq:matchingfilter} ``simple matching'' and we call ``matching'' the method using Equation~\ref{eq:matchingfiltercrossvalidation} which corrects the classifiers' predictions. There are strong differences between our methods especially for low quality datasets. For extremely overlapping data (50/60\% accuracy), the ``matching'' method is never confident about a task while the ``simple matching'' method show huge variability and sometime outputs confidence after very few time steps. 
 
 \begin{figure}[!htbp]
 \centering
@@ -18,7 +18,7 @@ We consider the same setting as for the experiments described in chapter~\ref{ch
 \label{fig:timefirst_simplevsmatching}
 \end{figure} 
 
-This over confidence of the ``simple matching'' method reflects in the number of first tasks that were erroneously identified. As shown in Table~\ref{tab:errorTaskRatiosimplevsmatching}, the lower the quality of the data, the higher is the percentage of erroneously identified first task. For extremely overlapping data (50/60\% accuracy), this percentage go up to 20 percent. While the ``matching'' method may seems too conservative, it is particularly important to not make mistakes when estimating the first task. Indeed once a first task is identified, its associated labels are taken as ground truth. A false estimation of the first task will falsify the signal-label pairs for the remaining of the interaction.
+This over confidence of the ``simple matching'' method reflects in the number of first tasks that were erroneously identified. As shown in Table~\ref{tab:errorTaskRatiosimplevsmatching}, the lower the quality of the data, the higher is the percentage of erroneously identified first task. For extremely overlapping data (50/60\% accuracy), this percentage goes up to 20 percent. While the ``matching'' method may seems too conservative, it is particularly important to not make mistakes when estimating the first task. Indeed once a first task is identified, its associated labels are taken as ground truth. A false estimation of the first task will falsify the signal-label pairs for the remaining of the interaction.
 
 \begin{table}[!htbp]
 \centering
@@ -37,7 +37,7 @@ This over confidence of the ``simple matching'' method reflects in the number of
 
 \paragraph{Number of tasks achieved in 500 steps}
 
-We compare the number of tasks correctly (Figure~\ref{fig:nCorrect_simplevsmatching}) and incorrectly (Figure~\ref{fig:nWrongEEG_simplevsmatching}) achieved in 500 steps between our two methods. While the ``simple matching'' method allows to reach more targets correctly, it also makes more mistakes for low quality datasets. The ``matching'' method is more conservative and does not make mistakes for all classifier quality, at the cost of reaching less targets.
+We compare the number of tasks correctly (Figure~\ref{fig:nCorrect_simplevsmatching}) and incorrectly (Figure~\ref{fig:nWrongEEG_simplevsmatching}) achieved in 500 steps between our two methods. While the ``simple matching'' method allows to reach more targets correctly, it also makes more mistakes for low quality datasets. The ``matching'' method is more conservative and does not make mistakes for all classifier quality, at the cost of reaching fewer targets.
 
 \begin{figure}[!htbp]
 \centering
@@ -62,7 +62,7 @@ These results considered only low dimensional dataset (2D), which were generated
 
 We consider the same setting as for the previous subsection and use the EEG datasets described in chapter~\ref{chapter:bci}. We ran 500 simulations for each method. We consider only the active planning method used in chapter~\ref{chapter:planning}.
 
-\paragraph{Time to first task} Figure~\ref{fig:timefirst_simplevsmatchingEEG} compares the number of iterations needed to reach the first task with confidence. There is strong differences between methods especially for low quality datasets. The ``simple matching'' method performances are not correlated with the classifiers' quality, which reflects the overconfidence of this method.
+\paragraph{Time to first task} Figure~\ref{fig:timefirst_simplevsmatchingEEG} compares the number of iterations needed to reach the first task with confidence. There are strong differences between methods especially for low quality datasets. The ``simple matching'' method performances are not correlated with the classifiers' quality, which reflects the overconfidence of this method.
 
 \begin{figure}[!htbp]
 \centering
@@ -92,12 +92,12 @@ The over confidence of the ``simple matching'' method is reflected by the number
 
 We compare the number of task correctly (Figure~\ref{fig:nCorrect_simplevsmatchingEEG}) and incorrectly (Figure~\ref{fig:nWrongEEG_simplevsmatchingEEG}) reached in 500 steps. While the two methods allow to reach a similar number of targets correctly. The ``simple matching'' method also makes a many mistakes for all datasets. The ``matching'' method makes only few mistakes for all classifiers' quality.
 
-\newpage
+\visuopti{\newpage}
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\plotsize\columnwidth]{\imgpath/simplevsmatching/correctEEG.eps}
-\caption{Number of tasks correctly achieved in 500 steps using our pre-recorded EEG data. Comparison between Equation~\ref{eq:matchingfilter} (simple matching) and Equation~\ref{eq:matchingfiltercrossvalidation} (matching), where the latter corrects the predictions of the classifiers given the estimation of their confusion matrix. Both method reach a similar number of targets correctly when using EEG datasets. The ``simple matching''  method shows more variability.}
+\caption{Number of tasks correctly achieved in 500 steps using our pre-recorded EEG data. Comparison between Equation~\ref{eq:matchingfilter} (simple matching) and Equation~\ref{eq:matchingfiltercrossvalidation} (matching), where the latter corrects the predictions of the classifiers given the estimation of their confusion matrix. Both methods reach a similar number of targets correctly when using EEG datasets. The ``simple matching''  method shows more variability.}
 \label{fig:nCorrect_simplevsmatchingEEG}
 \end{figure} 
 
@@ -110,4 +110,4 @@ We compare the number of task correctly (Figure~\ref{fig:nCorrect_simplevsmatchi
 
 \subsection{Discussion}
 
-The results presented in this section confirm that taking into account the uncertainty about the predictions of the classifiers makes the algorithm more robust. However, if we knew the data will be of good enough quality, it is not necessary to correct the classifiers' outputs (as we did for the speech dataset used in chapter~\ref{chapter:lfui}), which divides the computational cost by a factor of 10 (for a 10 fold cross-validation). However, as soon as we have to deal with signals of various quality and with different properties (like for BCI data in chapter~\ref{chapter:bci}), it is better to include a measure of classification uncertainty in our likelihood update rule.
+The results presented in this section confirm that taking into account the uncertainty about the predictions of the classifiers makes the algorithm more robust. However, if we knew the data will be of good enough quality, it is not necessary to correct the classifiers' outputs (as we did for the speech dataset used in chapter~\ref{chapter:lfui}), which divides the computational cost by a factor of 10 (for a 10 fold cross-validation). However, as soon as we have to deal with signals of various qualities and with different properties (like for BCI data in chapter~\ref{chapter:bci}), it is better to include a measure of classification uncertainty in our likelihood update rule.

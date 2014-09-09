@@ -8,13 +8,13 @@ As for now, our algorithm assumes the world can be represented by a limited numb
 
 \subsection{Experimental System}
 
-We consider a puddle world, in which an agent must reach a goal region while avoiding a penalty region. We consider a 2 dimensional puddle world with each dimension ranging between 0 and 1. The state of the agent can be any coordinate in the 2D world. Agent' actions are discrete and represent steps in either North, South, East, West direction. One step length is sampled from a normal distribution of mean 0.1 and standard deviation 0.01.
+We consider a puddle world, in which an agent must reach a goal region while avoiding a penalty region. We consider a 2 dimensional puddle world with each dimension ranging between 0 and 1. The state of the agent can be any coordinate in the 2D world. Agent' actions are discrete and represent steps in the North, South, East, or West direction. One step length is sampled from a normal distribution of mean 0.1 and standard deviation 0.01.
 
 As in the experiment of chapter~\ref{chapter:lfui}, we consider speech as the modality for interacting with the robot and we reuse the dataset presented in section~\ref{chapter:lfui:speechdata}. The interaction between the agent and the teacher follows a turn taking social behavior, where the agent is performing an action and waits for a feedback or guidance signal to continue. We only consider a Gaussian classifier.
 
 \paragraph{Task Representation} 
 
-To define the set of possible tasks we project a 5x5 regular grid on top of the continuous world. One task is represented by a +1 reward in one of the 25 projected squares and a -100 reward in three consecutive (vertically or horizontally) squares. +1 and -100 area can not overlap (see figure~\ref{fig:puddle} for an example). The set of possible tasks is defined as all possible combinations of such reward function, for a total of 660 hypotheses.
+To define the set of possible tasks we project a 5x5 regular grid on top of the continuous world. One task is represented by a +1 reward in one of the 25 projected squares and a -100 reward in three consecutive (vertically or horizontally) squares. +1 and -100 areas cannot overlap (see figure~\ref{fig:puddle} for an example). The set of possible tasks is defined as all possible combinations of such reward function, for a total of 660 hypotheses.
 
 Our algorithm only needs to have access to the optimal policies to be able to interpret a signal with respect to the feedback or guidance frame. We use the MDP framework to compute the corresponding policies. The world being continuous we use the tile coding function approximation \cite{sutton1998reinforcement}, with 10 overlapping 50x50 regular grids. A Q-Learning algorithm \cite{watkins1992q} is used to compute the Q-Values, with a discount rate of 0.99 and a learning rate of 0.01. The optimal policies are then defined as greedy according to the Q-Values.
 
@@ -40,7 +40,7 @@ We assume the mixing parameter $\phi$ is known in advance. We set $\phi$ to 0.5 
 
 We investigate four different agent behaviors: \begin{inparaenum}[a)] \item random, \item $\epsilon$-greedy, \item myopic uncertainty based exploration, which aims at selecting the action that is the most uncertain in the current state, and \item full uncertainty based exploration which requires an uncertainty map to decide what to explore next. \end{inparaenum} 
 
-As we are in a continuous domain, we can not compute the full uncertainty for each state as presented in chapter~\ref{chapter:planning}, we therefore approximate this process. Extensions of the general problem already exist for the continuous state problem \cite{nouri2010dimension,Hester13aamas} and we will rely on a sampling based method. One hundred random states are generated and evaluated in terms of their uncertainty. Each sampled state is associated to a reward value proportional to its uncertainty which is propagated to neighborhood states by using a fixed Gaussian kernel. We use as amplitude the uncertainty value and a diagonal covariance matrix of value 0.01 for each component. The resulting approximated uncertainty map is then used as a reward function. By solving the corresponding MDP, using for instance Q-Learning, the agent plans its actions to visit the most uncertain regions. We decided to use an $\epsilon$-greedy policy on the Q-values. In the following experiment, the agent will use an exploration ratio $\epsilon$ equal to $0.1$.
+As we are in a continuous domain, we cannot compute the full uncertainty for each state as presented in chapter~\ref{chapter:planning}, we therefore approximate this process. Extensions of the general problem already exist for the continuous state problem \cite{nouri2010dimension,Hester13aamas} and we will rely on a sampling based method. One hundred random states are generated and evaluated in terms of their uncertainty. Each sampled state is associated to a reward value proportional to its uncertainty. This value is propagated to neighborhood states by using a fixed Gaussian kernel. We use as amplitude the uncertainty value and a diagonal covariance matrix of value 0.01 for each component. The resulting approximated uncertainty map is then used as a reward function. By solving the corresponding MDP, using for instance Q-Learning, the agent plans its actions to visit the most uncertain regions. We decided to use an $\epsilon$-greedy policy on the Q-values. In the following experiment, the agent will use an exploration ratio $\epsilon$ equal to $0.1$.
 
 \subsection{Results}
 
@@ -53,9 +53,9 @@ We present results from 75 runs of our experiment, where for each run we randoml
   \label{fig:continuousstateRmax}
 \end{figure}
 
-These results show that our algorithm can learn a task in a continuous world from unlabeled and noisy instructions whose possible meanings are both feedback and guidance and 10 percent of the instructions were teaching mistakes. The uncertainty based planning strategy outperforms random action selection. Interestingly, myopic uncertainty based strategy, which is also based on our uncertainty measure, is not efficient. This result illustrates that, when considering the agent as not being able to teleport, a long term planning approach is more suited to explore efficiently the state space than a short term vision by selecting the next action with higher immediate reward, i.e. higher uncertainty. 
+These results show that our algorithm can learn a task in a continuous world from unlabeled and noisy instructions whose possible meanings are both feedback and guidance and 10 percent of the instructions were teaching mistakes. The uncertainty based planning strategy outperforms random action selection. Interestingly, myopic uncertainty based strategy, which is also based on our uncertainty measure, is not efficient. This result illustrates that, when considering the agent as not being able to teleport, a long term planning approach is more suited to explore efficiently the state space than a short-term vision by selecting the next action with higher immediate reward, i.e. higher uncertainty. 
 
-% Finally $\epsilon$-greedy performs less efficiently than in the first setup. This is due to the properties of our new set of hypothesis where many hypothesis shared an identical positive reward area but have different puddle zone.
+% Finally $\epsilon$-greedy performs less efficiently than in the first setup. This is due to the properties of our new set of hypothesis where many hypotheses shared an identical positive reward area but have different puddle zone.
 
 Figure~\ref{fig:continuousstateUncertaintyMap} shows the evolution of the estimated uncertainty map for one run of the experiment. For each uncertainty map, the agent plans its actions to reach a maximal uncertainty region. The maximum uncertainty value decreases as the agent is correctly estimating the task.
 
@@ -102,7 +102,7 @@ Figure~\ref{fig:continuousstateUncertaintyMap} shows the evolution of the estima
   \label{fig:continuousstateUncertaintyMap}
 \end{figure}
 
-\newpage 
+\visuopti{\newpage}
 
 \subsection{Discussion}
 

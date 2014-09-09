@@ -67,7 +67,7 @@ We also proposed a number of possible extensions releasing several assumptions m
 
 % \subsection{Two modes}
 
-% Our algorithm is divided into a classification algorithm, estimating one classifier for each hypothesis based on past interaction, and a filtering algorithm that uses the predictions and properties of this classifier to update a belief over all tasks hypothesis. The key point is that each hypothesis is considered as if it was the true one. We model the signal to meaning mapping of the user with respect to each task. We then simply test if each classifier can make accurate predictions. As the user is acting according to only one hypothesis, only that hypothesis will be able to predict correctly future interactions. Once a task is identified, we have access to the true intended labels of the user. Which we transfer to all the other hypotheses and start learning a new task using the same equation and by continuing the interpretation hypothesis process. As all hypothesis now share a common set of signal-label pairs, we should be able to learn the new task faster.
+% Our algorithm is divided into a classification algorithm, estimating one classifier for each hypothesis based on past interaction, and a filtering algorithm that uses the predictions and properties of this classifier to update a belief over all tasks hypothesis. The key point is that each hypothesis is considered as if it was the true one. We model the signal to meaning mapping of the user with respect to each task. We then simply test if each classifier can make accurate predictions. As the user is acting according to only one hypothesis, only that hypothesis will be able to predict correctly future interactions. Once a task is identified, we have access to the true intended labels of the user, which we transfer to all the other hypotheses. We then start learning a new task using the same equation, continuing the interpretation hypothesis process. As all hypotheses now share a common set of signal-label pairs, we should be able to learn the new task faster.
 
 % We highlight the different processes acting during a full experiment when learning multiple tasks. We will refer to two operating modes: \begin{inparaenum}[a)] \item mode 1 is learning the first task from unlabeled instructions, and \item mode 2 is learning a task when most of the labels are shared between hypothesis. \end{inparaenum} Our update equation is the same for the two operating modes but different properties are more or less active during mode 1 or mode 2.
 
@@ -106,7 +106,7 @@ An interaction frame is not limited to the straightforward meaning correspondenc
 
 \paragraph{A task is not always a fixed target}
 
-We only considered tasks represented as a sparse reward function in a discrete state and action MDP. There is no reason to be limited to this representation of a task, especially to concept of a reaching task. Our algorithm only need to have access to a frame function interpreting each teacher signal given a context and an hypothesized task. Considering the feedback and guidance frame, as soon as the policies associated to each task can be provided to the robot, our algorithm can be applied. 
+We only considered tasks represented as a sparse reward function in a discrete state and action MDP. There is no reason to be limited to this representation of a task, especially to concept of a reaching task. Our algorithm only need to have access to a frame function interpreting each teacher signal given a context and a hypothesized task. Considering the feedback and guidance frame, as soon as the policies associated to each task can be provided to the robot, our algorithm can be applied. 
 
 % For example task could be an endless repetition of actions such as a robot in an assembly line that should assemble a given object again and again.
 
@@ -138,7 +138,7 @@ We only considered tasks represented as a sparse reward function in a discrete s
 
 \paragraph{No need for planning skills}
 
-Although in most of the problem described in this work, the agent needed to know the optimal policy for each task, it is only a specificity of the feedback and guidance frame we considered. For example, in section~\ref{chapter:limitations:continuoushypothesis} we considered a frame where a teacher provides indication about the absolute direction of objects. Therefore, interpreting a signal with respect to various object only requires to know the positions of these objects, without the need to know how to reach each object.
+Although in most of the problem described in this work, the agent needed to know the optimal policy for each task, it is only a specificity of the feedback and guidance frame we considered. For example, in section~\ref{chapter:limitations:continuoushypothesis} we considered a frame where a teacher provides indication about the absolute direction of objects. Therefore, interpreting a signal with respect to various objects only requires knowing the positions of these objects, without the need to know how to reach each object.
 
 % requiring the robot to be equipped with planning abilities
 
@@ -178,7 +178,7 @@ Information known to be true for most interaction scenarios can be included in t
 
 % \subsection{Theoretical analysis}
 
-% The work presented in this thesis mainly focuses on empirical experiments. Nonetheless, in section~\ref{chapter:limitations:proof}, we presented a proof that our algorithm can identify the correct task and highlighted the symmetry effect. The making of this simple proof required to add additional assumptions about several properties of the world (e.g. ratio of optimal state-action pairs), as well as considering an optimal teacher using symbolic signals (e.g. button presses). 
+% The work presented in this thesis mainly focuses on empirical experiments. Nonetheless, in section~\ref{chapter:limitations:proof}, we presented a proof that our algorithm can identify the correct task and highlighted the symmetry effect. The making of this simple proof required adding additional assumptions about several properties of the world (e.g. ratio of optimal state-action pairs), as well as considering an optimal teacher using symbolic signals (e.g. button presses). 
 
 % It is important to pursue in that direction by progressively relaxing these assumptions. Sensible progresses can be achieved quickly, a first step is to consider a non-optimal user making uniform teaching mistakes and worlds with more realistic properties (e.g. with different ratios of optimal state-action pairs). Reaching that level of proof would already offer some guarantees for simple scenarios using discrete state, discrete action, and symbolic signals, but under more realistic teaching conditions. The next step will be to consider non-symbolic signals, assuming they are sampled from known latent distributions.
 
@@ -188,12 +188,12 @@ Information known to be true for most interaction scenarios can be included in t
 
 % \subsection{Target based versus reward maximization scenarios}
 
-% As identified in chapter~\ref{chapter:limitations:wordlproperties}, we do not understand well the impact of some properties of the world and of datasets on the final performance of our system. But this study confirmed that our uncertainty measure is only efficient at disambiguating task hypotheses and has not been designed to optimize additional criteria on the task, such as to minimize the number of step to reach the correct state with confidence. The challenge of merging our uncertainty with additional objective remains to be investigate and, if solved, are likely to be of practical interest for real word applications.
+% As identified in chapter~\ref{chapter:limitations:wordlproperties}, we do not understand well the impact of some properties of the world and of datasets on the final performance of our system. But this study confirmed that our uncertainty measure is only efficient at disambiguating task hypotheses and has not been designed to optimize additional criteria on the task, such as to minimize the number of step to reach the correct state with confidence. The challenge of merging our uncertainty with additional objective remains to be investigated and, if solved, is likely to be of practical interest for real word applications.
 
 % % Each of these scenarios requires to develop new exploration methods. 
 % % Our measure was developed to discriminate faster the correct hypothesis from the set of possible tasks and not to also execute that task as fast as possible.
 
-% We propose two different types of scenario that are representative of various real world scenario: 
+% We propose two different types of scenario that are representative of various real world scenarios: 
 % \begin{itemize}
 % \item \textbf{Target based scenarios:} In this scenario, the goal of the agent is to execute one specific action in a particular state, but in situation where failing the task have bad consequences. 
 % % In addition, it is important to succeed in the task. and should not make mistakes in the execution of the task. 
@@ -203,7 +203,7 @@ Information known to be true for most interaction scenarios can be included in t
 
 % When all task are equally probable, only the uncertainty should be taken into account. And once there is no more uncertainty, i.e. when confidence is reached, the action should be selected according to the task policy.
 
-% \item \textbf{Reward maximization scenarios:} In this scenario, the goal of the robot is to maximize the cumulative reward associated to the correct task. The problem is that many tasks may have similar reward functions. Therefore it is not always necessary to identify the correct task with confidence to collect maximal rewards. For example, in our puddle word scenario of section~\ref{chapter:limitations:continousstate}, two tasks may share the same goal area but have different areas to avoid. If the robot can reach the shared goal area by avoiding the negative areas of both hypothesis, then the agent will have maximized the collected reward without ever knowing what specific task the user had in mind. In such case, the agent must known whether merging two reward functions is more optimal than trying to differentiate between them.
+% \item \textbf{Reward maximization scenarios:} In this scenario, the goal of the robot is to maximize the cumulative reward associated to the correct task. The problem is that many tasks may have similar reward functions. Therefore it is not always necessary to identify the correct task with confidence to collect maximal rewards. For example, in our puddle word scenario of section~\ref{chapter:limitations:continousstate}, two tasks may share the same goal area but have different areas to avoid. If the robot can reach the shared goal area by avoiding the negative areas of both hypotheses, then the agent will have maximized the collected reward without ever knowing what specific task the user had in mind. In such case, the agent must known whether merging two reward functions is more optimal than trying to differentiate between them.
 
 % % Interesting problems  is that of a task robot can not merge all rewards function right from the start as no specific direction will emerge and the correct reward won't be maximized in the long run.
 % \end{itemize}
@@ -218,7 +218,7 @@ Information known to be true for most interaction scenarios can be included in t
 
 It is only by demonstrating that this work can be applied and allows to improve over existing interaction methods that the idea of adaptive and flexible systems will be considered by a larger audience.
 
-\paragraph{Finding application} Yet, only the BCI scenario can convincingly be conceived as a potential short term practical application of our method. We believe other applications are yet to identify and is an important direction for the future work in the domain. A good application will allow to advertise the potential benefits of adaptive interactive systems, which is to learn from, and interact with, many different users who use different type of signals given their own limitations and preferences. We hope for the better with application to assistive technologies, but we can anticipate the worst, with application such as customer behavior understanding for advertising purposes.
+\paragraph{Finding application} Yet, only the BCI scenario can convincingly be conceived as a potential short term practical application of our method. We believe other applications are yet to identify and is an important direction for the future work in the domain. A good application will allow advertising the potential benefits of adaptive interactive systems, which is to learn from, and interact with, many different users who use different type of signals given their own limitations and preferences. We hope for the better with application to assistive technologies, but we can anticipate the worst, with application such as customer behavior understanding for advertising purposes.
 
 % and proof test with human subjects. Finding applications is an important direction for the future work in the domain. 
 
@@ -240,7 +240,7 @@ We mostly used prerecorded datasets. Bu when we performed real time experiments 
 
 Also, in most real-world applications, the users are told how to interact with the machines. Our algorithm allow a free choice in terms of signal, and having such a choice on some details of the interaction may finally become a disadvantage. An adaptive interface designed on the basis of our work would not be fully operational during the first few interactions (except if other known sources of information are available). Our algorithm needs a few initial steps to adapt to the teaching signals, which may discourage some users. They may rather prefer a more rigid but more intuitive interface. Therefore a second set of questions to investigate is: \emph{Do people want to have an open-ended choice about what signal to use? Would they be more efficient? When is it better to use a calibration procedure?}
 
-Finally, an interesting direction is to consider the same experimental semiotic experiment as described in chapter~\ref{chapter:humanexperiment} to build various human-robot interaction scenario. The setup allows to seamlessly use a human or a machine on either of the side of the interaction. A natural extension is therefore to replace the human builder by an agent using our algorithm. But one could also study active teaching algorithm \cite{cakmak2012algorithmic}, by replacing the teacher side by an artificial agent. In addition, the setup also allows to bias, and control, some specific aspects of the interaction. For example, we could study how specific agent's behaviors affect the teaching behavior of humans. But also study how an unobservable bias in the  interaction, such as one button having no effect, not being delayed, or being displayed at random locations, could affect a human-human interaction. We may finally test our assumption that, in order to succeed in such asymmetric interaction games, participants must be able to use theory of mind and project themselves in different common interaction frames; for example by asking people with specific neurodevelopmental disorder, such as autism, to participate in similar experiments.
+Finally, an interesting direction is to consider the same experimental semiotic experiment as described in chapter~\ref{chapter:humanexperiment} to build various human-robot interaction scenario. The setup allows to seamlessly use a human or a machine on either of the side of the interaction. A natural extension is therefore to replace the human builder by an agent using our algorithm. But one could also study active teaching algorithm \cite{cakmak2012algorithmic}, by replacing the teacher side by an artificial agent. In addition, the setup also allows biasing, and controlling, some specific aspects of the interaction. For example, we could study how specific agent's behaviors affect the teaching behavior of humans. But also study how an unobservable bias in the  interaction, such as one button having no effect, not being delayed, or being displayed at random locations, could affect a human-human interaction. We may finally test our assumption that, in order to succeed in such asymmetric interaction games, participants must be able to use theory of mind and project themselves in different common interaction frames; for example by asking people with specific neurodevelopmental disorder, such as autism, to participate in similar experiments.
 
 % human exp with a computer at one side, or with some signal not dipslaye,d or with delayed, or with ranodm possition...
 
@@ -253,7 +253,7 @@ Finally, an interesting direction is to consider the same experimental semiotic 
 
 % \question{Who create the frame functions?}
 
-% Interacting with various people requires to adapt to each individuality as most humans do in their daily life.
+% Interacting with various people requires adapting to each individuality as most humans do in their daily life.
 
 We focused on the problem of adaptation to the specificities and limitations of each user's communicative signals. To do so we considered the interaction frame is known by the robot and used by the human. This latter assumption is easily opposable, not two humans will socially behave in the exact same way. Learning the interaction frame seems to be the natural next step, and raises the question of creating novel meanings \cite{steels2002aibos}, as well as the problem of detecting and understanding new interaction protocols \cite{mohammad2010learning,macl11simul}. Advances in this domain may allow a user to progressively provide higher-level instructions throughout the life of a robot. Therefore, creating dynamic and hierarchical learning architectures will play a key role to enable life long learning of interactive skills, and following developmental learning approaches may be the way to go \cite{lungarella2003developmental,demiris2005motor,lopes2007developmental}.
 
@@ -265,6 +265,7 @@ We focused on the problem of adaptation to the specificities and limitations of 
 
 
 % In relation to targeting fluid interaction learning, we will consider in the future how more complex kinds of instructions can be included in our formalism. Indeed, the possible teaching models used spontaneously by people can be more complex than the simple meaning correspondences we assumed \cite{thomaz2008teachable,Cakmak2010optimality}. Also the turn taking scheme could be made more natural, as the robot could ask questions \cite{cakmak2012designing} and accept asynchronous instructions.
+
 
 
 
