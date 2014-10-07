@@ -36,15 +36,15 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1855"
-     inkscape:window-height="1176"
+     inkscape:window-width="1050"
+     inkscape:window-height="1656"
      id="namedview4"
      showgrid="false"
      inkscape:zoom="0.42857143"
      inkscape:cx="994.69524"
-     inkscape:cy="532.35961"
-     inkscape:window-x="65"
-     inkscape:window-y="313"
+     inkscape:cy="532.35964"
+     inkscape:window-x="1920"
+     inkscape:window-y="24"
      inkscape:window-maximized="1"
      inkscape:current-layer="g350" /><g
      id="g10"
@@ -297,6 +297,7 @@
 
 
 
+
 </g><path
          d="m 3273.91,888.832 0,36.223"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -323,6 +324,7 @@
 
 
 
+
 </g><path
          d="m 4696.56,888.832 0,36.223"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -341,6 +343,7 @@
      y="0"
      sodipodi:role="line"
      id="tspan178">End</tspan></text>
+
 
 
 
@@ -365,6 +368,7 @@
 
 
 
+
 </g><path
          d="m 7541.88,888.832 0,36.223"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -383,6 +387,7 @@
      y="0"
      sodipodi:role="line"
      id="tspan206">Guidance</tspan></text>
+
 
 
 
@@ -407,6 +412,7 @@
 
 
 
+
 </g><path
          d="m 10387.2,888.832 0,36.223"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -425,6 +431,7 @@
      y="0"
      sodipodi:role="line"
      id="tspan234">Size</tspan></text>
+
 
 
 
@@ -449,6 +456,7 @@
 
 
 
+
 </g><path
          d="m 13232.5,888.832 0,36.223"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -470,6 +478,7 @@
 
 
 
+
 <text
    transform="scale(1,-1)"
    id="text264"
@@ -481,6 +490,7 @@
      y="-14.752987"
      sodipodi:role="line"
      id="tspan266">Meaning categories</tspan></text>
+
 
 
 
@@ -504,6 +514,7 @@
 
 
 
+
 </g><path
          d="m 855.395,2718.7 36.222,0"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -521,6 +532,7 @@
      x="0"
      y="0"
      id="tspan294">5</tspan></text>
+
 
 
 
@@ -545,6 +557,7 @@
 
 
 
+
 </g><path
          d="m 855.395,6012.46 36.222,0"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -563,6 +576,7 @@
      y="0"
      sodipodi:role="line"
      id="tspan322">14</tspan></text>
+
 
 
 
@@ -587,6 +601,7 @@
 
 
 
+
 <text
    transform="matrix(0,1,1,0,48.4138,274.46)"
    id="text338"
@@ -597,6 +612,7 @@
      y="0"
      sodipodi:role="line"
      id="tspan340">Number of participants</tspan></text>
+
 
 
 
@@ -625,6 +641,7 @@
 
 
 
+
 </g><g
          id="g3361"
          transform="translate(-632.16778,-502.86074)"><path
@@ -645,6 +662,7 @@
      y="0"
      x="0 24.360001 45.717304 67.19191 87.53849 102.33345 120.18981 134.53056 155.14122 175.75122"
      style="font-size:30px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Arial;-inkscape-font-specification:Arial">Understood</tspan></text>
+
 
 
 
@@ -669,6 +687,7 @@
 
 
 
+
 </g><path
            id="path376"
            style="fill:#c3cc00;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -687,6 +706,7 @@
      y="0"
      x="0 11.162049 32.636658 53.994392 74.604393 89.399353 109.74593"
      style="font-size:30px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Arial;-inkscape-font-specification:Arial">Ignored</tspan></text>
+
 
 
 

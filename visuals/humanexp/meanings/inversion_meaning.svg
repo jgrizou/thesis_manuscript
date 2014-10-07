@@ -45,6 +45,7 @@
      sodipodi:role="line"
      id="tspan3761">Number of buttons affected by a yes/no switch</tspan></text>
 
+
 </g></clipPath></defs><sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -54,8 +55,8 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1855"
-     inkscape:window-height="1176"
+     inkscape:window-width="1050"
+     inkscape:window-height="1656"
      id="namedview4"
      showgrid="false"
      fit-margin-top="0"
@@ -64,9 +65,9 @@
      fit-margin-bottom="0"
      inkscape:zoom="0.50422824"
      inkscape:cx="958.70681"
-     inkscape:cy="139.29127"
-     inkscape:window-x="65"
-     inkscape:window-y="313"
+     inkscape:cy="139.29129"
+     inkscape:window-x="1920"
+     inkscape:window-y="24"
      inkscape:window-maximized="1"
      inkscape:current-layer="g12" /><g
      id="g10"
@@ -100,6 +101,7 @@
      y="0"
      id="tspan40">1</tspan></text>
 
+
 </g><path
          d="m 2863.4572,963.56895 0,36.222"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -117,6 +119,7 @@
      x="0"
      y="0"
      id="tspan54">2</tspan></text>
+
 
 </g><path
          d="m 3570.2772,963.56895 0,36.222"
@@ -136,6 +139,7 @@
      y="0"
      id="tspan68">3</tspan></text>
 
+
 </g><path
          d="m 4277.1072,963.56895 0,36.222"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -153,6 +157,7 @@
      x="0"
      y="0"
      id="tspan82">4</tspan></text>
+
 
 </g><path
          d="m 4983.9372,963.56895 0,36.222"
@@ -172,6 +177,7 @@
      y="0"
      id="tspan96">5</tspan></text>
 
+
 </g><path
          d="m 5690.7572,963.56895 0,36.222"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -189,6 +195,7 @@
      x="0"
      y="0"
      id="tspan110">6</tspan></text>
+
 
 </g><path
          d="m 6397.5872,963.56895 0,36.222"
@@ -208,6 +215,7 @@
      y="0"
      id="tspan124">7</tspan></text>
 
+
 </g><path
          d="m 7104.4172,963.56895 0,36.222"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -226,6 +234,7 @@
      y="0"
      id="tspan138">8</tspan></text>
 
+
 </g><path
          d="m 7811.2372,963.56895 0,36.222"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -243,6 +252,7 @@
      x="0"
      y="0"
      id="tspan152">9</tspan></text>
+
 
 </g><path
          d="m 8518.0572,963.56895 0,36.222"
@@ -263,6 +273,7 @@
      sodipodi:role="line"
      id="tspan166">10</tspan></text>
 
+
 </g><path
          d="m 9224.8872,963.56895 0,36.222"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -281,6 +292,7 @@
      y="0"
      sodipodi:role="line"
      id="tspan180">11</tspan></text>
+
 
 </g><path
          d="m 9931.6772,963.56895 0,36.222"
@@ -301,6 +313,7 @@
      sodipodi:role="line"
      id="tspan194">12</tspan></text>
 
+
 </g><path
          d="m 10638.56,963.56895 0,36.222"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -319,6 +332,7 @@
      y="0"
      sodipodi:role="line"
      id="tspan208">13</tspan></text>
+
 
 </g><path
          d="m 11345.36,963.56895 0,36.222"
@@ -339,6 +353,7 @@
      sodipodi:role="line"
      id="tspan222">14</tspan></text>
 
+
 </g><path
          d="m 12052.26,963.56895 0,36.222"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -358,6 +373,7 @@
      sodipodi:role="line"
      id="tspan236">15</tspan></text>
 
+
 </g><path
          d="m 12758.96,963.56895 0,36.222"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -376,6 +392,7 @@
      y="0"
      sodipodi:role="line"
      id="tspan250">16</tspan></text>
+
 
 </g><path
          d="m 13465.76,963.56895 0,36.222"
@@ -401,6 +418,7 @@
      sodipodi:role="line"
      id="tspan266">Experiment number</tspan></text>
 
+
 </g><path
          d="m 1520.4953,1184.2123 36.218,0"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -421,6 +439,7 @@
      y="-119.85023"
      sodipodi:role="line"
      id="tspan276">0</tspan></text>
+
 
 </g><path
          d="m 1520.4953,2287.4469 36.218,0"
@@ -445,6 +464,7 @@
      sodipodi:role="line"
      id="tspan296">1</tspan></text>
 
+
 </g><path
          d="m 1520.4953,4493.8869 36.218,0"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -467,6 +487,7 @@
      y="0"
      sodipodi:role="line"
      id="tspan316">2</tspan></text>
+
 
 </g><path
          d="m 1520.4953,963.56895 12469.1657,0"
@@ -497,6 +518,7 @@
      x="0 16.46394 36.81052 57.054478 74.837471 96.195206 116.54179"
      style="font-size:30px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Arial;-inkscape-font-specification:Arial">Teacher</tspan></text>
 
+
 </g><path
            id="path364"
            style="fill:#c3cc00;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -515,6 +537,7 @@
      y="0"
      x="0 21.606255 35.94701 57.304745 78.77935 99.125931 120.48324"
      style="font-size:30px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Arial;-inkscape-font-specification:Arial">Student</tspan></text>
+
 
 </g></g><g
          id="g374"
@@ -1075,6 +1098,7 @@
      sodipodi:role="line"
      id="tspan658">Inversion of meaning on feedback channel per experiment</tspan></text>
 
+
 </g><g
          id="g3659"
          transform="translate(-14.367441,2083.2801)"><path
@@ -1096,6 +1120,7 @@
      x="0 21.606686 42.963989 60.747414 78.530403 98.876984 116.73335"
      style="font-size:30px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Arial;-inkscape-font-specification:Arial">Success</tspan></text>
 
+
 </g><path
            inkscape:connector-curvature="0"
            id="path674"
@@ -1114,6 +1139,7 @@
      y="0"
      x="0 18.743296 38.987686 49.270569"
      style="font-size:30px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Arial;-inkscape-font-specification:Arial">Fail</tspan></text>
+
 
 </g></g><rect
          style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:25.66939545;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
@@ -1136,5 +1162,6 @@
      y="-1370.7185"
      sodipodi:role="line"
      id="tspan340-5">Number of buttons</tspan></text>
+
 
 </g></g></g></svg>

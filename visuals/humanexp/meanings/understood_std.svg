@@ -36,8 +36,8 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1855"
-     inkscape:window-height="1176"
+     inkscape:window-width="1050"
+     inkscape:window-height="1656"
      id="namedview4"
      showgrid="false"
      fit-margin-top="0"
@@ -46,9 +46,9 @@
      fit-margin-bottom="0"
      inkscape:zoom="0.39077695"
      inkscape:cx="1143.6303"
-     inkscape:cy="574.72069"
-     inkscape:window-x="65"
-     inkscape:window-y="313"
+     inkscape:cy="545.2922"
+     inkscape:window-x="1920"
+     inkscape:window-y="24"
      inkscape:window-maximized="1"
      inkscape:current-layer="g138" /><g
      id="g10"
@@ -232,6 +232,7 @@
      id="tspan114">Understood</tspan></text>
 
 
+
 </g><path
          d="m 6859.5741,636.348 0,36.222"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -250,6 +251,7 @@
      y="0"
      sodipodi:role="line"
      id="tspan128">Misinterpreted</tspan></text>
+
 
 
 </g><path
@@ -272,6 +274,7 @@
      id="tspan142">Ignored</tspan></text>
 
 
+
 <text
    transform="scale(1,-1)"
    id="text144"
@@ -284,6 +287,7 @@
      y="-1.2840551"
      sodipodi:role="line"
      id="tspan146">Types of understanding</tspan></text>
+
 
 
 </g><path
@@ -305,6 +309,7 @@
      id="tspan160">0</tspan></text>
 
 
+
 </g><path
          d="m 598.773,2008.94 36.223,0"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -322,6 +327,7 @@
      x="0"
      y="0"
      id="tspan174">1</tspan></text>
+
 
 
 </g><path
@@ -343,6 +349,7 @@
      id="tspan188">2</tspan></text>
 
 
+
 </g><path
          d="m 598.773,4754.13 36.223,0"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -360,6 +367,7 @@
      x="0"
      y="0"
      id="tspan202">3</tspan></text>
+
 
 
 </g><path
@@ -381,6 +389,7 @@
      id="tspan216">4</tspan></text>
 
 
+
 </g><path
          d="m 598.773,7499.31 36.223,0"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -400,6 +409,7 @@
      id="tspan230">5</tspan></text>
 
 
+
 <text
    transform="matrix(0,1,1,0,0,0)"
    id="text232"
@@ -412,6 +422,7 @@
      y="30.54417"
      sodipodi:role="line"
      id="tspan234">Number of meaning categories</tspan></text>
+
 
 
 </g><path
@@ -438,6 +449,7 @@
      y="-833.14502">Number of meaning categories understood for successful and failed experiments</tspan></text>
 
 
+
 </g><g
          id="g3245"
          transform="translate(-755.38109,107.66828)"><path
@@ -460,6 +472,7 @@
      style="font-size:30px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Arial;-inkscape-font-specification:Arial">Successful runs</tspan></text>
 
 
+
 </g><path
            id="path260"
            style="fill:#c3cc00;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -478,6 +491,7 @@
      y="0"
      x="0 18.74324 38.987202 49.270515 59.553829 79.900459 101.37512 111.81933 126.61429 147.97159 169.32933"
      style="font-size:30px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Arial;-inkscape-font-specification:Arial">Failed runs</tspan></text>
+
 
 
 </g></g></g></g></svg>

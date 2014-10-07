@@ -28,7 +28,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
      inkscape:cx="762.49308"
-     inkscape:cy="383.57394"
+     inkscape:cy="383.57393"
      inkscape:document-units="px"
      inkscape:current-layer="layer11"
      showgrid="false"
@@ -7803,7 +7803,7 @@
      inkscape:label="timeaxis"
      style="display:inline"
      sodipodi:insensitive="true"
-     transform="translate(-3.2733998,-4.8067161)">
+     transform="translate(-3.2733996,-4.8067162)">
     <g
        transform="matrix(0.125,0,0,-0.125,-120,553.44267)"
        style="display:inline"
@@ -8856,7 +8856,7 @@
   </g>
   <g
      style="display:inline"
-     transform="translate(-26.130543,-4.7926169)"
+     transform="translate(-26.130543,-4.792617)"
      inkscape:label="visu_lines"
      id="layer10"
      inkscape:groupmode="layer"
@@ -8901,7 +8901,7 @@
      inkscape:groupmode="layer"
      id="layer11"
      inkscape:label="screenshots"
-     transform="translate(-3.2733998,-4.8067161)">
+     transform="translate(-3.2733996,-4.8067162)">
     <g
        style="display:inline"
        id="g5763"
@@ -9073,7 +9073,7 @@
      inkscape:label="nop"
      style="display:none"
      sodipodi:insensitive="true"
-     transform="translate(-3.2733998,-4.8067161)">
+     transform="translate(-3.2733996,-4.8067162)">
     <rect
        width="1452.0642"
        ry="0.51016855"

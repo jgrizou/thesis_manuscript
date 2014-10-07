@@ -274,8 +274,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.42423036"
-     inkscape:cx="982.58818"
-     inkscape:cy="699.65169"
+     inkscape:cx="982.58821"
+     inkscape:cy="699.65168"
      inkscape:document-units="px"
      inkscape:current-layer="g36028"
      showgrid="false"
@@ -296,7 +296,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -305,7 +305,7 @@
      inkscape:groupmode="layer"
      id="layer1"
      style="display:inline"
-     transform="translate(-2295.0057,-795.14271)">
+     transform="translate(-2295.0057,-795.1427)">
     <g
        id="g36028"
        transform="translate(30.643729,219.22052)">
@@ -11033,7 +11033,7 @@
      inkscape:label="sdg"
      style="display:none"
      sodipodi:insensitive="true"
-     transform="translate(-2295.0057,-795.14271)">
+     transform="translate(-2295.0057,-795.1427)">
     <g
        transform="matrix(1.25,0,0,-1.25,-570.9018,1594.6162)"
        id="g18498-0">
@@ -13461,7 +13461,7 @@
      id="layer5"
      inkscape:label="axis"
      sodipodi:insensitive="true"
-     transform="translate(-2295.0057,-795.14271)">
+     transform="translate(-2295.0057,-795.1427)">
     <g
        style="display:inline"
        transform="matrix(1.25,0,0,-1.25,659.8102,1520.8411)"
@@ -15637,5 +15637,5 @@
      id="layer4"
      inkscape:label="point"
      sodipodi:insensitive="true"
-     transform="translate(-2295.0057,-795.14271)" />
+     transform="translate(-2295.0057,-795.1427)" />
 </svg>
