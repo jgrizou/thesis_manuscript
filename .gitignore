@@ -26,3 +26,5 @@ thesis.mtc*
 visualspdf
 visualspng
 *.fig
+thesis.dvi
+thesis.fls

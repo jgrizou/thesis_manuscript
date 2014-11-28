@@ -19,7 +19,7 @@ Instead, researchers are trying to endow robotic systems with the ability to lea
 Several methods have been considered to allow non-technical users to ``program'' robots, such as \emph{learning by demonstration} where a person demonstrates the skills to the robot, \emph{learning from reinforcement} where a person assesses the actions of the robot with respect to the aimed behavior, or \emph{learning from advice} where a person explains the sequence of actions to perform in order to fulfill a task.
 % Advances in these areas should allow the emergence of robot companions, living inside our homes providing assistance to the daily tasks, care, and entertainment.
 
-Endowing a robot with the ability to learn form interaction with a human requires solving several challenges: the technical challenge of motor, perceptual, and cognitive skills acquisition and generalization, as well as the practical challenge of interacting in a social way with humans.
+Endowing a robot with the ability to learn from interaction with a human requires solving several challenges: the technical challenge of motor, perceptual, and cognitive skills acquisition and generalization, as well as the practical challenge of interacting in a social way with humans.
  % being of different background. 
 Especially, the robot must be able to understand the communicative signals from the human.
 % and communicate its own intention and ``state of mind'' back to the human. 
@@ -99,7 +99,7 @@ The first approach resumes in approximating the policy function observed form th
 
 \item \textbf{Classification} methods are well suited for mapping discrete or continuous states to discrete actions. An example would be a robot learning to play a video game from demonstration in which, depending on the current state of the agent in the world, the robot should learn to press the appropriate buttons.
 
-A large variety of classification algorithm has been used in learning form demonstration scenario. Among others, Support Vector Machines were used for a robot learning how to sort balls \cite{chernova2008teaching}, Hidden Markov Models have been used for an assembly task \cite{hovland1996skill}, Gaussian Mixture Models in a simulated driving domain \cite{chernova09jair}, but also neural networks \cite{mataric2000sensory}, beta regression \cite{montesano2009learning} or k-Nearest Neighbors \cite{saunders2006teaching}.
+A large variety of classification algorithm has been used in learning from demonstration scenario. Among others, Support Vector Machines were used for a robot learning how to sort balls \cite{chernova2008teaching}, Hidden Markov Models have been used for an assembly task \cite{hovland1996skill}, Gaussian Mixture Models in a simulated driving domain \cite{chernova09jair}, but also neural networks \cite{mataric2000sensory}, beta regression \cite{montesano2009learning} or k-Nearest Neighbors \cite{saunders2006teaching}.
 
 \item \textbf{Regression} method are well suited for mapping discrete or continuous states to continuous actions. An example would be an autonomous car learning to steer the wheels from demonstration, given information about the surrounding environment the car should turn the driving wheel appropriately.
 
@@ -122,7 +122,7 @@ One of the most impressive achievement of the past decade used inverse reinforce
 
 The performance of a learning system is obviously linked with the quality of the information provided by the demonstrations. Among others aspects, if some important state-action pairs have not been demonstrated or if the demonstrations were of poor quality, i.e. including a lot of noise or being suboptimal or ambiguous in certain areas, the learner will be unable to generalize properly from the data. 
 
-Unfortunately, in many cases, the demonstration are collected beforehand and sent to the learning algorithm in a batch way which do not allow the robot to have access to better demonstration. A potential solution is to ask the teacher for new demonstrations in those state where demonstration are missing or uncertain \cite{chernova2008multi,chernova09jair}, we will detail more this approaches in the next chapter.
+Unfortunately, in many cases, the demonstration are collected beforehand and sent to the learning algorithm in a batch way which do not allow the robot to have access to better demonstration. A potential solution is to ask the teacher for new demonstrations in those states where demonstration are missing or uncertain \cite{chernova2008multi,chernova09jair}, we will detail more this approaches in the next chapter.
 
 Another problem is that of identifying what the human is really demonstrating. For example, if a human is demonstrating how to fish to a robot, is the human demonstrating the precise movement of the fishing rod or is he demonstrating where to place the float in order to catch more fish. In other words, should the robot imitate the movement of the fishing rod or should it emulate the position of the float. Where imitation is the act of reproducing the human demonstration in all details, and emulation is the act of fulfilling the same goal as the human.
 
@@ -187,7 +187,7 @@ As for other learning paradigms, the robot should be able to answer the who, whe
 
 Our categorization of social learning paradigms in three categories does not reflect the many subfamilies that exist inside these categories, including those that are shared among categories. It is meant to situate the social learning problem in a more global picture, providing some interesting pointers for the interested readers. 
 
-As we noticed, in most of the above presented work, the human had either no direct interaction with the robot, either few highly constrained interactions. For example, the human demonstrations are provided in a batch perspective where data acquisition is done before the learning phase. In the following section, we detail the usual assumptions made in most human robot interaction scenarios.  Based on our observations we then define the global challenges addressed in this thesis.
+As we noticed, in most of the above presented work, the human had either no direct interaction with the robot, or few highly constrained interactions. For example, the human demonstrations are provided in a batch perspective where data acquisition is done before the learning phase. In the following section, we detail the usual assumptions made in most human robot interaction scenarios.  Based on our observations we then define the global challenges addressed in this thesis.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -204,7 +204,7 @@ As seen in the previous section, there is usually a strong decoupling between th
 
 \item On the one hand, if the goal of the robot is to learn a new task, the robot will be fed with the relevant data formatted exactly as needed by the learning algorithm. For example, if a user teaches a robot to navigate in a maze, the protocol of interaction will be fixed to match the need of the algorithm. The interaction will be done turn by turn such as it is easy to associate user's instructions to robot's states. But the user will also be asked to comply to the specific signals the robot understands, such as using the word ``right'' and ``left'' to mean respectively ``right'' and ``left''.
 
-\item On the other hand, when we want to learn the user behavior or the protocol, we assume the task the users wants to achieved is known. It allows interpreting the behavior of the user in light with the known objective he is pursuing. This process is usually called a calibration phase. It is for example necessary to provide the robot with the ability to translate human communicative signals, such as speech or gestures, in a symbolic meaningful representation. For example, if we want our robot to learn which words the human uses to mean ``right'' and ``left'', we will ask the user to guide the robot in a maze following a specific path. The robot, knowing the path intended by the human, could identify that the human uses the word ``right'' and ``left'' or ``droite'' and ``gauche'' to mean respectively ``right'' and ``left''.
+\item On the other hand, when we want to learn the user behavior or the protocol, we assume the task the user wants to achieved is known. It allows interpreting the behavior of the user in light with the known objective he is pursuing. This process is usually called a calibration phase. It is for example necessary to provide the robot with the ability to translate human communicative signals, such as speech or gestures, in a symbolic meaningful representation. For example, if we want our robot to learn which words the human uses to mean ``right'' and ``left'', we will ask the user to guide the robot in a maze following a specific path. The robot, knowing the path intended by the human, could identify that the human uses the word ``right'' and ``left'' or ``droite'' and ``gauche'' to mean respectively ``right'' and ``left''.
 
 \end{itemize}
 
@@ -214,7 +214,7 @@ To summarize, in order to teach a robot a new task, the robot must be able to un
 
 An interaction frame \cite{rovatsos2001interaction} is a structure that defines all the aspects of the interaction that are pre-defined by the system designer. This interaction schema is assumed to be followed by the human and known by the robot.
 
-The concept of interaction frame is a subclass of the more general concept of frame. Frames are a concept that emerges simultaneously in social theory \cite{goffman1974frame} and artificial intelligence \cite{minsky1974framework}. They represent a schema of interpretation given a particular situation or event. It is answering the question: \emph{what is going on here ?}, in order to reduce ambiguity of intangible topics by contextualizing the information. It creates a common ground about the purpose of the interaction \cite{tomasello2009cultural,rohlfing2013learning} and includes ``predictable, recurrent interactive structures'' (\cite{ninio1996pragmatic}, p. 171). 
+The concept of interaction frame is a subclass of the more general concept of frame. Frames are a concept that emerge simultaneously in social theory \cite{goffman1974frame} and artificial intelligence \cite{minsky1974framework}. They represent a schema of interpretation given a particular situation or event. It is answering the question: \emph{what is going on here?}, in order to reduce ambiguity of intangible topics by contextualizing the information. It creates a common ground about the purpose of the interaction \cite{tomasello2009cultural,rohlfing2013learning} and includes ``predictable, recurrent interactive structures'' (\cite{ninio1996pragmatic}, p. 171). 
 
 In \cite{rovatsos2001interaction}, Rovatsos et al. presented an extended definition of what an interaction frame might be for artificial agents. While his definition can be transposed to human-robot interaction scenarios, its description and formalization of interaction frames is too much detailed for our forthcoming development. To summarize, an interaction frame provides interactants with guidelines about how to behave (a protocol for interaction). It also allows interactants to understand the communicative intentions of their interaction partner. The interaction frame is often implicitly defined and known in robot learning experiments. We exemplify a few interaction frames and then provide our simplified description of an interaction frame.
 
@@ -222,7 +222,7 @@ In \cite{rovatsos2001interaction}, Rovatsos et al. presented an extended definit
 
 \paragraph{Feedback frame} 
 
-To exemplify the feedback frame, we introduce the navigation task used for our brain computer interaction experiments chapter~\ref{chapter:lfui}. In this scenario a human assesses the actions of a virtual agent in a gird world (see Figure ~\ref{fig:feedbackBCIexample}). The human wants to guide the agent towards a specific state. To do so he can send to the agent information about the correctness of its last action. For example, if the robot went away from the target state, the human informs the robot that going North was ``incorrect'' according the target. After several interactions the robot is able to identify the goal state. We call this specific interaction scenario a feedback frame. A feedback signal is providing information about the optimality of the robot's last action. A feedback signal can only take two values, ``correct'' or ``incorrect''. In practice the interaction is turn taking, the robot performs one action and waits until the human provides a feedback signal. That way the association between actions and feedbacks is guaranteed to be unambiguous.
+To exemplify the feedback frame, we introduce the navigation task used for our brain computer interaction experiments chapter~\ref{chapter:lfui}. In this scenario a human assesses the actions of a virtual agent in a grid world (see Figure ~\ref{fig:feedbackBCIexample}). The human wants to guide the agent towards a specific state. To do so he can send to the agent information about the correctness of its last action. For example, if the robot went away from the target state, the human informs the robot that going North was ``incorrect'' according to the target. After several interactions the robot is able to identify the goal state. We call this specific interaction scenario a feedback frame. A feedback signal is providing information about the optimality of the robot's last action. A feedback signal can only take two values, ``correct'' or ``incorrect''. In practice the interaction is turn taking, the robot performs one action and waits until the human provides a feedback signal. That way the association between actions and feedbacks is guaranteed to be unambiguous.
 
 \begin{figure}[!htbp]
 \centering
@@ -278,7 +278,7 @@ In the following subsection we study how this interaction frame is used in pract
 
 \subsection{Using interaction frames}
 
-In the beginning of this section, we identified a chicken an egg problem. In order to teach a robot a new task, the robot must be able to understand the behavior of the human. But to come up with an understanding of the behavior of the human the robot must know what is the user overall objective. In this subsection we explain this problem using our interaction frame formalism.
+In the beginning of this section, we identified a chicken and egg problem. In order to teach a robot a new task, the robot must be able to understand the behavior of the human. But to come up with an understanding of the behavior of the human the robot must know what is the user overall objective. In this subsection we explain this problem using our interaction frame formalism.
 
 \paragraph{Calibration: learning the signal to meaning mapping}
 
@@ -296,7 +296,7 @@ Using our frame definition, to train this decoder the robot must know the task. 
 
 \paragraph{Learning: inferring the task}
 
-The problem of learning the task requires the robot to know how to interpret user's signals. The interaction frame provides the context of the interaction, which includes some constraint about the task. In our example, our robot may know that there are only two rooms in the house. 
+The problem of learning the task requires the robot to know how to interpret user's signals. The interaction frame provides the context of the interaction, which includes some constraints about the task. In our example, our robot may know that there are only two rooms in the house. 
 
 Given a specific context, e.g. $(living~room \rightarrow kitchen)$, the robot receives a signal from the user, e.g. ``A''. And given a decoder trained following the above method the robot knows that the meaning of ``A'' is ``correct''.
 
@@ -317,7 +317,7 @@ Using this simple example highlight the chicken and egg nature of the problem of
 
 \subsection{Discussion}
 
-By making the interaction frame explicit, we can revise our understanding of the challenges associated to social learning. There is a multitude of challenges that lies between learning human social behaviors and learning new tasks. Identifying and solving these challenges might help us design machines more flexible to loosely defined interaction frames, or even machines that can learn the frames themselves.
+By making the interaction frame explicit, we can revise our understanding of the challenges associated to social learning. There is a multitude of challenges that lie between learning human social behaviors and learning new tasks. Identifying and solving these challenges might help us design machines more flexible to loosely defined interaction frames, or even machines that can learn the frames themselves.
 
 Among others, Thomas Cederborg presented an extended reflection on this problem in his PhD thesis \cite{cederborg2014thesis}. He presents a detailed framework to describe robot social learning mechanism \cite{cederborg2014social} and propose an extended reflection on how to relax a number of assumptions in robot social learning scenarios. 
 
@@ -355,7 +355,7 @@ Learning from unlabeled interaction frames corresponds to the problem of learnin
 Meaning = Frame(Context, Task) \nonumber
 \end{eqnarray}
 %
-This function represents a theoretical model of the user teaching behavior given a particular task. It corresponds to the following reasoning: ``if the user wants me to perform task T then when I did action A in state S, the user's signal E meant M''. However, we remind that the user do not know the task. We further assume this function holds for the full time of the interaction. In other words, the user behavior is consistent throughout the interaction period.
+This function represents a theoretical model of the user teaching behavior given a particular task. It corresponds to the following reasoning: ``if the user wants me to perform task T then when I did action A in state S, the user's signal E meant M''. However, we remind that the user does not know the task. We further assume this function holds for the full time of the interaction. In other words, the user behavior is consistent throughout the interaction period.
 
 \item \textbf{The signal to meaning mapping is consistent throughout the interaction period} The user always uses similar signals to mean the same things. Concretely, if the user convey its signals using a two buttons interface to mean either ``correct'' or ``incorrect'', we assume the user is always using one button to mean ``correct'' and the other to mean ``incorrect''. But we do not know which button means what in the beginning. We will account for errors in the teaching behavior of the human but we assume that if we ask the user which button means what throughout the game his reply will not change. We note that this assumption is made by all interactive systems.
 
