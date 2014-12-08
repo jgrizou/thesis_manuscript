@@ -8,7 +8,7 @@ As for now, our algorithm assumes the world can be represented by a limited numb
 
 \subsection{Experimental System}
 
-We consider a puddle world, in which an agent must reach a goal region while avoiding a penalty region. We consider a 2 dimensional puddle world with each dimension ranging between 0 and 1. The state of the agent can be any coordinate in the 2D world. Agent' actions are discrete and represent steps in the North, South, East, or West direction. One step length is sampled from a normal distribution of mean 0.1 and standard deviation 0.01.
+We consider a puddle world, in which an agent must reach a goal region while avoiding a penalty region. We consider a 2 dimensional puddle world with each dimension ranging between 0 and 1. The state of the agent can be any coordinate in the 2D world. Agent's actions are discrete and represent steps in the North, South, East, or West direction. One step length is sampled from a normal distribution of mean 0.1 and standard deviation 0.01.
 
 As in the experiment of chapter~\ref{chapter:lfui}, we consider speech as the modality for interacting with the robot and we reuse the dataset presented in section~\ref{chapter:lfui:speechdata}. The interaction between the agent and the teacher follows a turn taking social behavior, where the agent is performing an action and waits for a feedback or guidance signal to continue. We only consider a Gaussian classifier.
 

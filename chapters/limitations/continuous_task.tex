@@ -17,8 +17,7 @@ We still consider a strong a priori knowledge on the space of task, which is tha
 
 \subsection{Interaction frame}
 
-We define the cardinal direction frame define 
-In this frame, the user provides information about the cardinal direction of the goal state with respect the current agent position. The agent does not need to know the optimal policy to interpret a signal but only its current state. The teacher provides indication on the absolute direction of the goal state with respect to the agent position. As an example, we consider a teacher that indicates the cardinal direction of the object, i.e. the message to the robot is: \emph{``the object is North (South, West or East) with respect to your position''}.
+We define the cardinal direction frame. In this frame, the user provides information about the cardinal direction of the goal state with respect to the current agent position. The agent does not need to know the optimal policy to interpret a signal but only its current state. The teacher provides indication on the absolute direction of the goal state with respect to the agent position. As an example, we consider a teacher that indicates the cardinal direction of the object, i.e. the message to the robot is: \emph{``the object is North (South, West or East) with respect to your position''}.
 
 We illustrate this frame in Figure~\ref{fig:cardinalframe}. The choice of the cardinal direction to send to the agent is modeled by a probabilistic model, where the probability of one cardinal direction is proportional to the angle between the target-agent direction and the cardinal direction considered.
 
@@ -54,7 +53,7 @@ Our first dataset shown in Figure~\ref{fig:fingerdatasetdirection} is build from
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\signalwidth\columnwidth]{\visualspdf/worlds_and_datasets/finger_signals_color.pdf}
-\caption{N}
+\caption{Dataset of finger movements for North/South/East/West commands. The user is sliding his finger from the middle of the screen to the corresponding edge of the screen.}
 \label{fig:fingerdatasetdirection}
 \end{figure} 
 
@@ -65,7 +64,7 @@ Our second dataset shown in Figure~\ref{fig:fingerdatasetsigns} is build from a 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\columnwidth]{\visualspdf/worlds_and_datasets/finger_signals_color_signs.pdf}
-\caption{N}
+\caption{Dataset of finger movements for North/South/East/West commands. The user is drawing the first letter of the cardinal on the screen.}
 \label{fig:fingerdatasetsigns}
 \end{figure} 
 
@@ -109,7 +108,7 @@ $\mu_l$ and $\Sigma_l$ are the posterior estimates of the mean and covariance gi
 
 This ``meta'' model encodes the distribution of probability on the classifier parameters. Given this model we can sample, for very low computational cost, a multitude of possible Gaussian classifiers by sampling a mean and covariance for each class. The more we have data to fit our model, the less uncertainty remains and the less variability will be observed in the generated classifiers.
 
-In our experiment, we will sample 20 classifiers per task. For each sampled classifiers, we compute the probability value (i.e. the normalized likelihood) of each task. As a result we have 20 estimations of the probability of each task. We will consider one task as the best one once one of the tasks as  a significantly better probability than all the others.
+In our experiment, we will sample 20 classifiers per task. For each sampled classifiers, we compute the probability value (i.e. the normalized likelihood) of each task. As a result we have 20 estimations of the probability of each task. We will consider one task as the best one once one of the tasks has a significantly better probability than all the others.
 
 To do so we model our 20 probability estimates for each task by a normal distribution, and denote as $\mu_{\xi_t}$ and $\sigma_{\xi_t}$ the associated maximum likelihood estimates of the mean and variance. To compare two distributions, we compute the probability that one sample from the Gaussian associated to the first task has higher value than one sample from the Gaussian associated to the other task. To do so we compute the normal difference distribution between the two models of each task probabilities. The resulting model is also a normal distribution with mean and variance as follow:
 %
@@ -123,7 +122,7 @@ To do so we model our 20 probability estimates for each task by a normal distrib
 \label{eq:variancediffgaussian}
 \end{eqnarray}
 
-Finally we compute the probability than one sample from that class as a value above zero. This is simply $1 - \Phi(\mu_{\xi_t - \xi_u}, \sigma^2_{\xi_t - \xi_u})$, with $\Phi(\mu_{\xi_t - \xi_u}, \sigma^2_{\xi_t - \xi_u})$ the cumulative normal distribution associated to the normal distribution of mean $\mu_{\xi_t - \xi_u}$ and variance $\sigma^2_{\xi_t - \xi_u}$. Then, as for equation~\ref{eq:probapairwise} we take as probability for the task  $\xi_t$ the minimum of the pairwise comparison with all other tasks $\xi_u$ with $u~\in~\{1, \ldots, T\} \smallsetminus \{t\}$.
+Finally we compute the probability that one sample from that class has a value above zero. This is simply $1 - \Phi(\mu_{\xi_t - \xi_u}, \sigma^2_{\xi_t - \xi_u})$, with $\Phi(\mu_{\xi_t - \xi_u}, \sigma^2_{\xi_t - \xi_u})$ the cumulative normal distribution associated to the normal distribution of mean $\mu_{\xi_t - \xi_u}$ and variance $\sigma^2_{\xi_t - \xi_u}$. Then, as for equation~\ref{eq:probapairwise} we take as probability for the task  $\xi_t$ the minimum of the pairwise comparison with all other tasks $\xi_u$ with $u~\in~\{1, \ldots, T\} \smallsetminus \{t\}$.
 
 We illustrate this process in Figure~\ref{fig:normaldifferencedistribution}. 20 samples were generated randomly to simulate some estimates for two task hypothesis and model their respective distribution using normal distribution (see Figure~\ref{fig:normaldifferencedistribution:data}). Finally we compute the probability that a sample from the distribution with highest mean has higher value than a sample from the distribution with lowest mean. We use Equations~\ref{eq:meandiffgaussian}~and~\ref{eq:variancediffgaussian} to compute the mean and variance of the normal difference distribution between the two distributions; from which the area under curve from 0 to +Inf is our probability measure.
 
@@ -168,16 +167,16 @@ The random generation of task simply keeps the best hypothesis and generates 49 
 
 Our active task generation method simply selects new tasks around the current best task hypothesis. To do so, we create a mixture of Gaussians that define the probability distribution used to sample the new tasks. This mixture model is composed of:
 \begin{itemize}
-\item  one fixed Gaussian at the center of the state space (i.e. $[0.5, 0.5]$), with a diagonal covariance matrix, where each value on the diagonal is equal to $0.1$, and have an associated weight of $0.2$. This Gaussian, which as a large covariance matrix relative to the state space, maintains a level of exploration in the task generation process.
+\item  one fixed Gaussian at the center of the state space (i.e. $[0.5, 0.5]$), with a diagonal covariance matrix, where each value on the diagonal is equal to $0.1$, and have an associated weight of $0.2$. This Gaussian, which has a large covariance matrix relative to the state space, maintains a level of exploration in the task generation process.
 \item a multitude of Gaussians, one at each location of the previous hypothesis positions (i.e. hypothesized task), whose associated weights are proportional to the probability associated to each of these tasks. The sum of the weights of these Gaussians is 0.8, such as the sum of the weights all mixture components is 1. All these Gaussians have a diagonal covariance matrix, where each value on the diagonal is equal to $0.01$. For computational purpose, each Gaussian had a minimal weight of $1e^{-6}$.
 \end{itemize}
-Note that the resulting distribution will be truncated as all the point generated outside of the boundaries of the space (i.e. between 0 and 1 for each dimension) will be shifted to the closest position in the state space.
+Note that the resulting distribution will be truncated as all the points generated outside of the boundaries of the space (i.e. between 0 and 1 for each dimension) will be shifted to the closest position in the state space.
 
 \subsection{Uncertainty based state sampling}
 
 The agent can also control the next state to teleport to. As seen in chapter~\ref{chapter:planning}, actively controlling agent states can lead to better performances. Indeed the state of the agent influences the signal sent by the teacher. 
 
-We will compare two kinds of sampling, random and an uncertainty based method. The random method simply teleport the agent to a random position in the world. The active method relies again on a sampling method. At each step, we generate 1000 states randomly and compute the uncertainty associated to these states using the method described in chapter~\ref{chapter:planning} by Equation~\ref{eq:planning} and using up to 20 sampled signals from our history of interaction. To chose the next state, we select, among the 1000 points, the state that as higher uncertainty, and teleport the agent to that state in order to collect the next teaching signal.
+We will compare two kinds of sampling, random and an uncertainty based method. The random method simply teleport the agent to a random position in the world. The active method relies again on a sampling method. At each step, we generate 1000 states randomly and compute the uncertainty associated to these states using the method described in chapter~\ref{chapter:planning} by Equation~\ref{eq:planning} and using up to 20 sampled signals from our history of interaction. To choose the next state, we select, among the 1000 points, the state that has higher uncertainty, and teleport the agent to that state in order to collect the next teaching signal.
 
 \subsection{Results}
 
@@ -189,7 +188,7 @@ We ran 100 simulated experiments for each method and each dataset. Each experime
 
 We first analyze the results using the directional finger movement dataset shown in Figure~\ref{fig:fingerdatasetdirection}. For each method, we compare the evolution of the distance between the best task hypothesis through iteration (the more probable according to our estimate) and the goal state (see Figure~\ref{fig:continuoustaskdistevolution}).
 
-Only the combination of actively sampling new tasks and actively selecting new states based on their uncertainty as overall better performance than any other combination of methods. These two methods are complementary, our active task sampling method allows to explore close to our previous best estimates, and our uncertainty based state selection allow to sample state in very precise location to be able to differentiate between close hypothesis. It also explains why using one of the active methods in alone does not reach the same performances.
+Only the combination of actively sampling new tasks and actively selecting new states based on their uncertainty has overall better performance than any other combination of methods. These two methods are complementary, our active task sampling method allows to explore close to our previous best estimates, and our uncertainty based state selection allows to sample states in very precise location to be able to differentiate between close hypothesis. It also explains why using one of the active methods alone does not reach the same performances.
 
 \begin{figure}[!htbp]
 \centering
@@ -219,7 +218,7 @@ In Figure~\ref{fig:continuoustaskdistevolution_signs} (right), we compare the di
 
 Finally, we note that the final median distance between the best position estimation and the goal position are 0.0036 and 0.0051 for the directional movement and cardinal sign movement respectively. 
 % While this does not really matter, this difference is significant ($p< 1e^{-3}$). 
-It is important to project this results in the real word, it means that given a one meter square area, our agent is able to find the position the user has in mind with less that 5 millimeters ( half of the time and given 200 requests), but without knowing the signal to meaning mapping beforehand. Moreover, as we have seen with our two datasets (Figure~\ref{fig:fingerdatasetdirection} and Figure~\ref{fig:fingerdatasetsigns}), given our simple representation of the finger movements, a great variety of possible signals can be considered.
+It is important to project these results in the real word, it means that given a one meter square area, our agent is able to find the position the user has in mind with less than 5 millimeters (half of the time and given 200 requests), but without knowing the signal to meaning mapping beforehand. Moreover, as we have seen with our two datasets (Figure~\ref{fig:fingerdatasetdirection} and Figure~\ref{fig:fingerdatasetsigns}), given our simple representation of the finger movements, a great variety of possible signals can be considered.
 
 \paragraph{Task sampling comparison}
 

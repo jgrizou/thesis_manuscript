@@ -52,7 +52,7 @@ Finally, once we identified the first target, we will switch back to a classific
 
 \subsection{Planning}
 
-As we are using a model based method, we rely on our measure uncertainty that directly acts in the signal space. This method was described in chapter~\ref{chapter:planning:uncertaintysignalspace}. To summarize it is based on computing, for every state-action pairs, the similarity between the expected signals for each task. The more the expected signals are similar the less there is uncertainty.
+As we are using a model based method, we rely on our uncertainty measure that directly acts in the signal space. This method was described in chapter~\ref{chapter:planning:uncertaintysignalspace}. To summarize it is based on computing, for every state-action pairs, the similarity between the expected signals for each task. The more the expected signals are similar the less there is uncertainty.
 
 For computing the similarity between two Gaussian distributions we could rely again on the Bhattacharyya coefficient describe above. However computing this coefficient between all models and for all state-action pairs was not feasible in real time. In order to improve computation efficiency we do not rely on a precise metric between Gaussian distributions and only consider the similarity between their means. The closest the means are, the more similar they are.
 
@@ -120,7 +120,7 @@ The algorithm was able to identify the correct target for all runs of all the su
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\plotsize\columnwidth]{\imgpath/battacharyya/plot_realevolution}    
-    \caption{Results from the online experiments: Evolution of the probability of the correct task for each subject and run. The algorithm was able to identify the correct target for each subjects and runs in less than 200 iterations.}
+    \caption{Results from the online experiments: Evolution of the probability of the correct task for each subject and run. The algorithm was able to identify the correct target for each subject and run in less than 200 iterations.}
     \label{fig:overlaponlineresults} 
 \end{figure}
 
