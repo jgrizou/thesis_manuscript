@@ -5,187 +5,49 @@
 \label{chapter:frecnhresume}
 \minitoc
 
-Suivre l'organisation de l'abstract. Faire plein de référence aux chapitres de la thèse.
+Cette thèse s'intérresse à un problème logique dont les enjeux théorique et pratique sont multiples. Ce problème, dans sa forme simple, peut-être présenté ainsi: Imaginez que vous êtes dans un labyrinthe, dont vous connaissez toutes les routes menant à chacune des portes de sortie. Derrière l'une de ces portes se trouve un trésor; mais vous n'avez le droit d'ouvrir qu'une seule porte. Un vieil homme habitant le labyrinthe connait la bonne sortie et se propose alors de vous aider l'identifier. Pour cela, il vous indiquera la direction à prendre à chaque intersection. Malheureusement, cet homme ne parle pas votre langue, les mots qu'il utilise pour dire ``droite'' ou ``gauche'' vous sont donc inconnu. Est-il possible de trouver le trésors et de comprendre l'association entre les mots du vieil homme et leurs significations ?
 
-\subsection*{Introduction}
+Ce problème, bien qu'en apparence abstrait, est relié à des problématiques concrètes dans le domaine de l'interaction homme-machine et que nous présentons aux chapitres~\ref{chapter:introduction} et \ref{chapter:relatedwork}. En effet, si nous renversons les rôles: un human, prenant la place du vieil homme, souhaite guider un robot vers la bonne sortie du labrytinthe. Ce robot ne sait donc pas en avance quel est la bonne sortie mais il sait oû se trouvent toutes les portes et comment s'y rendre. Imaginons maintenant que ce robot ne comprenne pas a priori le language de l'humain; en effet il est très difficile de construire un robot à même de comprendre parfaitement chaque langue, accent, et préférence de tout un chacun. Il faudra alors que le robot apprenne l'association entre les mots de l'humain et leur sens, tout en réalisant la tâche que l'utlisateur humain lui indique (e.g. trouver la bonne porte). Ce problème n'est pas simple car pour comprendre le sens des signaux il faudrait connaitre la tâche, et pour connaître la tâche il faudrait connaitre le sens des signaux.
 
-Cette thèse s'intérresse à un problème logique dont les enjeux théorique et pratique sont multiples. Ce problème, dans sa forme simple, peut-être présenté ainsi: Imaginez que vous êtes dans un labyrinthe, dont vous connaissez toutes les routes menant à toutes  portes de sortie. Derrière une des portes se trouve un trésors, mais vous ne pouvez en ouvrir qu'une. Un vieil homme habitant le labyrinthe se propose alors de vous aider à identifier la bonne porte. Pour cela, il vous indiquera la direction à prendre à chaque intersection. Malheureusement, cet homme ne parle pas votre langue, les mots qu'il utilise pour dire ``droite'' ou ``gauche'' vous sont inconnu. Est-il possible de trouver le trésors et de comprendre l'association entre les mots du vieil homme et leurs significations ?
+Il s'agit donc, pour un labyrinthe donné, de trouver la suite d'action permettant de collecter suffisament d'information de la part de l'humain pour comprendre à la fois le sens de ses mots et la porte derrière laquelle se cache le trésor. Cela dépend donc de la configuration du labyrinthe et de l'historique complet de l'interaction entre les deux protagonistes.
 
-Ce problème, bien qu'en apparence abstrait, est relié à des problématiques comcrètes dans le domaine de l'interaction homme-machine. En effet, si nous renversons les rôles: un human, prenant la place du vieil homme, souhaite guider un robot vers la bonne sortie du labrytinthe. Ce robot ne sait donc pas en avance quel est la bonne sortie mais il sait oû se trouvent toutes les portes et comment s'y rendre. Imaginons maintenant que ce robot ne comprenne pas a priori le language de cet humain; en effet il est très difficile de construire un robot à même de comprendre parfaitement chaque langue, accent, et préférence de tout un chacun. Il faudra alors que le robot apprenne l'association entre les mots de l'humain et leur sens, tout en réalisant la tâche que l'utlisateur humain lui demande. Ce problème n'est pas simple car pour comprendre le sens des signaux il faudrait connaitre la tâche, et pour connaître la tâche il faudrait connaitre le sens des signaux.
+Dans cette thèse nous présentons une solution à ce problème. Pour cela nous faisons dabord l'hypothèse qu'un nombre fini de tâche est défini et connu de l'homme et de la machine, i.e. un nombre fini de portes existe. Nous supposons également que le robot dipose d'un modèle de la logique de l'utilisateur et est donc capable de faire le raisonement suivant: Si l'human veut que j'aille vers la Porte $A$ alors lorsque je suis à l'intersection $I$, il devrait logiquement me dire d'aller dans la direction $D$. Noter que cette phrase commence par une supposition sur la tâche, qui n'est en aucun cas connu à l'avance. Ainsi, le robot étant équipé de plusieurs hypothèses (Porte $A$, $B$, $C$, ..), lorqu'il se trouve à l'intersection $I$, l'utilisateur prononce un mot (e.g. "wadibou"), dont autant d'interpretations sont faite que d'hypothèses sur la tâche.
 
-Il s'agit donc, pour un labyrinthe donné, de trouver la suite d'action permettant de collecter suffisament d'information de la part de l'humain pour comprendre à la fois le sens de ses mots et la porte derrière laquelle se cache le trésors. Cela dépend donc de la configuration du labyrinthe et de l'historique complet de l'interaction entre les deux protagonistes.
-
-Dans cette thèse nous présentons une solution à ce problème. Pour cela nous faisons dabord l'hypothèse qu'un nombre fini de tâche est défini et connu de l'homme et de la machine, i.e. un nombre fini de portes existe. Nous supposons également que le robot dipose d'un modèle de la logique de l'utilisateur et est donc capable de faire le raisonement suivant: Si l'human veut que j'aille vers la Porte $A$ alors lorsque je suis à l'intersection $M$, il devrait logiquement me dire d'aller dans la direction $X$. Noter que cette phrase commence par une supposition sur la tâche, qui n'est en aucun cas connu à l'avance. Ainsi, le robot étant équipé de plusieurs hypothèses (Porte $A$, $B$, $C$, ..), lorqu'il se trouve à l'intersection $X$, l'utilisateur prononce un mot (e.g. "wadibou"), dont autant d'interpretations sont faite que d'hypothèses sur la tâche. Notre critère final est que l'utilisateur humain est supposé être logique et cohérent tout au long de l'interaction, utilisant ainsi toujours le même mot pour dire la même chose. Il nous faut donc tenir compte de tout l'hisotique de l'interaction pour analyser, pour chaque hypothèse, quels mots auraient été utilisé pour dire quoi. Nous comprenons ainsi que, sous certaine conditions qui sont explicitées au chapitre \ref{chapter:lfui}, il est possible d'éliminer toutes les hypothèses générant des interprétation du sens des signaux incohérentes. L'unique hypothèse restante nous informera donc à la fois de la bonne tâche, i.e. la bonne porte à ouvrir, mais aussi de la bonne association entre les mots de l'utilisateur et les sens qui y sont associés, i.e. du language de l'utilisateur.
-
-Remplaçont maintenant l'example du labyrinthe par une tâche plus concrête, plus utile. Une personne au capacité de communication réduite peut vouloir utliser une machine pour communiquer avec le monde exterieur, auquel cas il faut pouvoir la commander.
+Notre hypothèse sous-jacente est que l'utilisateur humain est logique et cohérent tout au long de l'interaction, utilisant ainsi toujours le même mot pour dire la même chose. Il nous faut donc tenir compte de tout l'historique de l'interaction pour analyser quels mots auraient été utilisé pour dire quoi selon chaque hypothèse de tâche. Nous comprenons ainsi que, sous certaine conditions qui sont explicitées au chapitre \ref{chapter:lfui}, il est possible d'éliminer toutes les hypothèses générant des interprétation du sens des signaux incohérentes. L'unique hypothèse restante nous informera donc à la fois de la bonne tâche, i.e. la bonne porte à ouvrir, mais aussi de la bonne association entre les mots de l'utilisateur et les sens qui y sont associés, i.e. du language de l'utilisateur.
 
 Etendons maintenant ce problème à d'autres modalité d'interaction et d'autre domaine d'applications.
 
-Etrangement, cette thèse ne traite pas directement du problème simple, symbolique, mais attaque ouvertement par une représentation non-symbolique des signaux de communications. Cette aspect complique. Ainsi la formulation simple présenté en début de ce résumé n'est adréssé que dans la toute dernière section de cette thèse ainsi qu'une preuve de la validité de notre solution pour le cas de signaux de communication symbolique.
+facilemet transposable a dautre signaux, parole: pas d'apriori sur le sens des mots
 
 Dans cette thèse nous étudions comment il est possible de créer des interfaces ne nécessitant pas de phase de calibration.
 
-facilemet transposable a dautre signaux, parole: pas d'apriori sur le sens des mots
+Remplaçont maintenant l'example du labyrinthe par une tâche plus concrête, plus utile. Une personne au capacités de communication réduite doit utiliser une machine pour communiquer avec le monde exterieur, il doit donc pouvoir la commander.
 
-\subsection*{Etat de l'art}
-
-Tres peu de travaux s'interresse a cette question.
+Prenons example d'une personnes fortement handicapée ne pouvant communiquer avec le monde exterieur que par de fragile clignement des yeux ou en aillant recours à l'enregistremnt de leur ondes cérébrale. Il devient alors difficile, voir même impossible de savoir à l'avance les intentions de communications de ces personnes. Il est donc primordiale de disposer de machine qui sont à même de s'apater automatiquement à chuaque personne.
 
 Et il est interressant de voir que c'est la communaute BCI qui s'est interresse le plus à ce problème. En effet, a l'opposé des mode d'interaction classique, telle que la parole, les gestes, ou les expression faciale, nous n'avons aucun apriori sur l'utilisation des signaux du cerveau. Le problème de l'auto-calibration est alors plus flagrant dans le domaine des BCI.
 
-Les travaux de Peter Jan Kindermans sont les plus proche de nos travaux.
-
-\subsection*{Principe algorithmique}
-
-Pour cela, nous allons mettre en place un système d'hypothèse sur la tâche que veut effectuer l'utilisateur. Et créer autant d'interpretation que de tâche possible. Notre hypothèse sous-jacente est que seule l'hypothèse correcte, i.e. celle suivi par l'utilisateur vera une cohérence entre les labels assignés aux données et la structure de ces données dans l'espace de features.
+Etrangement, cette thèse ne traite pas directement du problème simple, symbolique, mais s'interresse directement par une représentation non-symbolique des signaux de communications. Ceci dans n but applicatif à court termes auquel de tedieuse preuves mathématiques dans des domaine trop simplifé n'aurait laissé guère de temps à l'experimentation. Ainsi la formulation simple du labyrinthe présenté en début de ce résumé n'est adréssé que dans la toute dernière section de cette thèse ainsi qu'une preuve de la validité de notre solution pour le cas de signaux de communication symbolique.
 
 le planning est égelemtn différent des algortihmes précedemment dévellopé. En effet une couche d'incertitude supplémentaire est présente, le sens des signaux est inconnue et nous disposont d'une multitude de candidat possible. Il faut donc inclure cette incertitude dans la mesure d'incertidtude globale permettant de naviguer plus efficacement dans le monde. afin de collecter des signaux varié.
 
-As mentioned before, in this work the robot cannot rely on the phase of calibration. However the robot has access to the interaction frame, which provides theoretical information about the human teaching behavior. The robot knows:
-\begin{itemize}
-
-\item \textbf{Details and timing of the interaction.} After each action, the robot waits for a signal from the teacher. This signal provides information related with the action the robot just performed.
-
-\item \textbf{The set of possible meanings the human can refer to.} The teacher assesses the last action of the robot with respect to an unknown task. The signals' meanings can be ``correct'' or ``incorrect''.
-
-\item \textbf{Constraints on the possible tasks.} There are only two possible tasks, reaching the left (G1) or the right (G2) edge of the T world.
-
-\end{itemize}
-
-In addition the robot has access to the $Frame(Context,Task)$ function that, given a context of interaction and a task, returns the meaning intended by the teacher. For example, the robot knows that if it moves from state 3 to state 2, and that the human wants it to go in G1, then the signals received from the human means ``correct''.
-
-
-For each action, the robot receives raw unlabeled two dimensional signals. Following the above explanation, for a particular hypothesis (G1 or G2), the robot can assign hypothetic meanings to the human signals knowing they are limited to a finite set and according to the interaction history. We assume our teacher is optimal and therefore assume our agent is aware of the optimal policies for each task  (see Figure~\ref{fig:Twolrdpolicies}), which can be used to interpret the human signals.
-
-% The machine is ``reasoning'' as follow: \emph{"If the human wants me to solve task G1 then when I performed action $a$ in state $a$ and he said ``oui'', he meant ``incorrect''"}.
-
-% We exemplify this process using the same example as in Figure~\ref{fig:TworldOneStepUnlabeled} and according to our two task hypothesis which are reaching either of the two edges marked as G1 or G2.
-
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/tuto_feedback/Tworld_hypothesis.pdf}
-  \caption{Optimal policies associated to the two task hypotheses G1 and G2 in the T world. Such policies are known by both the human and the agent, and allow the agent to interpret a human signal with respect to a given task.}
-  \label{fig:Twolrdpolicies}
-\end{figure}
-
-The teacher wants the agent to go to G1. The agent starts in state 3, performs action left, and ends-up in state 2. The teacher sends a signal in the right part of the feature space, meaning that the previous action was ``correct''. However the agent does not have access to the label associated to this signal and it only observes a point in a two dimensional space (Figure~\ref{fig:TworldLabelunknown}). The agent generates interpretation hypothesis according to G1 and G2. With respect to G1, the action was ``correct'' (Figure~\ref{fig:TworldLabelG1}), while with respect to G2 the action was ``incorrect'' (Figure~\ref{fig:TworldLabelG1}).
-
-\begin{figure}[!htbp]
-    \centering
-    \begin{subfigure}[b]{\tworldsize\columnwidth}
-        \centering
-        \includegraphics[width=\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_unlabeled_one_action.pdf}
-        \caption{Feedback signal as received by the agent without label.}
-        \label{fig:TworldLabelunknown}
-    \end{subfigure}\\
-    \begin{subfigure}[b]{\tworldsize\columnwidth}
-        \centering
-        \includegraphics[width=\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_labeled_G1.pdf}
-        \caption{Feedback signal labeled according to G1.}
-        \label{fig:TworldLabelG1}
-    \end{subfigure}
-    \begin{subfigure}[b]{\tworldsize\columnwidth}
-        \centering
-        \includegraphics[width=\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_labeled_G2.pdf}
-        \caption{Feedback signal labeled according to G2.}
-        \label{fig:TworldLabelG2}
-    \end{subfigure}
-    \caption{Interpretation hypothesis made by the agent according to G1 (\ref{fig:TworldLabelG1}) and G2 (\ref{fig:TworldLabelG2}). The agent starts in state 3, performs action left, and ends-up in state 2. The meaning of the signal is different for both hypotheses.}
-    \label{fig:TworldLabelOneStep}
-\end{figure}
-
-By repeating this process for several iteration steps, with the agent taking random actions, the system end-up with a set of possible interpretation of the human teaching signals (see Figure~\ref{fig:TworldLabelinterpretation}). But as the user has only one objective in mind, in our case G1, only the correct interpretation will assign the correct labels to the observed signals. We say that the corresponding hypothesis exhibit a coherence between the signals and their associated meanings.
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=\tworldsize\columnwidth]{\visualspdf/tuto_feedback/Tworld_feedback_labeled_all_actions.pdf}
-    \caption{Interpretation hypothesis made by the agent according to G1 and G2 after many interaction steps. The teacher's task is to have the agent reach G1. The agent is exploring all the state space randomly. The labels associated to the task G1 are more coherent with the spatial organization of signals in the feature space.}
-    \label{fig:TworldLabelinterpretation}
-\end{figure}
-
-Part of the \emph{learning from unlabeled interaction frames} problem defined in chapter~\ref{chapter:introduction:lfui} is the assumption that the user is coherent and uses always the same kind of signal for the same meaning. By visual inspection, we can infer that hypothesis G1 is the correct one as the resulting mapping between signal and meaning is more coherent. The key challenge is to find out how to identify coherence between the spatial organization of signals in the feature space and their associated labels with the tools available to the robot, i.e. algorithmically.
-
-We will formalize this idea in section~\ref{chapter:lfui:how}. Before that, we add two comments to this section and we summarize all the underlying assumptions of our problem in section~\ref{chapter:lfui:assumptions}.
-
 \subsection*{Résultats}
 
-Nous demontrons plusieurs applications possible à nos algortihm de d'auto-calibration. L'interaciton homme-robot et l'interactin cerveau-machine.
+Nous appliquons nos algortihmes d'auto-calibration à deux examples protypique de l'interaciton homme-robot et de l'interactin cerveau-machine.
 
 Nottre aprochce est tres generique et permet de commencer a interagir avec une machine pour la résolution du tache sequentiel sans cque le systeme comprenne par avance les signaux de communiatins e l'utilisateur. Ces signaux peuvent etre de differente type, vocaux, gestes, onde cerebrale et doivent pouvoir être représenté sous la forme d'un vecteur.
 
 Au chapitre bci, nous présentons l'application principale de ce travail au interface cerveau-machine. Ce genre d'interface permet au personne a fort handicap d'interagir avec le monde exterieur par le bias de son cerveau. Plus precisement, nous pouvons enregistrer des varitions de potentiel à la surface du cerveau. Ces ondes ont des porpritété différent en fonction de l'activité mentale du sujet et il est possible de différentier des activité motrice et même des signaux d'erreur de type oui/non. Le problème de ces systeme est qu'ils ne sont pas universelle et doivent être adapté à chaque utilisateur. Ceete adaptation est faite par une periode de calibration ou l'utilisateur, souvent ennuyeuse, et durent laquelle le systeme est inutilisable et neccessitant l'intervention d'une personne exterieur. De plus, cette pahse de calibration doit être effectué régulièrmeent car les signaux varie de jour en jour. Mais aussi pas example lapossition du casqua EEG, necessitant une calibration quotidienne de ce genre d'interfcae.
 
-Nous avons appliqué nos algortihm d'auto-calibration au interface cerveau utilisateur, testé en simulation mais aussi avec de vrai patient. Nos résultats montre que notre approche est fonctionnelle et permet une utilisation pratique  de l'interface plus rapidement. De plus notre systemem ne necessite pas la presence d'une perosnne exterieur pour la pahse de calibraiton et est donc un candidat potentiel pour ammener l'utilisation des interface cerveau mahcine dans les maisons.
+Nous avons appliqué nos algortihm d'auto-calibration au interface cerveau utilisateur, testé en simulation mais aussi avec de vrai patient. resultat avec des vrai sujets en temps réel
 
-Nous donnaons ici un bref résumé de l'experience BCI aisni que les résultats majeurs.
-
-Description de la tache BCI
-
-\subsection{The visual navigation task}
-
-The setup of our online experiment is shown in Figure~\ref{fig:BCIsetup}. A human subject is equipped with an EEG cup is facing a screen where is displayed a two dimensional grid. The grid is composed of 25 discrete states, 5 rows and 5 columns. In green is displayed an agent that is able to move in the four cardinal direction (N/S/E/W). In red is the target the user selected. The user will mentally assess each agent's action a being ``correct'' or ``incorrect'' with respect to the target location.
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=\bcisetupsize\columnwidth]{\visualspdf/onlineXP/setup.pdf}
-\caption{The BCI setup for online experiments. On the screen is displayed the grid world with the agent in green. We displayed the intended target in red, which was selected randomly. The purpose of this red square is to help the user remembering the target and our algorithm is at no point aware of the position of this red square.}
-\label{fig:BCIsetup}
-\end{figure}
-
-\subsection{The brain signals}
-
-We are interested by error-related potentials (ErrPs) in the subject's brain activity. These potentials are a specific kind of event-related potential (ERP) generated in the user's brain after s/he assesses actions performed by an external agent \cite{chavarriaga2010learning}. Correct and erroneous assessments will elicit different brain signals. As shown in Figure~\ref{fig:EEGsample}, the EEG signals associated to ``incorrect'' labels have slightly more amplitude than the one associated to ``correct'' labels, especially at around 350ms.
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.49\columnwidth]{\imgpath/eeg_correct.eps}
-\includegraphics[width=0.49\columnwidth]{\imgpath/eeg_incorrect.eps}
-\caption{Low-pass filtered EEG signals associated to ``correct'' labels (left) and to ``incorrect'' labels (right). The signals for each class have slightly different amplitudes, especially at around 300ms.}
-\label{fig:EEGsample}
-\end{figure}
-
-Past approaches have already demonstrated that these signals can be classified online with accuracies of around 80\% and translated into binary feedback, thanks to a prior calibration session that lasts for 30-40 minutes \cite{chavarriaga2010learning, iturrate2013task}.
-
-time line
-
-Figure~\ref{fig:sequence} shows one particular run of 500 steps comparing our self-calibration method with a calibration procedure of 400 steps. The two independent runs use a real EEG dataset with $80\%$ ten-fold cross-validation classification accuracy. As our algorithm is operational from the first step, it can estimate the real task when sufficient evidences have been collected. On the other hand, a calibration approach collects signal-label pairs for a fixed number of steps, and use the resulting classifier without updating it. This provokes that, during the calibration phase, no tasks can be learned, substantially delaying the user's online operation.
-
-Of important interest is the ability of the algorithm to evaluate when sufficient evidence has been collected. The dataset considered is of relatively good quality, and we do not need 400 steps to identify the first task. When doing a calibration procedure, the experimenter cannot know in advance the quality of each particular subject. Therefore, he must run a calibration for long enough so as to have enough examples to adapt to differences in signals' quality.
-
-% However, for some subject collecting 100 samples is enough.
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=\sequencesize\columnwidth]{\imgpath/plot_the_aaai_sequence.eps}
-\caption{Timeline of one run using an EEG dataset of $80$ percent ten-fold cross-validation classification accuracy. Self-calibration (top) versus 400 steps calibration (bottom). Green (filled) and red (dashed) bars represent respectively correct and incorrect task achievements. The proposed self-calibration method allows reaching a first task faster than it takes to run a calibration procedure.}
-\label{fig:sequence}
-\end{figure}
-
+Nos résultats montre que notre approche est fonctionnelle et permet une utilisation pratique  de l'interface plus rapidement. De plus notre systemem ne necessite pas la presence d'une perosnne exterieur pour la pahse de calibraiton et est donc un candidat potentiel pour ammener l'utilisation des interface cerveau mahcine dans les maisons.
 
 Enfin au chapitre \ref{chapter:bci}, nous présentons les résultats d'experiences réel dans le cadre de l'interaction cerveau-machine. Ce sont donc des sujets humanin qui ont pour tâche de guider un agent dans un labyrinthe en lui indiquant si ces actions sont ``correct''  ou ``incorrecte'' vis a vis de l'objectif défini simplement en pensant à ``correct'' ou ``incorrect'' dans leur esprit. Les ``pensées'' de l'utilisateur sont mesuré par le biais d'électrode au contact de son cerveau. Gràce a un procédé décris au chapitre \ref{chapter:bci}, il est possible de représenter ces signaux afin différentier ceux signifiant correct de ceux signifiant incorrect. L'agent ne connait donc ni la tâche à effectuer ni le mapping entre les ondes cérébrales et leur sens (``correct'' ou ``incorrect'').
 
-resultat avec des vrai sujets en temps réel
-
 \subsubsection*{Extensions}
 
-Dans un chapitre d'extension, nous traitons d'une multipte de problème et limitaiton immediate posé par l'utilisation de ce genre de système.
-
-Nous montrons d'abord qu'il est possible d'utiliser le systeme dans des porblemes au espace detat continue.
-
-Nous ontron au chapitre que nous ne somme pas limité a définir un ensemble fini d'hypothès sur la tache.
-
-Finalement nous montrons que la connaissance du protocole d'interaction a priori n;est pas non plus une limitation forte et le systeme peut detecter le bon protocole par l'interaction pratique avec l'utlisateur.
-
-Enfin nous décrivons un preuve mathematique simple des fondement de notre methode ouvrant la voie à des guarantie plus grande sur la convergence et performance de nos algorthme
-
-
-espace d'état continue
-
-espace des taches continue
-
-hypothèse sur le protocole d'interaction
-
-preuve
+Au chapitre~\ref{chapter:limitations}, nous abordons et porposons des solutions à de multiples limitations de l'approche présentée dans cette thèse. Nous montrons d'abord qu'il est possible d'utiliser le systeme dans des espaces continue, premièrement pour un état continue du système mais aussi sur un ensemble infini d'hypothèse sur la tâche. Par la suite, nous montrons que la connaissance a priori du protocole d'interaction  n'est pas une limitation forte et que notre systeme peut ainsi detecter le bon protocole par l'interaction pratique avec l'utlisateur. Finalement, nous démontrons mathematiquement sur un example simplifié et sous certaine conditions que notre méthode est garanti d'identifier la bonne hypothèse. Ce dernier dévelopement montre que ce genre de problème peut-être modélisé mathématiquement et ouvrant la voie de prochaine exploration plus théorique de ce problème permettant peut-être de trouver des  guarantie plus grande sur la convergence et performance de nos algorthmes, Bien que cela semble encore très limité de par la nature imprevisible du comportement humain.
 
 \subsection*{Expèrience humain-humain}
 
@@ -199,8 +61,12 @@ Une personne extèrieure à l'experience ne pourra pas comprendre ce qui ce pass
 
 \subsection*{Conclusion}
 
-La vision dévellopé dans cette thèse est qu'il est possible pour une machine d'executé les souhait d'un utilisateur sans comprende la facon précise dont l'utisateur communique l'information. Plus concretmenet notre systeme n'a pas d'apriori sur le sens des mots et construit son modèle en interaction avec l'utilisateur sans jamais avoir access a une source sure d'information.
+La vision dévellopé dans cette thèse est qu'il est possible pour une machine d'executé les souhait d'un utilisateur sans comprende la facon précise dont l'utisateur communique l'information. Plus concretement notre systeme n'a pas d'apriori sur le sens des signaux reçu et construit son modèle en interaction avec l'utilisateur sans jamais avoir access a une source sure d'information.
 
-Au dela du challenge technique de l'auto-calibration, des questions d'utilisation pratique et d'acceptabilité eclose.
+Au dela du challenge technique de l'auto-calibration, des questions d'utilisation pratique et d'acceptabilité eclose qui sont preesenté au chapitre~\ref{chapter:conclusion}.
 
-Comment les gens vont réagir au fait que la machine, le robot, ne soit plus apte immédiatement mais doivent apprendre le sens des signaux. Cela sera, nous l'espèrons, le fruit de nombreux travaux futur.
+Comment les gens vont réagir au fait que la machine, le robot, ne soit plus apte immédiatement mais doivent apprendre le sens des signaux. Cela sera, nous l'espèrons, le fruit de nombreux travaux futur.\\
+
+\noindent {\large\textbf{Mots-clés:}} Auto-Calibration, Apprentissage par interaction, Intéraction Human-Robot, Interface Cerveau-Machine, Intéraction Intuitive et Adaptative, Robotique, Acquisition de Symbole, Apprentissage Actif, Calibration.\\
+
+Ce travail a été financé par INRIA, le Conseil R\'egional d'Aquitaine et la bourse ERC EXPLORERS 24007.
