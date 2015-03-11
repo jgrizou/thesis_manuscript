@@ -13,7 +13,7 @@ Il s'agit donc, pour un labyrinthe donné, de trouver la suite d'action permetta
 
 Dans cette thèse nous présentons une solution à ce problème. Pour cela nous faisons dabord l'hypothèse qu'un nombre fini de tâche est défini et connu de l'homme et de la machine, i.e. un nombre fini de portes existe. Nous supposons également que le robot dipose d'un modèle de la logique de l'utilisateur et est donc capable de faire le raisonement suivant: Si l'human veut que j'aille vers la Porte $A$ alors lorsque je suis à l'intersection $I$, il devrait logiquement me dire d'aller dans la direction $D$. Noter que cette phrase commence par une supposition sur la tâche, qui n'est en aucun cas connu à l'avance. Ainsi, le robot étant équipé de plusieurs hypothèses (Porte $A$, $B$, $C$, ..), lorqu'il se trouve à l'intersection $I$, l'utilisateur prononce un mot (e.g. "wadibou"), dont autant d'interpretations sont faite que d'hypothèses sur la tâche.
 
-Notre hypothèse sous-jacente est que l'utilisateur humain est logique et cohérent tout au long de l'interaction, utilisant ainsi toujours le même mot pour dire la même chose. Il nous faut donc tenir compte de tout l'historique de l'interaction pour analyser quels mots auraient été utilisé pour dire quoi selon chaque hypothèse de tâche. Nous comprenons ainsi que, sous certaine conditions qui sont explicitées au chapitre \ref{chapter:lfui}, il est possible d'éliminer toutes les hypothèses générant des interprétation du sens des signaux incohérentes. L'unique hypothèse restante nous informera donc à la fois de la bonne tâche, i.e. la bonne porte à ouvrir, mais aussi de la bonne association entre les mots de l'utilisateur et les sens qui y sont associés, i.e. du language de l'utilisateur.
+Notre hypothèse sous-jacente est que l'utilisateur est logique et cohérent tout au long de l'interaction, utilisant ainsi toujours le même mot pour dire la même chose. Il nous faut donc tenir compte de tout l'historique de l'interaction pour analyser quels mots auraient été utilisé pour dire quoi selon chaque hypothèse de tâche. Nous comprenons ainsi que, sous certaine conditions qui sont explicitées au chapitre \ref{chapter:lfui}, il est possible d'éliminer toutes les hypothèses générant des interprétation du sens des signaux incohérentes. L'unique hypothèse restante nous informera donc à la fois de la bonne tâche, i.e. la bonne porte à ouvrir, mais aussi de la bonne association entre les mots de l'utilisateur et les sens qui y sont associés, i.e. du language de l'utilisateur.
 
 Une autre façon de décrire le système présenté dans cette thèse est de parler d'auto-calibration. En effet, en s'adaptant à l'utilisateur pendant l'interaction, notre algortihme ne fait aucun apriori sur le sens des signaux qu'il reçoit. Cela revient bien à créer des interfaces ne nécessitant pas de phase de calibration. Ainsi il peut s'adapter à différentes personnes qui ne parlent pas la même language ou qui n'utilisent pas les mêmes mots pour dire la même chose. Cela veut aussi dire qu'il est facile d'étendre note approche à d'autres modalité d'interaction (e.g. gestes, expression faciales, onde cérébrales) et d'autre domaine d'applications.
 
@@ -25,29 +25,58 @@ Etrangement, cette thèse ne traite pas directement du problème simple, symboli
 
 \subsection*{Résultats}
 
-Notre approchce est tres generique et permet de commencer a interagir avec une machine pour la résolution du tache sequentiel sans cque le systeme comprenne par avance les signaux de communiatins e l'utilisateur. Ces signaux peuvent etre de differente type, vocaux, gestes, onde cerebrale et doivent pouvoir être représenté sous la forme d'un vecteur.
+Notre approche est donc tres génerique et permet à un humain de commencer à interagir avec une machine afin de résoudre une tache sequentiel sans que la machine ne comprenne à l'avance les signaux de communiations de l'utilisateur.
+
+\ref{chapter:bci}
+\ref{chapter:lfui}
 
 Nous appliquons nos algortihmes d'auto-calibration à deux examples protypique de l'interaciton homme-robot et de l'interactin cerveau-machine: une tâche d'organization d'une série d'objets selon les préférences de l'utilisateur qui guide le robot par la voix (chapitre~), et une tâche de déplacement sur une grille guidé par les signaux cérébraux (EEG) de l'utlisateur (chapitre~).
 
-image des deux setup.
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.49\columnwidth]{chapters/lfui/img/setup.png}
+  \includegraphics[width=0.49\columnwidth]{\visualspdf/onlineXP/setup.pdf}
+  \caption{Illustration des deux setups expérimentaux tangible utilisé dans ce travail. Gauche: Le bras robotique pour la tâche de ``pick and place'' avec trois cubes. Droite: L'interface cerveau machine composée d'un casque avec ces electrodes et d'un ecran affichant les information relative a la tache.}
+  \label{fig:setupfrench}
+\end{figure}
 
-Nous avons appliqué nos algortihmes d'auto-calibration au interface cerveau utilisateur,
-
-Bien que les experiences du chapitre sont fondatrice, pour ce bref résumé nous préférons nous concentrer sur les experience BCI qui présente un aspect plus appliqué car testé sur de vrai sujet en temps réel.
+Bien que les experiences du chapitre sont fondatrice, pour ce bref résumé nous préférons nous concentrer sur les experience BCI qui présente un aspect plus appliqué car testé sur de vrai sujet en temps réel et sur une tâche d'actualitée pour les interfaces cerveau-machine.
 
 Au chapitre bci, nous présentons l'application principale de ce travail au interface cerveau-machine. Ce genre d'interface permet au personne a fort handicap d'interagir avec le monde exterieur par le bias de son cerveau. Plus precisement, nous pouvons enregistrer des varitions de potentiel à la surface du cerveau. Ces ondes ont des porpritété différent en fonction de l'activité mentale du sujet et il est possible de différentier des activité motrice et même des signaux d'erreur de type oui/non. Le problème de ces systeme est qu'ils ne sont pas universelle et doivent être adapté à chaque utilisateur. Ceete adaptation est faite par une periode de calibration ou l'utilisateur, souvent ennuyeuse, et durent laquelle le systeme est inutilisable et neccessitant l'intervention d'une personne exterieur. De plus, cette pahse de calibration doit être effectué régulièrmeent car les signaux varie de jour en jour. Mais aussi pas example lapossition du casqua EEG, necessitant une calibration quotidienne de ce genre d'interface.
 
 Enfin au chapitre \ref{chapter:bci}, nous présentons les résultats d'experiences réel dans le cadre de l'interaction cerveau-machine. Ce sont donc des sujets humanin qui ont pour tâche de guider un agent dans un labyrinthe en lui indiquant si ces actions sont ``correct''  ou ``incorrecte'' vis a vis de l'objectif défini simplement en pensant à ``correct'' ou ``incorrect'' dans leur esprit. Les ``pensées'' de l'utilisateur sont mesuré par le biais d'électrode au contact de son cerveau. Gràce a un procédé décris au chapitre \ref{chapter:bci}, il est possible de représenter ces signaux afin différentier ceux signifiant correct de ceux signifiant incorrect. L'agent ne connait donc ni la tâche à effectuer ni le mapping entre les ondes cérébrales et leur sens (``correct'' ou ``incorrect'').
 
-Nos résultats montre que notre approche est fonctionnelle et permet une utilisation pratique de l'interface plus rapidement. De plus notre systemem ne necessite pas la presence d'une personne exterieur pour calibraiton le système et est donc un candidat potentiel pour ammener l'utilisation des interface cerveau mahcine dans les maisons.
+La figure~\ref{fig:sequencefrench} presente le résultat principle de cette thèse. Elle compare la différence entre un algorithme nécessitant une pahse de claibration et les algortihme de self-calibration développé dans cette thèse.  Ce sont des résultats de simulation avec des donnée EEG réelle. Notre algortihme (haut) permets de résoudre une première tache en seulement 85 itérations, bien avant que la phse de calibration ne soit complète (400 itérations étant un durée normale de calibration pour ce genre de système).
+Enfin notre méthode résoud une dixaine de tache en 400 itérations, soit avant qu'un système traditionnel ne soit opérationnel. Les même expèriences on été testé avec des utlisateurs réel. Leur résultats confirme les résultat de simulation et sont présenté au chapitre \ref{chapter:bci} ainsi qu'au chapitre \ref{chapter:limitations:overlap}.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\sequencesize\columnwidth]{\imgpath/plot_the_aaai_sequence.eps}
+\caption{Nombre de tâche résolue dans le temps avec des données EEG. L'algortihme d'auto-calibration (haut) est comparé au methode nécessitant une phase de calibration (bas, ici 400 itérations de calibration. Le barres verte et rouge represente respectivement les bonnes et les mauvaise executions de la tàche par la machine. La méthode de'auto calibration proposé dans cette thèse permet de completer une premiere tache plus rapidement, sans pour autant faire d'érreur.}
+\label{fig:sequencefrench}
+\end{figure}
 
 Finalement, le planning est égelement différent des algortihmes précedemment dévellopé. En effet une couche d'incertitude supplémentaire est présente, le sens des signaux est inconnue et nous disposont d'une multitude de candidat possible. Il faut donc inclure cette incertitude dans la mesure d'incertidtude globale permettant de naviguer plus efficacement dans le monde. afin de collecter des signaux varié.
 
+Les resultate presente au chapitre montre que notre methode de planification des actions ameliroe significativement le temps nécessaire à l'identification de la tâche mais aussi à l'établissement du modèle de language de l'utlisateur.
+\ref{chapter:planning}
+
+Nos résultats montre que notre approche est fonctionnelle et permet une utilisation pratique de l'interface plus rapidement. De plus notre systemem ne necessite pas la presence d'une personne exterieur pour calibraiton le système et est donc un candidat potentiel pour ammener l'utilisation des interface cerveau mahcine dans les maisons.
+
+
 \subsubsection*{Extensions}
+
+\ref{chapter:limitations:continousstate}
+\ref{chapter:limitations:continuoushypothesis}
+\ref{chapter:limitations:framehypothesis}
+\ref{chapter:limitations:proof}
+
 
 Au chapitre~\ref{chapter:limitations}, nous abordons et porposons des solutions à de multiples limitations de l'approche présentée dans cette thèse. Nous montrons d'abord qu'il est possible d'utiliser le systeme dans des espaces continue: premièrement pour un état continue du système mais sur un ensemble infini d'hypothèse sur la tâche. Par la suite, nous montrons que la connaissance a priori du protocole d'intéraction n'est pas une limitation forte et que notre systeme peut détecter le protocole par l'interaction pratique avec l'utlisateur. Finalement, nous démontrons mathematiquement sur un example simplifié et sous certaine conditions que notre méthode est garanti d'identifier la bonne hypothèse. Ce dernier dévelopement montre que ce genre de problème peut-être modélisé mathématiquement et ouvre la voie de prochaine exploration plus théorique de ce problème. Permettant peut-être de trouver des  guarantie plus grande sur la convergence et les performance de nos algorthmes. Bien que ce genre de preuve semble encore très limité pour l'interaction pratique de par la nature imprevisible du comportement humain.
 
 \subsection*{Expèrience humain-humain}
+
+\ref{chapter:humanexperiment}
 
 Une autre contribution de cette thèse et la mise en place d'un protocol experimental pour analyser le comportement de deux humain mis dans la situation que doivent résoudre nos algorithmes. Dans cette expèriences deux humains doivent collaborer à l'execution d'une tâche de construction. Il s ne peuvent intéragir que par le biais d'une interface dont le sens des signaux transmis est inconnu et indefini au départ pour les deux parties.
 
@@ -57,7 +86,7 @@ Il est intérressant de voir la dynamique de construction d'un language commun e
 
 La vision dévellopée dans cette thèse est qu'il est possible pour une machine d'intéragir avec un humain sans comprende a priori la façon dont l'utisateur communique l'information. Plus concretement notre systeme n'a pas d'apriori sur le sens des signaux reçu et construit son modèle durant l'interaction pratique avec l'utilisateur sans jamais avoir access a une source sûre d'information. Cela sera, nous l'espèrons, le fruit de nombreux travaux futur.
 
-Au dela du challenge technique de l'auto-calibration, des questions d'utilisation pratique et d'acceptabilité éclosent et sont presentées au chapitre~\ref{chapter:conclusion}. Parmis elle, la plus important à tester en condition réelle est: Comment les utlisateurs vont réagir au fait que la machine, le robot, ne soit pas immédiatement réactif à ces ordres mais doivent apprendre le sens des signaux pendant l'interaction? En effet, même si nos algortihmes apportent une plus grande flexibilité d'intéraction, ils ne permettent pas à l'utilisateur une fonctionalité parfaite et immmediate du système qui doit donc apprendre de l'interaction. Cette ephase d'apprentisssage pourrait être percus comme une inopérabilité du système et par conséquent impacter interet et l'utilisabilité réelle de notre sytème.\\
+Au dela du challenge technique de l'auto-calibration, des questions d'utilisation pratique et d'acceptabilité éclosent et sont presentées au chapitre~\ref{chapter:limitations:userstudies}. Parmis elle, la plus important à tester en condition réelle est: Comment les utlisateurs vont réagir au fait que la machine, le robot, ne soit pas immédiatement réactif à ces ordres mais doivent apprendre le sens des signaux pendant l'interaction? En effet, même si nos algortihmes apportent une plus grande flexibilité d'intéraction, ils ne permettent pas à l'utilisateur une fonctionalité parfaite et immmediate du système qui doit donc apprendre de l'interaction. Cette ephase d'apprentisssage pourrait être percus comme une inopérabilité du système et par conséquent impacter interet et l'utilisabilité réelle de notre sytème.\\
 
 \noindent {\large\textbf{Mots-clés:}} Auto-Calibration, Apprentissage par interaction, Intéraction Human-Robot, Interface Cerveau-Machine, Intéraction Intuitive et Adaptative, Robotique, Acquisition de Symbole, Apprentissage Actif, Calibration.\\
 
